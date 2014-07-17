@@ -1,0 +1,203 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	background: #898989;
+}
+
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #050505;
+}
+
+
+
+/******* Main Template **********/
+
+div#header-container {
+	width: 100%;
+	height: 92px;
+	background: url(../img/header-bg.png) repeat-x bottom center;
+	position: relative;
+	z-index: 49;
+}
+
+div#header {
+	width: 1024px;
+	/*height: 125px;*/
+	height: 92px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 50;
+}
+
+img.logo {
+	/*margin: 22px 0px 0px 30px;*/
+	margin: 24px 0px 0px 20px;
+	float: left;
+}
+
+div#user-info {
+	float: right;
+	background: #f1f1f1;
+	border-bottom-left-radius: 3px;x
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	padding: 3px 8px 0px 8px;
+	height: 20px;
+}
+
+
+nav {
+	float: right;
+	text-align: right;
+	margin: 59px 1px 0px 0px;
+	position: absolute;
+	right: 0px;
+	z-index: 51;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: right;
+}
+
+nav ul li {
+	width: auto;
+	margin: 0px 0px 0px 5px;
+	padding: 4px 8px 4px 8px;
+	display: block;
+	float: left;
+	background: #f1f1f1;
+	font-size: 14px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+}
+
+nav ul li a {
+	color: #050505;
+	text-decoration: none;
+}
+
+nav ul li ul {
+/* 	right: -999em; */
+	display: none;
+	margin: 4px 0px 0px -24px;
+	padding: 6px;
+	background: rgba(255,255,255,0.75);
+	border-right: 1px dotted #333;
+	border-bottom: 1px dotted #333;
+	border-left: 1px dotted #333;
+	border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	float: none;
+	position: absolute;
+	z-index: 100;
+	width: auto;
+	min-width: 104px;
+}
+
+nav li:hover ul {
+	right: auto;
+	display: block;
+}
+
+nav ul li ul li {
+	margin: 0;
+	padding: 5px 4px;
+	display: block;
+	float: none;
+	background: #fff;
+	border-top-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 12px;
+}
+
+div #nav ul li ul li a:hover {
+	color: #fff;
+}
+
+div #nav ul li ul li a {
+	display: block;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+nav ul li ul li:hover {
+	background: #185687;
+	color: #fff;
+}
+
+nav ul li ul li:hover a {
+	color: inherit;
+}
+
+
+nav ul li ul li:last-child {
+	margin-bottom: 0;
+}
+
+div#wrapper {
+	width: 1024px;
+	top: 82px;
+	bottom: 20px;
+	left: 50%;
+	position: absolute;
+}
+
+div#content {
+	height: 100%;
+	padding: 24px 24px 30px 24px;
+	position: relative;
+	left: -50%;
+	z-index: 1;
+	background: #f1f1f1;
+}
+
+
+
+
+/********** Login Page *****************/
+
+div#login-box {
+	width: 275px;
+	min-height: 150px;
+	height: auto;
+	color: #ffffff;
+	border: 2px solid #333;
+	border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	margin: 100px auto 0px auto;
+	padding: 20px 20px 20px 20px;
+	background-color: #185687;
+	/*-moz-box-shadow: 0 0 5px 5px #888;
+	-webkit-box-shadow: 0 0 5px 5px #888;*/
+	box-shadow: 25px 25px 25px 5px rgba(0,0,0,0.5);
+}
+
+div#login-box h2 {
+	color: #ffffff;
+	text-align: center;
+}
+
+div#login-box td {
+	color: #ffffff;
+}
+
+div#login-box input[type="text"], input[type="password"] {
+	background: #ffffff;
+	color: #333;
+	width: 200px;
+}
