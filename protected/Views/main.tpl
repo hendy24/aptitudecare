@@ -2,54 +2,43 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title><?php echo $this->title; ?> &nbsp;|&nbsp; <?php echo $this->site_name; ?></title>
+	<title>{$title} &nbsp;|&nbsp; AptitudeCare</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="">
 	<meta name="robots" content="">
 
-	<link rel="stylesheet" href="<?php echo CSS; ?>styles.css">
+	<link rel="stylesheet" href="{$css}/styles.css">
 	    
 </head>
 <body>
 	<div id="header-container">
 		<div id="header">
+			{if $auth->valid()}
 			<div id="user-info">
-				Welcome, 
+				Welcome, {$auth->fullName()} &nbsp;|&nbsp; <a href="{$siteUrl}/user/logout">Logout</a>
 			</div>
-			<img src="<?php echo IMAGES; ?>aptitudecare.png" alt="Logo" class="logo">
-			<nav>
-				<ul>
-					<li>Home</li>
-					<li>Admissions
-						<ul>
-							<li>New Admit</li>
-							<li>Pending Admissions</li>
-						</ul>
-					</li>
-					<li> Discharges
-						<ul>
-							<li>Schedule Discharges</li>
-							<li>Manage Discharges</li>
-						</ul>
-					</li>
-					<li>Data
-						<ul>
-							<li>Case Managers</li>
-							<li>Clinicians</li>
-							<li>Healthcare Facilities</li>
-							<li>Users</li>
-						</ul>
-					</li>
-				</ul>
-			</nav>
+			{/if}
+			<img src="{$images}/aptitudecare.png" alt="Logo" class="logo"/>
+			{if $auth->valid()}
+				{include file="$views/elements/nav.tpl"}
+			{/if}
 		</div>
 	</div>
-
+	<div class="clear"></div>
 	<div id="wrapper">
 		<div id="content">	
-			<?php include($this->content); ?>
+				{if $auth->valid()}
+					{include file="$views/elements/search_bar.tpl"}
+				{/if}
+			<div id="page-content">
+				{include file=$content}
+			</div>
 		</div>
 	</div>
+	<div id="copyright">
+		All content &copy; {$smarty.now|date_format:"%Y"} AptitudeCare.  All rights reserved. <br>Powered by <a href="http://www.aptitudeit.net" target="_blank" alt="Application design and development by AptitudeIT, LLC">aptITude</a>
+	</div>
+
 	
 
 	

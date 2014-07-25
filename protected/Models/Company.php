@@ -2,12 +2,13 @@
 
 class Company extends Model {
 	
-	public $table = 'gen_company';
+	public $table = 'company';
 	
-	public function fetchCompany() {
-		$sql = "select * from {$this->table}";
+	public static function getEmailExt() {
+		$sql = "select * from `company` where id=1";
 		
-		return $this->fetchRow($sql);
+		$query = static::generate();
+		return $query->fetchOne($sql);
 	}
 	
 }

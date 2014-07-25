@@ -37,10 +37,12 @@
  	define('FRAMEWORK_DIR', ROOT . DS . 'framework');
 	define('PUBLIC_DIR', SITE_DIR . DS . 'public');
 	define('PROTECTED_DIR', SITE_DIR . DS . 'protected');
+	define('MODULES_DIR', SITE_DIR . DS . 'modules');
 
 
 	// Use https, otherwise the site stylesheets and images will not load properly
 	define('SITE_URL', 'https://' . $_SERVER['SERVER_NAME']);
+	define('APP_NAME', 'AptitudeCareDev');
 	
 /** 
  *
