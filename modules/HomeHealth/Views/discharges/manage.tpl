@@ -1,0 +1,1 @@
+<h1>Manage Discharges</h1>

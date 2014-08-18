@@ -35,8 +35,10 @@
  */
 
  	define('FRAMEWORK_DIR', ROOT . DS . 'framework');
-	define('PUBLIC_DIR', SITE_DIR . DS . 'public');
-	define('PROTECTED_DIR', SITE_DIR . DS . 'protected');
+ 	define('FRAMEWORK_PROTECTED_DIR', FRAMEWORK_DIR . DS . 'protected');
+ 	define('FRAMEWORK_PUBLIC_DIR', FRAMEWORK_DIR . DS . 'public');
+	define('APP_PUBLIC_DIR', SITE_DIR . DS . 'public');
+	define('APP_PROTECTED_DIR', SITE_DIR . DS . 'protected');
 	define('MODULES_DIR', SITE_DIR . DS . 'modules');
 
 
@@ -48,6 +50,9 @@
  *
  * Include the bootstrap file in the protected directory and we're off!
  */
-
+	
+	
 	require(FRAMEWORK_DIR . DS . 'bootstrap.php');
+
+
 

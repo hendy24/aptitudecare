@@ -1,6 +1,6 @@
 <?php
 
-class Company extends Model {
+class Company extends AppModel {
 	
 	public $table = 'company';
 	

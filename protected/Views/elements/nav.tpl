@@ -1,24 +1,24 @@
 <nav>
 	<ul>
-		<li><a href="{$siteUrl}?module={$module}">Home</a></li>
-		<li>Locations
-			<ul>
-				{foreach $locations as $l}
-				<li><a href="{$currentUrl}&location={$l->public_id}">{$l->name}</a></li>
-				{/foreach}
-			</ul>
-		</li>
+		<li><a href="{$siteUrl}">Home</a></li>
 		<li>Admissions
 			<ul>
-				<li><a href="{$siteUrl}?module={$module}&page=admission&action=new_admit">New Admission</a></li>	
+				<li><a href="{$siteUrl}?module={$module}&amp;page=admissions&amp;action=new_admit">New Admission</a></li>
+				<li><a href="{$siteUrl}?module={$module}&amp;page=admissions&amp;action=pending_admits">Pending Admissions</a></li>
+			</ul>
+		</li>
+		<li>Discharges
+			<ul>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=discharges&amp;action=manage">Manage Discharges</a></li>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=discharges&amp;action=schedule">Schedule Discharges</a></li>			
 			</ul>
 		</li>
 		<li>Data
 			<ul>
-				<li>Case Managers</li>
-				<li>Clinicians</li>
-				<li>Healthcare Facilities</li>
-				<li>Users</li>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=home_health_clinicians">Clinicians</a></li>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=site_users">Users</a></li>
 			</ul>
 		</li>
 	</ul>

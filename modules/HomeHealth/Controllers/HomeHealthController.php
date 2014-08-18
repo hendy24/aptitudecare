@@ -15,14 +15,16 @@ class HomeHealthController extends MainPageController {
 	 */
 	 
 	public function index() {
+
+		$this->helper = 'PatientMenu';
 		
-		$lm = $this->loadModel('Location');
+		
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
-			$location = $lm->fetchLocation(input()->location);
+			$location = $this->loadModel('Location', input()->location);
 		} else {
 			// Get the users default location from the session
-			$location = $lm->fetchLocation(auth()->getDefaultLocation());
+			$location = $this->loadModel('Location', auth()->getDefaultLocation());
 		}
 
 		if (!isset($location)) {
@@ -42,16 +44,22 @@ class HomeHealthController extends MainPageController {
 		} else {
 			$weekSeed = date('Y-m-d');
 		}
+
 		$week = Calendar::getWeek($weekSeed);
 
-		// Now get the next week
-		$nextWeekSeed = date('Y-m-d', strtotime('+7 days', strtotime($week[0])));
+		$nextWeekSeed = date("Y-m-d", strtotime("+7 days", strtotime($week[0])));
+
+		smarty()->assign(array(
+			
+		));
+		
 
 		smarty()->assign(array(
 			'weekSeed' => $weekSeed,
-			'nextWeekSeed' => $nextWeekSeed,
 			'weekStart' => date('Y-m-d', strtotime($weekSeed)),
-			'week' => $week
+			'week' => $week,
+			'advanceWeekSeed' => $nextWeekSeed,
+			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
 		));
 
 		$_dateStart = $week[0];
@@ -65,40 +73,56 @@ class HomeHealthController extends MainPageController {
 		 *	Get Admissions for the week
 		 */
 
-		$homeHealthSchedule = $this->loadModel('HomeHealthSchedule');
-		$admits = $homeHealthSchedule->fetchAdmits($_dateStart, $_dateEnd, $_location_id);
+		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $_location_id);
+		//$admits = $homeHealthSchedule->fetchAdmits($_dateStart, $_dateEnd, $_location_id);
 
-		smarty()->assignByRef('admits', $admits);
-
-		// Split admits up by date
-		$admitsByDate = array();
-		foreach ($admits as $admit) {
-			$date = date('Y-m-d', strtotime($admit->datetime_admit));
-			if (! isset ($admitsByDate[$date])) {
-				$admitsByDate[$date] = array(); 
+		// split the admits up by date
+		$admitByDate = array();
+		foreach ($week as $day) {
+			if (!empty ($admits)) {
+				foreach ($admits as $admit) {
+					if (strtotime($day) == strtotime(date('Y-m-d', strtotime($admit->datetime_admit)))) {
+						$admitsByDate[$day][] = $admit;
+					} else {
+						$admitsByDate[$day][] = array();
+					}
+					
+				}
+			} else {
+				$admitsByDate[$day][] = array();
 			}
-			$admitsByDate[$date][] = $admit;
 		}
 		smarty()->assignByRef('admitsByDate', $admitsByDate);
-
+		
 
 		/*
 		 *	Get Discharges for the week
 		 */
 
 		$_orderby = 'datetime_discharge ASC';
-		$discharges = $homeHealthSchedule->fetchDischarges($_dateStart, $_dateEnd, $_location_id, $_orderby);
+		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $_location_id, $_orderby);
 
 		// Split up discharges for each day of the week
+
+
+
 		$dischargesByDate = array();
-		foreach ($discharges as $discharge) {
-			$date = date('Y-m-d', strtotime($discharge->datetime_discharge));
-			if (! isset ($dischargesByDate[$date])) {
-				$dischargesByDate[$date] = array();
+		foreach ($week as $day) {
+			if (!empty ($discharges)) {
+				foreach ($discharges as $discharge) {
+					if (strtotime($day) == strtotime(date('Y-m-d', strtotime($discharge->datetime_discharge)))) {
+						$dischargesByDate[$day][] = $discharge;
+					} else {
+						$dischargesByDate[$day][] = array();
+					}
+				}
+			} else {
+				$dischargesByDate[$day][] = array();
 			}
-			$dischargesByDate[$date][] = $discharge;
+			
 		}
 		smarty()->assignByRef('dischargesByDate', $dischargesByDate);
+
 
 
 		// Set page titles
