@@ -2,7 +2,7 @@
 
 class DischargesController extends MainController {
 
-	public function manage_discharges() {
+	public function manage() {
 
 	}
 

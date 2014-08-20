@@ -2,7 +2,7 @@
 
 class Location extends AppModel {
 	
-	public $table = 'location';
+	protected $table = 'location';
 	
 	public function fetchLocations() {
 		$user = auth()->getRecord();

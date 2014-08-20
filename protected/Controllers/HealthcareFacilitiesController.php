@@ -51,11 +51,31 @@ class HealthcareFacilitiesController extends MainController {
 		json_return($resultArray);
 	}
 
-	public function manage() {
-		
-	}
 
 	public function add() {
+		//	Right now everyone has the ability to add healthcare facilities
+		if (!auth()->has_permission(input()->action, 'site_users')) {
+			$this->redirect();
+		}
+
+		$model = depluralize(ucfirst(camelizeString(input()->page)));
+		$class = $this->loadModel($model);
+		$columns = $class->fetchColumnNames();
+
+		pr ($columns); die();
+
+
+
 		smarty()->assign('title', 'Add Healthcare Facility');
+		smarty()->assign('headerTitle', 'Add a new Healthcare Facility');
+
 	}
+
+
+	public function submitAdd() {
+
+	}
+
+
+
 }

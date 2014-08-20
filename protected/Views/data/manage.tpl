@@ -1,5 +1,6 @@
 <h1>{$headerTitle}</h1>
 
+<div class="button left"><a href="{$siteUrl}/?page={$type}&amp;action=add">Add New</a></div>
 <table class="form-table">
 	<tr>
 		{foreach array_keys($data[0]) as $key}
@@ -18,7 +19,7 @@
 			{/if}
 			{/foreach}
 			{if !empty ($data[0])}
-			<td><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=edit&amp;type=case_managers&amp;id={$dataset['public_id']}"><img src="{$frameworkImg}/pencil.png" alt=""></a></td>
+			<td><a href="{$siteUrl}/?page={$type}&amp;action=edit&amp;id={$dataset['public_id']}"><img src="{$frameworkImg}/pencil.png" alt=""></a></td>
 			{/if}
 		</tr>
 	{/foreach}

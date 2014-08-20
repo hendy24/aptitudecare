@@ -4,9 +4,9 @@ class SiteUser extends Data {
 
 	//	Set table specific data
 
-	public $table = 'user';
+	protected $table = 'user';
 
-	public $belongsTo = array(
+	protected $belongsTo = array(
 		'Location' => array(
 			'table' => 'location',
 			'join_type' => 'INNER',
@@ -29,14 +29,24 @@ class SiteUser extends Data {
 		)
 	);
 
-	public $hasMany = array(
+	protected $hasMany = array(
 
 	);
 
-	public $_manage_fields = array(
+	protected $_manage_fields = array(
+		'public_id',
 		'first_name',
 		'last_name',
 		'phone',
 		'location',
 	);
+
+	protected $_add_fields = array(
+		'first_name',
+		'last_name',
+		'email',
+		'password',
+		'phone'
+	);
+
 }

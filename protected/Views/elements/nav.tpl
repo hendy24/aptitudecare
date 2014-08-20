@@ -18,7 +18,9 @@
 				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
 				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=home_health_clinicians">Clinicians</a></li>
 				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
-				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=site_users">Users</a></li>
+				{if $auth->is_admin()}
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=users">Users</a></li>
+				{/if}
 			</ul>
 		</li>
 	</ul>

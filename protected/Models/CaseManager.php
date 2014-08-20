@@ -7,7 +7,11 @@ class CaseManager extends Data {
 			'table' => 'healthcare_facility',
 			'join_type' => 'INNER',
 			'inner_key' => 'healthcare_facility_id',
-			'foreign_key' => 'id'
+			'foreign_key' => 'id',
+			'join_field' => array(
+				'column' => 'name',
+				'name' => 'healthcare_facility'
+			)
 		)
 	);
 	public $_manage_fields = array(
