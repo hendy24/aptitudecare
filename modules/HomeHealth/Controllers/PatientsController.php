@@ -14,7 +14,6 @@ class PatientsController extends MainController {
 
 	public function inquiry() {
 		smarty()->assign('title', 'Inquiry Record');
-		
 		if (!isset(input()->patient)) {
 			$this->redirect();
 		} else {
@@ -36,7 +35,37 @@ class PatientsController extends MainController {
 		//	Get marital status
 		smarty()->assign('maritalStatuses', getMaritalStatuses());
 		// 	Get DME Equipment
-		smarty()->assign('dmEquipment', getDmEquipment());
+		smarty()->assign('dmEquipment', $this->loadModel('DmEquipment')->fetchEquipment());
+
+
+		//	Set admitting facility
+		if ($schedule->admit_from_id != '') {
+			$admit_from = $this->loadModel('HealthcareFacility', $schedule->admit_from_id);
+		} else {
+			$admit_from = array();
+		}
+		smarty()->assignByRef('admit', $admit_from);
+
+
+		//	Set primary care physician
+		if ($schedule->pcp_id != '') {
+			$pcp = $this->loadModel('Physician', $schedule->pcp_id);
+		} else {
+			$pcp = array();
+		}
+		smarty()->assignByRef('pcp', $pcp);
+
+
+		//	Set surgeon/specialist
+		if ($schedule->surgeon_id != '') {
+			$surgeon = $this->loadModel('Physician', $schedule->surgeon_id);
+		} else {
+			$surgeon = array();
+		}
+		smarty()->assignByRef('surgeon', $surgeon);
+
+
+
 
 
 		/*
@@ -148,6 +177,7 @@ class PatientsController extends MainController {
 				$patient->allergies = input()->allergies;
 			}
 			
+			pr (input()); die();
 
 			if (isset (input()->dme)) {
 				$schedule->dme = input()->dme;
@@ -262,12 +292,13 @@ class PatientsController extends MainController {
 		if (input()->patient == '') {
 			$this->redirect();
 		} else {
-			$patient = $this->loadModel('Patient');
-			$patient = $patient->fetchPatientById(input()->patient);
+			$patient = $this->loadModel('Patient')->fetchById(input()->patient);
 		}
 
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assign('title', 'Assign Clinicians');
 
 	}
+
+
 }

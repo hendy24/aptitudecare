@@ -1,4 +1,4 @@
 <?php
 
-header("Location: https://local-dev.aptitudecare.com");
+header("Location: https://local-hh.aptitudecare.com");
 exit;

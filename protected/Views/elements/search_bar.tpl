@@ -10,12 +10,20 @@
 		</select>
 	</div>
 	{/if}
-
-	<h1>{$headerTitle}</h1>
-	<div id="patient-search">
-		Location: <select name="locations" id="locations">
-			{foreach $locations as $location}
-			<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}>{$location->name}</option>
+	
+	<div id="locations">
+		<select name="location" id="location">
+		{foreach $locations as $location}
+			<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
+		{/foreach}
+		</select>
+	</div>
+	
+	
+	<div id="areas">
+		Area: <select name="areas" id="area">
+			{foreach $areas as $area}
+			<option value="{$area->public_id}" {if isset($input->area)}{if $area->public_id == $input->area} selected{/if}{/if}>{$area->name}</option>
 			{/foreach}
 		</select>
 	</div>

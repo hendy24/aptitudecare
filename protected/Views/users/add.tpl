@@ -41,12 +41,12 @@
 	<input type="hidden" name="submit" value="true" />
 	<input type="hidden" name="path" value="{$current_url}" />
 
-	<table class="form-table">
+	<table class="form">
 		
 	{foreach $columns as $column}
 		<tr>
 			<td >{stringify($column)}:</td>
-			<td><input {if $column == "password" || $column == "verify_password"} type="password" {else} type="text" {/if} name="{$column}" id="{$column}" style="width:200px" /></td>
+			<td><input {if $column == "password" || $column == "verify_password"} type="password" {else} type="text" {/if} name="{$column}" id="{$column}" style="width:250px" /></td>
 		</tr>
 	{/foreach}
 	
@@ -85,7 +85,8 @@
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="2"><input class="right" type="submit" value="Save" /></td>
+		<td><input type="button" value="Cancel" onClick="history.go(-1);return true;"></td>
+		<td><input class="right" type="submit" value="Save" /></td>
 	</tr>
 		
 	</table>

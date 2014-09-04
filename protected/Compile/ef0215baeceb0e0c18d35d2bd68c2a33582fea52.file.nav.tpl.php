@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-08-19 22:10:46
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-03 21:21:15
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/elements/nav.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:196237096053d29cca6c4164-29691226%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ef0215baeceb0e0c18d35d2bd68c2a33582fea52' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/elements/nav.tpl',
-      1 => 1408507842,
+      1 => 1409800874,
       2 => 'file',
     ),
   ),
@@ -41,23 +41,34 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		</li>
 		<li>Discharges
 			<ul>
+<!-- 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
+/?module=<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['module']->value, ENT_QUOTES, 'UTF-8');?>
+&amp;page=discharges&amp;action=manage">Manage Discharges</a></li>
+ -->				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
+/?module=<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['module']->value, ENT_QUOTES, 'UTF-8');?>
+&amp;page=discharges&amp;action=schedule">Schedule Discharges</a></li>			
+			</ul>
+		</li>
+		<li>Info
+			<ul>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=discharges&amp;action=manage">Manage Discharges</a></li>
-				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=discharges&amp;action=schedule">Schedule Discharges</a></li>			
+/?module=<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['module']->value, ENT_QUOTES, 'UTF-8');?>
+&amp;page=locations&amp;action=census">Census</a></li>
 			</ul>
 		</li>
 		<li>Data
 			<ul>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
+/?page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=home_health_clinicians">Clinicians</a></li>
+/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=home_health_clinicians">Home Health Clinicians</a></li>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
+/?page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
+				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
+/?page=data&amp;action=manage&amp;type=physicians">Physicians</a></li>
 				<?php if ($_smarty_tpl->tpl_vars['auth']->value->is_admin()) {?>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=users">Users</a></li>
+/?page=data&amp;action=manage&amp;type=users">Users</a></li>
 				<?php }?>
 			</ul>
 		</li>

@@ -24,13 +24,19 @@ class User extends AppModel {
 			'foreign_key' => 'id',
 			'join_field' => array(
 				'column' => 'name',
-				'name' => 'module'
+				'name' => 'default_module'
 			)
 		)
 	);
 
 	protected $hasMany = array(
-
+		'UserLocation' => array(
+			'table' => 'user_location',
+			'join_type' => 'INNER',
+			'inner_key' => 'id',
+			'foreign_key' => 'user_id',
+			'join_key' => 'location_id'
+		)
 	);
 
 	protected $_manage_fields = array(
@@ -39,6 +45,8 @@ class User extends AppModel {
 		'last_name',
 		'phone',
 		'location',
+		'email',
+		'default_module'
 	);
 
 	protected $_add_fields = array(
@@ -49,6 +57,13 @@ class User extends AppModel {
 		'phone'
 	);
 
+
+
+	public function fetchUserLocations() {
+		$sql = "SELECT `location`.* FROM `location` INNER JOIN `user_location` ON `user_location`.`location_id` = `location`.`id` WHERE `user_location`.`user_id`=:id";
+		$params[':id'] = $this->id;
+		return $this->fetchAll($sql, $params);
+	}
 
 
 }

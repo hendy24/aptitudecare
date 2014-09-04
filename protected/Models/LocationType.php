@@ -2,9 +2,9 @@
 
 class LocationType extends AppModel {
 
-	public $table = 'location_type';
+	protected $table = 'location_type';
 
-	public $hasMany = array(
+	protected $hasMany = array(
 		'HealthcareFacility' => array(
 			'table' => 'healthcare_facility',
 			'inner_key' => 'id',
@@ -16,4 +16,10 @@ class LocationType extends AppModel {
 			'foreign_key' => 'location_type'
 		)
 	);
+
+
+	public function getTypes() {
+		$sql = "SELECT * FROM `{$this->table}`";
+		return $this->fetchAll($sql);
+	}
 }

@@ -27,23 +27,14 @@ class UsersController extends MainController {
 		}
 
 		smarty()->assign('module', $module);
-
-		$pageTitle = stringify(depluralize($model));
-
-		smarty()->assign('title', "Add New {$pageTitle}");
-		smarty()->assign('headerTitle', $pageTitle);
+		smarty()->assign('title', "Add New {$model}");
+		smarty()->assign('headerTitle', $model);
 
 		$class = $this->loadModel($model);
 		$columns = $class->fetchColumnNames();
-
-		$columnData = array();
-		foreach($columns as $key => $column) {
-			if (!in_array($column, $class->fetchColumnsToInclude())) {
-				unset($columns[$key]);
-			}
-		}
+		$data = $this->getColumnHeaders($columns, $class);
 		if (in_array('password', $class->fetchColumnsToInclude())) {
-			array_splice($columns, 4, 0, 'verify_password');
+			array_splice($data, 4, 0, 'verify_password');
 
 			//	Get list of available modules
 			$available_modules = $this->loadModel('Module')->fetchAllData();
@@ -58,7 +49,7 @@ class UsersController extends MainController {
 			$groups = $this->loadModel('Group')->fetchAllData();
 			smarty()->assignByRef('groups', $groups);
 		}
-		smarty()->assign('columns', $columns);
+		smarty()->assign('columns', $data);
 
 
 	}
@@ -71,9 +62,13 @@ class UsersController extends MainController {
 			$this->redirect();
 		}
 
-		$user = $this->loadModel('User');
+		if (isset (input()->id)) {
+			$id = input()->id;
+		} else {
+			$id = null;
+		}
 
-		pr ($user);
+		$user = $this->loadModel('User', $id);
 
 		//	Validate form fields
 		if (input()->first_name != '') {
@@ -95,12 +90,13 @@ class UsersController extends MainController {
 		}
 
 		if (input()->password != '') {
-			if (input()->password == input()->verify_password) {
-				$user->password = auth()->encrypt_password(input()->password);
-			} else {
-				$error_messages[] = "The passwords do not match";
-			}
-			
+			if (isset (input()->verify_password)) {
+				if (input()->password == input()->verify_password) {
+					$user->password = auth()->encrypt_password(input()->password);
+				} else {
+					$error_messages[] = "The passwords do not match";
+				}
+			}			
 		} else {
 			$error_messages[] = "Enter a password";
 		}
@@ -126,11 +122,24 @@ class UsersController extends MainController {
 			$this->redirect(input()->path);
 		}
 
+		
+		if (isset ($user->location)) {
+			unset ($user->location);
+		}
+
+		if (isset ($user->module)) {
+			unset ($user->module);
+		}
+
 		//	If we've made it this far then save the new user data
 		$user_id = $user->save();
-		if ($user_id) {
+		if ($user->save()) {
 			if (!empty (input()->user_location)) {
 				$user_location = $this->loadModel('UserLocation');
+
+				if (isset ($user->id)) {
+					$user_id = $user->id;
+				}
 
 				foreach (input()->user_location as $loc) {
 					$user_location->user_id = $user_id;
@@ -138,8 +147,8 @@ class UsersController extends MainController {
 					$user_location->save();
 				}
 			}
-			session()->setFlash("Successfully added {$user->first_name} {$user->last_name}", 'success');
-			$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'site_users'));
+			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
+			$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
 
 		} else {
 			session()->setFlash("Could not save the user.  Please try again.", 'error');
@@ -147,6 +156,26 @@ class UsersController extends MainController {
 		}
 
 
+	}
+
+
+
+	public function getAdditionalData($data = false) {
+		
+		if ($data) {
+			smarty()->assign('group_id', $data->group_id);
+			smarty()->assign('default_location', $data->default_location);
+			smarty()->assign('public_id', $data->public_id);
+
+			//	Fetch the users additional locations
+			smarty()->assignByRef('additional_locations', $data->fetchUserLocations());
+		}
+
+		//	Get Locations
+		smarty()->assignByRef('available_locations', $this->loadModel('Location')->fetchAll());
+
+		//	Get Groups
+		smarty()->assignByRef('groups', $this->loadModel('Group')->fetchAll());
 	}
 
 

@@ -1,7 +1,11 @@
-
+<script src="{$frameworkJs}/admissions.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
-		$('#locations').change(function() {
+		$('#area').change(function() {
+			window.location = "?module=HomeHealth&location=" + $("#location").val() + "&area=" + $(this).val();
+		});
+
+		$("#location").change(function() {
 			window.location = "?module=HomeHealth&location=" + $(this).val();
 		});
 	});
@@ -10,13 +14,13 @@
 
 <div id="date-header">
 	<div class="date-header-img">
-		<a href="{$siteUrl}/?module=HomeHealth&amp;location={$location->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$frameworkImg}/icons/prev-icon.png" /></a>
+		<a href="{$siteUrl}/?module=HomeHealth&amp;area={$area->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$frameworkImg}/icons/prev-icon.png" /></a>
 	</div>
 	<div class="date-header-text-center">
 		<h2>{$week[0]|date_format:"%a, %B %d, %Y"} &ndash; {$week[6]|date_format:"%a, %B %d, %Y"}</h2>
 	</div>
 	<div class="date-header-img">
-	<a href="{$siteUrl}/?module=HomeHealth&amp;location={$location->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$frameworkImg}/icons/next-icon.png" /></a>	
+	<a href="{$siteUrl}/?module=HomeHealth&amp;area={$area->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$frameworkImg}/icons/next-icon.png" /></a>	
 	</div>	
 </div>
 
@@ -26,13 +30,17 @@
 	{foreach $admitsByDate as $day => $admits}
 	<div class="location-container">
 		<h3 class="day-title">{$day|date_format:"%a, %b %e"}</h3>
-		<div class="location-day-box location-day-box-admit {cycle name="admitDayColumn" values="location-day-box-color, "}">
+
+		<div class="location-day-box location-day-box-admit {cycle name="admitDayColumn" values="location-day-box-color, "}" droppable="true">
+			<input type="hidden" class="date" value="{$day}" />
 			<div class="box-title">Admit</div>
 			{foreach $admits as $admit}
 			{if isset($admit->id)}
-			<div class="{if $admit->status == 'Pending'} location-admit-pending{else}location-admit{/if}">
+			<div class="{if $admit->status == 'Pending'} location-admit-pending{else}location-admit{/if}" draggable="true">
 				<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientTools->menu($admit)}<br>
-				{$admit->location_name}
+				<input type="hidden" value="{$admit->public_id}" />
+
+				{$admit->healthcare_facility_name}
 			</div>
 			{/if}
 			{/foreach}

@@ -1,8 +1,8 @@
 <?php
 
 class CaseManager extends Data {
-	public $table = 'case_manager';
-	public $belongsTo = array(
+	protected $table = 'case_manager';
+	protected $belongsTo = array(
 		'HealthcareFacility' => array(
 			'table' => 'healthcare_facility',
 			'join_type' => 'INNER',
@@ -14,12 +14,29 @@ class CaseManager extends Data {
 			)
 		)
 	);
-	public $_manage_fields = array(
+	protected $_manage_fields = array(
 		'public_id',
 		'first_name',
 		'last_name',
 		'phone',
 		'email',
-		'name'
+		'healthcare_facility'
 	);
+
+	protected $_add_fields = array(
+		'first_name',
+		'last_name',
+		'email',
+		'address',
+		'city',
+		'state',
+		'zip',
+		'phone',
+		'fax'
+	); 
+
+
+
+
+
 }

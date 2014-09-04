@@ -2,9 +2,11 @@
 
 class HomeHealthSchedule extends AppModel {
 
-	public $table = 'home_health_schedule';
-	public $belongsTo = array(
-		'patient' => array(
+	protected $table = 'home_health_schedule';
+	protected $belongsTo = array(
+		'Patient' => array(
+			'table' => 'patient',
+			'join_type' => 'inner',
 			'inner_key' => 'patient_id',
 			'foreign_key' => 'id'
 		)
@@ -20,7 +22,7 @@ class HomeHealthSchedule extends AppModel {
 	public function fetchAdmits($datetime_start, $datetime_end, $location, $orderby = null) {
 
 
-		$sql = "SELECT `{$this->table}`.*, `patient`.*, `healthcare_facility`.`name` AS location_name FROM {$this->table} INNER JOIN `patient` ON {$this->table}.`patient_id` = `patient`.`id` INNER JOIN `healthcare_facility` ON `healthcare_facility`.`id` = `{$this->table}`.`location_id` WHERE {$this->table}.`datetime_admit` >= :datetime_start AND {$this->table}.`datetime_admit` <= :datetime_end AND {$this->table}.`location_id` = :location_id AND ({$this->table}.`status` = 'Approved' OR {$this->table}.`status` = 'Pending')";
+		$sql = "SELECT `{$this->table}`.*, `patient`.*, `location`.`name` AS location_name, `healthcare_facility`.`name` AS healthcare_facility_name FROM {$this->table} INNER JOIN `patient` ON {$this->table}.`patient_id` = `patient`.`id` INNER JOIN `location` ON `location`.`id` = `{$this->table}`.`location_id` INNER JOIN `healthcare_facility` ON `healthcare_facility`.`id` = `{$this->table}`.`admit_from_id` WHERE {$this->table}.`datetime_admit` >= :datetime_start AND {$this->table}.`datetime_admit` <= :datetime_end AND {$this->table}.`location_id` = :location_id AND ({$this->table}.`status` = 'Approved' OR {$this->table}.`status` = 'Pending')";
 
 		if ($orderby != null) {
 			$sql .= " ORDER BY :orderby";
@@ -33,6 +35,7 @@ class HomeHealthSchedule extends AppModel {
 			':location_id' => $location,
 		);
 
+		// debug ($sql, $params);
 		return $this->fetchAll($sql, $params);
 	}
 
@@ -54,7 +57,7 @@ class HomeHealthSchedule extends AppModel {
 			$orderby = 'datetime_discharge ASC';
 		}
 
-		$sql = "SELECT * FROM {$this->table} INNER JOIN `patient` ON {$this->table}.`patient_id` = `patient`.`id` WHERE {$this->table}.`datetime_discharge` >= :datetime_start AND {$this->table}.`datetime_discharge` <= :datetime_end AND {$this->table}.`location_id` = :location_id AND {$this->table}.`status` = :status ORDER BY :orderby";
+		$sql = "SELECT `{$this->table}`.*, `{$this->table}`.`public_id` AS schedule_pubid, `patient`.`last_name`, `patient`.`first_name` FROM `{$this->table}` INNER JOIN `patient` ON {$this->table}.`patient_id` = `patient`.`id` WHERE {$this->table}.`datetime_discharge` >= :datetime_start AND {$this->table}.`datetime_discharge` <= :datetime_end AND {$this->table}.`location_id` = :location_id AND {$this->table}.`status` = :status ORDER BY :orderby";
 		$params = array(
 			':datetime_start' => $datetime_start,
 			':datetime_end' => $datetime_end,
@@ -65,6 +68,14 @@ class HomeHealthSchedule extends AppModel {
 
 		return $this->fetchAll($sql, $params);
 
+	}
+
+
+	public function fetchByPatientId($id) {
+		$table = $this->fetchTable();
+		$sql = "SELECT `{$table}`.* FROM `{$table}` WHERE `{$table}`.`patient_id` = :id ORDER BY `{$table}`.datetime_admit DESC";
+		$params[":id"] = $id;
+		return $this->fetchOne($sql, $params);
 	}
 
 

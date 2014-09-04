@@ -19,20 +19,21 @@ class HomeHealthController extends MainPageController {
 		$this->helper = 'PatientMenu';
 		
 		
-		if (isset(input()->location)) {
+		if (isset(input()->area)) {
 			// If the location is set in the url, get the location by the public_id
-			$location = $this->loadModel('Location', input()->location);
+			$area = $this->loadModel('Location', input()->area);
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+			$area = $location->fetchLinkedFacility($location->id);
 		}
 
-		if (!isset($location)) {
-			session()->setFlash('Cannot access the information for the selected location.', 'error');
+		if (!isset($area)) {
+			session()->setFlash('Cannot access the information for the selected area.', 'error');
 			$this->redirect();
 		}
 
-		smarty()->assignByRef('location', $location);
+		smarty()->assignByRef('area', $area);
 		
 		// Probably need to do some type of user authorizated access check here
 
@@ -64,7 +65,7 @@ class HomeHealthController extends MainPageController {
 
 		$_dateStart = $week[0];
 		$_dateEnd = $week[6];
-		$_location_id = $location->id;
+		$_location_id = $area->id;
 		$_orderby = 'datetime_admit ASC';
 
 
@@ -73,8 +74,12 @@ class HomeHealthController extends MainPageController {
 		 *	Get Admissions for the week
 		 */
 
+		//	Get admission dashboard discharges as new pending admits
+		//	This will be integrated more tightly once the admission dashboard is re-built
+		$adDischarges = $this->loadModel('AdmissionDashboard')->fetchDischarges($_dateStart, $_dateEnd, $_location_id);
 		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $_location_id);
-		//$admits = $homeHealthSchedule->fetchAdmits($_dateStart, $_dateEnd, $_location_id);
+
+		
 
 		// split the admits up by date
 		$admitByDate = array();
@@ -91,21 +96,20 @@ class HomeHealthController extends MainPageController {
 			} else {
 				$admitsByDate[$day][] = array();
 			}
+
 		}
 		smarty()->assignByRef('admitsByDate', $admitsByDate);
-		
+
 
 		/*
 		 *	Get Discharges for the week
 		 */
 
+		$_status = "Discharged";
 		$_orderby = 'datetime_discharge ASC';
-		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $_location_id, $_orderby);
+		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $_location_id, $_status, $_orderby);
 
 		// Split up discharges for each day of the week
-
-
-
 		$dischargesByDate = array();
 		foreach ($week as $day) {
 			if (!empty ($discharges)) {
@@ -125,9 +129,9 @@ class HomeHealthController extends MainPageController {
 
 
 
+
 		// Set page titles
 		smarty()->assign('title', 'Home Health Dashboard');	// This is the title that is set in the html head
-		smarty()->assign('headerTitle', "{$location->name} Dashboard");  // This is the page title (h1 tag)
 
 
 	}

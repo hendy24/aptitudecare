@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-08-19 22:41:59
+<?php /* Smarty version Smarty-3.1.19, created on 2014-08-21 19:59:52
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/healthcare_facilities/add.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:70796179553d83999a2e8d6-78784358%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7bd6bedd4b0df92680257cbecb9d9888b7280334' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/healthcare_facilities/add.tpl',
-      1 => 1408509651,
+      1 => 1408672761,
       2 => 'file',
     ),
   ),
@@ -19,40 +19,57 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_53d83999a303d1_35490988',
   'variables' => 
   array (
-    'headerTitle' => 0,
-    'siteUrl' => 0,
-    'current_url' => 0,
+    'facilityTypes' => 0,
+    'type' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_53d83999a303d1_35490988')) {function content_53d83999a303d1_35490988($_smarty_tpl) {?><script>
 	$(document).ready(function() {
 		$('#phone').mask("(999) 999-9999");
+		$('#fax').mask("(999) 999-9999");
+		$("#add").validate({
+			rules: {
+				name: "required",
+				city: "required",
+				state: "required",
+				zip: "required",
+				location_type: "required"
+			}
+		});
 
 	});
 	
 </script>
 
 
-<h1>Add a new <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['headerTitle']->value, ENT_QUOTES, 'UTF-8');?>
-</h1>
-<br>
-<form name="add_user" id="add-user" method="post" action="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-">
-	<input type="hidden" name="page" value="healthcare_facilities" />
-	<input type="hidden" name="action" value="submitAdd" />
-	<input type="hidden" name="submit" value="true" />
-	<input type="hidden" name="path" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['current_url']->value, ENT_QUOTES, 'UTF-8');?>
-" />
+	<?php echo $_smarty_tpl->getSubTemplate ("data/add.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
-	<table class="form-table">
-		
+	<tr>
+		<td>Location Type:</td>
+		<td>
+			<select name="location_type" id="location-type">
+				<option value="">Select a location type...</option>
+				<?php  $_smarty_tpl->tpl_vars['type'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['type']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['facilityTypes']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['type']->key => $_smarty_tpl->tpl_vars['type']->value) {
+$_smarty_tpl->tpl_vars['type']->_loop = true;
+?>
+				<option value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['type']->value->id, ENT_QUOTES, 'UTF-8');?>
+"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['type']->value->description, ENT_QUOTES, 'UTF-8');?>
+</option>
+				<?php } ?>
+			</select>
+			
+		</td>
+	</tr>
 
 	<tr>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="2"><input class="right" type="submit" value="Save" /></td>
+		<td><input type="button" value="Cancel" onClick="history.go(-1);return true;"></td>
+		<td><input class="right" type="submit" value="Save" /></td>
 	</tr>
 		
 	</table>

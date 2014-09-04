@@ -2,10 +2,18 @@
 
 class HealthcareFacilitiesController extends MainController {
 
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  AJAX CALL TO SEARCH THE DATABASE FOR FACILITY NAMES
+	 * -------------------------------------------------------------------------
+	 */
+
 	public function searchFacilityName() {
 		$this->template = 'blank';
 
 		$term = input()->query;
+
 		if ($term != '') {
 			$tokens = explode(' ', $term);
 			$params = array();
@@ -20,24 +28,28 @@ class HealthcareFacilitiesController extends MainController {
 
 			if (isset (input()->location)) {
 				$location = $this->loadModel('Location', input()->location);
-				// $additionalStates = $this->loadModel('LocationLinkState', $location->id);
-
+				$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
 
 				$params[':location_state'] = $location->state;
 				$sql .= " AND (healthcare_facility.state = :location_state";
 
-				// foreach ($additionalStates as $k => $s) {
-				// 	$params[':add_states{$k}'] = $s->state;
-				// 	$sql .= " OR healthcare_facility.state = :add_states{$k}";
-				// }
+				foreach ($additionalStates as $k => $s) {
+					$params[":add_states{$k}"] = $s->state;
+					$sql .= " OR healthcare_facility.state = :add_states{$k}";
+				}
 
-				$sql .= ") OR healthcare_facility.state = ''";
-			} elseif (input()->state != '') {
+				$sql .= ")";
+			} elseif (isset (input()->state) && input()->state != '') {
 				$params[':state'] = input()->state;
 				$sql .= " AND healthcare_facility.state = :state";
 			}
 
-			$results = db()->fetchRows($sql, $params, 'healthcare_facility');
+			$sql .= " ORDER BY `healthcare_facility`.`name` ASC";
+
+			$class = $this->loadModel('HealthcareFacility');
+
+			$results = db()->fetchRows($sql, $params, $class);
+
 		} else {
 			$results = array();
 		}
@@ -52,27 +64,102 @@ class HealthcareFacilitiesController extends MainController {
 	}
 
 
-	public function add() {
-		//	Right now everyone has the ability to add healthcare facilities
-		if (!auth()->has_permission(input()->action, 'site_users')) {
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  ADD A NEW HEALTHCARE FACILITY
+	 * -------------------------------------------------------------------------
+	 */
+
+	public function getAdditionalData($data = false) {
+		//	Get facility type options
+		if ($data) {
+			smarty()->assign('location_type_id', $data->location_type_id);
+		}
+		$facility_types = $this->loadModel('LocationType')->getTypes();
+		smarty()->assignByRef('facilityTypes', $facility_types);
+	}
+
+	public function submitAdd() {
+		if (!auth()->has_permission('add', 'healthcare_facility')) {
+			$error_messages[] = "You do not have permission to add new healthcare facilities";
+			session()->setFlash($error_messages, 'error');
 			$this->redirect();
 		}
 
-		$model = depluralize(ucfirst(camelizeString(input()->page)));
-		$class = $this->loadModel($model);
-		$columns = $class->fetchColumnNames();
+		if (isset (input()->id)) {
+			$id = input()->id;
+		} else {
+			$id = null;
+		}
 
-		pr ($columns); die();
+		$facility = $this->loadModel('HealthcareFacility', $id);
+
+		if (input()->name != '') {
+			$facility->name = input()->name;
+		} else {
+			$error_messages[] = "Enter the facility name";
+		}
+
+		if (input()->address != '') {
+			$facility->address = input()->address;
+		}
+
+		if (input()->city != '') {
+			$facility->city = input()->city;
+		} else {
+			$error_messages[] = "Enter the city";
+		}
+
+		if (input()->state != '') {
+			$facility->state = input()->state;
+		} else {
+			$error_messages[] = "Enter the state";
+		}
+
+		if (input()->zip != '') {
+			$facility->zip = input()->zip;
+		} else {
+			$error_messages[] = "Enter the zip code";
+		}
+
+		if (input()->phone != '') {
+			$facility->phone = input()->phone;
+		} 
+
+		if (input()->fax != '') {
+			$facility->fax = input()->fax;
+		} 
+
+		if (input()->location_type != '') {
+			$facility->location_type_id = input()->location_type;
+		} else {
+			$error_messages[] = "Select the location type";
+		}
+
+		if (isset ($facility->location_type)) {
+			unset($facility->location_type);
+		}
 
 
+		//	BREAKPOINT
+		if (!empty ($error_messages)) {
+			session()->setFlash($error_messages, 'error');
+			$this->redirect(input()->path);
+		}
 
-		smarty()->assign('title', 'Add Healthcare Facility');
-		smarty()->assign('headerTitle', 'Add a new Healthcare Facility');
-
-	}
-
-
-	public function submitAdd() {
+		//	If we've made it this far then save the new facility data
+		if ($facility->save()) {
+			session()->setFlash("Successfully added/edited {$facility->name}", 'success');
+			if (!isset (input()->isMicro)) {
+				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'physicians'));
+			} else {
+				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'healthcare_facilities'));
+			}
+		} else {
+			session()->setFlash("Could not save/edit the facility.  Please try again.", 'error');
+			$this->redirect(input()->path);
+		}
 
 	}
 

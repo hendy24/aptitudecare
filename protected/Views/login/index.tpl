@@ -24,7 +24,7 @@
 	<form method="post" action="{$siteUrl}/login">
 		<input type="hidden" name="path" value="{$current_url}" />
 		<input type="hidden" name="submit" value="1" />
-		<table>
+		<table id="login">
 			<tr>
 				<td>Username:</td>
 				<td><input type="text" name="email" value="" id="login_username" /></td>

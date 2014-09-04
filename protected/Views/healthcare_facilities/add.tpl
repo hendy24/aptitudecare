@@ -1,28 +1,42 @@
 <script>
 	$(document).ready(function() {
 		$('#phone').mask("(999) 999-9999");
+		$('#fax').mask("(999) 999-9999");
+		$("#add").validate({
+			rules: {
+				name: "required",
+				city: "required",
+				state: "required",
+				zip: "required",
+				location_type: "required"
+			}
+		});
 
 	});
 	
 </script>
 
 
-<h1>Add a new {$headerTitle}</h1>
-<br>
-<form name="add_user" id="add-user" method="post" action="{$siteUrl}">
-	<input type="hidden" name="page" value="healthcare_facilities" />
-	<input type="hidden" name="action" value="submitAdd" />
-	<input type="hidden" name="submit" value="true" />
-	<input type="hidden" name="path" value="{$current_url}" />
-
-	<table class="form-table">
-		
+	{include file="data/add.tpl"}
+	<tr>
+		<td>Location Type:</td>
+		<td>
+			<select name="location_type" id="location-type">
+				<option value="">Select a location type...</option>
+				{foreach $facilityTypes as $type}
+				<option value="{$type->id}">{$type->description}</option>
+				{/foreach}
+			</select>
+			
+		</td>
+	</tr>
 
 	<tr>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="2"><input class="right" type="submit" value="Save" /></td>
+		<td><input type="button" value="Cancel" onClick="history.go(-1);return true;"></td>
+		<td><input class="right" type="submit" value="Save" /></td>
 	</tr>
 		
 	</table>

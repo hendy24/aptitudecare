@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-08-15 23:39:54
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 11:33:39
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/modules/HomeHealth/Views/patients/inquiry.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:203725744953d86d29f262f9-47313977%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '51f8c8d252639f027a7a95de0a97502b0910f7c9' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/modules/HomeHealth/Views/patients/inquiry.tpl',
-      1 => 1408167588,
+      1 => 1409852016,
       2 => 'file',
     ),
   ),
@@ -23,21 +23,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'states' => 0,
     'state' => 0,
     'abbr' => 0,
-    'SiteUrl' => 0,
+    'siteUrl' => 0,
     'location' => 0,
     'currentUrl' => 0,
-    'weekSeed' => 0,
     'ethnicities' => 0,
     'e' => 0,
     'languages' => 0,
     'language' => 0,
     'maritalStatuses' => 0,
     'ms' => 0,
-    'schedule' => 0,
     'admit' => 0,
     'frameworkImg' => 0,
     'pcp' => 0,
     'surgeon' => 0,
+    'schedule' => 0,
     'dmEquipment' => 0,
     'dme' => 0,
   ),
@@ -91,6 +90,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				action: 'searchFacilityName',
 				location: $("#location").val()
 			}, minChars: 3,
+			width: "300",
 			onSelect: function (suggestion) {
 				$("#admit-from").val(suggestion.data);
 			}
@@ -106,6 +106,18 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 			}, minChars: 3,
 			onSelect: function (suggestion) {
 				$("#pcp").val(suggestion.data);
+			}
+		});
+
+		$("#surgeon-search").autocomplete({
+			serviceUrl: SiteUrl,
+			params: {
+				page: 'Physicians',
+				action: 'searchPhysicians',
+				location: $("#location").val()
+			}, minChars: 3,
+			onSelect: function (suggestion) {
+				$("#surgeon").val(suggestion.data);
 			}
 		});
 
@@ -162,7 +174,7 @@ $_smarty_tpl->tpl_vars['state']->_loop = true;
  <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['patient']->value->last_name, ENT_QUOTES, 'UTF-8');?>
 </span></h1>
 
-<form action="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['SiteUrl']->value, ENT_QUOTES, 'UTF-8');?>
+<form action="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
 " name="inquiry" method="post" id="inquiry-form">
 	<input type="hidden" name="module" value="HomeHealth" />
 	<input type="hidden" name="page" value="patients" />
@@ -174,9 +186,7 @@ $_smarty_tpl->tpl_vars['state']->_loop = true;
 	<input type="hidden" name="submit" value="true" />
 	<input type="hidden" name="path" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['currentUrl']->value, ENT_QUOTES, 'UTF-8');?>
 " />
-	<input type="hidden" name="weekSeed" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['weekSeed']->value, ENT_QUOTES, 'UTF-8');?>
-" />
-	<table class="form-table">
+	<table class="form">
 			
 		<!-- Patient Information -->
 		<tr> 
@@ -322,11 +332,9 @@ $_smarty_tpl->tpl_vars['ms']->_loop = true;
 		<tr>
 			<td>
 				<strong>Admitting From:</strong><br>
-				<?php $_smarty_tpl->tpl_vars['admit'] = new Smarty_variable(HealthcareFacility::generate($_smarty_tpl->tpl_vars['schedule']->value->admit_from_id), null, 0);?>
 				<input type="text" id="admit-from-search" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['admit']->value->name, ENT_QUOTES, 'UTF-8');?>
 " style="width:210px" />
-				<a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['SiteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=HealthcareFacilities&amp;action=add&amp;isMicro=1" rel="shadowbox">
+				<a href="/?page=healthcare_facilities&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
 					<img src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['frameworkImg']->value, ENT_QUOTES, 'UTF-8');?>
 /add-black-bkgnd.png" class="add-button" alt="">
 				</a>
@@ -335,23 +343,25 @@ $_smarty_tpl->tpl_vars['ms']->_loop = true;
 			</td>
 			<td>
 				<strong>Primary Care Physician:</strong><br>
-				<?php $_smarty_tpl->tpl_vars['pcp'] = new Smarty_variable(Physician::generate($_smarty_tpl->tpl_vars['schedule']->value->pcp_id), null, 0);?>
 				<input type="text" id="pcp-search" <?php if (isset($_smarty_tpl->tpl_vars['pcp']->value->id)) {?>value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['pcp']->value->last_name, ENT_QUOTES, 'UTF-8');?>
 , <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['pcp']->value->first_name, ENT_QUOTES, 'UTF-8');?>
 "<?php } else { ?>value=""<?php }?> style="width:200px" />
-				<img src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['frameworkImg']->value, ENT_QUOTES, 'UTF-8');?>
+				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
+					<img src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['frameworkImg']->value, ENT_QUOTES, 'UTF-8');?>
 /add-black-bkgnd.png" class="add-button" alt="">
+				</a>
 				<input type="hidden" id="pcp" name="pcp_id" <?php if (isset($_smarty_tpl->tpl_vars['pcp']->value->id)) {?>value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['pcp']->value->id, ENT_QUOTES, 'UTF-8');?>
 " <?php } else { ?> value=""<?php }?> />
 			</td>
 			<td>
 				<strong>Surgeon/Specialist:</strong><br>
-				<?php $_smarty_tpl->tpl_vars['surgeon'] = new Smarty_variable(Physician::generate($_smarty_tpl->tpl_vars['schedule']->value->surgeon_id), null, 0);?>
 				<input type="text" id="surgeon-search" style="width:200px" <?php if (isset($_smarty_tpl->tpl_vars['surgeon']->value->id)) {?>value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['surgeon']->value->last_name, ENT_QUOTES, 'UTF-8');?>
 , <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['surgeon']->value->first_name, ENT_QUOTES, 'UTF-8');?>
 "<?php } else { ?> value=""<?php }?> />
-				<img src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['frameworkImg']->value, ENT_QUOTES, 'UTF-8');?>
+				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
+					<img src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['frameworkImg']->value, ENT_QUOTES, 'UTF-8');?>
 /add-black-bkgnd.png" class="add-button" alt="">
+				</a>
 				<input type="hidden" id="surgeon" name="surgeon_id" <?php if (isset($_smarty_tpl->tpl_vars['surgeon']->value->id)) {?>value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['surgeon']->value->id, ENT_QUOTES, 'UTF-8');?>
 " <?php } else { ?> value=""<?php }?> />
 			</td>
@@ -411,8 +421,8 @@ $_smarty_tpl->tpl_vars['ms']->_loop = true;
 foreach ($_from as $_smarty_tpl->tpl_vars['dme']->key => $_smarty_tpl->tpl_vars['dme']->value) {
 $_smarty_tpl->tpl_vars['dme']->_loop = true;
 ?>
-					<input type="checkbox" name="dme" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value, ENT_QUOTES, 'UTF-8');?>
-" <?php if ($_smarty_tpl->tpl_vars['schedule']->value->dme==$_smarty_tpl->tpl_vars['dme']->value) {?> selected<?php }?>>&nbsp;<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value, ENT_QUOTES, 'UTF-8');?>
+					<input type="checkbox" name="dme[]" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value->id, ENT_QUOTES, 'UTF-8');?>
+">&nbsp;<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value->description, ENT_QUOTES, 'UTF-8');?>
 <br>
 					<?php } ?>
 				</select>

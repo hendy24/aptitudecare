@@ -2,8 +2,10 @@
 
 class HealthcareFacility extends AppModel {
 
-	public $table = 'healthcare_facility';
-	public $belongsTo = array(
+	protected $table = 'healthcare_facility';
+	public $public_id;
+
+	protected $belongsTo = array(
 		'LocationType' => array(
 			'table' => 'location_type',
 			'join_type' => 'INNER',
@@ -15,13 +17,25 @@ class HealthcareFacility extends AppModel {
 			)
 		)
 	);
-	public $_manage_fields = array(
+
+	protected $_manage_fields = array(
 		'public_id',
 		'name',
 		'city',
 		'state',
+		'zip',
 		'phone',
 		'location_type'
 	);
+
+	protected $_add_fields = array(
+		'name',
+		'address',
+		'city',
+		'state',
+		'zip',
+		'phone',
+		'fax'
+	); 
 
 }

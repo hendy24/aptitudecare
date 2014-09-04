@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-07-25 12:42:01
+<?php /* Smarty version Smarty-3.1.19, created on 2014-08-20 18:18:52
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/login/index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:53784962253d2a4f923f6b3-18984160%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'fb67212a75a7766c55b30f7327b06a1924ff2be3' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/login/index.tpl',
-      1 => 1406265440,
+      1 => 1408580308,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.19',
+  'unifunc' => 'content_53d2a4f92bb1f6_45574332',
   'variables' => 
   array (
     'flashMessages' => 0,
@@ -26,8 +28,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'site_email' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_53d2a4f92bb1f6_45574332',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_53d2a4f92bb1f6_45574332')) {function content_53d2a4f92bb1f6_45574332($_smarty_tpl) {?><?php if ($_smarty_tpl->tpl_vars['flashMessages']->value) {?>
 	<div id="flash-messages">
@@ -69,7 +69,7 @@ $_smarty_tpl->tpl_vars['m']->_loop = true;
 		<input type="hidden" name="path" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['current_url']->value, ENT_QUOTES, 'UTF-8');?>
 " />
 		<input type="hidden" name="submit" value="1" />
-		<table>
+		<table id="login">
 			<tr>
 				<td>Username:</td>
 				<td><input type="text" name="email" value="" id="login_username" /></td>

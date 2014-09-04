@@ -23,7 +23,10 @@
 	<script type="text/javascript" src="{$frameworkJs}/general.js"></script>
 	<script>
 		var SiteUrl = '{$siteUrl}';
-		Shadowbox.init();
+		Shadowbox.init({
+			handleOversize: "drag",
+			modal: true,
+		});
 	</script>
 	   
 </head>
@@ -42,6 +45,7 @@
 		</div>
 	</div>
 	<div class="clear"></div>
+	
 	<div id="wrapper">
 		<div id="content">	
 			{if $flashMessages}
@@ -57,6 +61,7 @@
 				</div>
 				{/foreach}
 			</div>
+			<div class="clear"></div>
 			{/if}
 			
 			<div id="page-content">
@@ -69,7 +74,7 @@
 		</div>
  -->	</div>
 
-	
+	</div>
 	
 </body>
 </html>

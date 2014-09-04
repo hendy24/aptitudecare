@@ -2,11 +2,15 @@
 
 class LocationLinkState extends AppModel {
 
-	public $table = 'location_link_state';
-	public $belongsTo = array(
-		'location' => array(
+	private $id;
+
+	protected $table = 'location_link_state';
+	protected $belongsTo = array(
+		'Location' => array(
+			'table' => 'location_link_state',
 			'inner_key' => 'location_id',
-			'foreign_key' => 'id'
+			'foreign_key' => 'id',
+			'join_type' => 'inner'
 		)
 	);
 
