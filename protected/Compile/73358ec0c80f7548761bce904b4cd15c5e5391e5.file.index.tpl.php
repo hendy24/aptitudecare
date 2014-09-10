@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 11:21:19
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 15:35:32
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/modules/HomeHealth/Views/home_health/index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:82607754953d83ac7a0b8c8-28535554%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '73358ec0c80f7548761bce904b4cd15c5e5391e5' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/modules/HomeHealth/Views/home_health/index.tpl',
-      1 => 1409851277,
+      1 => 1409866530,
       2 => 'file',
     ),
   ),
@@ -122,9 +122,7 @@ $_smarty_tpl->tpl_vars['admit']->_loop = true;
 	<?php } ?>
 
 	<div class="clear"></div>
-	<br>
-	<hr>
-	<br>
+	<div class="horizontal-break"></div>
 
 	<?php  $_smarty_tpl->tpl_vars['discharges'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['discharges']->_loop = false;
  $_smarty_tpl->tpl_vars['day'] = new Smarty_Variable;

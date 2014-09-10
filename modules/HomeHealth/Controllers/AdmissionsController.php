@@ -24,8 +24,7 @@ class AdmissionsController extends MainController {
 	public function new_admit() {
 		smarty()->assign('title', 'New Admission');
 
-		$lm = $this->loadModel('Location');
-		$locations = $lm->fetchLocations();
+		$locations = $this->loadModel('Location')->fetchOtherLocations();
 		smarty()->assignByRef('locations', $locations);
 
 	}

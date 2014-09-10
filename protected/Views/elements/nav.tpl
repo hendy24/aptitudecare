@@ -21,7 +21,7 @@
 		<li>Data
 			<ul>
 				<li><a href="{$siteUrl}/?page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
-				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=home_health_clinicians">Home Health Clinicians</a></li>
+				<li><a href="{$siteUrl}/?module=HomeHealth&amp;page=clinicians&amp;action=manage">Home Health Clinicians</a></li>
 				<li><a href="{$siteUrl}/?page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
 				<li><a href="{$siteUrl}/?page=data&amp;action=manage&amp;type=physicians">Physicians</a></li>
 				{if $auth->is_admin()}

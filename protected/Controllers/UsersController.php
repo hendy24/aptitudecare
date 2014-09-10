@@ -51,6 +51,8 @@ class UsersController extends MainController {
 		}
 		smarty()->assign('columns', $data);
 
+		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
+		smarty()->assign('clinicianTypes', $clinicianTypes);
 
 	}
 
@@ -160,6 +162,46 @@ class UsersController extends MainController {
 
 
 
+	public function reset_password() {
+		smarty()->assign('title', 'Reset Password');
+		
+		if (input()->id != '') {
+			$user_id = input()->id;
+		} 
+
+		// Get User
+		$user = $this->loadModel('User', $user_id);
+		smarty()->assignByRef('user', $user);
+
+
+		if (input()->is('post')) {
+			if (input()->password != '') {
+				if (input()->password == input()->password2) {
+					$user->password = auth()->encrypt_password(input()->password);
+				} else {
+					$error_messages[] = "The passwords do not match.";
+				}
+			} else {
+				$error_messages[] = "Please enter the new password.";
+			}
+
+
+			if (!empty ($error_messages)) {
+				session()->setFlash($error_messages, 'error');
+				$this->redirect(input()->current_url);
+			}
+
+			if ($user->save()) {
+				session()->setFlash("The password has been changed for {$user->fullName()}", 'success');
+				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
+			}
+
+		}
+	}
+
+
+
+
 	public function getAdditionalData($data = false) {
 		
 		if ($data) {
@@ -176,6 +218,9 @@ class UsersController extends MainController {
 
 		//	Get Groups
 		smarty()->assignByRef('groups', $this->loadModel('Group')->fetchAll());
+
+		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
+		smarty()->assign('clinicianTypes', $clinicianTypes);
 	}
 
 

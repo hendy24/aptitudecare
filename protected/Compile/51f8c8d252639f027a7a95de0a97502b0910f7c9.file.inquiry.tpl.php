@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 11:33:39
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-09 11:02:42
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/modules/HomeHealth/Views/patients/inquiry.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:203725744953d86d29f262f9-47313977%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '51f8c8d252639f027a7a95de0a97502b0910f7c9' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/modules/HomeHealth/Views/patients/inquiry.tpl',
-      1 => 1409852016,
+      1 => 1410282132,
       2 => 'file',
     ),
   ),
@@ -39,6 +39,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'schedule' => 0,
     'dmEquipment' => 0,
     'dme' => 0,
+    'patientDme' => 0,
+    'pdme' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
@@ -422,14 +424,18 @@ foreach ($_from as $_smarty_tpl->tpl_vars['dme']->key => $_smarty_tpl->tpl_vars[
 $_smarty_tpl->tpl_vars['dme']->_loop = true;
 ?>
 					<input type="checkbox" name="dme[]" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value->id, ENT_QUOTES, 'UTF-8');?>
-">&nbsp;<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value->description, ENT_QUOTES, 'UTF-8');?>
+"<?php  $_smarty_tpl->tpl_vars['pdme'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['pdme']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['patientDme']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['pdme']->key => $_smarty_tpl->tpl_vars['pdme']->value) {
+$_smarty_tpl->tpl_vars['pdme']->_loop = true;
+?><?php if ($_smarty_tpl->tpl_vars['pdme']->value->dme_id==$_smarty_tpl->tpl_vars['dme']->value->id) {?> checked<?php }?><?php } ?>>&nbsp;<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['dme']->value->description, ENT_QUOTES, 'UTF-8');?>
 <br>
 					<?php } ?>
 				</select>
 			</td>
-			<td colspan="2">
+			<td colspan="2" style="vertical-align: top">
 				<strong>Special Instructions:</strong><br>
-				<textarea name="special_instructions" id="special-instructions" cols="70" rows="4"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['schedule']->value->special_instructions, ENT_QUOTES, 'UTF-8');?>
+				<textarea name="special_instructions" id="special-instructions" cols="70" rows="9"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['schedule']->value->special_instructions, ENT_QUOTES, 'UTF-8');?>
 </textarea>
 			</td>
 		</tr>
@@ -519,6 +525,12 @@ $_smarty_tpl->tpl_vars['dme']->_loop = true;
 			</td>
 		</tr>
 
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="text-right"><input type="checkbox" name="f2f_received" value="true"<?php if ($_smarty_tpl->tpl_vars['schedule']->value->f2f_received==true) {?> checked<?php }?> /> Face to Face Completed</td>
+		</tr>
 
 
 		<tr>

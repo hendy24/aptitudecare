@@ -48,17 +48,15 @@
 	});
 </script>
 
-<h1>{$headerTitle}</h1>
-<br>
 
 <div id="modules" class="button left"><a href="{$siteUrl}/?page={$type}&amp;action=add">Add New</a></div>
 <div id="locations">
-	Location: <select name="locations" id="locations">
-		<option value="">Select a location...</option>
-		{foreach $locations as $location}
-		<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}>{$location->name}</option>
-		{/foreach}
+	<select name="location" id="location">
+	{foreach $locations as $location}
+		<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
+	{/foreach}
 	</select>
+	<h2>{$headerTitle}</h2>
 </div>
 
 

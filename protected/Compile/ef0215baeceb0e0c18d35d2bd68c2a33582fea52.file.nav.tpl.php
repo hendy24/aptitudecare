@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-09-03 21:21:15
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-09 16:00:04
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/elements/nav.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:196237096053d29cca6c4164-29691226%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ef0215baeceb0e0c18d35d2bd68c2a33582fea52' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/elements/nav.tpl',
-      1 => 1409800874,
+      1 => 1410299967,
       2 => 'file',
     ),
   ),
@@ -61,7 +61,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
 /?page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
-/?module=HomeHealth&amp;page=data&amp;action=manage&amp;type=home_health_clinicians">Home Health Clinicians</a></li>
+/?module=HomeHealth&amp;page=clinicians&amp;action=manage">Home Health Clinicians</a></li>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
 /?page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
 				<li><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>

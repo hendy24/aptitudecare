@@ -59,9 +59,10 @@
 					{/foreach}
 					</ul>
 				</div>
+				<div class="clear"></div>
 				{/foreach}
 			</div>
-			<div class="clear"></div>
+			
 			{/if}
 			
 			<div id="page-content">

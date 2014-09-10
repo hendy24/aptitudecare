@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-08-28 16:37:35
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 15:24:59
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/layouts/main.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:65387148453d6e87baaca66-55528030%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'cfd83a5facab65d0235c1761e02ec91a9288122c' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/layouts/main.tpl',
-      1 => 1409265450,
+      1 => 1409865884,
       2 => 'file',
     ),
   ),
@@ -126,9 +126,10 @@ $_smarty_tpl->tpl_vars['m']->_loop = true;
 					<?php } ?>
 					</ul>
 				</div>
+				<div class="clear"></div>
 				<?php } ?>
 			</div>
-			<div class="clear"></div>
+			
 			<?php }?>
 			
 			<div id="page-content">

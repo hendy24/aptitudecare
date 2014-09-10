@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-09-02 21:55:52
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 16:33:08
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/data/manage.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:150095780053efd24962d827-12486009%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '19a7441c8c26734fe1e59dce44494a9ebebde715' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/data/manage.tpl',
-      1 => 1409716551,
+      1 => 1409869987,
       2 => 'file',
     ),
   ),
@@ -19,12 +19,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_53efd24965b899_13776906',
   'variables' => 
   array (
-    'headerTitle' => 0,
     'siteUrl' => 0,
     'type' => 0,
     'locations' => 0,
     'location' => 0,
-    'location_id' => 0,
+    'input' => 0,
+    'headerTitle' => 0,
     'page' => 0,
     'data' => 0,
     'key' => 0,
@@ -87,26 +87,24 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	});
 </script>
 
-<h1><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['headerTitle']->value, ENT_QUOTES, 'UTF-8');?>
-</h1>
-<br>
 
 <div id="modules" class="button left"><a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['siteUrl']->value, ENT_QUOTES, 'UTF-8');?>
 /?page=<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['type']->value, ENT_QUOTES, 'UTF-8');?>
 &amp;action=add">Add New</a></div>
 <div id="locations">
-	Location: <select name="locations" id="locations">
-		<option value="">Select a location...</option>
-		<?php  $_smarty_tpl->tpl_vars['location'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['location']->_loop = false;
+	<select name="location" id="location">
+	<?php  $_smarty_tpl->tpl_vars['location'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['location']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['locations']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
 foreach ($_from as $_smarty_tpl->tpl_vars['location']->key => $_smarty_tpl->tpl_vars['location']->value) {
 $_smarty_tpl->tpl_vars['location']->_loop = true;
 ?>
 		<option value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['location']->value->public_id, ENT_QUOTES, 'UTF-8');?>
-" <?php if ($_smarty_tpl->tpl_vars['location']->value->public_id==$_smarty_tpl->tpl_vars['location_id']->value) {?> selected<?php }?>><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['location']->value->name, ENT_QUOTES, 'UTF-8');?>
-</option>
-		<?php } ?>
+" <?php if (isset($_smarty_tpl->tpl_vars['input']->value->location)) {?><?php if ($_smarty_tpl->tpl_vars['location']->value->public_id==$_smarty_tpl->tpl_vars['input']->value->location) {?> selected<?php }?><?php }?>><h1><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['location']->value->name, ENT_QUOTES, 'UTF-8');?>
+</h1></option>
+	<?php } ?>
 	</select>
+	<h2><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['headerTitle']->value, ENT_QUOTES, 'UTF-8');?>
+</h2>
 </div>
 
 

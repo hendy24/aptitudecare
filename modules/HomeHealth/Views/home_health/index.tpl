@@ -51,9 +51,7 @@
 	{/foreach}
 
 	<div class="clear"></div>
-	<br>
-	<hr>
-	<br>
+	<div class="horizontal-break"></div>
 
 	{foreach $dischargesByDate as $day => $discharges}
 	<div class="location-container">

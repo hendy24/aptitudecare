@@ -1,20 +1,3 @@
-{if $flashMessages}
-	<div id="flash-messages">
-		
-		{foreach $flashMessages as $class => $message}
-			<div class="{$class}">
-				{if $class == "error"}
-					<p>Please fix the following errors and try again:</p>
-				{/if}
-				<ul>
-				{foreach $message as $m}
-					<li>{$m}</li>
-				{/foreach}
-				</ul>
-			</div>
-		{/foreach}
-	</div>
-{/if}
 
 
 <div id="login-box">

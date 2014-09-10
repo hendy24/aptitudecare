@@ -307,13 +307,13 @@
 			<td style="vertical-align: top">
 				<strong>DME:</strong><br>
 					{foreach $dmEquipment as $dme}
-					<input type="checkbox" name="dme[]" value="{$dme->id}">&nbsp;{$dme->description}<br>
+					<input type="checkbox" name="dme[]" value="{$dme->id}"{foreach $patientDme as $pdme}{if $pdme->dme_id == $dme->id} checked{/if}{/foreach}>&nbsp;{$dme->description}<br>
 					{/foreach}
 				</select>
 			</td>
-			<td colspan="2">
+			<td colspan="2" style="vertical-align: top">
 				<strong>Special Instructions:</strong><br>
-				<textarea name="special_instructions" id="special-instructions" cols="70" rows="4">{$schedule->special_instructions}</textarea>
+				<textarea name="special_instructions" id="special-instructions" cols="70" rows="9">{$schedule->special_instructions}</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -390,6 +390,12 @@
 			</td>
 		</tr>
 
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="text-right"><input type="checkbox" name="f2f_received" value="true"{if $schedule->f2f_received == true} checked{/if} /> Face to Face Completed</td>
+		</tr>
 
 
 		<tr>

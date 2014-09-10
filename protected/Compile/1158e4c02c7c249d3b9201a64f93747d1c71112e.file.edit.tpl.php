@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-08-20 17:13:43
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-09 16:58:26
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/users/edit.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:135031659853f41ed6b5a478-93058782%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '1158e4c02c7c249d3b9201a64f93747d1c71112e' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/users/edit.tpl',
-      1 => 1408576421,
+      1 => 1410303505,
       2 => 'file',
     ),
   ),
@@ -28,11 +28,25 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'groups' => 0,
     'group' => 0,
     'group_id' => 0,
+    'clinicianTypes' => 0,
+    'type' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_53f41ed6b5c789_92580150')) {function content_53f41ed6b5c789_92580150($_smarty_tpl) {?><script>
 	$(document).ready(function () {
+		var $clinician = $("#clinician");
+		var $clinicianRow = $("#clinician-type-row");
+		var $group = $("#group");
+
+		if ($clinician.val() == '') {
+			$clinicianRow.hide();
+		} 
+
+		if ($group.val() == 6) {
+			$clinicianRow.show();
+		}
+		
 		$("#edit").validate({
 			rules: {
 				first_name: "required",
@@ -42,6 +56,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				healthcare_facility: "required"
 			}
 		}); 
+
+		$("#group").change(function() {
+			if ($(this).val() == 6) {
+				$clinicianRow.show();
+			} else {
+				$clinicianRow.hide();
+			}
+		});
 	});
 </script>
 
@@ -70,13 +92,15 @@ $_smarty_tpl->tpl_vars['location']->_loop = true;
 	</tr>
 	<tr id="additional-locations">
 		<td style="vertical-align:top">Additional Locations:</td>
-		<td>
+		<td style="vertical-align: top">
 		<?php  $_smarty_tpl->tpl_vars['loc'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['loc']->_loop = false;
  $_smarty_tpl->tpl_vars['k'] = new Smarty_Variable;
  $_from = $_smarty_tpl->tpl_vars['available_locations']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+ $_smarty_tpl->tpl_vars['smarty']->value['foreach']['count']['iteration']=0;
 foreach ($_from as $_smarty_tpl->tpl_vars['loc']->key => $_smarty_tpl->tpl_vars['loc']->value) {
 $_smarty_tpl->tpl_vars['loc']->_loop = true;
  $_smarty_tpl->tpl_vars['k']->value = $_smarty_tpl->tpl_vars['loc']->key;
+ $_smarty_tpl->tpl_vars['smarty']->value['foreach']['count']['iteration']++;
 ?>
 			
 			<input type="checkbox" name="user_location[<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['k']->value, ENT_QUOTES, 'UTF-8');?>
@@ -88,7 +112,10 @@ foreach ($_from as $_smarty_tpl->tpl_vars['location']->key => $_smarty_tpl->tpl_
 $_smarty_tpl->tpl_vars['location']->_loop = true;
 ?> <?php if ($_smarty_tpl->tpl_vars['location']->value->id==$_smarty_tpl->tpl_vars['loc']->value->id) {?> checked<?php }?><?php } ?> /> <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['loc']->value->name, ENT_QUOTES, 'UTF-8');?>
 <br>
-			
+			<?php if ($_smarty_tpl->getVariable('smarty')->value['foreach']['count']['iteration']%8==0) {?>
+				</td>
+				<td style="vertical-align:top">
+			<?php }?>
 		<?php } ?>
 		</td>
 	</tr>
@@ -110,12 +137,29 @@ $_smarty_tpl->tpl_vars['group']->_loop = true;
 		</td>
 		
 	</tr>
+	<tr id="clinician-type-row">
+		<td>Clinician Type:</td>
+		<td>
+			<select name="clinician" id="clinician">
+				<option value="">Select the clinician type...</option>
+				<?php  $_smarty_tpl->tpl_vars['type'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['type']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['clinicianTypes']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['type']->key => $_smarty_tpl->tpl_vars['type']->value) {
+$_smarty_tpl->tpl_vars['type']->_loop = true;
+?>
+				<option value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['type']->value->id, ENT_QUOTES, 'UTF-8');?>
+"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['type']->value->description, ENT_QUOTES, 'UTF-8');?>
+</option>
+				<?php } ?>
+			</select>
+		</td>
+	</tr>
 	<tr>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
 		<td><input type="button" value="Cancel" onClick="history.go(-1);return true;"></td>
-		<td colspan="2"><input class="right" type="submit" value="Save" /></td>
+		<td colspan="4"><input class="right" type="submit" value="Save" /></td>
 	</tr>
 	</table>
 </form>`<?php }} ?>

@@ -24,6 +24,10 @@ class PatientsController extends MainController {
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('schedule', $schedule);
 
+		// 	Get the DME equipment assigned to the user
+		$dme = $this->loadModel('HHPatientDme')->fetchPatientEquipment($schedule->id);
+		smarty()->assignByRef('patientDme', $dme);
+
 		//	Get admitting facility
 		$location = $this->loadModel('Location', $schedule->location_id);
 		smarty()->assignByRef('location', $location);
@@ -65,14 +69,11 @@ class PatientsController extends MainController {
 		smarty()->assignByRef('surgeon', $surgeon);
 
 
-
-
-
 		/*
 		 *	PROCESS SUBMITTED INQUIRY FORM
 		 */
 
-		if (isset (input()->submit)) {
+		if (input()->is('post')) {
 
 			/*
 			 * 	Patient Info
@@ -177,11 +178,20 @@ class PatientsController extends MainController {
 				$patient->allergies = input()->allergies;
 			}
 			
-			pr (input()); die();
 
 			if (isset (input()->dme)) {
-				$schedule->dme = input()->dme;
+				$dme = $this->loadModel('HHPatientDme');
+				$dme->deleteCurrentDme($schedule->id);
+				foreach (input()->dme as $k => $e) {
+					$dme->home_health_schedule_id = $schedule->id;
+					$dme->dme_id = $e;
+					$dme->save();
+				}
+			} else {
+				$dme = $this->loadModel('HHPatientDme');
+				$dme->deleteCurrentDme($schedule->id);
 			}
+
 			
 			if (input()->special_instructions != '') {
 				$schedule->special_instructions = input()->special_instructions;
@@ -246,6 +256,11 @@ class PatientsController extends MainController {
 				$schedule->private_pay_state = input()->private_pay_state;
 			}
 			
+			if (input()->f2f_received == true) {
+				$schedule->f2f_received = true;
+			} else {
+				$schedule->f2f_received = false;
+			}
 			
 
 			// 	BREAKPOINT 
@@ -295,8 +310,46 @@ class PatientsController extends MainController {
 			$patient = $this->loadModel('Patient')->fetchById(input()->patient);
 		}
 
+		//	Fetch clinician types
+		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
+		smarty()->assign('clinicianTypes', $clinicianTypes);
+
+		$clinician = $this->loadModel('User');
+		foreach ($clinicianTypes as $type) {
+			$clinicianByType[$type->name] = $clinician->fetchByType($type->name);
+		}
+		smarty()->assignByRef('clinicianByType', $clinicianByType);
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assign('title', 'Assign Clinicians');
+
+
+
+		if (input()->is('post')) {
+			$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
+			foreach (input()->clinician_id as $k => $id) {
+				foreach ($clinicianTypes as $type) {
+					if ($type->description == $k) {
+						$schedule->{$type->name . "_id"} = $id;
+					}
+				}
+			}
+
+			$count = count(input()->clinician_id);
+
+			if ($count == 6) {
+				$schedule->clinicians_assigned = true;
+			} else {
+				$schedule->clinicians_assigned = false;
+			}
+
+			if ($schedule->save()) {
+				session()->setFlash('Successfully assigned clinician(s) for ' . $patient->fullName(), 'success');
+				$this->redirect();
+			} else {
+				session()->setFlash("Could not save clinician(s)", 'error');
+				$this->redirect(input()->currentUrl);
+			}
+		}
 
 	}
 

@@ -26,7 +26,7 @@ class LoginController extends MainPageController {
 		 // LOGIN FORM HAS BEEN SUBMITTED
 		 //		 
 		 		 
-		if (isset (input()->submit)) {
+		if (input()->is('post')) {
 			
 			// Verify that the email field is not blank
 			if (input()->email != '') {

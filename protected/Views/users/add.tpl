@@ -28,6 +28,37 @@
 
 		});
 
+
+		var $clinician = $("#clinician");
+		var $clinicianRow = $("#clinician-type-row");
+		var $group = $("#group");
+
+		if ($clinician.val() == '') {
+			$clinicianRow.hide();
+		} 
+
+		if ($group.val() == 6) {
+			$clinicianRow.show();
+		}
+		
+		$("#edit").validate({
+			rules: {
+				first_name: "required",
+				last_name: "required",
+				phone: "required",
+				email: "email",
+				healthcare_facility: "required"
+			}
+		}); 
+
+		$("#group").change(function() {
+			if ($(this).val() == 6) {
+				$clinicianRow.show();
+			} else {
+				$clinicianRow.hide();
+			}
+		});
+
 	});
 	
 </script>
@@ -81,6 +112,18 @@
 		</td>
 		
 	</tr>
+	<tr id="clinician-type-row">
+		<td>Clinician Type:</td>
+		<td>
+			<select name="clinician" id="clinician">
+				<option value="">Select the clinician type...</option>
+				{foreach $clinicianTypes as $type}
+				<option value="{$type->id}">{$type->description}</option>
+				{/foreach}
+			</select>
+		</td>
+	</tr>
+
 	<tr>
 		<td colspan="2">&nbsp;</td>
 	</tr>
