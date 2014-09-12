@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-09-04 16:33:08
+<?php /* Smarty version Smarty-3.1.19, created on 2014-09-11 09:01:42
          compiled from "/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/data/manage.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:150095780053efd24962d827-12486009%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '19a7441c8c26734fe1e59dce44494a9ebebde715' => 
     array (
       0 => '/mnt/hgfs/Sites/aptitudecare_framework/sites/dev/protected/Views/data/manage.tpl',
-      1 => 1409869987,
+      1 => 1410447701,
       2 => 'file',
     ),
   ),
@@ -23,7 +23,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'type' => 0,
     'locations' => 0,
     'location' => 0,
-    'input' => 0,
+    'location_id' => 0,
     'headerTitle' => 0,
     'page' => 0,
     'data' => 0,
@@ -99,7 +99,7 @@ foreach ($_from as $_smarty_tpl->tpl_vars['location']->key => $_smarty_tpl->tpl_
 $_smarty_tpl->tpl_vars['location']->_loop = true;
 ?>
 		<option value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['location']->value->public_id, ENT_QUOTES, 'UTF-8');?>
-" <?php if (isset($_smarty_tpl->tpl_vars['input']->value->location)) {?><?php if ($_smarty_tpl->tpl_vars['location']->value->public_id==$_smarty_tpl->tpl_vars['input']->value->location) {?> selected<?php }?><?php }?>><h1><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['location']->value->name, ENT_QUOTES, 'UTF-8');?>
+" <?php if ($_smarty_tpl->tpl_vars['location']->value->public_id==$_smarty_tpl->tpl_vars['location_id']->value) {?> selected<?php }?>><h1><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['location']->value->name, ENT_QUOTES, 'UTF-8');?>
 </h1></option>
 	<?php } ?>
 	</select>
@@ -107,6 +107,7 @@ $_smarty_tpl->tpl_vars['location']->_loop = true;
 </h2>
 </div>
 
+<br>
 
 <input type="hidden" id="page" name="page" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['page']->value, ENT_QUOTES, 'UTF-8');?>
 " />

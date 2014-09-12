@@ -35,7 +35,6 @@ class HomeHealthSchedule extends AppModel {
 			':location_id' => $location,
 		);
 
-		// debug ($sql, $params);
 		return $this->fetchAll($sql, $params);
 	}
 

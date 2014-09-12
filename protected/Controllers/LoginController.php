@@ -61,7 +61,15 @@ class LoginController extends MainPageController {
 			if (auth()->login($username, $password)) {
 				// redirect to users' default home page
 				//$this->redirect(array('module' => session()->getSessionRecord('default_module')));
-				$this->redirect(array('module' => 'HomeHealth'));
+				$user = auth()->getRecord();
+				if ($user->temp_password) {
+					$this->redirect(array('page' => 'users', 'action' => 'reset_password', 'id' => $user->public_id));
+				} elseif ($user->module_name == "Admission") {
+					$this->redirect(array('module' => $user->module_name, 'page' => 'login', 'action' => 'index', 'user' => $user->public_id));
+				} else {
+					$this->redirect(array('module' => $user->module_name));
+				}
+				
 				
 			} else { // send them back to the login page with an error
 				session()->setFlash(array('Could not authenticate the user'), 'error');

@@ -22,6 +22,9 @@ class HomeHealthController extends MainPageController {
 		if (isset(input()->area)) {
 			// If the location is set in the url, get the location by the public_id
 			$area = $this->loadModel('Location', input()->area);
+		} elseif (isset(input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+			$area = $location->fetchLinkedFacility($location->id);
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());

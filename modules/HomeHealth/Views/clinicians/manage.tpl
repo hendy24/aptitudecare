@@ -38,7 +38,7 @@
 <table class="view">
 	{foreach $clinicianTypes as $type}
 	<tr>
-		<th colspan="5" class="text-center"><h3>{$type->description}</h3></th>
+		<td colspan="5"><h3 style="margin:2px 0">{$type->description}</h3></td>
 	</tr>
 	<tr>
 		<th>Name</th>

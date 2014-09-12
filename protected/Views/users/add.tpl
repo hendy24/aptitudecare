@@ -59,6 +59,19 @@
 			}
 		});
 
+
+		$("#email").blur(function() {
+			var email = $(this).val();
+			$.post(SiteUrl, { page: "users", action: "verify_user", term: email }, function (e) {
+				if (e == true) {
+					console.log('hello');
+					$("<p class=\"error\">This user already exists</p>").appendTo($("#email").parent().parent());
+				}
+			},
+			"json"
+			);
+		});
+
 	});
 	
 </script>
@@ -79,6 +92,11 @@
 			<td >{stringify($column)}:</td>
 			<td><input {if $column == "password" || $column == "verify_password"} type="password" {else} type="text" {/if} name="{$column}" id="{$column}" style="width:250px" /></td>
 		</tr>
+		{if $column == "verify_password"} 
+		<tr>
+			<td colspan="2" class="text-right"><input type="checkbox" name="temp_password" value="true" /> Temporary password</td>
+		</tr>
+		{/if}
 	{/foreach}
 	
 	<tr>

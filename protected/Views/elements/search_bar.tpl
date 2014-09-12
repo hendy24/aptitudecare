@@ -1,3 +1,12 @@
+<script>
+	$(document).ready(function() {
+		$("#module").change(function() {
+			var module = $("#module option:selected").val();
+			window.location.href = SiteUrl + "/?module=" + module;
+		});
+	});
+</script>
+
 <div id="search-header">
 	
 	{if count($modules) > 1}
@@ -5,7 +14,7 @@
 		Module: <select name="module" id="module">
 			
 			{foreach $modules as $m}
-				<option value="{$m->public_id}" {if $module == $m->name} selected{/if}>{$m->name}</option>
+				<option value="{$m->name}" {if $module == $m->name} selected{/if}>{$m->name}</option>
 			{/foreach}
 		</select>
 	</div>
@@ -13,9 +22,11 @@
 	
 	<div id="locations">
 		<select name="location" id="location">
-		{foreach $locations as $location}
-			<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
-		{/foreach}
+			<div id="optgroup">
+			{foreach $locations as $location}	
+				<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
+			{/foreach}
+			</optgroup>
 		</select>
 	</div>
 	

@@ -74,4 +74,11 @@ class User extends AppModel {
 	}
 
 
+	public function findByEmail($email) {
+		$sql = "SELECT * FROM {$this->table} WHERE email = :email";
+		$params[":email"] = $email;
+		return $this->fetchOne($sql, $params);
+	}
+
+
 }

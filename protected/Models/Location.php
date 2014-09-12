@@ -36,7 +36,7 @@ class Location extends AppModel {
 			exit;
 		}	
 
-		$sql = "SELECT {$this->table}.* FROM {$this->table} INNER JOIN user_location ON user_location.location_id = {$this->table}.id WHERE user_location.user_id = :user_id";
+		$sql = "SELECT {$this->table}.* FROM {$this->table} INNER JOIN user_location ON user_location.location_id = {$this->table}.id WHERE user_location.user_id = :user_id GROUP BY location.id";
 		$params[":user_id"] = $user->id;
 		return $this->fetchAll($sql, $params);
 	}
@@ -102,5 +102,28 @@ class Location extends AppModel {
 		$sql = "(SELECT `{$this->table}`.`state` FROM `{$this->table}` WHERE `{$this->table}`.`id` = :id) UNION (SELECT  `location_link_state`.`state` FROM `{$this->table}` INNER JOIN `location_link_state` ON `location_link_state`.`location_id` = `{$this->table}`.`id` WHERE `{$this->table}`.`id` = :id)";
 		$params[':id'] = $this->id;
 		return $this->fetchAll($sql, $params);
+	}
+
+
+	public function fetchHomeHealthLocations($locations = false) {
+
+		$sql = "SELECT * FROM location WHERE location_type = 2";
+
+		//	Need to get only those locations for which the user has permission to access.
+		if ($locations) {
+			$locs = array();
+			$sql .= " AND id IN (";
+			foreach ($locations as $k => $l) {
+				$locs[$k] = $l->id;
+				$sql .= ":id{$k}, ";
+				$params[":id{$k}"] = $l->id;
+			}
+			$sql = trim($sql, ', ');
+			$sql .= ")";
+		}
+		
+		return $this->fetchAll($sql, $params);
+		
+
 	}
 }

@@ -354,4 +354,99 @@ class PatientsController extends MainController {
 	}
 
 
+	public function face_to_face() {
+
+		if (input()->patient == '') {
+			session()->setFlash("Could not find the Face to Face form for the selected patient.", "error");
+			$this->redirect();
+		} 
+
+		smarty()->assign('title', 'Face-to-Face Encounter');
+		$patient = $this->loadModel('Patient', input()->patient);
+		$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
+		$f2f_form = $this->loadModel('FaceToFace')->fetchBySchedule($schedule->id);
+		
+		if (empty ($f2f_form)) {
+			$f2f_form = $this->loadModel('FaceToFace');
+		}
+			
+		smarty()->assignByRef('patient', $patient);
+		smarty()->assignByRef('schedule', $schedule);
+		smarty()->assignByRef('f2f_form', $f2f_form);
+
+
+		if (input()->is('post')) {
+			$f2f = $this->loadModel('FaceToFace');
+
+			$f2f->home_health_schedule = $schedule->id;
+
+			if (input()->f2f_date != '') {
+				$f2f->f2f_date = mysql_date(input()->f2f_date);
+			} else {
+				$error_messages[] = "Enter the date of the face-to-face encounter";
+			}
+			if (input()->medical_condition != '') {
+				$f2f->medical_condition = input()->medical_condition;
+			} else {
+				$error_messages[] = "Enter the patient's medical condition";
+			}
+			if (input()->home_health_services != '') {
+				$f2f->home_health_services = input()->home_health_services;
+			} else {
+				$error_messages[] = "Enter the required home health services";
+			}
+			if (input()->home_health_reasons != '') {
+				$f2f->home_health_reasons = input()->home_health_reasons;
+			} else {
+				$error_messages[] = "Enter the supporting reasons for home health services";
+			}
+			if (input()->homebound_reason != '') {
+				$f2f->homebound_reason = input()->homebound_reason;
+			} else {
+				$error_messages[] = "Enter the supporting reasons the patient is homebound";
+			}
+			if (input()->physician_id != '') {
+				$f2f->physician_id = input()->physician_id;
+			} else {
+				$error_messages[] = "Enter your name in the \"completed by\" box";
+			}
+
+
+			if (!empty ($error_messages)) {
+				session()->setFlash($error_messages, 'error');
+				$this->redirect(input()->path);
+			}
+
+			$f2f->datetime_completed = date('Y-m-d H:i:s', strtotime('now'));
+			$f2f->completed_by_user = auth()->getRecord()->id;
+			
+			if ($f2f->save()) {
+				$schedule->f2f_received = true;
+				$schedule->save();
+				session()->setFlash("The face-to-face encounter form has been saved for {$patient->fullName()}", "success");
+				$this->redirect();
+			}
+			
+		}
+
+
+	}
+
+
+	public function approve_inquiry() {
+		$patient = $this->loadModel('Patient', input()->patient);
+		$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
+
+		$schedule->status = 'Approved';
+
+		if ($schedule->save()) {
+			session()->setFlash("{$patient->fullName()} has been approved", "success");
+			$this->redirect();
+		} else {
+			session()->setFlash("Could not complete the request.  Please try again.", "error");
+			$this->redirect();
+		}
+	}
+
+
 }

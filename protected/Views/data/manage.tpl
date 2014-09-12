@@ -53,12 +53,13 @@
 <div id="locations">
 	<select name="location" id="location">
 	{foreach $locations as $location}
-		<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
+		<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
 	{/foreach}
 	</select>
 	<h2>{$headerTitle}</h2>
 </div>
 
+<br>
 
 <input type="hidden" id="page" name="page" value="{$page}" />
 <table class="view">
