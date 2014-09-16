@@ -28,7 +28,7 @@ class Location extends AppModel {
 
 	}
 
-	public function fetchOtherLocations() {
+	public function fetchOtherLocations($module = null) {
 		if (auth()->valid()) {
 			$user = auth()->getRecord();
 		} else {
@@ -36,8 +36,24 @@ class Location extends AppModel {
 			exit;
 		}	
 
-		$sql = "SELECT {$this->table}.* FROM {$this->table} INNER JOIN user_location ON user_location.location_id = {$this->table}.id WHERE user_location.user_id = :user_id GROUP BY location.id";
+		$sql = "SELECT {$this->table}.* FROM {$this->table} INNER JOIN user_location ON user_location.location_id = {$this->table}.id";
+
+		if ($module != '') {
+			$sql .= " INNER JOIN modules_enabled ON modules_enabled.location_id = location.id INNER JOIN module ON module.id = modules_enabled.module_id";
+			$params[":module_name"] = $module;
+		}
+
+		$sql .= " WHERE user_location.user_id = :user_id";
+
+		if ($module != '') {
+			$sql .= " AND module.name = :module_name";
+		}
+
+		$sql .= "  GROUP BY location.id";
+
+		
 		$params[":user_id"] = $user->id;
+		
 		return $this->fetchAll($sql, $params);
 	}
 
@@ -51,14 +67,15 @@ class Location extends AppModel {
 
 		$sql = "SELECT {$this->table}.* FROM {$this->table} INNER JOIN hh_facility_link ON hh_facility_link.facility_id = {$this->table}.id WHERE hh_facility_link.home_health_id IN (SELECT {$this->table}.id FROM {$this->table} INNER JOIN user_location ON user_location.location_id = {$this->table}.id WHERE user_location.user_id = :user_id)";
 
+		$sql .= " AND hh_facility_link.home_health_id = :location_id";
 		if ($location_id) {
-			$sql .= " AND hh_facility_link.home_health_id = :location_id";
 			$params[":location_id"] = $location_id;
+		} else {
+			$params["location_id"] = $this->id;
 		}
 
 			
 		$params[':user_id'] = $user->id;
-
 		return $this->fetchAll($sql, $params);
 	}
 

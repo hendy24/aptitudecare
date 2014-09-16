@@ -1,4 +1,4 @@
-<script src="{$frameworkJs}/admissions.js" type="text/javascript"></script>
+<script src="{$js}/admissions.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
 		$('#area').change(function() {
@@ -36,9 +36,9 @@
 			<div class="box-title">Admit</div>
 			{foreach $admits as $admit}
 			{if isset($admit->id)}
-			<div class="{if $admit->status == 'Pending'} location-admit-pending{else}location-admit{/if}" draggable="true">
+			<div class="{if $admit->status == 'Pending'}location-admit-pending {if !$admit->confirmed}box-white{else}box-blue{/if}{else}location-admit{/if}" draggable="true">
 				<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientTools->menu($admit)}<br>
-				<input type="hidden" value="{$admit->public_id}" />
+				<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
 
 				{$admit->healthcare_facility_name}
 			</div>

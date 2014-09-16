@@ -106,7 +106,7 @@
 				</select>
 			</td>
 		</tr>
-<!-- 		<tr>
+		<tr>
 			<td><strong>Default Module:</strong></td>
 			<td colspan="2">
 				<select name="default_module" id="user-module">
@@ -117,7 +117,7 @@
 				</select>
 			</td>
 		</tr>
- -->		<tr>
+		<tr>
 			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>

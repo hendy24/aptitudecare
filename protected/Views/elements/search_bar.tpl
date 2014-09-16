@@ -2,7 +2,12 @@
 	$(document).ready(function() {
 		$("#module").change(function() {
 			var module = $("#module option:selected").val();
-			window.location.href = SiteUrl + "/?module=" + module;
+			if (module == "Admission") {
+				window.location.href = SiteUrl + "/?module=Admission&user=" + User;
+			} else {
+				window.location.href = SiteUrl + "/?module=" + module;
+			}
+
 		});
 	});
 </script>
@@ -24,7 +29,7 @@
 		<select name="location" id="location">
 			<div id="optgroup">
 			{foreach $locations as $location}	
-				<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
+				<option value="{$location->public_id}" {if $location->public_id == $loc->public_id} selected{/if}><h1>{$location->name}</h1></option>
 			{/foreach}
 			</optgroup>
 		</select>

@@ -1,4 +1,4 @@
-<script src="{$frameworkJs}/discharges.js" type="text/javascript"></script>
+<script src="{$js}/discharges.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
 		var url = SiteUrl + "/?module=HomeHealth&page=discharges&action=schedule";
@@ -21,9 +21,8 @@
 	{foreach $current as $c}
 		{if $c->datetime_discharge == ''}
 		<div class="current-patient" droppable="true" >
-			<div class="select-patient" draggable="true">{$c->fullName()}
-				<input type="hidden" name="public_id" value="{$c->schedule_pubid}">
-			</div>
+			{$c->fullName()}
+			<input type="hidden" name="public_id" value="{$c->schedule_pubid}">
 		</div>
 		{/if}
 	{/foreach}
@@ -52,7 +51,7 @@
 			<div class="discharge-day-wrapper" >
 				<h3>{$day|date_format:"%a, %b %e, %Y"}</h3>
 				<input type="hidden" name="date" value="{$day}">
-				<div class="discharge-day">
+				<div class="discharge-day" droppable="true">
 					{foreach $discharge as $d}
 					{if isset($d->id)}
 					<div class="discharge-info">
@@ -62,7 +61,6 @@
 					{/if}
 					{/foreach}
 				</div>
-				<div class="clear"></div>
 			</div>
 		{/foreach}
 				

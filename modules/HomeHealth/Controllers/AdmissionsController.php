@@ -24,8 +24,9 @@ class AdmissionsController extends MainController {
 	public function new_admit() {
 		smarty()->assign('title', 'New Admission');
 
-		$locations = $this->loadModel('Location')->fetchOtherLocations();
-		smarty()->assignByRef('locations', $locations);
+		// Get areas based on the users' default location
+		$areas = $this->loadModel('Location')->fetchLinkedFacilities(auth()->getRecord()->default_location);
+		smarty()->assignByRef('areas', $areas);
 
 	}
 
@@ -84,9 +85,9 @@ class AdmissionsController extends MainController {
 		}
 
 		//	Admit to location
-		if (input()->location != '') {
+		if (input()->area != '') {
 			$l = $this->loadModel('Location');
-			$location = $l->fetchLocation(input()->location);
+			$location = $l->fetchLocation(input()->area);
 			$schedule->location_id = $location->id;
 		}
 
@@ -198,13 +199,14 @@ class AdmissionsController extends MainController {
 
 
 	public function moveAdmitDate() {
-		echo input()->public_id;
-		if (input()->public_id != '') {
-			$schedule = $this->loadModel('HomeHealthSchedule', input()->public_id);
-		}
+		$schedule = $this->loadModel('HomeHealthSchedule', input()->public_id);
+		$schedule->datetime_admit = mysql_datetime(input()->date);
 
-		pr ($schedule);
-		die();
+		if ($schedule->save()) {
+			json_return(true);
+		} else {
+			json_return(false);
+		}
 	}
 
 

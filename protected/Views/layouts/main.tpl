@@ -18,11 +18,12 @@
 	<script type="text/javascript" src="{$frameworkJs}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="{$frameworkJs}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
 	<script type="text/javascript" src="{$frameworkJs}/jquery.maskedinput.min.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/datepicker.js"></script>
+	<script type="text/javascript" src="{$js}/datepicker.js"></script>
 	<script type="text/javascript" src="{$frameworkJs}/shadowbox-3.0.3/shadowbox.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/general.js"></script>
+	<script type="text/javascript" src="{$js}/general.js"></script>
 	<script>
 		var SiteUrl = '{$siteUrl}';
+		var User = '{$auth->getRecord()->public_id}';
 		Shadowbox.init({
 			handleOversize: "drag",
 			modal: true,

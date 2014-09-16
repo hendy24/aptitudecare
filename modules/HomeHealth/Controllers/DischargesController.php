@@ -8,14 +8,24 @@ class DischargesController extends MainController {
 
 	public function schedule() {
 		smarty()->assign('title', "Schedule Discharges");
-		if (isset(input()->area)) {
+		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
-			$area = $this->loadModel('Location', input()->area);
+			$location = $this->loadModel('Location', input()->location);
+			if (isset (input()->area)) {
+				$area = $location->fetchLinkedFacility(input()->area);
+			} else {
+				$area = $location->fetchLinkedFacility($location->id);
+			}
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
 			$area = $location->fetchLinkedFacility($location->id);
 		}
+
+		smarty()->assignByRef('area', $area);
+		smarty()->assignByRef('loc', $location);
+
+
 
 				// Check url for week in the past or future
 		if (isset (input()->weekSeed)) {
@@ -43,8 +53,8 @@ class DischargesController extends MainController {
 			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
 		));
 
-		$_dateStart = $week[0];
-		$_dateEnd = $week[6];
+		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
+		$_dateEnd = date ('Y-m-d 23:59:59', strtotime($week[6]));
 		$_location_id = $area->id;
 
 		// Get all patients currently at the facility for the current week
@@ -80,8 +90,6 @@ class DischargesController extends MainController {
 		smarty()->assign('current', $current);
 		smarty()->assignByRef('discharged', $dischargesByDate);
 		smarty()->assign('week', $week);
-
-		smarty()->assignByRef('loc', $loc);
 
 	}
 

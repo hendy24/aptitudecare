@@ -10,6 +10,10 @@ class UsersController extends MainController {
 	 */
 
 
+	public function manage() {
+
+	}
+
 	public function add() {
 
 		//	We are only going to allow facility administrators and better to add data
@@ -89,16 +93,21 @@ class UsersController extends MainController {
 		}
 
 		//	Get Locations
+		//	Get the logged in user info to pull locations
+		$currentUser = auth()->getRecord();
 		//	Fetch only home health locations until we are ready to release the admissions update
-		if ($user->is_site_admin) {
-			smarty()->assignByRef('available_locations', $this->loadModel('Location')->fetchAll());
+		if ($currentUser->is_site_admin) {
+			$location_options = $this->loadModel('Location')->fetchAll();
+			
 		} else {
-			smarty()->assignByRef('available_locations', $this->loadModel('Location')->fetchHomeHealthLocations($additional_locations));
+			$location_options = $this->loadModel('Location')->fetchHomeHealthLocations($additional_locations);
 		}
+
+		smarty()->assignByRef('available_locations', $location_options);
 		
 
 		// Get available modules
-		//smarty()->assignByRef('available_modules', $this->loadModel('Module')->fetchAll());
+		smarty()->assignByRef('available_modules', $this->loadModel('Module')->fetchAll());
 
 		//	Get Groups
 		smarty()->assignByRef('groups', $this->loadModel('Group')->fetchAll());
@@ -173,6 +182,10 @@ class UsersController extends MainController {
 
 		if (input()->group != '') {
 			$user->group_id = input()->group;
+			// 	Set the default module based on the users group
+			// 	Get the default module for the selected group
+			$module = $this->loadModel('Group', input()->group)->fetchModule();
+			$user->default_module = $module->module_id;
 		} else {
 			$error_messages[] = "Select a group for this user";
 		}
@@ -192,9 +205,6 @@ class UsersController extends MainController {
 			unset ($user->module);
 		}
 
-		//	Hard code the default module to home health until the admissions module 
-		//	is re-built for this framework
-		$user->default_module = 2;
 
 		if (isset (input()->clinician)) {
 			$userClinician = $this->loadModel('UserClinician');
@@ -266,14 +276,24 @@ class UsersController extends MainController {
 
 			if (!empty ($error_messages)) {
 				session()->setFlash($error_messages, 'error');
-				$this->redirect(input()->current_url);
+				$this->redirect(input()->path);
 			}
 
-			$user->temp_password = false;
+			if (isset (input()->temp_password)) {
+				$user->temp_password = true;
+			} else {
+				$user->temp_password = false;
+			}
+			
 
 			if ($user->save()) {
 				session()->setFlash("The password has been changed for {$user->fullName()}", 'success');
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
+				if (isset (input()->reset)) {
+					$this->redirect();
+				} else {
+					$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
+				}
+				
 			}
 
 		}

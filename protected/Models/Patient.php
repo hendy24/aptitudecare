@@ -42,7 +42,7 @@ class Patient extends AppModel {
 
 
 	public function fetchCensusPatients($location_id, $order_by = false) {
-		$sql = "SELECT `{$this->table}`.*, `home_health_schedule`.`public_id` AS schedule_pubid, `home_health_schedule`.`datetime_admit`, `home_health_schedule`.`datetime_discharge`, CONCAT(`physician`.`last_name`, ', ', `physician`.`first_name`) AS physician_name FROM `{$this->table}` INNER JOIN `home_health_schedule` ON `home_health_schedule`.`patient_id` = `{$this->table}`.`id` LEFT JOIN `physician` ON `physician`.`id` = `home_health_schedule`.`pcp_id` WHERE (`home_health_schedule`.`status` = 'Approved' OR (`home_health_schedule`.`status` = 'Discharged' AND `home_health_schedule`.`datetime_discharge` >= :datetime)) AND `home_health_schedule`.`location_id` = :location_id";
+		$sql = "SELECT `{$this->table}`.*, `home_health_schedule`.`public_id` AS schedule_pubid, `home_health_schedule`.`datetime_admit`, `home_health_schedule`.`datetime_discharge`, home_health_schedule.clinicians_assigned, home_health_schedule.f2f_received, home_health_schedule.status, CONCAT(`physician`.`last_name`, ', ', `physician`.`first_name`) AS physician_name FROM `{$this->table}` INNER JOIN `home_health_schedule` ON `home_health_schedule`.`patient_id` = `{$this->table}`.`id` LEFT JOIN `physician` ON `physician`.`id` = `home_health_schedule`.`pcp_id` WHERE (`home_health_schedule`.`status` = 'Approved' OR (`home_health_schedule`.`status` = 'Discharged' AND `home_health_schedule`.`datetime_discharge` >= :datetime)) AND `home_health_schedule`.`location_id` = :location_id";
 
 		$sql .= " ORDER BY ";
 		switch ($order_by) {

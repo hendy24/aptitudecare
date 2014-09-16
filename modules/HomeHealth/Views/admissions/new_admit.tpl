@@ -11,6 +11,57 @@
 		var referredByType = "";
 		var phone = "";
 		var zip = "";
+		var locationId = $("#admit-request-location option:selected").val();
+
+
+		$("#admit-request-location").change(function() {
+			$("#admit-request-area option").remove();
+			locationId = $("option:selected", this).val();
+			$("#admit-from-location").val(locationId);
+			//  Get the areas based on the selected location
+			$.post(SiteUrl, { page: "locations", action: "fetchAreas", location: locationId }, function (e) { 
+				$.each(e, function (i, v) {
+					$("#admit-request-area").append("<option value=\"" + v.public_id + "\">" + v.name + "</option>");
+					
+				});
+			},
+			'json'
+			);
+
+
+		});
+
+		$("#admit-request-location").on("change", function() {
+			$("#admit-from-search").autocomplete({
+				serviceUrl: SiteUrl,
+				params: { 
+					module: 'HomeHealth',
+					page: 'HealthcareFacilities',
+					action: 'searchFacilityName',
+					location: $("option:selected", this).val()
+				}, minChars: 3,
+				width: "300",
+				onSelect: function (suggestion) {
+					$("#admit-from").val(suggestion.data);
+				}
+
+			});
+
+			$("#referral-source-search").autocomplete({
+				serviceUrl: SiteUrl,
+				params: {
+					page: 'MainPage',
+					action: 'searchReferralSources',
+					location: $("option:selected", this).val()
+				}, minChars: 4,
+				width: "300",
+				onSelect: function (suggestion) {
+					$("#referral-source").val(suggestion.data['id']);
+					$("#referral-source-type").val(suggestion.data['type']);
+				}
+			});
+
+		});
 
 
 		$("#admit-from-search").autocomplete({
@@ -19,7 +70,7 @@
 				module: 'HomeHealth',
 				page: 'HealthcareFacilities',
 				action: 'searchFacilityName',
-				location: $("#admit-request-location option:selected").val() 
+				location: $("#admit-request-location option:selected").val()
 			}, minChars: 3,
 			width: "300",
 			onSelect: function (suggestion) {
@@ -27,6 +78,7 @@
 			}
 
 		});
+
 
 		$("#referral-source-search").autocomplete({
 			serviceUrl: SiteUrl,
@@ -43,31 +95,8 @@
 		});
 
 
-		{$states = getUSAStates()}
-		var states = [
-		{foreach $states as $abbr => $state}
-		{if $state != ''}
-			{
-				value: "{$state} ({$abbr})",
-				data: "{$abbr}"
-			}
-			{if $state@last != true},{/if}
-		{/if}
-		{/foreach}
-		];
-
-
-		$("#admit-request-state").autocomplete({
-			lookup: states,
-			onSelect: function (suggestion) {
-				$("#state").val(suggestion.data);
-			}
-		});
-
-
 
 		$("#new-admission").validate({
-
 			submitHandler: function(form) {
 				var $patientDiv = $(".patient-search-result");
 			
@@ -117,8 +146,6 @@
 			}
 
 		});
-
-
 
 		
 		$("#submit-new-patient").click(function() {
@@ -196,15 +223,29 @@
 	<input type="hidden" name="submit" value="true" />
 	<table class="form">
 		<tr>
-			<td><strong>Admit Date:</strong></td>
-			<td colspan="2"><strong>Location:</strong></td>
+			<td colspan="3"><strong>Admit Date:</strong></td>
+			
 		</tr>
 		<tr>
-			<td><input type="text" class="datepicker" name="admit_date" value="" required /></td>
-			<td colspan="2">
+			<td colspan="3"><input type="text" class="datepicker" name="admit_date" value="" required /></td>
+		</tr>
+			
+		<tr>	
+			<td><strong>Location:</strong></td>
+			<td><strong>Area</strong></td>
+		</tr>
+		<tr>
+			<td>
 				<select name="location" id="admit-request-location">
 					{foreach $locations as $location}
 					<option value="{$location->public_id}"{if $location->id == $auth->getRecord()->default_location} selected{/if}>{$location->name}</option>
+					{/foreach}
+				</select>
+			</td>
+			<td>
+				<select name="area" id="admit-request-area">
+					{foreach $areas as $area}
+					<option value="{$area->public_id}">{$area->name}</option>
 					{/foreach}
 				</select>
 			</td>

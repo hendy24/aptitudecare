@@ -28,6 +28,7 @@ class AdmissionDashboard extends AppModel {
 
 			if (empty ($schedule)) {
 				$schedule = new HomeHealthSchedule();
+				$schedule->datetime_admit = $r->datetime_discharge;
 			}
 
 			if (empty ($patient)) {
@@ -36,9 +37,16 @@ class AdmissionDashboard extends AppModel {
 			
 			$schedule->public_id = $r->schedule_pubid;
 			$schedule->admit_from_id = $r->facility;
-			$schedule->datetime_admit = $r->datetime_discharge;
 			$schedule->referred_by_type = "ahc_facility";
 			$schedule->location_id = $location;
+			$schedule->datetime_created = mysql_datetime();
+			$schedule->datetime_modified = mysql_datetime();
+
+			if ($r->service_disposition == "AHC Home Health") {
+				$schedule->confirmed = true;
+			} else {
+				$schedule->confirmed = false;
+			}
 
 			$patient->public_id = $r->patient_pubid;
 			$patient->first_name = $r->first_name;

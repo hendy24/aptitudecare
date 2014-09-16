@@ -26,4 +26,10 @@ class LocationsController extends MainController {
 		smarty()->assignByRef('patients', $patients);
 
 	}
+
+
+	public function fetchAreas() {
+		$areas = $this->loadModel('Location', input()->location)->fetchLinkedFacilities();
+		json_return ($areas);
+	}
 }

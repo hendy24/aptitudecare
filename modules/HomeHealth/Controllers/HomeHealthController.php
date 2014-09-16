@@ -19,17 +19,21 @@ class HomeHealthController extends MainPageController {
 		$this->helper = 'PatientMenu';
 		
 		
-		if (isset(input()->area)) {
+		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
-			$area = $this->loadModel('Location', input()->area);
-		} elseif (isset(input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
-			$area = $location->fetchLinkedFacility($location->id);
+
+			if (isset (input()->area)) {
+				$area = $this->loadModel('Location', input()->area);
+			} else {
+				$area = $location->fetchLinkedFacility($location->id);
+			}
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
 			$area = $location->fetchLinkedFacility($location->id);
 		}
+
 
 		if (!isset($area)) {
 			session()->setFlash('Cannot access the information for the selected area.', 'error');
@@ -37,6 +41,7 @@ class HomeHealthController extends MainPageController {
 		}
 
 		smarty()->assignByRef('area', $area);
+		smarty()->assignByRef('loc', $location);
 		
 		// Probably need to do some type of user authorizated access check here
 
@@ -66,8 +71,8 @@ class HomeHealthController extends MainPageController {
 			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
 		));
 
-		$_dateStart = $week[0];
-		$_dateEnd = $week[6];
+		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
+		$_dateEnd = date('Y-m-d 23:59:59', strtotime($week[6]));
 		$_location_id = $area->id;
 		$_orderby = 'datetime_admit ASC';
 

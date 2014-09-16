@@ -112,17 +112,17 @@
 {if isset ($pagination)}
 	<div id="pagination">
 		{if $pagination->current_page != 1}
-			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;page_count={$pagination->current_page - 1}">&laquo;&nbsp; Previous</a>
+			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page - 1}">&laquo;&nbsp; Previous</a>
 		{/if}
 		{for $i=1; $i<=$pagination->num_pages; $i++}
 			{if $i == $pagination->current_page}
-				<strong><a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;page_count={$i}" class="page-numbers">{$i}</a></strong>
+				<strong><a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a></strong>
 			{else}
-				<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;page_count={$i}" class="page-numbers">{$i}</a>
+				<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a>
 			{/if}
 		{/for}
 		{if $pagination->current_page != $pagination->num_pages}
-			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;page_count={$pagination->current_page + 1}">Next &nbsp;&raquo;</a>
+			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page + 1}">Next &nbsp;&raquo;</a>
 		{/if}
 	</div>
 {/if}

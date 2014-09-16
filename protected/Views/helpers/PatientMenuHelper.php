@@ -10,7 +10,7 @@ class PatientMenuHelper {
 		$options .= "<li><a href=\"/?module=HomeHealth&page=patients&action=inquiry&patient={$patient->public_id}\">Inquiry Record</a></li>";
 		$options .= "<li><a href=\"/?module=HomeHealth&page=patients&action=face_to_face&patient={$patient->public_id}\">Face to Face Form</a></li>";
 		$options .= "<li><a href=\"/?module=HomeHealth&page=patients&action=assign_clinicians&patient={$patient->public_id}\">Assign Clinicians</a></li>";
-
+		
 		//	If everything is ready show the approve link
 		if ($patient->clinicians_assigned && $patient->f2f_received && $patient->status != "Approved") {
 			$options .= "<li><a href=\"/?module=HomeHealth&page=patients&action=approve_inquiry&patient={$patient->public_id}\">Approve this Inquiry</a></li>";

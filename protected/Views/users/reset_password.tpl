@@ -19,7 +19,10 @@
 	<input type="hidden" name="page" value="users" />
 	<input type="hidden" name="action" value="reset_password" />
 	<input type="hidden" name="id" value="{$user->public_id}" />
-	<input type="hidden" name="current_url" value="{$current_url}" />
+	<input type="hidden" name="path" value="{$current_url}" />
+	{if $user->temp_password}
+		<input type="hidden" name="reset" value="true" />
+	{/if}
 
 	<table class="form">
 		<tr>
@@ -30,6 +33,11 @@
 			<td>Verify Password:</td>
 			<td><input type="password" name="password2" id="password2" required /></td>
 		</tr>
+		{if !$user->temp_password}
+		<tr>
+			<td colspan="2" class="text-right"><input type="checkbox" name="temp_password" id="temp-password" value="true" /> Temporary Password</td>
+		</tr>
+		{/if}
 		<tr>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>

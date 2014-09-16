@@ -7,6 +7,16 @@ class User extends AppModel {
 	public $public_id;
 
 	protected $belongsTo = array(
+		'Group' => array(
+			'table' => 'group',
+			'join_type' => 'INNER',
+			'inner_key' => 'group_id',
+			'foreign_key' => 'id',
+			'join_field' => array(
+				'column' => 'description',
+				'name' => 'group_name'
+			)
+		),
 		'Location' => array(
 			'table' => 'location',
 			'join_type' => 'INNER',
@@ -14,7 +24,7 @@ class User extends AppModel {
 			'foreign_key' => 'id',
 			'join_field' => array(
 				'column' => 'name',
-				'name' => 'location'
+				'name' => 'default_location'
 			)
 		),
 		'Module' => array(
@@ -44,7 +54,8 @@ class User extends AppModel {
 		'first_name',
 		'last_name',
 		'phone',
-		'location',
+		'group_name',
+		'default_location',
 		'email',
 		'default_module'
 	);
@@ -77,6 +88,13 @@ class User extends AppModel {
 	public function findByEmail($email) {
 		$sql = "SELECT * FROM {$this->table} WHERE email = :email";
 		$params[":email"] = $email;
+		return $this->fetchOne($sql, $params);
+	}
+
+
+	public function userCount($location_id) {
+		$sql = "SELECT count('id') AS items FROM `{$this->table}` INNER JOIN user_location ON user_location.user_id = user.id WHERE user_location.location_id = :location_id";
+		$params[":location_id"] = $location_id;
 		return $this->fetchOne($sql, $params);
 	}
 
