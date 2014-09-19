@@ -39,7 +39,7 @@
 				Welcome, {$auth->fullName()} &nbsp;|&nbsp; <a href="{$siteUrl}/login/logout">Logout</a>
 			</div>
 			{/if}
-			<img src="{$frameworkImg}/aptitudecare.png" alt="Logo" class="logo"/>
+			<img src="{$logo}" alt="Logo" class="logo"/>
 			{if $auth->valid()}
 				{include file="$views/elements/nav.tpl"}
 			{/if}

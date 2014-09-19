@@ -65,6 +65,7 @@ function init() {
 		start: function(e, ui) {
 			selectedPatient = $(this);
 			$(this).addClass("moving-discharge");
+
 		},
 		stop: function(e, ui) {
 			$(this).removeClass("moving-discharge");

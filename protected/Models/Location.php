@@ -80,6 +80,13 @@ class Location extends AppModel {
 	}
 
 
+
+	public function fetchHomeHealthLocation() {
+		$sql = "SELECT * FROM {$this->table} WHERE {$this->table}.id = (SELECT home_health_id FROM hh_facility_link WHERE hh_facility_link.facility_id = :facility_id)";
+		$params[":facility_id"] = $this->id;
+		return $this->fetchOne($sql, $params);
+	}
+
 	public function fetchLinkedFacility($location_id = false) {
 		if (auth()->valid()) {
 			$user = auth()->getRecord();

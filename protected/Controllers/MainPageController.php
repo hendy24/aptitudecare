@@ -97,9 +97,8 @@ class MainPageController extends MainController {
 	public function search_results() {
 		$this->helper = 'PatientMenu';
 		$term = input()->term;
-		smarty()->assignByRef('search_results', $this->loadModel('Patient')->fetchPatientSearch($term));
-
-		
+		$search_results = $this->loadModel('Patient')->fetchPatientSearch($term);
+		smarty()->assignByRef('search_results', $search_results);
 	}
 
 

@@ -8,13 +8,24 @@ class AdmissionsController extends MainController {
 	public function pending_admits() {
 		$this->helper = 'PatientMenu';
 		smarty()->assign('title', 'Pending Admissions');
-		if (isset (input()->area)) {
-			$area = $this->loadModel('Location', input()->area);
+		
+		if (isset(input()->location)) {
+			// If the location is set in the url, get the location by the public_id
+			$location = $this->loadModel('Location', input()->location);
+
+			if (isset (input()->area)) {
+				$area = $this->loadModel('Location', input()->area);
+			} else {
+				$area = $location->fetchLinkedFacility($location->id);
+			}
 		} else {
-			//	Get the users default location
+			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
 			$area = $location->fetchLinkedFacility($location->id);
 		}
+
+		smarty()->assign('loc', $location);
+		smarty()->assign('area', $area);
 
 		$admits = $this->loadModel('Patient')->fetchPendingAdmits($area->id);
 		smarty()->assignByRef('admits', $admits);
@@ -35,6 +46,8 @@ class AdmissionsController extends MainController {
 		$patient = new Patient();
 		$schedule = new HomeHealthSchedule();
 
+		$patient->public_id = getRandomString();
+		$schedule->public_id = getRandomString();
 
 		// Admission date
 		if (input()->admit_date != '') {
@@ -103,7 +116,7 @@ class AdmissionsController extends MainController {
 				$schedule->patient_id = $patient_id;
 				if ($schedule->save()) {
 					session()->setFlash("The patient info and schedule for {$patient->first_name} {$patient->last_name} have been saved", "success");
-					json_return(array('url' => SITE_URL));
+					json_return(array('url' => SITE_URL . "/?module=HomeHealth&location=" . input()->location . "&area=" . $location->public_id));
 				}
 				
 			} else {

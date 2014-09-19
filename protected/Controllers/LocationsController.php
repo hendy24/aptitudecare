@@ -13,6 +13,9 @@ class LocationsController extends MainController {
 			$area = $location->fetchLinkedFacility($location->id);
 		}
 
+		smarty()->assign('loc', $location);
+		smarty()->assign('area', $area);
+		
 		if (isset (input()->order_by)) {
 			$_order_by = input()->order_by;
 		} else {

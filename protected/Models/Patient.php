@@ -94,7 +94,7 @@ class Patient extends AppModel {
 			foreach ($tokens as $idx => $token) {
 				$token = trim($token);
 				$params[":term{$idx}"] = "%{$token}%";
-				$sql = "(SELECT `{$this->table}`.*, `home_health_schedule`.`datetime_admit`, `home_health_schedule`.`datetime_discharge`, `home_health_schedule`.`status` FROM `{$this->table}` INNER JOIN `home_health_schedule` ON `home_health_schedule`.`patient_id` = `{$this->table}`.`id` WHERE `{$this->table}`.`first_name` LIKE :term{$idx} OR `{$this->table}`.`last_name` LIKE :term{$idx}) UNION ";
+				$sql = "(SELECT `{$this->table}`.*, `home_health_schedule`.`datetime_admit`, `home_health_schedule`.`datetime_discharge`, home_health_schedule.clinicians_assigned, home_health_schedule.f2f_received, `home_health_schedule`.`status` FROM `{$this->table}` INNER JOIN `home_health_schedule` ON `home_health_schedule`.`patient_id` = `{$this->table}`.`id` WHERE `{$this->table}`.`first_name` LIKE :term{$idx} OR `{$this->table}`.`last_name` LIKE :term{$idx}) UNION ";
 			}
 
 			$sql = trim($sql, ' UNION');

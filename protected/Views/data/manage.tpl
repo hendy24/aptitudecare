@@ -49,7 +49,7 @@
 </script>
 
 
-<div id="modules" class="button left"><a href="{$siteUrl}/?page={$type}&amp;action=add">Add New</a></div>
+<div id="modules" class="button left"><a href="{$siteUrl}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
 <div id="locations">
 	<select name="location" id="location">
 	{foreach $locations as $location}

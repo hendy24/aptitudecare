@@ -310,29 +310,37 @@ class PatientsController extends MainController {
 			$patient = $this->loadModel('Patient')->fetchById(input()->patient);
 		}
 
+		$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
+
+		//	Fetch location info
+		$homeHealth = $this->loadModel('Location', $schedule->location_id)->fetchHomeHealthLocation();
+
 		//	Fetch clinician types
 		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
 		smarty()->assign('clinicianTypes', $clinicianTypes);
 
 		$clinician = $this->loadModel('User');
 		foreach ($clinicianTypes as $type) {
-			$clinicianByType[$type->name] = $clinician->fetchByType($type->name);
+			$clinicianByType[$type->name] = $clinician->fetchByType($type->name, $homeHealth->id);
 		}
 		smarty()->assignByRef('clinicianByType', $clinicianByType);
 		smarty()->assignByRef('patient', $patient);
+		smarty()->assignByRef('schedule', $schedule);
 		smarty()->assign('title', 'Assign Clinicians');
 
 
 
+
 		if (input()->is('post')) {
-			$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
 			foreach (input()->clinician_id as $k => $id) {
 				foreach ($clinicianTypes as $type) {
-					if ($type->description == $k) {
+					if ($type->name == $k) {
 						$schedule->{$type->name . "_id"} = $id;
 					}
 				}
 			}
+
+			
 
 			$count = count(input()->clinician_id);
 

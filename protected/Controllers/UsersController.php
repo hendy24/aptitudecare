@@ -21,7 +21,24 @@ class UsersController extends MainController {
 			$this->redirect();
 		}
 
+
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			//	Get the users default location
+			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+		}
+
+		smarty()->assign('inputLocation', $location);
+
+
 		$model = depluralize(ucfirst(camelizeString(input()->page)));
+
+		if (isset (input()->type)) {
+			$headerTitle = ucfirst(input()->type);
+		} else {
+			$headerTitle = $model;
+		}
 
 		if (isset ($this->module)) {
 			$module = $this->module;
@@ -32,7 +49,7 @@ class UsersController extends MainController {
 
 		smarty()->assign('module', $module);
 		smarty()->assign('title', "Add New {$model}");
-		smarty()->assign('headerTitle', $model);
+		smarty()->assign('headerTitle', $headerTitle);
 
 		$class = $this->loadModel($model);
 		$columns = $class->fetchColumnNames();
@@ -67,6 +84,16 @@ class UsersController extends MainController {
 
 		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
 		smarty()->assign('clinicianTypes', $clinicianTypes);
+
+		if (isset (input()->type)) {
+			if (input()->type == 'clinician') {
+				$type = 'home_health_clinician';
+			}
+			
+		} else {
+			$type = '';
+		}
+		smarty()->assign('type', $type);
 
 	}
 
@@ -126,6 +153,8 @@ class UsersController extends MainController {
 			$this->redirect();
 		}
 
+		pr (input()); die();
+
 		if (isset (input()->id)) {
 			$id = input()->id;
 		} else {
@@ -133,6 +162,10 @@ class UsersController extends MainController {
 		}
 
 		$user = $this->loadModel('User', $id);
+
+		if ($user->public_id == '') {
+			$user->public_id = getRandomString();
+		}
 
 		//	Validate form fields
 		if (input()->first_name != '') {
@@ -238,7 +271,13 @@ class UsersController extends MainController {
 			}
 
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
-			$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
+
+			if (isset (input()->clinician)) {
+				$this->redirect(array('page' => 'clinicians', 'action' => 'manage', 'location' => input()->location_public_id));
+			} else {
+				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users', 'location' => input()->location_public_id));
+			}
+			
 
 		} else {
 			session()->setFlash("Could not save the user.  Please try again.", 'error');

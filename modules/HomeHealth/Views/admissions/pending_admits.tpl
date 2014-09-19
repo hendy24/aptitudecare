@@ -1,3 +1,15 @@
+<script>
+	$(document).ready(function() {
+		$('#area').change(function() {
+			window.location = "?module=HomeHealth&page=admissions&action=pending_admits&location=" + $("#location").val() + "&area=" + $(this).val();
+		});
+
+		$("#location").change(function() {
+			window.location = "?module=HomeHealth&page=admissions&action=pending_admits&location=" + $(this).val();
+		});
+	});
+</script>
+
 {include file="$views/elements/search_bar.tpl"}
 <h2>Pending Admissions</h2>
 

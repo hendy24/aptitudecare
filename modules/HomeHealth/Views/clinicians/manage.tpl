@@ -1,5 +1,9 @@
 <script>
 	$(document).ready(function() {
+		$("#location").change(function(e) {
+			window.location = SiteUrl + "/?module=HomeHealth&page=clinicians&action=manage&location=" + $("#locations option:selected").val();
+		});
+
 		$("#filter").change(function(e) {
 			e.preventDefault();
 			if ($(this).val() == 'all') {
@@ -13,11 +17,11 @@
 </script>
 
 
-<div id="modules" class="button left"><a href="{$siteUrl}/?page=users&amp;action=add">Add New</a></div>
+<div id="modules" class="button left"><a href="{$siteUrl}/?page=users&amp;action=add&amp;type=clinician&amp;location={$loc->public_id}">Add New</a></div>
 <div id="locations">
 	<select name="location" id="location">
 	{foreach $locations as $location}
-		<option value="{$location->public_id}" {if isset($input->location)}{if $location->public_id == $input->location} selected{/if}{/if}><h1>{$location->name}</h1></option>
+		<option value="{$location->public_id}" {if $location->public_id == $loc->public_id} selected{/if}><h1>{$location->name}</h1></option>
 	{/foreach}
 	</select>
 	<h2>Manage Clinicians</h2>

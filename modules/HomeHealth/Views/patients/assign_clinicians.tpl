@@ -18,7 +18,8 @@
 				<select name="clinician_id[{$key}]" id="">
 					<option value="">Select...</option>
 				{foreach $clinician as $c}
-					<option value="{$c->user_id}"{if $type->name == $c->name} selected{/if}>{$c->fullName()}</option>
+					{$id = $c->name|cat:"_id"}
+					<option value="{$c->user_id}"{if $c->user_id == $schedule->$id} selected{/if}>{$c->fullName()}</option>
 				{/foreach}
 				</select>
 			</td>

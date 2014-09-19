@@ -78,9 +78,10 @@ class User extends AppModel {
 
 
 
-	public function fetchByType($type) {
-		$sql = "SELECT user.*, user.id AS user_id, clinician.* FROM user INNER JOIN user_clinician ON user_clinician.user_id = user.id INNER JOIN clinician ON user_clinician.clinician_id = clinician.id WHERE clinician.name = :type";
+	public function fetchByType($type, $location_id) {
+		$sql = "SELECT user.*, user.id AS user_id, clinician.* FROM user INNER JOIN user_clinician ON user_clinician.user_id = user.id INNER JOIN clinician ON user_clinician.clinician_id = clinician.id INNER JOIN user_location ON user_location.user_id = user.id WHERE clinician.name = :type AND user_location.location_id = :location_id";
 		$params[":type"] = $type;
+		$params[":location_id"] = $location_id;
 		return $this->fetchAll($sql, $params);
 	}
 

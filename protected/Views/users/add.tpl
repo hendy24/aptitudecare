@@ -1,6 +1,7 @@
 <script>
 	$(document).ready(function() {
 		$('#phone').mask("(999) 999-9999");
+
 		$("#additional-locations").hide();
 
 		$("#add-user").validate({
@@ -84,6 +85,7 @@
 	<input type="hidden" name="action" value="submitAdd" />
 	<input type="hidden" name="submit" value="true" />
 	<input type="hidden" name="path" value="{$current_url}" />
+	<input type="hidden" name="location_public_id" value="{$loc->public_id}" />
 
 	<table class="form">
 		
@@ -105,9 +107,10 @@
 			<select name="default_location" id="default_location">
 				<option value="">Select a location...</option>
 				{foreach $available_locations as $loc}
-				<option value="{$loc->id}">{$loc->name}</option>
+				<option value="{$loc->id}" {if $inputLocation->public_id == $loc->public_id} selected{/if}>{$loc->name}</option>
 				{/foreach}
 			</select>
+
 		</td>
 	</tr>
 	<tr id="additional-locations">
@@ -124,7 +127,7 @@
 			<select name="group" id="group">
 				<option value="">Select a group role...</option>
 				{foreach $groups as $group}
-				<option value="{$group->id}">{$group->description}</option>
+				<option value="{$group->id}" {if $group->name == $type} selected{/if}>{$group->description}</option>
 				{/foreach}
 			</select>
 		</td>

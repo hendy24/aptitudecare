@@ -80,6 +80,38 @@ class LoginController extends MainPageController {
 				
 
 	}	
+
+
+	public function admission_login() {
+		//	Check db for username and public_id
+		$user = $this->loadModel('User', input()->id);
+		$verified = false;
+		$_username = $user->email;
+		//	Strip everything after @ from email address
+		$string = explode('@', input()->username);
+		// Check for a global company email extension
+		$emailExt = Company::getEmailExt();	
+
+		if (!empty ($emailExt)) {
+			$username = array(input()->username, $string[0] . $emailExt->global_email_ext);
+			foreach ($username as $uname) {
+				if ($uname == $_username) {
+					if (auth()->login($user->email, $user->password)) {
+						$user = auth()->getRecord();
+						$this->redirect();
+
+					} else {
+						$this->redirect(array('page' => 'login'));
+					}
+				}
+			}
+		} elseif ($_username = input()->username) {
+			$this->redirect();
+		} else {
+			$this->redirect(array('page' => 'login'));
+		}
+		die();
+	}
 	
 	public function logout() {
 		auth()->logout();
