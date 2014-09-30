@@ -36,6 +36,17 @@ class CaseManager extends Data {
 	); 
 
 
+	public function fetchCMCount($states) {
+		$state = null;
+		foreach ($states as $k => $s) {
+			$state .= "'{$s->state}', ";
+		}
+		$state = trim($state, ", ");
+
+		$sql = "SELECT count({$this->table}.id) AS items FROM {$this->table} INNER JOIN healthcare_facility ON healthcare_facility.id = {$this->table}.healthcare_facility_id WHERE healthcare_facility.state IN ({$state})";
+
+		return $this->fetchOne($sql);
+	}
 
 
 

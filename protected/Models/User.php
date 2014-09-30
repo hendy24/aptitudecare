@@ -77,6 +77,21 @@ class User extends AppModel {
 	}
 
 
+	public function fetchLocationStates() {
+		$locations = $this->fetchUserLocations();
+		$locString = null;
+		foreach ($locations as $l) {
+			$locString .= "{$l->id}, ";
+		}
+
+		$locString = trim($locString, ", ");
+		$sql = "(SELECT state FROM location WHERE location.id IN (:location)) UNION (SELECT state FROM location_link_state WHERE location_link_state.location_id IN (:location))";
+		$params[":location"] = $locString;
+
+		return $this->fetchAll($sql, $params);
+	}
+
+
 
 	public function fetchByType($type, $location_id) {
 		$sql = "SELECT user.*, user.id AS user_id, clinician.* FROM user INNER JOIN user_clinician ON user_clinician.user_id = user.id INNER JOIN clinician ON user_clinician.clinician_id = clinician.id INNER JOIN user_location ON user_location.user_id = user.id WHERE clinician.name = :type AND user_location.location_id = :location_id";

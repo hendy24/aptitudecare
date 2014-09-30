@@ -287,6 +287,11 @@ class UsersController extends MainController {
 	}
 
 
+	public function manage() {
+		
+	}
+
+
 
 	public function reset_password() {
 		smarty()->assign('title', 'Reset Password');

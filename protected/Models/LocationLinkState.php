@@ -22,4 +22,10 @@ class LocationLinkState extends AppModel {
 			return $this->fetchAll($sql, $params);
 	}
 
+	public function fetchLocationStates($location_id) {
+		$sql = "(SELECT state FROM {$this->table} WHERE location_id = :id) UNION (SELECT state FROM location WHERE id = :id)";
+		$params[":id"] = $location_id;
+		return $this->fetchAll($sql, $params);
+	}
+
 }

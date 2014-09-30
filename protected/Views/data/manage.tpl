@@ -114,7 +114,7 @@
 		{if $pagination->current_page != 1}
 			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page - 1}">&laquo;&nbsp; Previous</a>
 		{/if}
-		{for $i=1; $i<=$pagination->num_pages; $i++}
+		{for $i=max($pagination->current_page-5, 1); $i<=max(1, min($pagination->num_pages,$pagination->current_page+5)); $i++}
 			{if $i == $pagination->current_page}
 				<strong><a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a></strong>
 			{else}
@@ -125,6 +125,12 @@
 			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page + 1}">Next &nbsp;&raquo;</a>
 		{/if}
 	</div>
+	{if $pagination->num_pages > 20}
+	<div id="beginning-end">
+		<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count=1" class="page-numbers">First Page</a>
+		<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={floor($pagination->num_pages)}" class="page-numbers">Last Page</a>
+	</div>
+	{/if}
 {/if}
 
 <div id="dialog" title="Confirmation Required">
