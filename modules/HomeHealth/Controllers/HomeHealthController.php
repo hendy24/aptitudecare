@@ -40,7 +40,7 @@ class HomeHealthController extends MainPageController {
 			$this->redirect();
 		}
 
-		smarty()->assignByRef('area', $area);
+		smarty()->assignByRef('selectedArea', $area);
 		smarty()->assignByRef('loc', $location);
 		
 		// Probably need to do some type of user authorizated access check here
@@ -94,7 +94,7 @@ class HomeHealthController extends MainPageController {
 		foreach ($week as $day) {
 			if (!empty ($admits)) {
 				foreach ($admits as $admit) {
-					if (strtotime($day) == strtotime(date('Y-m-d', strtotime($admit->datetime_admit)))) {
+					if (strtotime($day) == strtotime(date('Y-m-d', strtotime($admit->start_of_care)))) {
 						$admitsByDate[$day][] = $admit;
 					} else {
 						$admitsByDate[$day][] = array();

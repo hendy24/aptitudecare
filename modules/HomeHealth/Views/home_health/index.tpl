@@ -8,6 +8,10 @@
 		$("#location").change(function() {
 			window.location = "?module=HomeHealth&location=" + $(this).val();
 		});
+
+		$(function() {
+			$(document).tooltip();
+		});
 	});
 </script>
 {include file="$views/elements/search_bar.tpl"}
@@ -36,12 +40,15 @@
 			<div class="box-title">Admit</div>
 			{foreach $admits as $admit}
 			{if isset($admit->id)}
-			<div class="{if $admit->status == 'Pending'}location-admit-pending {if !$admit->confirmed}box-white{else}box-blue{/if}{else}location-admit{/if}" draggable="true">
-				<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientTools->menu($admit)}<br>
-				<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
+			<a href="#" class="tooltip" data-tip="This is a test">
+				<div class="{if $admit->status == 'Pending'}location-admit-pending {if !$admit->confirmed}box-white{else}box-blue{/if}{else}location-admit{/if}" draggable="true">
+					<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientTools->menu($admit)}<br>
 
-				{$admit->healthcare_facility_name}
-			</div>
+					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
+
+					{$admit->healthcare_facility_name}
+				</div>
+			</a>
 			{/if}
 			{/foreach}
 

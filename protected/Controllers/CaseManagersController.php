@@ -63,9 +63,9 @@ class CaseManagersController extends MainController {
 		if ($case_manager->save()) {
 			session()->setFlash("Successfully added/edited {$case_manager->first_name} {$case_manager->last_name}", 'success');
 			if (!isset (input()->isMicro)) {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'physicians'));
-			} else {
 				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'case_managers'));
+			} else {
+				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			}
 		}
 
@@ -74,7 +74,8 @@ class CaseManagersController extends MainController {
 	public function getAdditionalData($data = false) {
 		if ($data) {
 			smarty()->assign('healthcare_facility_id', $data->healthcare_facility_id);
-			smarty()->assign('healthcare_facility', $data->healthcare_facility);
+			$healthcare_facility = $this->loadModel('HealthcareFacility', $data->healthcare_facility_id);
+			smarty()->assign('healthcare_facility', $healthcare_facility->name);
 		}
 		
 	}

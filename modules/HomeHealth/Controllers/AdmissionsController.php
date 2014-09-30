@@ -9,6 +9,7 @@ class AdmissionsController extends MainController {
 		$this->helper = 'PatientMenu';
 		smarty()->assign('title', 'Pending Admissions');
 		
+
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);
@@ -25,7 +26,8 @@ class AdmissionsController extends MainController {
 		}
 
 		smarty()->assign('loc', $location);
-		smarty()->assign('area', $area);
+		smarty()->assignByRef('selectedArea', $area);
+
 
 		$admits = $this->loadModel('Patient')->fetchPendingAdmits($area->id);
 		smarty()->assignByRef('admits', $admits);
@@ -43,15 +45,16 @@ class AdmissionsController extends MainController {
 
 
 	public function submitNewAdmit() {
-		$patient = new Patient();
-		$schedule = new HomeHealthSchedule();
+		$patient = $this->loadModel('Patient');
+		$schedule = $this->loadModel('HomeHealthSchedule');
 
-		$patient->public_id = getRandomString();
-		$schedule->public_id = getRandomString();
+		// $patient->public_id = getRandomString();
+		// $schedule->public_id = getRandomString();
 
 		// Admission date
-		if (input()->admit_date != '') {
-			$schedule->datetime_admit = date('Y-m-d 11:00:00', strtotime(input()->admit_date));
+		if (input()->referral_date != '') {
+			$schedule->referral_date = date('Y-m-d 11:00:00', strtotime(input()->referral_date));
+			$schedule->start_of_care = $schedule->referral_date;
 		} else {
 			$error_messages[] = "Enter the date the patient will be admitted";
 		}
@@ -141,15 +144,15 @@ class AdmissionsController extends MainController {
 		
 		//	If the patient's status is approved they are a current patient
 		if ($prevSchedule->status == "Approved") {
-			$error_messages[] = "{$patient->first_name} {$patient->last_name} was already admitted on " . display_date($prevSchedule->datetime_admit);
+			$error_messages[] = "{$patient->first_name} {$patient->last_name} was already admitted on " . display_date($prevSchedule->referral_date);
 		} 
 		//	If patient is a pending admit in the future then throw an error
-		elseif ($prevSchedule->status == 'Pending' && strtotime($prevSchedule->datetime_admit) >= strtotime("now")) {
-			$error_messages[] = "{$patient->first_name} {$patient->last_name} is already pending admission on " . display_date($prevSchedule->datetime_admit);
+		elseif ($prevSchedule->status == 'Pending' && strtotime($prevSchedule->referral_date) >= strtotime("now")) {
+			$error_messages[] = "{$patient->first_name} {$patient->last_name} is already pending admission on " . display_date($prevSchedule->referral_date);
 		} else {
 			//	Set the new schedule info with the previous patient id
 			$schedule->patient_id = $patient->id;
-			$schedule->datetime_admit = mysql_datetime_admit(input()->admit_date);
+			$schedule->referral_date = mysql_datetime_admit(input()->admit_date);
 			$schedule->location_id = $location->id;
 			$schedule->admit_from_id = input()->admit_from;
 			$schedule->referred_by_id = input()->referred_by_id;
@@ -213,7 +216,7 @@ class AdmissionsController extends MainController {
 
 	public function moveAdmitDate() {
 		$schedule = $this->loadModel('HomeHealthSchedule', input()->public_id);
-		$schedule->datetime_admit = mysql_datetime(input()->date);
+		$schedule->start_of_care = mysql_datetime(input()->date);
 
 		if ($schedule->save()) {
 			json_return(true);

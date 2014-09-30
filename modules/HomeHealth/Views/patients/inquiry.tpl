@@ -262,6 +262,14 @@
 			</td>
 		</tr>
 		<tr>
+			<td colspan="3"><strong>In-Patient Diagnosis:</strong></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<textarea name="inpatient_diagnosis" id="inpatient-diagnosis" cols="110" rows="8">{$schedule->inpatient_diagnosis}</textarea>
+			</td>
+		</tr>
+		<tr>
 			<td><strong>Primary Diagnosis:</strong></td>
 			<td colspan="2"><strong>Date/Onset:</strong> <input type="text" class="datepicker" name="diagnosis1_onset_date" value="{$schedule->diagnosis1_onset_date}" style="width:75px" /></td>
 		</tr>
@@ -394,9 +402,15 @@
 			<td colspan="3">&nbsp;</td>
 		</tr>
 		<tr>
-			<td colspan="3" class="text-right"><input type="checkbox" name="f2f_received" value="true"{if $schedule->f2f_received == true} checked{/if} /> Face to Face Completed</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td><input type="checkbox" name="f2f_received" value="true"{if $schedule->f2f_received == true} checked{/if} /> Face to Face Completed</td>
 		</tr>
-
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td><input type="checkbox" name="insurance_verified" value="true"{if $schedule->insurance_verified == true} checked{/if} /> Insurance Verified</td>
+		</tr>
 
 		<tr>
 			<td colspan="3">&nbsp;</td>

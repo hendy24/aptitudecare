@@ -39,7 +39,7 @@
 	<div id="areas">
 		Area: <select name="areas" id="area">
 			{foreach $areas as $area}
-			<option value="{$area->public_id}" {if isset($input->area)}{if $area->public_id == $input->area} selected{/if}{/if}>{$area->name}</option>
+			<option value="{$area->public_id}" {if $area->public_id == $selectedArea->public_id} selected{/if}>{$area->name}</option>
 			{/foreach}
 		</select>
 	</div>

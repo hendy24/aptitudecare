@@ -153,8 +153,6 @@ class UsersController extends MainController {
 			$this->redirect();
 		}
 
-		pr (input()); die();
-
 		if (isset (input()->id)) {
 			$id = input()->id;
 		} else {
@@ -247,12 +245,9 @@ class UsersController extends MainController {
 		//	If we've made it this far then save the new user data
 		$user_id = $user->save();
 		if ($user_id != '') {
-			if (!empty (input()->user_location)) {
-				$user_location = $this->loadModel('UserLocation');
+			$user_location = $this->loadModel('UserLocation');
 
-				if (isset ($user->id)) {
-					$user_id = $user->id;
-				}
+			if (!empty (input()->user_location)) {
 
 				// 	Need to empty all records for this user from the location table 
 				//	before saving them again.  This will allow us to de-select
@@ -260,10 +255,14 @@ class UsersController extends MainController {
 				$this->loadModel('UserLocation')->deleteCurrentLocations($user->id);
 				foreach (input()->user_location as $loc) {
 					$user_location->user_id = $user_id;
-					$user_location->location_id = $loc; 
-					$user_location->save();
+					$user_location->location_id = $loc; 	
 				}
+			} else {
+				$user_location->user_id = $user_id;
+				$user_location->location_id = $user->default_location;
 			}
+
+			$user_location->save();
 
 			if (isset ($userClinician)) {
 				$userClinician->user_id = $user_id;
@@ -273,7 +272,7 @@ class UsersController extends MainController {
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
 
 			if (isset (input()->clinician)) {
-				$this->redirect(array('page' => 'clinicians', 'action' => 'manage', 'location' => input()->location_public_id));
+				$this->redirect(array('module' => 'HomeHealth', 'page' => 'clinicians', 'action' => 'manage', 'location' => input()->location_public_id));
 			} else {
 				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users', 'location' => input()->location_public_id));
 			}
@@ -319,16 +318,19 @@ class UsersController extends MainController {
 			}
 
 			if (isset (input()->temp_password)) {
-				$user->temp_password = true;
+				$user->temp_password = 1;
 			} else {
-				$user->temp_password = false;
+				$user->temp_password = 0;
 			}
-			
 
 			if ($user->save()) {
 				session()->setFlash("The password has been changed for {$user->fullName()}", 'success');
 				if (isset (input()->reset)) {
-					$this->redirect();
+					if ($user->default_module == 1) {
+						$this->redirect(array('module' => "Admission", 'user' => $user->public_id));
+					} else {
+						$this->redirect(array('module' => "HomeHealth"));
+					}
 				} else {
 					$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
 				}
@@ -347,6 +349,53 @@ class UsersController extends MainController {
 		}
 		json_return (false);
 
+	}
+
+
+	//	This is a function to be used once when the home health app goes live and user management is moved to the new framework
+	
+	public function resetUserPasswords() {
+		$users = $this->loadModel('User')->fetchCustom("SELECT * FROM user WHERE id = 13");
+		
+		foreach ($users as $u) {
+			$password = getRandomString();
+			$u->password = auth()->encrypt_password($password);
+			$u->temp_password = true;
+			
+			if ($u->save()) {
+				$mail = new PHPMailer;
+
+				$mail->isSMTP();
+				$mail->Host = "smtp.gmail.com";
+				$mail->SMTPDebug = 0;
+				$mail->SMTPAuth = true;
+				$mail->SMTPSecure = "ssl";
+				$mail->Port = 465;
+				$mail->Username = "kemish@aptitudeit.net";
+				$mail->Password = "TSoGlafib!2";
+
+				$mail->From = "no-reply@aptitudecare.com";
+				$mail->FromName = "AptitudeCare";
+				$mail->AddReplyTo ("helpdesk@aptitudecare.com", "AptitudeCare Help Desk");
+				$mail->AddAddress("khendershot24@gmail.com", "Kemish Hendershot");
+
+				$mail->WordWrap = 150;
+				$mail->Subject = "Admission Dashboard Password Reset";
+				$mail->Body = "Due to a recent update it was neccessary to reset all user passwords for the Admission Dashboard.  Your password has been reset to {$password}. You will be prompted to reset it the next time you login.  If you have any question please send an email to helpdesk@aptitudecare.com";
+
+
+				if (!$mail->Send()) {
+					echo "Mailer Error: " . $mail->ErrorInfo;
+					die();
+				} else {
+					echo "Message Sent!<br>"; 
+					die();
+				}
+			}
+		}
+
+		echo "Success!";
+		die();
 	}
 
 

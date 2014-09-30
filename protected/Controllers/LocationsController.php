@@ -5,16 +5,28 @@ class LocationsController extends MainController {
 
 	public function census() {
 		smarty()->assign('title', "Census");
-		if (isset (input()->area)) {
-			$area = $this->loadModel('Location', input()->area);
+				if (isset(input()->location)) {
+			// If the location is set in the url, get the location by the public_id
+			$location = $this->loadModel('Location', input()->location);
+
+			if (isset (input()->area)) {
+				if (input()->area != 'all') {
+					$area = $this->loadModel('Location', input()->area);
+				} else {
+					$area = 'all';
+				}
+				
+			} else {
+				$area = $location->fetchLinkedFacility($location->id);
+			}
 		} else {
-			//	Get the users default location
+			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
 			$area = $location->fetchLinkedFacility($location->id);
 		}
 
 		smarty()->assign('loc', $location);
-		smarty()->assign('area', $area);
+		smarty()->assign('selectedArea', $area);
 		
 		if (isset (input()->order_by)) {
 			$_order_by = input()->order_by;
@@ -25,7 +37,12 @@ class LocationsController extends MainController {
 		$this->helper = 'PatientMenu';
 
 		//	Get currently admitted patients
-		$patients = $this->loadModel('Patient')->fetchCensusPatients($area->id, $_order_by);
+		if ($area == 'all') {
+			$patients = $this->loadModel('Patient')->fetchCensusPatients($location->id, $_order_by, 'all');
+		} else {
+			$patients = $this->loadModel('Patient')->fetchCensusPatients($area->id, $_order_by);
+		}
+		
 		smarty()->assignByRef('patients', $patients);
 
 	}

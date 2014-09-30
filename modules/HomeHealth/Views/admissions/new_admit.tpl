@@ -164,8 +164,8 @@
 			var patientId = $(".patient-search-result").find("input.previous-patient-id:hidden").val();
 			var patientData = $("#new-admission").serializeArray();
 			$.each(patientData, function(index, data) {
-				if (data.name == "admit_date") {
-					admitDate = data.value;
+				if (data.name == "referral_date") {
+					referralDate = data.value;
 				}
 				if (data.name == "location") {
 					location = data.value;
@@ -192,7 +192,7 @@
 				page: "Admissions",
 				action: "submitPrevPatient",
 				patient_id: patientId,
-				admit_date: admitDate,
+				referral_date: referralDate,
 				location: location,
 				admit_from: admitFrom,
 				referred_by_id: referredBy,
@@ -227,7 +227,7 @@
 			
 		</tr>
 		<tr>
-			<td colspan="3"><input type="text" class="datepicker" name="admit_date" value="" required /></td>
+			<td colspan="3"><input type="text" class="datepicker" name="referral_date" value="" required /></td>
 		</tr>
 			
 		<tr>	

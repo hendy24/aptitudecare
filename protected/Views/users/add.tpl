@@ -85,7 +85,7 @@
 	<input type="hidden" name="action" value="submitAdd" />
 	<input type="hidden" name="submit" value="true" />
 	<input type="hidden" name="path" value="{$current_url}" />
-	<input type="hidden" name="location_public_id" value="{$loc->public_id}" />
+	<input type="hidden" name="location_public_id" value="{$inputLocation->public_id}" />
 
 	<table class="form">
 		

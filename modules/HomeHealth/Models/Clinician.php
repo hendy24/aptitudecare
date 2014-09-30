@@ -10,7 +10,7 @@ class Clinician extends Data {
 		$params[":location_id"] = $location->id;
 
 		if ($filter) {
-			$sql .= " WHERE clinician.name = :filter";
+			$sql .= " AND clinician.name = :filter";
 			$params[":filter"] = $filter;
 		}
 		return $this->fetchAll($sql, $params);

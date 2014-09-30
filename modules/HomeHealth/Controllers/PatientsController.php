@@ -261,6 +261,12 @@ class PatientsController extends MainController {
 			} else {
 				$schedule->f2f_received = false;
 			}
+
+			if (input()->insurance_verified == true) {
+				$schedule->insurance_verified = true;
+			} else {
+				$schedule->insurance_verified = false;
+			}
 			
 
 			// 	BREAKPOINT 
@@ -341,10 +347,7 @@ class PatientsController extends MainController {
 			}
 
 			
-
-			$count = count(input()->clinician_id);
-
-			if ($count == 6) {
+			if ($schedule->sn_id != '') {
 				$schedule->clinicians_assigned = true;
 			} else {
 				$schedule->clinicians_assigned = false;

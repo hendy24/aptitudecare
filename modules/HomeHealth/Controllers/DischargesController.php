@@ -8,26 +8,12 @@ class DischargesController extends MainController {
 
 	public function schedule() {
 		smarty()->assign('title', "Schedule Discharges");
-		if (isset(input()->location)) {
-			// If the location is set in the url, get the location by the public_id
-			$location = $this->loadModel('Location', input()->location);
-			if (isset (input()->area)) {
-				$area = $location->fetchLinkedFacility(input()->area);
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
-		} else {
-			// Get the users default location from the session
-			$location = $this->loadModel('Location', auth()->getDefaultLocation());
-			$area = $location->fetchLinkedFacility($location->id);
-		}
+		
 
-		smarty()->assignByRef('area', $area);
-		smarty()->assignByRef('loc', $location);
+		$area = $this->getArea();
 
 
-
-				// Check url for week in the past or future
+		// Check url for week in the past or future
 		if (isset (input()->weekSeed)) {
 			$weekSeed = input()->weekSeed;
 		

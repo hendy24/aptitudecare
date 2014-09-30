@@ -25,7 +25,7 @@
 	<tr>
 		<td>{$a->fullName()}</td>
 		<td>{$patientTools->menu($a)}</td>
-		<td>{display_date($a->datetime_admit)}</td>
+		<td>{display_date($a->referral_date)}</td>
 		<td>{$a->location_name}</td>
 		<td>{$a->physician_name|default: "Not Entered"}</td>
 	</tr>
