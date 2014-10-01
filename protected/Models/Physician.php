@@ -3,7 +3,6 @@
 class Physician extends AppModel {
 
 	protected $table = 'physician';
-	public $public_id;
 
 	protected $_manage_fields = array(
 		'public_id',

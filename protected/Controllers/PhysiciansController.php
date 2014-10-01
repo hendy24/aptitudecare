@@ -53,6 +53,43 @@ class PhysiciansController extends MainController {
 	}
 
 
+
+	public function manage() {
+		smarty()->assign('title', "Manage Physicians");
+		if (isset(input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
+		}
+		smarty()->assign('location_id', $location->public_id);
+
+		if (isset (input()->orderBy)) {
+			$_orderBy = input()->orderBy;
+		} else {
+			$_orderBy = false;
+		}
+
+		$physicians = $this->loadModel('Physician')->fetchManageData($location);
+		smarty()->assignByRef('physicians', $physicians);
+	}
+
+
+	public function edit() {
+		//	We are only going to allow facility administrators and better to add data
+		if (!auth()->has_permission(input()->action, input()->page)) {
+			$this->redirect();
+		}
+
+		if (input()->id != '') {
+			$physician = $this->loadModel('Physician', input()->id);
+		} else {
+			$this->redirect();
+		}
+		smarty()->assign('title', "Edit Physician");
+		smarty()->assignByRef('physician', $physician);
+	}
+
+
 	public function submitAdd() {
 		if (!auth()->has_permission('add', 'physicians')) {
 			$error_messages[] = "You do not have permission to add new physicians";
@@ -65,6 +102,8 @@ class PhysiciansController extends MainController {
 		} else {
 			$id = null;
 		}
+
+		echo $id;
 
 		$physician = $this->loadModel('Physician', $id);
 
@@ -113,18 +152,18 @@ class PhysiciansController extends MainController {
 		if (input()->email != '') {
 			$physician->email = input()->email;
 		}
-
-
+		
 		//	Breakpoint
 		if (!empty($error_messages)) {
 			session()->setFlash($error_messages, 'error');
 			$this->redirect(input()->path);
 		}
-		
+
+
 		if ($physician->save()) {
 			session()->setFlash("Successfully added/edited {$physician->first_name} {$physician->last_name}", 'success');
 			if (!isset (input()->isMicro) || input()->isMicro == 0) {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'physicians'));
+				$this->redirect(array('page' => 'physicians', 'action' => 'manage'));
 			} else {
 				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			}

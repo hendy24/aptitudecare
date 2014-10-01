@@ -60,12 +60,13 @@ class CaseManagersController extends MainController {
 			unset ($case_manager->healthcare_facility);
 		}
 
+
 		if ($case_manager->save()) {
 			session()->setFlash("Successfully added/edited {$case_manager->first_name} {$case_manager->last_name}", 'success');
-			if (!isset (input()->isMicro)) {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'case_managers'));
-			} else {
+			if (isset (input()->isMicro) && input()->isMicro == true) {
 				$this->redirect(array('page' => 'data', 'action' => 'close'));
+			} else {
+				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'case_managers'));				
 			}
 		}
 
