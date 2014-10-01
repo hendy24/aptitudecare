@@ -98,7 +98,7 @@ class LoginController extends MainPageController {
 				if ($uname == $_username) {
 					if (auth()->login($user->email, $user->password)) {
 						$user = auth()->getRecord();
-						$this->redirect();
+						$this->redirect(array('module' => 'HomeHealth'));
 
 					} else {
 						$this->redirect(array('page' => 'login'));

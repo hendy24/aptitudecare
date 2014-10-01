@@ -287,12 +287,6 @@ class UsersController extends MainController {
 	}
 
 
-	public function manage() {
-		
-	}
-
-
-
 	public function reset_password() {
 		smarty()->assign('title', 'Reset Password');
 		
@@ -359,49 +353,97 @@ class UsersController extends MainController {
 
 	//	This is a function to be used once when the home health app goes live and user management is moved to the new framework
 	
-	public function resetUserPasswords() {
-		$users = $this->loadModel('User')->fetchCustom("SELECT * FROM user WHERE id = 13");
+	// public function resetUserPasswords() {
+
+		// $passwordArray = array();
+		// $users = $this->loadModel('User')->fetchCustom("SELECT * FROM user WHERE id != 1");
 		
-		foreach ($users as $u) {
-			$password = getRandomString();
-			$u->password = auth()->encrypt_password($password);
-			$u->temp_password = true;
+		// foreach ($users as $u) {
+		// 	$password = getRandomString();
+		// 	$u->password = auth()->encrypt_password($password);
+		// 	$u->temp_password = true;
+
+		// 	$passwordArray[$u->default_location][] = array('first_name' => $u->first_name, 'last_name' => $u->last_name, 'email' => $u->email, 'password' => $password);
 			
-			if ($u->save()) {
-				$mail = new PHPMailer;
+		// 	if ($u->save()) {
+		// 		$mail = new PHPMailer;
 
-				$mail->isSMTP();
-				$mail->Host = "smtp.gmail.com";
-				$mail->SMTPDebug = 0;
-				$mail->SMTPAuth = true;
-				$mail->SMTPSecure = "ssl";
-				$mail->Port = 465;
-				$mail->Username = "kemish@aptitudeit.net";
-				$mail->Password = "TSoGlafib!2";
+		// 		$mail->isSMTP();
+		// 		$mail->Host = "smtp.gmail.com";
+		// 		$mail->SMTPDebug = 0;
+		// 		$mail->SMTPAuth = true;
+		// 		$mail->SMTPSecure = "ssl";
+		// 		$mail->Port = 465;
+		// 		$mail->Username = "kemish@aptitudeit.net";
+		// 		$mail->Password = "TSoGlafib!2";
 
-				$mail->From = "no-reply@aptitudecare.com";
-				$mail->FromName = "AptitudeCare";
-				$mail->AddReplyTo ("helpdesk@aptitudecare.com", "AptitudeCare Help Desk");
-				$mail->AddAddress("khendershot24@gmail.com", "Kemish Hendershot");
+		// 		$mail->From = "no-reply@aptitudecare.com";
+		// 		$mail->FromName = "AptitudeCare";
+		// 		$mail->AddReplyTo ("helpdesk@aptitudecare.com", "AptitudeCare Help Desk");
+		// 		$mail->AddAddress($u->email, $u->fullName());
 
-				$mail->WordWrap = 150;
-				$mail->Subject = "Admission Dashboard Password Reset";
-				$mail->Body = "Due to a recent update it was neccessary to reset all user passwords for the Admission Dashboard.  Your password has been reset to {$password}. You will be prompted to reset it the next time you login.  If you have any question please send an email to helpdesk@aptitudecare.com";
+		// 		$mail->WordWrap = 150;
+		// 		$mail->Subject = "Admission Dashboard Password Reset";
+		// 		$mail->Body = "Due to a recent update it was neccessary to reset all user passwords for the Admission Dashboard.  Your password has been reset to {$password}. You will be prompted to reset it the next time you login.  If you have any question please send an email to helpdesk@aptitudecare.com";
 
 
-				if (!$mail->Send()) {
-					echo "Mailer Error: " . $mail->ErrorInfo;
-					die();
-				} else {
-					echo "Message Sent!<br>"; 
-					die();
-				}
-			}
-		}
+		// 		if (!$mail->Send()) {
+		// 			echo "Mailer Error: " . $mail->ErrorInfo . "<br>";
+		// 			die();
+		// 		} else {
+		// 			echo "Message Sent!<br>"; 
+					
+		// 		}
+		// 	}
+		// }
 
-		echo "Success!";
-		die();
+		// $userList = null;
+
+		// foreach ($passwordArray as $location => $p) {
+		// 	foreach ($users as $u) {
+		// 		if ($u->default_location == $location && $u->group_id == 1) {
+
+		// 			foreach ($p as $list) {
+		// 				$userList .= "Name: " . $list["first_name"] . " " . $list["last_name"] . "\r\n" .
+		// 					"Email (username): " . $list["email"] . "\r\n" .
+		// 					"Password: " . $list["password"] . "\r\n\r\n";
+		// 			}
+
+		// 			$mail = new PHPMailer;
+
+		// 			$mail->isSMTP();
+		// 			$mail->Host = "smtp.gmail.com";
+		// 			$mail->SMTPDebug = 0;
+		// 			$mail->SMTPAuth = true;
+		// 			$mail->SMTPSecure = "ssl";
+		// 			$mail->Port = 465;
+		// 			$mail->Username = "kemish@aptitudeit.net";
+		// 			$mail->Password = "TSoGlafib!2";
+
+		// 			$mail->From = "no-reply@aptitudecare.com";
+		// 			$mail->FromName = "AptitudeCare";
+		// 			$mail->AddReplyTo ("helpdesk@aptitudecare.com", "AptitudeCare Help Desk");
+		// 			$mail->AddAddress($u->email, $u->fullName());
+
+		// 			$mail->WordWrap = 150;
+		// 			$mail->Subject = "Password Change List";
+		// 			$mail->Body = "Following is a list of the password changes for all the users in your facilily.\r\n\r\n" . $userList;
+
+		// 			if (!$mail->Send()) {
+		// 			echo "Mailer Error: " . $mail->ErrorInfo . "<br>";
+		// 			} else {
+		// 				echo "Message Sent!<br>"; 
+						
+		// 			}
+					
+		// 		}
+		// 	}
+		// }
+
+		// echo "Success"; die();
+
 	}
+
 
 
 }
