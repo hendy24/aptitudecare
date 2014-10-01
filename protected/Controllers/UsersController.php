@@ -15,7 +15,6 @@ class UsersController extends MainController {
 	}
 
 	public function add() {
-
 		//	We are only going to allow facility administrators and better to add data
 		if (!auth()->has_permission(input()->action, 'site_users')) {
 			$this->redirect();
@@ -55,7 +54,7 @@ class UsersController extends MainController {
 		$columns = $class->fetchColumnNames();
 		$data = $this->getColumnHeaders($columns, $class);
 		if (in_array('password', $class->fetchColumnsToInclude())) {
-			array_splice($data, 4, 0, 'verify_password');
+			//array_splice($data, 4, 0, 'verify_password');
 
 			//	Get list of available modules
 			$available_modules = $this->loadModel('Module')->fetchAllData();
