@@ -31,7 +31,14 @@ class HomeHealthController extends MainPageController {
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
-			$area = $location->fetchLinkedFacility($location->id);
+			//  If this is not a home health location need to get the associated home health agency
+			if ($location->location_type != 2) {
+				$area = $location;
+				$location = $location->fetchHomeHealthLocation();
+			} else {
+				$area = $location->fetchLinkedFacility($location->id);
+			}
+			
 		}
 
 
@@ -39,7 +46,7 @@ class HomeHealthController extends MainPageController {
 			session()->setFlash('Cannot access the information for the selected area.', 'error');
 			$this->redirect();
 		}
-
+		
 		smarty()->assignByRef('selectedArea', $area);
 		smarty()->assignByRef('loc', $location);
 		

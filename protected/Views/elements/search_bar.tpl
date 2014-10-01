@@ -34,8 +34,7 @@
 			</optgroup>
 		</select>
 	</div>
-	
-	
+		
 	<div id="areas">
 		Area: <select name="areas" id="area">
 			{foreach $areas as $area}
