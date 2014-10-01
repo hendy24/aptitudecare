@@ -3,7 +3,6 @@
 class HealthcareFacility extends AppModel {
 
 	protected $table = 'healthcare_facility';
-	public $public_id;
 
 	protected $belongsTo = array(
 		'LocationType' => array(

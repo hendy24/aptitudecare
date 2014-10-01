@@ -65,10 +65,10 @@
 	<input type="hidden" name="path" value="{$current_url}" />
 
 	<table class="form">
-	{foreach $columns as $column}
+	{foreach $columns as $k => $column}
 	<tr>
-		<td >{stringify($column)}:</td>
-		<td><input {if $column == "password" || $column == "verify_password"} type="password" {else} type="text" {/if} name="{$column}" id="{$column}" style="width:200px" /></td>
+		<td >{stringify($k)}:</td>
+		<td><input {if $k == "password" || $k == "verify_password"} type="password" {else} type="text" {/if} name="{$k}" id="{$k}" style="width:200px" /></td>
 	</tr>
 	{/foreach}
 
