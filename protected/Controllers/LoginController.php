@@ -118,5 +118,10 @@ class LoginController extends MainPageController {
 		$this->redirect(array('page' => 'login', 'action' => 'index'));
 	}
 	
+
+	public function timeout() {
+		auth()->logout();
+		
+	}
 	
 }
