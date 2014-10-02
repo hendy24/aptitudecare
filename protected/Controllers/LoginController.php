@@ -120,6 +120,7 @@ class LoginController extends MainPageController {
 	
 
 	public function timeout() {
+		smarty()->assign('title', "Session Timeout");
 		auth()->logout();
 		
 	}
