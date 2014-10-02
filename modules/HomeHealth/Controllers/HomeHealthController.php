@@ -41,7 +41,6 @@ class HomeHealthController extends MainPageController {
 			
 		}
 
-
 		if (!isset($area)) {
 			session()->setFlash('Cannot access the information for the selected area.', 'error');
 			$this->redirect();
