@@ -11,6 +11,21 @@ class UsersController extends MainController {
 
 
 	public function manage() {
+		smarty()->assign('title', "Manage Users");
+		// Fetch all users for the location
+		if (isset (input()->location)) {
+			$loc_id = input()->location;
+		} else {
+			//	Fetch the users default location
+			$user = auth()->getRecord();
+			$loc_id = $user->default_location;
+		}
+		$location = $this->loadModel('Location', $loc_id);
+		smarty()->assign('location_id', $location->public_id);
+
+		input()->type = "users";
+		$users = $this->loadModel('User')->fetchManageData($location);
+		smarty()->assignByRef('users', $users);
 
 	}
 
@@ -20,6 +35,8 @@ class UsersController extends MainController {
 			$this->redirect();
 		}
 
+		smarty()->assign('title', "Add a new User");
+		smarty()->assign('location_id', input()->location);
 
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
@@ -28,73 +45,21 @@ class UsersController extends MainController {
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
 		}
 
-		smarty()->assign('inputLocation', $location);
+		//	Fetch locations to which the user can add new users
+		$locations = $this->loadModel('User')->fetchUserLocations();
+		smarty()->assign('available_locations', $this->loadModel('User')->fetchUserLocations());
+
+		//	Fetch groups
+		smarty()->assign('groups', $this->loadModel('Group')->fetchAll());
 
 
-		$model = depluralize(ucfirst(camelizeString(input()->page)));
-
-		if (isset (input()->type)) {
-			$headerTitle = ucfirst(input()->type);
-		} else {
-			$headerTitle = $model;
-		}
-
-		if (isset ($this->module)) {
-			$module = $this->module;
-		} else {
-			$user = auth()->getRecord();
-			$module = $user->default_module;
-		}
-
-		smarty()->assign('module', $module);
-		smarty()->assign('title', "Add New {$model}");
-		smarty()->assign('headerTitle', $headerTitle);
-
-		$class = $this->loadModel($model);
-		$columns = $class->fetchColumnNames();
-		$data = $this->getColumnHeaders($columns, $class);
-		if (in_array('password', $class->fetchColumnsToInclude())) {
-			//array_splice($data, 4, 0, 'verify_password');
-
-			//	Get list of available modules
-			$available_modules = $this->loadModel('Module')->fetchAllData();
-			smarty()->assignByRef('available_modules', $available_modules);
-
-			//	Get list of available locations to which the currently logged in user has access
-			//	Fetch the users additional locations
-			$user = $this->loadModel('User', auth()->getRecord()->id);
-			$additional_locations = $user->fetchUserLocations();
-			smarty()->assignByRef('additional_locations', $additional_locations);
-			if ($user->is_site_admin) {
-				smarty()->assignByRef('available_locations', $this->loadModel('Location')->fetchAll());
-			} else {
-				smarty()->assignByRef('available_locations', $this->loadModel('Location')->fetchHomeHealthLocations($additional_locations));
-			}
-			// $available_locations = $this->loadModel('Location')->fetchAllData();
-			// smarty()->assignByRef('available_locations', $available_locations);
-			smarty()->assignByRef('available_locations', $additional_locations);
-
-
-			// 	Get list of available roles
-			$groups = $this->loadModel('Group')->fetchAllData();
-			smarty()->assignByRef('groups', $groups);
-		}
-		smarty()->assign('columns', $data);
-
+		//	Fetch clinician types
 		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
 		smarty()->assign('clinicianTypes', $clinicianTypes);
 
-		if (isset (input()->type)) {
-			if (input()->type == 'clinician') {
-				$type = 'home_health_clinician';
-			}
-			
-		} else {
-			$type = '';
-		}
-		smarty()->assign('type', $type);
-
 	}
+
+
 
 
 	public function edit() {
@@ -106,6 +71,7 @@ class UsersController extends MainController {
 		}
 
 		smarty()->assign('title', 'Edit User');
+		smarty()->assign('current_location', input()->location);
 
 		if (!empty ($user)) {
 			smarty()->assign('group_id', $user->group_id);
@@ -115,7 +81,10 @@ class UsersController extends MainController {
 
 			//	Fetch the users additional locations
 			$additional_locations = $user->fetchUserLocations();
+			//	Fetch locations for which the user is already assigned
+			$assigned_locations = $user->fetchUserLocations($user->id);
 			smarty()->assignByRef('additional_locations', $additional_locations);
+			smarty()->assignByRef('assigned_locations', $assigned_locations);
 		}
 
 		//	Get Locations
@@ -159,10 +128,6 @@ class UsersController extends MainController {
 		}
 
 		$user = $this->loadModel('User', $id);
-
-		if ($user->public_id == '') {
-			$user->public_id = getRandomString();
-		}
 
 		//	Validate form fields
 		if (input()->first_name != '') {
@@ -212,13 +177,14 @@ class UsersController extends MainController {
 
 		if (input()->group != '') {
 			$user->group_id = input()->group;
-			// 	Set the default module based on the users group
-			// 	Get the default module for the selected group
-			$module = $this->loadModel('Group', input()->group)->fetchModule();
-			$user->default_module = $module->module_id;
 		} else {
 			$error_messages[] = "Select a group for this user";
 		}
+
+		if (input()->default_module != '') {
+			$user->default_module = input()->default_module;
+		}
+
 
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
@@ -226,20 +192,12 @@ class UsersController extends MainController {
 			$this->redirect(input()->path);
 		}
 
-		
-		if (isset ($user->location)) {
-			unset ($user->location);
-		}
 
-		if (isset ($user->module)) {
-			unset ($user->module);
-		}
-
-
-		if (isset (input()->clinician)) {
+		if (isset (input()->clinician) && input()->clinician != '') {
 			$userClinician = $this->loadModel('UserClinician');
 			$userClinician->clinician_id = input()->clinician;
 		}
+
 
 		//	If we've made it this far then save the new user data
 		$user_id = $user->save();
@@ -255,13 +213,14 @@ class UsersController extends MainController {
 				foreach (input()->user_location as $loc) {
 					$user_location->user_id = $user_id;
 					$user_location->location_id = $loc; 	
+					$user_location->save();
 				}
 			} else {
 				$user_location->user_id = $user_id;
 				$user_location->location_id = $user->default_location;
+				$user_location->save();
 			}
-
-			$user_location->save();
+			
 
 			if (isset ($userClinician)) {
 				$userClinician->user_id = $user_id;
@@ -270,10 +229,10 @@ class UsersController extends MainController {
 
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
 
-			if (isset (input()->clinician)) {
+			if (isset ($userClinician)) {
 				$this->redirect(array('module' => 'HomeHealth', 'page' => 'clinicians', 'action' => 'manage', 'location' => input()->location_public_id));
 			} else {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users', 'location' => input()->location_public_id));
+				$this->redirect(array('page' => 'users', 'action' => 'manage', 'location' => input()->location_public_id));
 			}
 			
 
@@ -347,6 +306,12 @@ class UsersController extends MainController {
 		}
 		json_return (false);
 
+	}
+
+
+	public function fetchModulesByGroup() {
+		$availableModules = $this->loadModel('Group')->fetchModules(input()->group);
+		json_return($availableModules);
 	}
 
 

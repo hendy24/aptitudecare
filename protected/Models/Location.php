@@ -29,6 +29,7 @@ class Location extends AppModel {
 
 	}
 
+
 	public function fetchOtherLocations($module = null) {
 		if (auth()->valid()) {
 			$user = auth()->getRecord();
@@ -54,8 +55,6 @@ class Location extends AppModel {
 
 		
 		$params[":user_id"] = $user->id;
-				debug ($sql, $params);
-
 		return $this->fetchAll($sql, $params);
 	}
 

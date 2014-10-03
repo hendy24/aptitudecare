@@ -4,7 +4,7 @@
 
 		var $clinician = $("#clinician");
 		var $clinicianRow = $(".clinician-type-cell");
-		var $group = $("#group");
+		var $group = $("#group");		
 
 		if ($clinician.val() == '') {
 			$clinicianRow.hide();
@@ -25,6 +25,21 @@
 		}); 
 
 		$("#group").change(function() {
+			//	Get the modules available for the selected group type
+			$.post(SITE_URL, { page: "users", action: "fetchModulesByGroup", group: $("option:selected", this).val() }, function (e) {
+				var count = Object.keys(e).length;
+				if (count > 1) {
+					$.each(e, function (i, d) {
+						$("#user-module").append("<option value=\"" + d.id + "\">" + d.name + "</option>"); 
+					});
+					$("#module-row").show();
+				}
+				
+			},
+			"json"
+			);
+
+			//  If group is Home Health Clinician show the clinician row
 			if ($(this).val() == 6) {
 				$clinicianRow.show();
 			} else {
@@ -39,10 +54,11 @@
 
 <h1>Edit User</h1>
 	
-<form name="edit" id="edit" method="post" action="{$siteUrl}">
+<form name="edit" id="edit" method="post" action="{$SITE_URL}">
 	<input type="hidden" name="page" value="users" />
 	<input type="hidden" name="action" value="submitAdd" />
 	<input type="hidden" name="id" value="{$user->public_id}" />
+	<input type="hidden" name="location_public_id" value="{$current_location}">
 	<input type="hidden" name="path" value="{$current_url}" />
 
 	<table class="form">
@@ -77,7 +93,7 @@
 			<td colspan="2" style="vertical-align: top">
 			{foreach $available_locations as $k => $loc name=count}
 				
-				<input type="checkbox" name="user_location[{$k}]" id="{$loc->id}" value="{$loc->id}" {foreach $additional_locations as $location} {if $location->id == $loc->id} checked{/if}{/foreach} /> {$loc->name}<br>
+				<input type="checkbox" name="user_location[{$k}]" id="{$loc->id}" value="{$loc->id}" {foreach $assigned_locations as $location} {if $location->id == $loc->id} checked{/if}{/foreach} /> {$loc->name}<br>
 				{if $smarty.foreach.count.iteration % 8 == 0}
 					</td>
 					<td colspan="2" style="vertical-align:top">
@@ -106,13 +122,14 @@
 				</select>
 			</td>
 		</tr>
-		<tr>
+		<tr id="module-row">
 			<td><strong>Default Module:</strong></td>
 			<td colspan="2">
 				<select name="default_module" id="user-module">
 					<option value="">Select a module...</option>
+
 					{foreach $available_modules as $mod}
-					<option value="{$location->id}" {if $default_mod== $mod->id} selected{/if}>{$mod->name}</option>
+					<option value="{$mod->id}" {if $default_mod== $mod->id} selected{/if}>{$mod->name}</option>
 					{/foreach}
 				</select>
 			</td>

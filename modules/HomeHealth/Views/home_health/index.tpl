@@ -14,7 +14,7 @@
 		});
 	});
 </script>
-{include file="$views/elements/search_bar.tpl"}
+{include file="$VIEWS/elements/search_bar.tpl"}
 
 <div id="date-header">
 	<div class="date-header-img">

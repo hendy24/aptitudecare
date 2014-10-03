@@ -13,7 +13,7 @@
 							
 						$.ajax({
 							type: 'post',
-							url: SiteUrl,
+							url: SITE_URL,
 							data: {
 								page: $("#page").val(),
 								action: 'deleteId',
@@ -37,19 +37,19 @@
 			e.preventDefault();
 			var order = $(this).next("input").val();
 			console.log
-			window.location = SiteUrl + "/?page=data&action=manage&type=" + $("#page").val() + "&orderBy=" + order;
+			window.location = SITE_URL + "/?page=data&action=manage&type=" + $("#page").val() + "&orderBy=" + order;
 		});
 
 
 		$("#locations").change(function() {
-			window.location = SiteUrl + "/?page=data&action=manage&type=" + $("#page").val() + "&location=" + $("#locations option:selected").val();
+			window.location = SITE_URL + "/?page=data&action=manage&type=" + $("#page").val() + "&location=" + $("#locations option:selected").val();
 		});
 
 	});
 </script>
 
 
-<div id="modules" class="button left"><a href="{$siteUrl}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
+<div id="modules" class="button left"><a href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
 <div id="locations">
 	<select name="location" id="location">
 	{foreach $locations as $location}
@@ -93,13 +93,13 @@
 			{/foreach}
 			{if !empty ($data[0])}
 			<td class="text-center">
-				<a href="{$siteUrl}/?page={$type}&amp;action=edit&amp;id={$dataset['public_id']}">
-					<img src="{$frameworkImg}/pencil.png" alt="">
+				<a href="{$SITE_URL}/?page={$type}&amp;action=edit&amp;id={$dataset['public_id']}">
+					<img src="{$FRAMEWORK_IMAGES}/pencil.png" alt="">
 				</a>
 			</td>
 			<td class="text-center">
 				<a href="" value="{$dataset['public_id']}" class="delete">
-					<img src="{$frameworkImg}/delete.png" alt="">
+					<img src="{$FRAMEWORK_IMAGES}/delete.png" alt="">
 					<input type="hidden" name="public_id" class="public-id" value="{$dataset['public_id']}" />
 				</a>
 			</td>
@@ -112,23 +112,23 @@
 {if isset ($pagination)}
 	<div id="pagination">
 		{if $pagination->current_page != 1}
-			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page - 1}">&laquo;&nbsp; Previous</a>
+			<a href="{$SITE_URL}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page - 1}">&laquo;&nbsp; Previous</a>
 		{/if}
 		{for $i=max($pagination->current_page-5, 1); $i<=max(1, min($pagination->num_pages,$pagination->current_page+5)); $i++}
 			{if $i == $pagination->current_page}
-				<strong><a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a></strong>
+				<strong><a href="{$SITE_URL}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a></strong>
 			{else}
-				<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a>
+				<a href="{$SITE_URL}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a>
 			{/if}
 		{/for}
 		{if $pagination->current_page != $pagination->num_pages}
-			<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page + 1}">Next &nbsp;&raquo;</a>
+			<a href="{$SITE_URL}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={$pagination->current_page + 1}">Next &nbsp;&raquo;</a>
 		{/if}
 	</div>
 	{if $pagination->num_pages > 20}
 	<div id="beginning-end">
-		<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count=1" class="page-numbers">First Page</a>
-		<a href="{$siteUrl}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={floor($pagination->num_pages)}" class="page-numbers">Last Page</a>
+		<a href="{$SITE_URL}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count=1" class="page-numbers">First Page</a>
+		<a href="{$SITE_URL}?page=data&amp;action=manage&amp;type={$page}&amp;location={$location_id}&amp;page_count={floor($pagination->num_pages)}" class="page-numbers">Last Page</a>
 	</div>
 	{/if}
 {/if}
