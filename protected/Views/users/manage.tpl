@@ -3,7 +3,6 @@
 		$(".delete").click(function(e) {
 			e.preventDefault();
 			var dataRow = $(this).parent().parent();
-			console.log(dataRow);
 			var item = $(this);
 			$("#dialog").dialog({
 				buttons: {
@@ -15,7 +14,7 @@
 							type: 'post',
 							url: SITE_URL,
 							data: {
-								page: $("#page").val(),
+								page: "users",
 								action: 'deleteId',
 								id: id,
 							},
@@ -98,4 +97,6 @@
 
 </div>
 
-<br>
+<div id="dialog" title="Confirmation Required">
+	<p>Are you sure you want to delete this item? This cannot be undone.</p>
+</div>
