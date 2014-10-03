@@ -57,7 +57,7 @@
 		<td>{$clinician->email}</td>
 		<td>{$clinician->phone}</td>
 		<td class="text-center">
-			<a href="{$SITE_URL}/?page=users&amp;action=edit&amp;id={$clinician->public_id}">
+			<a href="{$SITE_URL}/?page=users&amp;action=edit&amp;location={$loc->public_id}&amp;id={$clinician->public_id}">
 				<img src="{$FRAMEWORK_IMAGES}/pencil.png" alt="">
 			</a>
 		</td>
