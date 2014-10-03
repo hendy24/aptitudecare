@@ -18,13 +18,13 @@
 
 <div id="date-header">
 	<div class="date-header-img">
-		<a href="{$siteUrl}/?module=HomeHealth&amp;area={$area->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$frameworkImg}/icons/prev-icon.png" /></a>
+		<a href="{$SITE_URL}/?module=HomeHealth&amp;area={$area->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" /></a>
 	</div>
 	<div class="date-header-text-center">
 		<h2>{$week[0]|date_format:"%a, %B %d, %Y"} &ndash; {$week[6]|date_format:"%a, %B %d, %Y"}</h2>
 	</div>
 	<div class="date-header-img">
-	<a href="{$siteUrl}/?module=HomeHealth&amp;area={$area->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$frameworkImg}/icons/next-icon.png" /></a>	
+	<a href="{$SITE_URL}/?module=HomeHealth&amp;area={$area->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" /></a>	
 	</div>	
 </div>
 
