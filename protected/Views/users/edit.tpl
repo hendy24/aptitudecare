@@ -18,7 +18,6 @@
 			rules: {
 				first_name: "required",
 				last_name: "required",
-				phone: "required",
 				email: "email",
 				healthcare_facility: "required"
 			}
