@@ -4,12 +4,11 @@ class User extends AppModel {
 	protected $table = 'user';
 	private $username_field = 'email';
 	private $password_field = 'password';
-	public $public_id;
 
 	protected $belongsTo = array(
 		'Group' => array(
 			'table' => 'group',
-			'join_type' => 'INNER',
+			'join_type' => 'LEFT',
 			'inner_key' => 'group_id',
 			'foreign_key' => 'id',
 			'join_field' => array(
@@ -19,7 +18,7 @@ class User extends AppModel {
 		),
 		'Location' => array(
 			'table' => 'location',
-			'join_type' => 'INNER',
+			'join_type' => 'LEFT',
 			'inner_key' => 'default_location',
 			'foreign_key' => 'id',
 			'join_field' => array(
@@ -29,7 +28,7 @@ class User extends AppModel {
 		),
 		'Module' => array(
 			'table' => 'module',
-			'join_type' => 'INNER',
+			'join_type' => 'LEFT',
 			'inner_key' => 'default_module',
 			'foreign_key' => 'id',
 			'join_field' => array(
@@ -42,7 +41,7 @@ class User extends AppModel {
 	protected $hasMany = array(
 		'UserLocation' => array(
 			'table' => 'user_location',
-			'join_type' => 'INNER',
+			'join_type' => 'LEFT',
 			'inner_key' => 'id',
 			'foreign_key' => 'user_id',
 			'join_key' => 'location_id'
@@ -70,9 +69,14 @@ class User extends AppModel {
 
 
 
-	public function fetchUserLocations() {
-		$sql = "SELECT `location`.* FROM `location` INNER JOIN `user_location` ON `user_location`.`location_id` = `location`.`id` WHERE `user_location`.`user_id`=:id";
-		$params[':id'] = $this->id;
+	public function fetchUserLocations($id = null) {
+		$sql = "SELECT `location`.* FROM `location` LEFT JOIN `user_location` ON `user_location`.`location_id` = `location`.`id` WHERE `user_location`.`user_id`=:id";
+		if ($id != null) {
+			$params[':id'] = $id;
+		} else {
+			$params[':id'] = auth()->getRecord()->id;
+		}
+		
 		return $this->fetchAll($sql, $params);
 	}
 
@@ -113,6 +117,5 @@ class User extends AppModel {
 		$params[":location_id"] = $location_id;
 		return $this->fetchOne($sql, $params);
 	}
-
 
 }

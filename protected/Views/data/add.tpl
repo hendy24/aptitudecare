@@ -26,7 +26,7 @@
 		});
 
 		$("#healthcare-facility-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: { 
 				module: 'HomeHealth',
 				page: 'HealthcareFacilities',
@@ -57,7 +57,7 @@
 
 <h1>Add a new {$headerTitle}</h1>
 <br>
-<form name="add" id="add" method="post" action="{$siteUrl}">
+<form name="add" id="add" method="post" action="{$SITE_URL}">
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="action" value="submitAdd" />
 	<input type="hidden" name="isMicro" value="{$isMicro}" />

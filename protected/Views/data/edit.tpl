@@ -26,7 +26,7 @@
 		});
 
 		$("#healthcare-facility-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: { 
 				module: 'HomeHealth',
 				page: 'HealthcareFacilities',

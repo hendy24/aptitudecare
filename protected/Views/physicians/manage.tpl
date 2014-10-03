@@ -13,7 +13,7 @@
 							
 						$.ajax({
 							type: 'post',
-							url: SiteUrl,
+							url: SITE_URL,
 							data: {
 								page: $("#page").val(),
 								action: 'deleteId',
@@ -37,19 +37,19 @@
 			e.preventDefault();
 			var order = $(this).next("input").val();
 			console.log
-			window.location = SiteUrl + "/?page=physicians&action=manage&orderBy=" + order;
+			window.location = SITE_URL + "/?page=physicians&action=manage&orderBy=" + order;
 		});
 
 
 		$("#locations").change(function() {
-			window.location = SiteUrl + "/?page=physicians&action=manage&location=" + $("#locations option:selected").val();
+			window.location = SITE_URL + "/?page=physicians&action=manage&location=" + $("#locations option:selected").val();
 		});
 
 	});
 </script>
 
 
-<div id="modules" class="button left"><a href="{$siteUrl}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
+<div id="modules" class="button left"><a href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
 <div id="locations">
 	<select name="location" id="location">
 	{foreach $locations as $location}
@@ -79,13 +79,13 @@
 		<td>{$physician->state}</td>
 		<td>{$physician->phone}</td>
 		<td>
-			<a href="{$siteUrl}/?page=physicians&amp;action=edit&amp;id={$physician->public_id}">
-				<img src="{$frameworkImg}/pencil.png" alt="">
+			<a href="{$SITE_URL}/?page=physicians&amp;action=edit&amp;id={$physician->public_id}">
+				<img src="{$FRAMEWORK_IMAGES}/pencil.png" alt="">
 			</a>
 		</td>
 		<td>
 			<a href="" value="{$physician->public_id}" class="delete">
-				<img src="{$frameworkImg}/delete.png" alt="">
+				<img src="{$FRAMEWORK_IMAGES}/delete.png" alt="">
 				<input type="hidden" name="public_id" class="public-id" value="{$physician->public_id}" />
 			</a>
 		</td>
@@ -94,7 +94,7 @@
 </table>
 
 {if isset ($pagination)}
-	{$url = "{$siteUrl}?page=physicians&action=manage&location={$location_id}"}
+	{$url = "{$SITE_URL}?page=physicians&action=manage&location={$location_id}"}
 	{include file="elements/pagination.tpl"}	
 {/if}
 

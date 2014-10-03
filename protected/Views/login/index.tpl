@@ -4,7 +4,7 @@
 	<h2>Login</h2>
 	<br /><br />
 	
-	<form method="post" action="{$siteUrl}/login">
+	<form method="post" action="{$SITE_URL}/login">
 		<input type="hidden" name="path" value="{$current_url}" />
 		<input type="hidden" name="submit" value="1" />
 		<table id="login">

@@ -7,22 +7,22 @@
 	<title>{$title} &nbsp;|&nbsp; AptitudeCare</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<link rel="stylesheet" href="{$frameworkJs}/jQuery-Autocomplete-master/content/styles.css" />
-	<link rel="stylesheet" href="{$frameworkCss}/styles.css">
-	<link rel="stylesheet" href="{$frameworkJs}/jquery-ui-1.11.0.custom/jquery-ui.css" />
-	<link rel="stylesheet" href="{$frameworkJs}/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" />
-	<link rel="stylesheet" href="{$frameworkJs}/shadowbox-3.0.3/shadowbox.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css">
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
 
-	<script type="text/javascript" src="{$frameworkJs}/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/jquery.maskedinput.min.js"></script>
-	<script type="text/javascript" src="{$js}/datepicker.js"></script>
-	<script type="text/javascript" src="{$frameworkJs}/shadowbox-3.0.3/shadowbox.js"></script>
-	<script type="text/javascript" src="{$js}/general.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
+	<script type="text/javascript" src="{$JS}/datepicker.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
+	<script type="text/javascript" src="{$JS}/general.js"></script>
 	<script>
-		var SiteUrl = '{$siteUrl}';
+		var SITE_URL = '{$SITE_URL}';
 		var User = '{$auth->getRecord()->public_id}';
 		Shadowbox.init({
 			handleOversize: "drag",
@@ -36,12 +36,12 @@
 		<div id="header">
 			{if $auth->valid()}
 			<div id="user-info">
-				Welcome, {$auth->fullName()} &nbsp;|&nbsp; <a href="{$siteUrl}/login/logout">Logout</a>
+				Welcome, {$auth->fullName()} &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
 			</div>
 			{/if}
 			<img src="{$logo}" alt="Logo" class="logo"/>
 			{if $auth->valid()}
-				{include file="$views/elements/nav.tpl"}
+				{include file="$VIEWS/elements/nav.tpl"}
 			{/if}
 		</div>
 	</div>
