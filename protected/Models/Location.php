@@ -78,7 +78,6 @@ class Location extends AppModel {
 			
 		$params[':user_id'] = $user->id;
 
-		debug ($sql, $params);
 		return $this->fetchAll($sql, $params);
 	}
 
