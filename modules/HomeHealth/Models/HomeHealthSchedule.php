@@ -34,7 +34,6 @@ class HomeHealthSchedule extends AppModel {
 			':datetime_end' => date('Y-m-d 23:59:59', strtotime($datetime_end)),
 			':location_id' => $location,
 		);
-
 		return $this->fetchAll($sql, $params);
 	}
 
