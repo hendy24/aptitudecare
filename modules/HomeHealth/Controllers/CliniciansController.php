@@ -4,23 +4,15 @@ class CliniciansController extends MainController {
 
 	public function manage() {		
 
-		if (isset(input()->location)) {
-			// If the location is set in the url, get the location by the public_id
-			$location = $this->loadModel('Location', input()->location);
-
-			if (isset (input()->area)) {
-				$area = $this->loadModel('Location', input()->area);
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
+		if (isset (input()->location)) {
+			$loc_id = input()->location;
 		} else {
-			// Get the users default location from the session
-			$location = $this->loadModel('Location', auth()->getDefaultLocation());
-			$area = $location->fetchLinkedFacility($location->id);
+			//	Fetch the users default location
+			$user = auth()->getRecord();
+			$loc_id = $user->default_location;
 		}
-
-		smarty()->assign('loc', $location);
-		smarty()->assign('area', $area);
+		$location = $this->loadModel('Location', $loc_id);
+		smarty()->assign('location_id', $location->public_id);
 
 
 		if (isset (input()->filter)) {

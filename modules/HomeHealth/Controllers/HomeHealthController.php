@@ -17,8 +17,7 @@ class HomeHealthController extends MainPageController {
 	public function index() {
 
 		$this->helper = 'PatientMenu';
-		
-		
+				
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);
