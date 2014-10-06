@@ -13,6 +13,7 @@ class Clinician extends Data {
 			$sql .= " AND clinician.name = :filter";
 			$params[":filter"] = $filter;
 		}
+
 		return $this->fetchAll($sql, $params);
 	}
 
