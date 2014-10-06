@@ -19,7 +19,7 @@
 			locationId = $("option:selected", this).val();
 			$("#admit-from-location").val(locationId);
 			//  Get the areas based on the selected location
-			$.post(SiteUrl, { page: "locations", action: "fetchAreas", location: locationId }, function (e) { 
+			$.post(SITE_URL, { page: "locations", action: "fetchAreas", location: locationId }, function (e) { 
 				$.each(e, function (i, v) {
 					$("#admit-request-area").append("<option value=\"" + v.public_id + "\">" + v.name + "</option>");
 					
@@ -33,7 +33,7 @@
 
 		$("#admit-request-location").on("change", function() {
 			$("#admit-from-search").autocomplete({
-				serviceUrl: SiteUrl,
+				serviceUrl: SITE_URL,
 				params: { 
 					module: 'HomeHealth',
 					page: 'HealthcareFacilities',
@@ -48,7 +48,7 @@
 			});
 
 			$("#referral-source-search").autocomplete({
-				serviceUrl: SiteUrl,
+				serviceUrl: SITE_URL,
 				params: {
 					page: 'MainPage',
 					action: 'searchReferralSources',
@@ -65,7 +65,7 @@
 
 
 		$("#admit-from-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: { 
 				module: 'HomeHealth',
 				page: 'HealthcareFacilities',
@@ -81,7 +81,7 @@
 
 
 		$("#referral-source-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: {
 				page: 'MainPage',
 				action: 'searchReferralSources',
@@ -106,7 +106,7 @@
 					$clone = '';
 				}
 
-				$.post(SiteUrl, {
+				$.post(SITE_URL, {
 					module: $("#module").val(),
 					page: $("#page").val(),
 					action: "searchPrevPatients",
@@ -151,7 +151,7 @@
 		$("#submit-new-patient").click(function() {
 			//  Save new patient to db
 			var patientData = $("#new-admission").serialize();
-			$.post(SiteUrl, patientData, function (response) {
+			$.post(SITE_URL, patientData, function (response) {
 					window.location.href = response.url;
 				}, "json"
 			);
@@ -187,7 +187,7 @@
 				}
 			});
 			
-			$.post(SiteUrl, { 
+			$.post(SITE_URL, { 
 				module: "HomeHealth",
 				page: "Admissions",
 				action: "submitPrevPatient",
@@ -214,7 +214,7 @@
 
 <h1>New Admission Request</h1>
 
-<form name="new_admission" id="new-admission" method="post" action="{$siteUrl}">
+<form name="new_admission" id="new-admission" method="post" action="{$SITE_URL}">
 	<input type="hidden" id="module" name="module" value="HomeHealth" />
 	<input type="hidden" id="page" name="page" value="admissions" />
 	<input type="hidden" name="action" value="submitNewAdmit" />
