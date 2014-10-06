@@ -17,7 +17,7 @@
 </script>
 
 
-<div id="modules" class="button left"><a href="{$SITE_URL}/?page=users&amp;action=add&amp;type=clinician&amp;location={$loc->public_id}">Add New</a></div>
+<div id="modules" class="button left"><a href="{$SITE_URL}/?page=users&amp;action=add&amp;type=clinician&amp;location={$location_id}">Add New</a></div>
 <div id="locations">
 	<select name="location" id="location">
 	{foreach $locations as $location}
