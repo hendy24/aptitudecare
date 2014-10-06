@@ -48,9 +48,6 @@ class AdmissionsController extends MainController {
 		$patient = $this->loadModel('Patient');
 		$schedule = $this->loadModel('HomeHealthSchedule');
 
-		// $patient->public_id = getRandomString();
-		// $schedule->public_id = getRandomString();
-
 		// Admission date
 		if (input()->referral_date != '') {
 			$schedule->referral_date = date('Y-m-d 11:00:00', strtotime(input()->referral_date));
@@ -107,6 +104,9 @@ class AdmissionsController extends MainController {
 			$schedule->location_id = $location->id;
 		}
 
+		// 	Set patient status as pending for new admits
+		$schedule->status = "Pending";
+
 
 		// 	Break point.  If there are error messages set them in the session and redirect back
 		//	to the new admit page.
@@ -152,7 +152,7 @@ class AdmissionsController extends MainController {
 		} else {
 			//	Set the new schedule info with the previous patient id
 			$schedule->patient_id = $patient->id;
-			$schedule->referral_date = mysql_datetime_admit(input()->admit_date);
+			$schedule->referral_date = mysql_datetime_admit(input()->referral_date);
 			$schedule->location_id = $location->id;
 			$schedule->admit_from_id = input()->admit_from;
 			$schedule->referred_by_id = input()->referred_by_id;
@@ -168,6 +168,8 @@ class AdmissionsController extends MainController {
 				$patient->zip = input()->zip;
 			}
 		}
+
+		$schedule->status = "Pending";
 
 
 		//	Breakpoint

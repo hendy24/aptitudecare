@@ -259,7 +259,7 @@
 				<input type="text" id="admit-from-search" style="width: 250px" required />
 				<input type="hidden" name="admit_from" id="admit-from" />
 				<a href="/?page=healthcare_facilities&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
-					<img src="{$frameworkImg}/add-black-bkgnd.png" class="add-button" alt="">
+					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 			</td>
 			<td colspan="2">
