@@ -38,7 +38,7 @@
 		}
 
 		$("#admit-from-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: {
 				module: 'HomeHealth',
 				page: 'HealthcareFacilities',
@@ -53,7 +53,7 @@
 
 
 		$("#pcp-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: {
 				page: 'Physicians',
 				action: 'searchPhysicians',
@@ -65,7 +65,7 @@
 		});
 
 		$("#surgeon-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: {
 				page: 'Physicians',
 				action: 'searchPhysicians',
@@ -114,7 +114,7 @@
 <h1>Pre-Admission Inquiry Record<br>
 <span class="text-14">for</span> <br><span class="text-20">{$patient->first_name} {$patient->last_name}</span></h1>
 
-<form action="{$siteUrl}" name="inquiry" method="post" id="inquiry-form">
+<form action="{$SITE_URL}" name="inquiry" method="post" id="inquiry-form">
 	<input type="hidden" name="module" value="HomeHealth" />
 	<input type="hidden" name="page" value="patients" />
 	<input type="hidden" name="action" value="inquiry" />
@@ -240,7 +240,7 @@
 				<strong>Admitting From:</strong><br>
 				<input type="text" id="admit-from-search" value="{$admit->name}" style="width:210px" />
 				<a href="/?page=healthcare_facilities&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
-					<img src="{$frameworkImg}/add-black-bkgnd.png" class="add-button" alt="">
+					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 				<input type="hidden" name="admit_from_id" id="admit-from" value="{$admit->id}" />
 			</td>
@@ -248,7 +248,7 @@
 				<strong>Primary Care Physician:</strong><br>
 				<input type="text" id="pcp-search" {if isset($pcp->id)}value="{$pcp->last_name}, {$pcp->first_name}"{else}value=""{/if} style="width:200px" />
 				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
-					<img src="{$frameworkImg}/add-black-bkgnd.png" class="add-button" alt="">
+					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 				<input type="hidden" id="pcp" name="pcp_id" {if isset($pcp->id)}value="{$pcp->id}" {else} value=""{/if} />
 			</td>
@@ -256,7 +256,7 @@
 				<strong>Surgeon/Specialist:</strong><br>
 				<input type="text" id="surgeon-search" style="width:200px" {if isset($surgeon->id)}value="{$surgeon->last_name}, {$surgeon->first_name}"{else} value=""{/if} />
 				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
-					<img src="{$frameworkImg}/add-black-bkgnd.png" class="add-button" alt="">
+					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 				<input type="hidden" id="surgeon" name="surgeon_id" {if isset($surgeon->id)}value="{$surgeon->id}" {else} value=""{/if} />
 			</td>
@@ -291,7 +291,7 @@
 		</tr>
 		<tr class="secondary-diagnosis-fields">
 			<td colspan="3">
-				<textarea name="primary_diagnosis" id="secondary-diagnosis" cols="110" rows="8">{$schedule->primary_diagnosis}</textarea>
+				<textarea name="secondary_diagnosis" id="secondary-diagnosis" cols="110" rows="8">{$schedule->primary_diagnosis}</textarea>
 			</td>
 		</tr>
 
@@ -416,7 +416,7 @@
 			<td colspan="3">&nbsp;</td>
 		</tr>
 		<tr>
-			<td><input type="button" value="Cancel" onclick="window.location='SiteUrl'"></td>
+			<td><input type="button" value="Cancel" onclick="window.location='SITE_URL'"></td>
 			<td colspan="2"><input class="right" type="submit" value="Save"></td>
 		</tr>
 	</table>
