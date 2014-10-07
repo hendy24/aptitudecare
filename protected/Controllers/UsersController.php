@@ -186,6 +186,7 @@ class UsersController extends MainController {
 		}
 
 
+
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
 			session()->setFlash($error_messages, 'error');
@@ -197,36 +198,70 @@ class UsersController extends MainController {
 			$userClinician = $this->loadModel('UserClinician');
 			$userClinician->clinician_id = input()->clinician;
 		}
+		$success = false;
 
 
 		//	If we've made it this far then save the new user data
-		$user_id = $user->save();
-		if ($user_id != '') {
-			$user_location = $this->loadModel('UserLocation');
-
-			if (!empty (input()->user_location)) {
+		//	If user id is not empty then we are editing an existing user
+		if ($user->id != '') {
+			if ($user->save()) {
+				$user_location = $this->loadModel('UserLocation');
 
 				// 	Need to empty all records for this user from the location table 
-				//	before saving them again.  This will allow us to de-select
-				//	locations that have been selected previously.
-				$this->loadModel('UserLocation')->deleteCurrentLocations($user->id);
-				foreach (input()->user_location as $loc) {
-					$user_location->user_id = $user_id;
-					$user_location->location_id = $loc; 	
-					$user_location->save();
-				}
-			} else {
+				// 	before saving them again.  This will allow us to de-select
+				// 	locations that have been selected previously.
+				$user_location->deleteCurrentLocations($user->id);
+				//	We will always save at least the default location
 				$user_location->user_id = $user_id;
 				$user_location->location_id = $user->default_location;
 				$user_location->save();
+
+				if (!empty (input()->user_location)) {
+					foreach (input()->user_location as $loc) {
+						$add_locations = $this->loadModel('UserLocation');
+						$add_locations->user_id = $user->id;
+						$add_locations->location_id = $loc; 	
+						$add_locations->save();
+					}
+				} 
+
+				if (isset ($userClinician)) {
+					$userClinician->user_id = $user->id;
+					$userClinician->save();
+				}
+				$success = true;
+
+			}
+		} else {
+			//	This is a new user
+			$user_id = $user->save();
+			if ($user_id != "") {
+				$user_location = $this->loadModel('UserLocation');
+
+				//	We will always save at least the default location
+				$user_location->user_id = $user_id;
+				$user_location->location_id = $user->default_location;
+				$user_location->save();
+
+				if (!empty (input()->user_location)) {
+					foreach (input()->user_location as $loc) {
+						$add_locations = $this->loadModel('UserLocation');
+						$add_locations->user_id = $user_id;
+						$add_locations->location_id = $loc; 	
+						$add_locations->save();
+					}
+				} 
+
+				if (isset ($userClinician)) {
+					$userClinician->user_id = $user_id;
+					$userClinician->save();
+				}
+				$success = true;
 			}
 			
-
-			if (isset ($userClinician)) {
-				$userClinician->user_id = $user_id;
-				$userClinician->save();
-			}
-
+		}
+					
+		if ($success) {
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
 
 			if (isset ($userClinician)) {
