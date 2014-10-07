@@ -23,7 +23,6 @@
 	<script type="text/javascript" src="{$JS}/general.js"></script>
 	<script>
 		var SITE_URL = '{$SITE_URL}';
-		var User = '{$auth->getRecord()->public_id}';
 		Shadowbox.init({
 			handleOversize: "drag",
 			modal: true,
