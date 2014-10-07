@@ -44,7 +44,7 @@
 
 	// Use https, otherwise the site stylesheets and images will not load properly
 	define('SITE_URL', 'https://' . $_SERVER['SERVER_NAME']);
-	define('APP_NAME', 'AptitudeCareDev');
+	define('APP_NAME', 'AptitudeCare');
 	
 /** 
  *

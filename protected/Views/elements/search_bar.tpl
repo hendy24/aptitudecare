@@ -3,7 +3,7 @@
 		$("#module").change(function() {
 			var module = $("#module option:selected").val();
 			if (module == "Admission") {
-				window.location.href = SITE_URL + "/?module=Admission&user=" + User;
+				window.location.href = SITE_URL + "/?module=Admission";
 			} else {
 				window.location.href = SITE_URL + "/?module=" + module;
 			}
