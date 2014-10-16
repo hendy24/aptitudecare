@@ -72,7 +72,7 @@
 		<tr>
 			<td><strong>Email:</strong></td>
 			<td colspan="2"><input type="text" name="email" id="email" value="{$user->email}" size="35px" /></td>
-			<td><a href="{$siteUrl}/?page=users&amp;action=reset_password&amp;id={$user->public_id}" class="button">Reset Password</a></td>
+			<td><a href="{$SITE_URL}/?page=users&amp;action=reset_password&amp;id={$user->public_id}" class="button">Reset Password</a></td>
 		</tr>
 		<tr>
 			<td><strong>Default Location:</strong></td>

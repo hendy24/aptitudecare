@@ -2,7 +2,8 @@
 
 class HomeHealthController extends MainPageController {
 
-
+	public $module = 'HomeHealth';
+	
 	/*
 	 * -------------------------------------------
 	 * HOME HEALTH INDEX PAGE
