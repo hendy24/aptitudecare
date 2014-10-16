@@ -324,7 +324,7 @@ class UsersController extends MainController {
 						$this->redirect(array('module' => "HomeHealth"));
 					}
 				} else {
-					$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'users'));
+					$this->redirect(array('page' => 'users', 'action' => 'manage'));
 				}
 				
 			}
