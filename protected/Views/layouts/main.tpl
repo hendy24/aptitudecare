@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
 	<script type="text/javascript" src="{$JS}/datepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
-	<script type="text/javascript" src="{$JS}/general.js"></script>
+
 	<script>
 		var SITE_URL = '{$SITE_URL}';
 		Shadowbox.init({
@@ -28,7 +28,14 @@
 			modal: true,
 		});
 	</script>
-	   
+
+	<script type="text/javascript" src="{$JS}/general.js"></script>
+	<script type="text/javascript" src="{$JS}/timeout.js"></script>	  
+	<script>
+		$(document).ready(function() {
+			startTimer();
+		});
+	</script> 
 </head>
 <body>
 	<div id="header-container">
@@ -75,6 +82,10 @@
 		</div>
  -->	</div>
 
+	</div>
+
+	<div id="timeout-warning">
+	    <p>Your session is about to timeout.  You will be automatically logged out in 1 minute. To remain logged in click the button below.</p>
 	</div>
 	
 </body>
