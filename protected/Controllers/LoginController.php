@@ -125,5 +125,11 @@ class LoginController extends MainPageController {
 		auth()->logout();
 		
 	}
+
+	public function keepalive() {
+		if (isset ($_SESSION['id'])) {
+			$_SESSION['id'] = $_SESSION['id'];
+		}	
+	}
 	
 }
