@@ -59,6 +59,8 @@ class AdmissionDashboard extends AppModel {
 			$schedule->datetime_modified = mysql_datetime();
 			$schedule->inpatient_diagnosis = $r->discharge_comment;
 			$schedule->surgeon_id = $r->ortho_id;
+			$schedule->primary_insurance = $r->paymethod;
+			$schedule->primary_insurance_number = $r->medicare_number;
 
 			if ($r->service_disposition == "AHC Home Health") {
 				$schedule->confirmed = true;
@@ -70,11 +72,39 @@ class AdmissionDashboard extends AppModel {
 			$patient->first_name = $r->first_name;
 			$patient->last_name = $r->last_name;
 			$patient->middle_name = $r->middle_name;
-			$patient->address = $r->address;
-			$patient->city = $r->city;
-			$patient->state = $r->state;
-			$patient->zip = $r->zip;
-			$patient->phone = $r->phone;
+
+
+			// If the patient has an alternate discharge address, use that
+			if ($r->discharge_address != '') {
+				$patient->address = $r->discharge_address;
+			} else {
+				$patient->address = $r->address;
+			}
+			
+			if ($r->discharge_city != '') {
+				$patient->city = $r->discharge_city;
+			} else {
+				$patient->city = $r->city;
+			}
+			
+			if ($r->discharge_state != '') {
+				$patient->state = $r->discharge_state;
+			} else {
+				$patient->state = $r->state;
+			}
+			
+			if ($r->discharge_zip != '') {
+				$patient->zip = $r->discharge_zip;
+			} else {
+				$patient->zip = $r->zip;
+			}
+			
+			if ($r->discharge_phone != '') {
+				$patient->phone = $r->discharge_phone;
+			} else {
+				$patient->phone = $r->phone;
+			}
+			
 			$patient->sex = $r->sex;
 			$patient->date_of_birth = $r->birthday;
 			$patient->ethnicity = $r->ethnicity;
@@ -83,7 +113,7 @@ class AdmissionDashboard extends AppModel {
 			$patient->ssn = $r->ssn;
 			$patient->emergency_contact = $r->emergency_contact_name1;
 			$patient->emergency_phone = $r->emergency_contact_phone1;
-			$patient->medicare_number = $r->medicare_number;
+			
 
 
 
