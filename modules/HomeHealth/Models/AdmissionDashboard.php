@@ -57,7 +57,7 @@ class AdmissionDashboard extends AppModel {
 			$schedule->location_id = $location;
 			$schedule->datetime_created = mysql_datetime();
 			$schedule->datetime_modified = mysql_datetime();
-			$schedule->inpatient_diagnosis = $r->discharge_comment;
+			$schedule->inpatient_diagnosis = $r->other_diagnosis;
 			$schedule->surgeon_id = $r->ortho_id;
 			$schedule->primary_insurance = $r->paymethod;
 			$schedule->primary_insurance_number = $r->medicare_number;
