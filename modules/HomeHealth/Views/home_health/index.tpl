@@ -1,4 +1,4 @@
-<script src="{$js}/admissions.js" type="text/javascript"></script>
+<script src="{$JS}/admissions.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
 		$('#area').change(function() {
@@ -17,13 +17,13 @@
 {include file="$VIEWS/elements/search_bar.tpl"}
 <div id="date-header">
 	<div class="date-header-img">
-		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" /></a>
+		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>
 	</div>
 	<div class="date-header-text-center">
 		<h2>{$week[0]|date_format:"%a, %B %d, %Y"} &ndash; {$week[6]|date_format:"%a, %B %d, %Y"}</h2>
 	</div>
 	<div class="date-header-img">
-	<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" /></a>	
+	<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" alt="next week" /></a>	
 	</div>	
 </div>
 
@@ -39,15 +39,13 @@
 			<div class="box-title">Admit</div>
 			{foreach $admits as $admit}
 			{if isset($admit->id)}
-			<a href="#" class="tooltip" data-tip="This is a test">
-				<div class="{if $admit->status == 'Pending'}location-admit-pending {if !$admit->confirmed}box-white{else}box-blue{/if}{else}location-admit{/if}" draggable="true">
-					<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientTools->menu($admit)}<br>
+			<div class="{if $admit->status == 'Pending'}location-admit-pending {if !$admit->confirmed}box-white{else}box-blue{/if}{else}location-admit{/if}" draggable="true">
+				<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientTools->menu($admit)}<br>
 
-					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
+				<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
 
-					{$admit->healthcare_facility_name}
-				</div>
-			</a>
+				{$admit->healthcare_facility_name}
+			</div>
 			{/if}
 			{/foreach}
 

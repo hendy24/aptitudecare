@@ -1,4 +1,4 @@
-<script src="{$js}/discharges.js" type="text/javascript"></script>
+<script src="{$JS}/discharges.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
 		var url = SITE_URL + "/?module=HomeHealth&page=discharges&action=schedule";

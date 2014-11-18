@@ -43,7 +43,7 @@ function init() {
 			var date = $(this).find("input:first").val();
 			$(this).append(dropped);
 
-			$.post(SiteUrl, { page: "admissions", action: "moveAdmitDate", public_id: publicId, date: date });
+			$.post(SITE_URL, { page: "admissions", action: "moveAdmitDate", public_id: publicId, date: date });
 		}
 	});
 
