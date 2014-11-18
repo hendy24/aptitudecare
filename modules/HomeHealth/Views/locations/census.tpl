@@ -1,6 +1,6 @@
 <script>
 	$(document).ready(function() {
-		var url = SiteUrl + "/?module=HomeHealth&page=locations&action=census&location=" + $("#location option:selected").val() + "&area=" + $("#area option:selected").val();
+		var url = SITE_URL + "/?module=HomeHealth&page=locations&action=census&location=" + $("#location option:selected").val() + "&area=" + $("#area option:selected").val();
 
 		$('#area').change(function() {
 			window.location = "/?module=HomeHealth&page=locations&action=census&location=" + $("#location").val() + "&area=" + $(this).val();

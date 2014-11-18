@@ -89,7 +89,7 @@ function init() {
 			var publicId = dropped.find("input:first").val();
 			var droppedDate = droppedOn.parent().find('input[name="date"]').val();
 						
-			$.post(SiteUrl, { page: 'discharges', action: 'save_discharge', public_id : publicId, date: droppedDate });
+			$.post(SITE_URL, { page: 'discharges', action: 'save_discharge', public_id : publicId, date: droppedDate });
 			
 			dropped.removeClass("moving-discharge");
 			dropped.addClass("discharge-info");
@@ -105,7 +105,7 @@ function init() {
 			var droppedOn = $(this);
 			var publicId = dropped.find("input:first").val();
 						
-			$.post(SiteUrl, { page: 'discharges', action: 'clear_discharge', public_id: publicId });
+			$.post(SITE_URL, { page: 'discharges', action: 'clear_discharge', public_id: publicId });
 
 			dropped.removeClass("moving-discharge");
 			dropped.removeClass("discharge-info");
