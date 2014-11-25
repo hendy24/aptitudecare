@@ -55,6 +55,10 @@ class HomeHealthSchedule extends AppModel {
 			$orderby = 'datetime_discharge ASC';
 		}
 
+		// Fetch those patients who were admitted 60 days ago and discharge them
+		$this->dischargePatients($location);
+
+
 		$sql = "SELECT `{$this->table}`.*, `{$this->table}`.`public_id` AS schedule_pubid, `patient`.`last_name`, `patient`.`first_name` FROM `{$this->table}` INNER JOIN `patient` ON {$this->table}.`patient_id` = `patient`.`id` WHERE {$this->table}.`datetime_discharge` >= :datetime_start AND {$this->table}.`datetime_discharge` <= :datetime_end AND {$this->table}.`location_id` = :location_id AND {$this->table}.`status` = :status ORDER BY :orderby";
 		$params = array(
 			':datetime_start' => $datetime_start,
@@ -69,6 +73,14 @@ class HomeHealthSchedule extends AppModel {
 	}
 
 
+	public function dischargePatients($location) {
+		$sql = "UPDATE {$this->table} set status = 'Discharged' WHERE start_of_care < :cut_off_date AND status = 'Approved' AND location_id = :location_id";
+		$params[":location_id"] = $location;
+		$params[":cut_off_date"] = date('Y-m-d 00:00:01', strtotime("now - 60 days"));
+		return $this->update($sql, $params);
+	}
+
+
 	public function fetchByPatientId($id) {
 		$table = $this->fetchTable();
 		$sql = "SELECT `{$table}`.* FROM `{$table}` WHERE `{$table}`.`patient_id` = :id ORDER BY `{$table}`.referral_date DESC";
@@ -79,9 +91,9 @@ class HomeHealthSchedule extends AppModel {
 
 
 	public function fetchReCertList($location_id, $all = false) {
-		$start_date = date('Y-m-d 00:00:01', strtotime("now - 57 days"));
-		$end_date = date('Y-m-d 23:59:59', strtotime("now - 67 days"));
-		$sql = "SELECT {$this->table}.*, patient.* FROM {$this->table} INNER JOIN patient ON patient.id = {$this->table}.patient_id WHERE ({$this->table}.start_of_care BETWEEN :end_date AND :start_date) AND {$this->table}.status = 'Approved' AND";
+		$start_date = date('Y-m-d 00:00:01', strtotime("now - 67 days"));
+		$end_date = date('Y-m-d 23:59:59', strtotime("now - 57 days"));
+		$sql = "SELECT {$this->table}.*, patient.* FROM {$this->table} INNER JOIN patient ON patient.id = {$this->table}.patient_id WHERE ({$this->table}.start_of_care BETWEEN :start_date AND :end_date) AND ({$this->table}.status = 'Approved' OR {$this->table}.status = 'Discharged') AND";
 
 		if ($all) {
 			$sql .= " home_health_schedule.location_id IN (SELECT facility_id FROM hh_facility_link WHERE home_health_id = :location_id)";

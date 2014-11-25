@@ -36,6 +36,11 @@
 			window.location.href = redirectTo;
 		});
 
+		$(".reCert").click(function(e) {
+			e.preventDefault();
+
+		});
+
 
 	});
 
@@ -99,6 +104,7 @@
 		<th>Status</th>
 		<th>Phone Number</th>
 		<th>Zip</th>
+		<th style="width:90px">&nbsp;</th>
 	</tr>
 	{foreach $censusList as $list}
 	<tr>
@@ -108,6 +114,7 @@
 		<td>{$list->status}</td>
 		<td>{$list->phone}</td>
 		<td>{$list->zip}</td>
+		<td><a href="#" class="button reCert">Re-Certify</a></td>
 	</tr>
 	{/foreach}
 </table>
