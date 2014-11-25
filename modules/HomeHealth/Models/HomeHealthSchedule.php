@@ -77,4 +77,24 @@ class HomeHealthSchedule extends AppModel {
 	}
 
 
+
+	public function fetchReCertList($location_id, $all = false) {
+		$start_date = date('Y-m-d 00:00:01', strtotime("now - 57 days"));
+		$end_date = date('Y-m-d 23:59:59', strtotime("now - 67 days"));
+		$sql = "SELECT {$this->table}.*, patient.* FROM {$this->table} INNER JOIN patient ON patient.id = {$this->table}.patient_id WHERE ({$this->table}.start_of_care BETWEEN :end_date AND :start_date) AND {$this->table}.status = 'Approved' AND";
+
+		if ($all) {
+			$sql .= " home_health_schedule.location_id IN (SELECT facility_id FROM hh_facility_link WHERE home_health_id = :location_id)";
+		} else {
+			$sql .= " `home_health_schedule`.`location_id` = :location_id";
+		}
+
+		$params = array(
+			":start_date" => $start_date,
+			":end_date" => $end_date,
+			":location_id" => $location_id
+		);
+		return $this->fetchAll($sql, $params);
+	}
+
 }

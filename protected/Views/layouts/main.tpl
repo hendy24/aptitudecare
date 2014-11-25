@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,7 +78,7 @@
 <!-- 		<div id="copyright">
 			<p>All content &copy; {$smarty.now|date_format:"%Y"} AptitudeCare.  All rights reserved. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptITude</a></p>
 		</div>
- -->	</div>
+	</div>-->
 
 	</div>
 

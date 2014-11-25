@@ -152,9 +152,9 @@ class HealthcareFacilitiesController extends MainController {
 		if ($facility->save()) {
 			session()->setFlash("Successfully added/edited {$facility->name}", 'success');
 			if (!isset (input()->isMicro)) {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'physicians'));
-			} else {
 				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'healthcare_facilities'));
+			} else {
+				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			}
 		} else {
 			session()->setFlash("Could not save/edit the facility.  Please try again.", 'error');

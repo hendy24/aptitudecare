@@ -16,6 +16,7 @@
 		<li>Info
 			<ul>
 				<li><a href="{$SITE_URL}/?module=HomeHealth&amp;page=locations&amp;action=census">Census</a></li>
+				<li><a href="{$SITE_URL}/?module=HomeHealth&amp;page=locations&amp;action=recertification_list">Re-Certification List</a></li>
 			</ul>
 		</li>
 		<li>Data
