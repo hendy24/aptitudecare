@@ -1,11 +1,11 @@
 <?php
 
-class Module extends AppModel {
+class Module extends AppData {
 	
 	protected $table = 'module';
 
 	public function fetchUserModules($user) {
-		$sql = "SELECT {$this->table}.* FROM {$this->table} INNER JOIN `user_module` ON `user_module`.`module_id`={$this->table}.`id` INNER JOIN `user` ON `user`.`id`=`user_module`.`user_id` WHERE `user`.`public_id`=:userid order by `user`.`default_module`, `module`.`name` ASC";
+		$sql = "SELECT {$this->tableName()}.* FROM {$this->tableName()} INNER JOIN `ac_user_module` ON `ac_user_module`.`module_id`={$this->tableName()}.`id` INNER JOIN `ac_user` ON `ac_user`.`id`=`ac_user_module`.`user_id` WHERE `ac_user`.`public_id`=:userid order by `ac_user`.`default_module`, `ac_module`.`name` ASC";
 		$params[':userid'] = $user;
 		return $this->fetchAll($sql, $params);
 	}

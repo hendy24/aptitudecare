@@ -3,7 +3,6 @@
 class CliniciansController extends MainController {
 
 	public function manage() {		
-
 		if (isset (input()->location)) {
 			$loc_id = input()->location;
 		} else {
@@ -23,8 +22,8 @@ class CliniciansController extends MainController {
 
 		smarty()->assign('title', 'Manage Clinicians');
 
-		$clinicianOptions = $this->loadModel('Clinician')->fetchClinicianTypes();
 		$clinicianTypes = $this->loadModel('Clinician')->fetchClinicianTypes($filter);
+		$clinicianOptions = $this->loadModel('Clinician')->fetchClinicianTypes();
 		$clinicians = $this->loadModel('Clinician')->fetchClinicians($location, $filter);
 
 		smarty()->assign('clinicianTypes', $clinicianTypes);

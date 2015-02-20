@@ -1,18 +1,18 @@
 <?php
 
-class HealthcareFacility extends AppModel {
+class HealthcareFacility extends AppData {
 
 	protected $table = 'healthcare_facility';
 
 	protected $belongsTo = array(
 		'LocationType' => array(
-			'table' => 'location_type',
+			'table' => 'ac_location_type',
 			'join_type' => 'INNER',
 			'inner_key' => 'location_type_id',
 			'foreign_key' => 'id',
 			'join_field' => array(
 				'column' => 'description',
-				'name' => 'location_type'
+				'name' => 'ac_location_type'
 			)
 		)
 	);

@@ -1,16 +1,16 @@
 <?php
 
-class Clinician extends Data {
+class Clinician extends HomeHealth {
 	protected $table = 'clinician';
 
 
 	public function fetchClinicians($location, $filter = false) {
 		$params = array();
-		$sql = "SELECT * FROM user INNER JOIN user_clinician ON user_clinician.user_id=user.id INNER JOIN clinician ON clinician.id=user_clinician.clinician_id INNER JOIN user_location ON user_location.user_id = user.id WHERE user_location.location_id = :location_id";
+		$sql = "SELECT * FROM ac_user INNER JOIN home_health_user_clinician ON home_health_user_clinician.user_id = ac_user.id INNER JOIN {$this->tableName()} ON {$this->tableName()}.id = home_health_user_clinician.clinician_id INNER JOIN ac_user_location ON ac_user_location.user_id = ac_user.id WHERE ac_user_location.location_id = :location_id";
 		$params[":location_id"] = $location->id;
 
 		if ($filter) {
-			$sql .= " AND clinician.name = :filter";
+			$sql .= " AND {$this->tableName()}.name = :filter";
 			$params[":filter"] = $filter;
 		}
 
@@ -20,10 +20,10 @@ class Clinician extends Data {
 
 	public function fetchClinicianTypes($filter = false) {
 		$params = array();
-		$sql = "SELECT * FROM {$this->table}";
+		$sql = "SELECT * FROM {$this->tableName()}";
 
-		if ($filter) {
-			$sql .= " WHERE {$this->table}.name = :filter";
+		if ($filter) {	
+			$sql .= " WHERE {$this->tableName()}.name = :filter";
 			$params[":filter"] = $filter;
 		}
 		return $this->fetchAll($sql, $params);

@@ -4,7 +4,6 @@ class MainPageController extends MainController {
 	
 		
 	public function index() {
-		
 		// Check if user is logged in, if not redirect to login page
 		if (!auth()->isLoggedIn()) {
 			$this->redirect(array('page' => 'Login', 'action' => 'index'));
@@ -21,9 +20,9 @@ class MainPageController extends MainController {
 			$tokens = explode(' ', $term);
 			$params = array();
 			$classes = array(
-				'case_manager' => 'CaseManager',
-				'physician' => 'Physician',
-				'healthcare_facility' => 'HealthcareFacility'
+				'ac_case_manager' => 'CaseManager',
+				'ac_physician' => 'Physician',
+				'ac_healthcare_facility' => 'HealthcareFacility'
 			);
 
 			//	Get the location to which the patient will be admitted 
@@ -40,23 +39,23 @@ class MainPageController extends MainController {
 				$token = trim($token);
 				$params[":term{$idx}"] = "%{$token}%";
 				foreach ($classes as $k => $t) {
-					if ($k != 'healthcare_facility') {
+					if ($k != 'ac_healthcare_facility') {
 						$sql .= "(SELECT `{$k}`.`id`, `{$k}`.`public_id`, CONCAT(`{$k}`.`first_name`, ' ', `{$k}`.`last_name`) AS name, @type:=\"{$t}\" AS type FROM `{$k}`";
 						if ($k == 'case_manager') {
-							$sql .= " INNER JOIN `healthcare_facility` ON `healthcare_facility`.`id`=`case_manager`.`healthcare_facility_id`";
+							$sql .= " INNER JOIN `ac_healthcare_facility` ON `ac_healthcare_facility`.`id`=`case_manager`.`healthcare_facility_id`";
 						}
 
 						$sql .= " WHERE `{$k}`.`first_name` LIKE :term{$idx} OR `{$k}`.`last_name` LIKE :term{$idx}";
-						if ($k == 'case_manager') {
-							$sql .= " AND (`healthcare_facility`.`state` = :state";
+						if ($k == 'home_health_case_manager') {
+							$sql .= " AND (`ac_healthcare_facility`.`state` = :state";
 							foreach ($additionalStates as $key => $addState) {
-								$sql .= " OR `healthcare_facility`.`state` = :add_state{$key}";
+								$sql .= " OR `ac_healthcare_facility`.`state` = :add_state{$key}";
 								
 							}
 						} else {
 							$sql .= " AND (`physician`.`state` = :state";
 							foreach ($additionalStates as $key => $addState) {
-								$sql .= " OR `physician`.`state` = :add_state{$key}";
+								$sql .= " OR `ac_physician`.`state` = :add_state{$key}";
 							}
 						}
 						$sql .= ")) UNION";
@@ -104,6 +103,14 @@ class MainPageController extends MainController {
 		smarty()->assignByRef('search_results', $search_results);
 	}
 
+
+	protected function dateDiff($start, $end) {
+			$start_ts = strtotime($start);
+			$end_ts = strtotime($end);
+			$diff = $end_ts - $start_ts;
+			return round($diff / 86400);
+
+	}
 
 
 

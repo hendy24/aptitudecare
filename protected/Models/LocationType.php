@@ -1,17 +1,17 @@
 <?php
 
-class LocationType extends AppModel {
+class LocationType extends AppData {
 
 	protected $table = 'location_type';
 
 	protected $hasMany = array(
 		'HealthcareFacility' => array(
-			'table' => 'healthcare_facility',
+			'table' => 'ac_healthcare_facility',
 			'inner_key' => 'id',
 			'foreign_key' => 'location_type_id'
 		),
 		'Location' => array(
-			'table' => 'location',
+			'table' => 'ac_location',
 			'inner_key' => 'id',
 			'foreign_key' => 'location_type'
 		)
@@ -19,7 +19,7 @@ class LocationType extends AppModel {
 
 
 	public function getTypes() {
-		$sql = "SELECT * FROM `{$this->table}`";
+		$sql = "SELECT * FROM `{$this->tableName()}`";
 		return $this->fetchAll($sql);
 	}
 }

@@ -1,6 +1,7 @@
 <?php
 
-class FaceToFace extends AppModel {
+class FaceToFace extends HomeHealth {
+
 	protected $table = 'face_to_face';
 	public $id;
 	public $home_health_schedule;
@@ -16,7 +17,7 @@ class FaceToFace extends AppModel {
 		if (!$schedule) {
 			return false;
 		}
-		$sql = "SELECT {$this->table}.*, physician.last_name, physician.first_name, physician.id AS physician_id FROM {$this->table} INNER JOIN physician ON physician.id = {$this->table}.physician_id WHERE home_health_schedule = :schedule";
+		$sql = "SELECT {$this->tableName()}.*, ac_physician.last_name, ac_physician.first_name, ac_physician.id AS physician_id FROM {$this->tableName()} INNER JOIN ac_physician ON ac_physician.id = {$this->tableName()}.physician_id WHERE home_health_schedule = :schedule";
 		$params[":schedule"] = $schedule;
 		return $this->fetchOne($sql, $params);
 	}

@@ -1,0 +1,22 @@
+#container {
+	position: relative;
+	width: 95%;
+	margin: auto;
+}
+
+.dateTitle {
+	position: relative;
+	width: 100%;
+	text-align: center;
+	font-size: 18px;
+	clear: right;
+}
+
+.menuItems {
+	position: relative;
+	float: left;
+	width: 25%;
+	margin: 0;
+	padding: 20px;
+	height: 100px;
+}

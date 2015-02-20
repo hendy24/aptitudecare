@@ -12,7 +12,7 @@
 		});
 	});
 </script>
-{include file="$VIEWS/elements/search_bar.tpl"}
+{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
 <h2>Schedule Discharges</h2>
 
 <div id="discharges">

@@ -18,7 +18,7 @@ class HealthcareFacilitiesController extends MainController {
 			$tokens = explode(' ', $term);
 			$params = array();
 
-			$sql = "SELECT * FROM healthcare_facility WHERE ";
+			$sql = "SELECT * FROM ac_healthcare_facility WHERE ";
 			foreach ($tokens as $idx => $token) {
 				$token = trim($token);
 				$sql .= " name like :term{$idx} AND";
@@ -31,20 +31,20 @@ class HealthcareFacilitiesController extends MainController {
 				$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
 
 				$params[':location_state'] = $location->state;
-				$sql .= " AND (healthcare_facility.state = :location_state";
+				$sql .= " AND (ac_healthcare_facility.state = :location_state";
 
 				foreach ($additionalStates as $k => $s) {
 					$params[":add_states{$k}"] = $s->state;
-					$sql .= " OR healthcare_facility.state = :add_states{$k}";
+					$sql .= " OR ac_healthcare_facility.state = :add_states{$k}";
 				}
 
 				$sql .= ")";
 			} elseif (isset (input()->state) && input()->state != '') {
 				$params[':state'] = input()->state;
-				$sql .= " AND healthcare_facility.state = :state";
+				$sql .= " AND ac_healthcare_facility.state = :state";
 			}
 
-			$sql .= " ORDER BY `healthcare_facility`.`name` ASC";
+			$sql .= " ORDER BY `ac_healthcare_facility`.`name` ASC";
 
 			$class = $this->loadModel('HealthcareFacility');
 

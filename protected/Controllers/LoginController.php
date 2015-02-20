@@ -17,9 +17,9 @@ class LoginController extends MainPageController {
 		session()->checkFlashMessages();
 				
 		// Check for a global company email extension
-		$emailExt = Company::getEmailExt();	
+		$company = $this->loadModel('Company')->getEmailExt();
 		
-		smarty()->assign('site_email', $emailExt->global_email_ext);
+		smarty()->assign('site_email', $company->global_email_ext);
 		smarty()->assign('title', 'Login');
 
 
@@ -34,8 +34,8 @@ class LoginController extends MainPageController {
 				// Check the email for the '@' symbol
 				if (strstr(input()->email, '@')) {
 					$username = input()->email;
-				} elseif ($emailExt) {  // Check the db for the global company email extension, if it exists add it here
-					$username = input()->email . $emailExt->global_email_ext;
+				} elseif ($company->global_email_ext) {  // Check the db for the global company email extension, if it exists add it here
+					$username = input()->email . $company->global_email_ext;
 				} else { // if there is no '@' symbol and no global email extension use aptitudecare.com
 					$username = input()->email . '@aptitudecare.com';
 				}

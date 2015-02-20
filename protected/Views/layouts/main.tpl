@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
+	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
@@ -28,12 +29,16 @@
 	</script>
 
 	<script type="text/javascript" src="{$JS}/general.js"></script>
-	<script type="text/javascript" src="{$JS}/timeout.js"></script>	  
-	<script>
-		$(document).ready(function() {
-			startTimer();
-		});
-	</script> 
+
+	{if $auth->getRecord()->timeout}
+		<script type="text/javascript" src="{$JS}/timeout.js"></script>	  
+
+		<script>
+			$(document).ready(function() {
+				startTimer();
+			});
+		</script> 
+	{/if}
 </head>
 <body>
 	<div id="header-container">
@@ -45,7 +50,7 @@
 			{/if}
 			<img src="{$logo}" alt="Logo" class="logo"/>
 			{if $auth->valid()}
-				{include file="$VIEWS/elements/nav.tpl"}
+				{include file="$VIEWS/elements/{$navigation}-nav.tpl"}
 			{/if}
 		</div>
 	</div>

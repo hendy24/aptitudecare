@@ -1,16 +1,16 @@
 <?php
 
-class CaseManager extends Data {
+class CaseManager extends AppData {
 	protected $table = 'case_manager';
 	protected $belongsTo = array(
 		'HealthcareFacility' => array(
-			'table' => 'healthcare_facility',
+			'table' => 'ac_healthcare_facility',
 			'join_type' => 'INNER',
 			'inner_key' => 'healthcare_facility_id',
 			'foreign_key' => 'id',
 			'join_field' => array(
 				'column' => 'name',
-				'name' => 'healthcare_facility'
+				'name' => 'ac_healthcare_facility'
 			)
 		)
 	);
@@ -43,7 +43,7 @@ class CaseManager extends Data {
 		}
 		$state = trim($state, ", ");
 
-		$sql = "SELECT count({$this->table}.id) AS items FROM {$this->table} INNER JOIN healthcare_facility ON healthcare_facility.id = {$this->table}.healthcare_facility_id WHERE healthcare_facility.state IN ({$state})";
+		$sql = "SELECT count({$this->tableName()}.id) AS items FROM {$this->tableName()} INNER JOIN ac_healthcare_facility ON ac_healthcare_facility.id = {$this->tableName()}.healthcare_facility_id WHERE ac_healthcare_facility.state IN ({$state})";
 
 		return $this->fetchOne($sql);
 	}
