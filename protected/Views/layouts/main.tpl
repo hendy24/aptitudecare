@@ -30,7 +30,7 @@
 
 	<script type="text/javascript" src="{$JS}/general.js"></script>
 
-	{if $auth->getRecord()->timeout}
+	{if $auth->valid() && $auth->getRecord()->timeout}
 		<script type="text/javascript" src="{$JS}/timeout.js"></script>	  
 
 		<script>

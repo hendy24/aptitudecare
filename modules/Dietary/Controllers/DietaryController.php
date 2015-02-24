@@ -42,7 +42,6 @@ class DietaryController extends MainPageController {
 		}
 		smarty()->assignByRef('location', $location);
 
-
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $startDate);
 		smarty()->assign('menu', $menu);
@@ -55,6 +54,22 @@ class DietaryController extends MainPageController {
 
 		// Get the menu items for the week
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $startDate, $endDate, $startDay, $endDay, $menu->menu_id);
+
+		foreach ($menuItems as $key => $item) {
+			if ($item->date != "") {
+				$menuItems[$key]->type = "MenuMod";
+			} elseif ($item->menu_item_id != "") {
+				$menuItems[$key]->type = "MenuChange";
+			} else {
+				$menuItems[$key]->type = "MenuItem";
+			}
+
+			// Get the current week
+			$menuWeek = floor($item->day / 7);
+		}
+
+		smarty()->assign('count', 0);
+		smarty()->assign('menuWeek', $menuWeek);
 		smarty()->assignByRef('menuItems', $menuItems);
 	}
 
