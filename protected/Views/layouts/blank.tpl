@@ -5,6 +5,7 @@
 	<title>{$title}</title>
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css">
+	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
@@ -25,7 +26,7 @@
 	
 </head>
 <body>
-	<div id="wrapper">
+	<div id="blank-wrapper">
 		<div id="content">
 			{include file=$content}
 		</div>

@@ -103,3 +103,15 @@ div.menu-edit-button {
 #location {
 	background: #333;
 }
+
+#blank-wrapper {
+	width: 92%;
+	min-height: 100%;
+	margin: 10px auto 25px auto;
+	position: relative;
+}
+
+#tv-mode-button {
+	position: absolute;
+	right: 15px;
+}
