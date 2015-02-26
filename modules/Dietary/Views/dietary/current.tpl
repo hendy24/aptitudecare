@@ -21,7 +21,11 @@
 		<td class="menu-content">
 			<div class="menu">
 				<div class="menu-info {if $menuItem->type == "MenuMod"}background-blue{elseif $menuItem->type == "MenuChange"} background-grey{/if}">
-				{$menuItem->content|unescape:'htmlall'}
+					<ul>
+					{foreach $menuItem->content as $menu}
+						<li>{$menu|unescape:'html'}</li>
+					{/foreach}
+					</ul>
 				</div>
 				<div class="menu-edit-button">
 					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit&amp;location={$location->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;date={"$startDate + $count day"|date_format:"%Y-%m-%d"}" class="button">Edit</a>

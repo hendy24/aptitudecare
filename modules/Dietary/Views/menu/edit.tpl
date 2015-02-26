@@ -1,3 +1,5 @@
+
+
 <script>
 	$(document).ready(function() {
 		$("#reset").submit(function(e) {
@@ -31,7 +33,13 @@
 			<td colspan="2"><strong>Menu:</strong></td>
 		</tr>
 		<tr>
-			<td colspan="2"><textarea name="menu_content" id="menu-content" cols="30" rows="10">{$menuItem->content}</textarea></td>
+			<td colspan="2">
+				<textarea name="menu_content" id="menu-content" cols="50" rows="20">
+					{foreach $menuItem->content as $menu}
+						{$menu|unescape:'html'}
+					{/foreach}
+				</textarea>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">&nbsp;</td>

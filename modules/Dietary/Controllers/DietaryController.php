@@ -66,7 +66,18 @@ class DietaryController extends MainPageController {
 
 			// Get the current week
 			$menuWeek = floor($item->day / 7);
+
+			// explode the tags
+			if (strstr($item->content, "<p>")) {
+				$menuItems[$key]->content = explode("<p>", $item->content);
+				$menuItems[$key]->content = str_replace("</p>", "", $item->content);
+			} else {
+				$menuItems[$key]->content = explode("<br />", $item->content);
+			}
+			
 		}
+
+
 
 		smarty()->assign('count', 0);
 		smarty()->assign('menuWeek', $menuWeek);
@@ -80,6 +91,35 @@ class DietaryController extends MainPageController {
 
 
 	public function facility_menus() {
+		smarty()->assign('title', "Facility Menu");
+		$user = auth()->getRecord();
+
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = $this->loadModel('Location', $user->default_location);
+		}
+
+		$date = date('Y-m-d', strtotime("now"));
+		$currentMenu = $this->loadModel('LocationMenu')->fetchMenu($location->id, $date);
+
+		if (isset (input()->menu_id)) {
+			$selectedMenu = $this->loadModel('Menu', input()->menu_id);
+		} else {
+			$selectedMenu = $currentMenu;
+		}
+
+		smarty()->assign('location', $location);
+		smarty()->assign('currentMenu', $currentMenu);
+
+		// get all available menus for this location
+		$availableMenus = $this->loadModel('LocationMenu')->fetchAvailable($location->id);
+		smarty()->assign('availableMenus', $availableMenus);
+		smarty()->assign('selectedMenu', $selectedMenu);
+
+		// paginate menu info
+		$results = $this->paginate($currentMenu, $location);
+
 
 	}
 

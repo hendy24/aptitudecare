@@ -10,6 +10,61 @@ class MainPageController extends MainController {
 		}
 		
 	}
+
+
+	public function getLocations() {
+		
+		$selectedLocation = null;
+
+		// get all the locations to which the user has access
+		if (isset(input()->module)) {
+			// if the module is home health, select only home health locations
+			if (input()->module == "HomeHealth") {
+				$locations = $this->loadModel('Location')->fetchHomeHealthLocations($this->module);
+
+				// get either the selected location or the users' default location
+				$location = $this->getSelectedLocation($locations);
+
+				// need to get the other locations to which the user has access and assign them as areas
+				$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
+			}
+
+		} else {
+			$locations = $this->loadModel('Location')->fetchAllLocations();
+			$location = $this->getSelectedLocation($locations);
+		}
+		
+		
+		// get the users default location
+		
+
+		smarty()->assignByRef('locations', $locations);
+		smarty()->assign('selectedLocation', $location);
+		smarty()->assignByRef('areas', $areas);
+	}	
+
+
+	private function getSelectedLocation($locations) {
+		$user = auth()->getRecord();
+		
+
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = $this->loadModel('Location', $user->default_location);
+		}
+		
+
+		if (isset (input()->module)) {
+			// if we are on the homehealth module and the users default location type is 1
+			// then we need to get the associated homehealth location
+			if (input()->module == "HomeHealth" && $location->location_type == 1) {
+				$location = $location->fetchHomeHealthLocation();
+			}
+		}
+
+		return $location;
+	}
 	
 
 	public function searchReferralSources() {

@@ -1,3 +1,8 @@
+
+ul {
+	list-style-type: none;
+}
+
 #container {
 	position: relative;
 	width: 95%;
@@ -91,4 +96,8 @@ div.menu-edit-button {
 	display: inline;
 	padding: 10px;
 	text-align: justify;
+}
+
+#location {
+	background: #333;
 }

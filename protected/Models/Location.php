@@ -14,6 +14,18 @@ class Location extends AppData {
 	);
 
 
+	// fetch all the locations to which the user has permission to access. 
+	// this function is used on the mainpagecontroller
+	public function fetchAllLocations() {
+		$user = auth()->getRecord();
+		$userLocation = $this->loadTable('UserLocation');
+
+		$sql = "SELECT * FROM {$this->tableName()} INNER JOIN {$userLocation->tableName()} ON {$userLocation->tableName()}.location_id = {$this->tableName()}.id WHERE {$userLocation->tableName()}.user_id = :user_id";
+		$params[":user_id"] = $user->id;
+		return $this->fetchAll($sql, $params);
+	}
+
+
 	public function fetchDefaultLocation() {
 		if (auth()->valid()) {
 			$user = auth()->getRecord();

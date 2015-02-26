@@ -1,6 +1,6 @@
 <?php
 
-class UsersController extends MainController {
+class UsersController extends MainPageController {
 
 
 	/*

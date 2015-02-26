@@ -26,6 +26,15 @@ class MenuController extends MainPageController {
 			$menuItem = $this->loadModel("MenuItem", input()->id);
 		}
 
+
+		// remove tags from the menu
+		if (strstr($menuItem->content, "<p>")) {
+			$menuItem->content = explode("<p>", $menuItem->content);
+			$menuItem->content = str_replace("</p>", "", $menuItem->content);
+		} else {
+			$menuItem->content = explode("<br />", $menuItem->content);
+		}
+
 		$location = $this->loadModel('Location', input()->location);
 
 		smarty()->assign('location', $location);
@@ -45,6 +54,7 @@ class MenuController extends MainPageController {
 			$menuItem = $this->loadModel('MenuMod');
 		}
 
+
 		// get the location
 		if (input()->location == "") {
 			session()->setFlash("No facility menu was selected. Please try again.", 'error');
@@ -61,7 +71,7 @@ class MenuController extends MainPageController {
 				$this->redirect(array('module' => 'Dietary', 'page' => 'dietary', 'action' => 'current', 'location' => $location->public_id));
 			} else {
 				session()->setFlash("Could not reset the menu changes. Please try again", 'error');
-				$this->redirec(input()->path);
+				$this->redirect(input()->path);
 			}
 		}
 
@@ -89,14 +99,14 @@ class MenuController extends MainPageController {
 		$menuItem->date = input()->date;
 
 		// set the menu content to be saved...
-		$menuItem->content = input()->menu_content;
+		$menuItem->content = nl2br(input()->menu_content);
 
 		// set the user info who made the change
 		$menuItem->user_id = auth()->getRecord()->id;
 
 		if ($menuItem->save()) {
 			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'success');
-			$this->redirect(array('module' => 'Dietary'));
+			$this->redirect(array('module' => 'Dietary', 'page' => 'dietary', 'action' => 'current', 'location' => $location->public_id));
 		} else {
 			session()->setFlash("Could not save the menu information. Please try again.", 'error');
 			$this->redirect(input()->path);
