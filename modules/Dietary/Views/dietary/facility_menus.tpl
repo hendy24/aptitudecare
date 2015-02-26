@@ -22,3 +22,49 @@
 		{/foreach}
 	</select>
 </div>
+
+<h2>Week {$menuWeek} of the {$menu->name} Menu</h2>
+<br>
+<table id="menu-table">
+	<tr>
+	{foreach from=$menuItems item="menuItem" name="menuItems"}	
+		{if $smarty.foreach.menuItems.first}
+		<tr>
+			<th colspan="3" class="text-center">Day {$menuItem->day}</th>
+		</tr>
+		{/if}
+		<td class="menu-content">
+			<div class="menu">
+				<div class="menu-info {if $menuItem->type == "MenuMod"}background-blue{elseif $menuItem->type == "MenuChange"} background-grey{/if}">
+					<ul>
+					{foreach $menuItem->content as $menu}
+						<li>{$menu|unescape:'html'}</li>
+					{/foreach}
+					</ul>
+				</div>
+				<div class="menu-edit-button">
+					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit&amp;location={$location->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;date={"$startDate + $count day"|date_format:"%Y-%m-%d"}" class="button">Edit</a>
+				</div>
+			</div>
+			
+		</td>
+	{if $smarty.foreach.menuItems.iteration is div by 3}
+	{$count++|truncate:0:""}
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+
+		{if !$smarty.foreach.menuItems.last}
+		<tr>
+			<th colspan="3" class="text-center">Day {$menuItem->day + 1}</th>
+		</tr>
+		<tr>
+		{else}
+		</tr>
+		{/if}
+	{/if}
+			
+	{/foreach}
+</table>
+

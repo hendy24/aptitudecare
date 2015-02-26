@@ -54,34 +54,7 @@ class DietaryController extends MainPageController {
 
 		// Get the menu items for the week
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $startDate, $endDate, $startDay, $endDay, $menu->menu_id);
-
-		foreach ($menuItems as $key => $item) {
-			if ($item->date != "") {
-				$menuItems[$key]->type = "MenuMod";
-			} elseif ($item->menu_item_id != "") {
-				$menuItems[$key]->type = "MenuChange";
-			} else {
-				$menuItems[$key]->type = "MenuItem";
-			}
-
-			// Get the current week
-			$menuWeek = floor($item->day / 7);
-
-			// explode the tags
-			if (strstr($item->content, "<p>")) {
-				$menuItems[$key]->content = explode("<p>", $item->content);
-				$menuItems[$key]->content = str_replace("</p>", "", $item->content);
-			} else {
-				$menuItems[$key]->content = explode("<br />", $item->content);
-			}
-			
-		}
-
-
-
-		smarty()->assign('count', 0);
-		smarty()->assign('menuWeek', $menuWeek);
-		smarty()->assignByRef('menuItems', $menuItems);
+		$this->normalizeMenuItems($menuItems);
 	}
 
 
@@ -117,9 +90,17 @@ class DietaryController extends MainPageController {
 		smarty()->assign('availableMenus', $availableMenus);
 		smarty()->assign('selectedMenu', $selectedMenu);
 
-		// paginate menu info
-		$results = $this->paginate($currentMenu, $location);
+		if (isset (input()->page)) {
+			$page = input()->page;
+		} else {
+			$page = false;
+		}
 
+		// paginate menu info
+		$results = $this->loadModel('MenuItem')->paginateMenuItems($currentMenu->menu_id, $location->id, $page);
+		$this->normalizeMenuItems($results);
+
+		smarty()->assign('menu', $selectedMenu);
 
 	}
 
@@ -146,6 +127,42 @@ class DietaryController extends MainPageController {
 
 	public function menu_start_date() {
 
+	}
+
+
+
+
+
+	public function normalizeMenuItems($menuItems) {
+		foreach ($menuItems as $key => $item) {
+
+			if (isset ($item->date)) {
+				if ($item->date != "") {
+					$menuItems[$key]->type = "MenuMod";
+				} elseif ($item->menu_item_id != "") {
+					$menuItems[$key]->type = "MenuChange";
+				} else {
+					$menuItems[$key]->type = "MenuItem";
+				}
+			}
+			
+
+			// Get the current week
+			$menuWeek = floor($item->day / 7);
+
+			// explode the tags
+			if (strstr($item->content, "<p>")) {
+				$menuItems[$key]->content = explode("<p>", $item->content);
+				$menuItems[$key]->content = str_replace("</p>", "", $item->content);
+			} else {
+				$menuItems[$key]->content = explode("<br />", $item->content);
+			}
+			
+		}
+
+		smarty()->assign('count', 0);
+		smarty()->assign('menuWeek', $menuWeek);
+		smarty()->assignByRef('menuItems', $menuItems);
 	}
 
 

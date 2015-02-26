@@ -19,11 +19,7 @@ class HomeHealthSchedule extends HomeHealth {
 	 * -------------------------------------------------------------------------
 	 */	
 
-	public function fetchAdmits($datetime_start, $datetime_end, $location, $orderby = null) {
-
-
-		$sql = "SELECT `{$this->tableName()}`.*, {$this->tableName()}.public_id AS hh_public_id, `ac_patient`.*, `ac_location`.`name` AS location_name, `ac_healthcare_facility`.`name` AS healthcare_facility_name FROM {$this->tableName()} INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` INNER JOIN `ac_location` ON `ac_location`.`id` = `{$this->tableName()}`.`location_id` INNER JOIN `ac_healthcare_facility` ON `ac_healthcare_facility`.`id` = `{$this->tableName()}`.`admit_from_id` WHERE {$this->tableName()}.`referral_date` >= :datetime_start AND {$this->tableName()}.`referral_date` <= :datetime_end AND {$this->tableName()}.`location_id` = :location_id AND ({$this->tableName()}.`status` = 'Approved' OR {$this->tableName()}.`status` = 'Pending')";
-
+	public function fetchAdmits($datetime_start, $datetime_end, $locations = array(), $orderby = null) {
 		if ($orderby != null) {
 			$sql .= " ORDER BY :orderby";
 			$params[':orderby'] = $orderby;
@@ -32,9 +28,23 @@ class HomeHealthSchedule extends HomeHealth {
 		$params = array(
 			':datetime_start' => date('Y-m-d 00:00:01', strtotime($datetime_start)),
 			':datetime_end' => date('Y-m-d 23:59:59', strtotime($datetime_end)),
-			':location_id' => $location,
 		);
-		return $this->fetchAll($sql, $params);
+
+
+		$sql = "SELECT `{$this->tableName()}`.*, {$this->tableName()}.public_id AS hh_public_id, `ac_patient`.*, `ac_location`.`name` AS location_name, `ac_healthcare_facility`.`name` AS healthcare_facility_name FROM {$this->tableName()} INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` INNER JOIN `ac_location` ON `ac_location`.`id` = `{$this->tableName()}`.`location_id` INNER JOIN `ac_healthcare_facility` ON `ac_healthcare_facility`.`id` = `{$this->tableName()}`.`admit_from_id` WHERE {$this->tableName()}.`referral_date` >= :datetime_start AND {$this->tableName()}.`referral_date` <= :datetime_end AND {$this->tableName()}.`location_id` IN (";
+
+		
+
+		
+		foreach ($locations as $key => $location) {
+			$params[":location{$key}"] = $location->id;
+			$sql .= ":location{$key}, ";
+		}
+
+		$sql = trim($sql, ", ");
+
+		$sql .= ") AND ({$this->tableName()}.`status` = 'Approved' OR {$this->tableName()}.`status` = 'Pending')";
+		return $this->fetchAll($sql, $params, $this);
 	}
 
 
@@ -45,7 +55,7 @@ class HomeHealthSchedule extends HomeHealth {
 	 * -------------------------------------------------------------------------
 	 */
 
-	public function fetchDischarges($datetime_start, $datetime_end, $location, $status = null, $orderby = null) {
+	public function fetchDischarges($datetime_start, $datetime_end, $locations = array(), $status = null, $orderby = null) {
 
 		if ($status == null) {
 			$status = 'Scheduled Discharge';
@@ -55,18 +65,32 @@ class HomeHealthSchedule extends HomeHealth {
 			$orderby = 'datetime_discharge ASC';
 		}
 
-		// Fetch those patients who were admitted 60 days ago and discharge them
-		$this->dischargePatients($location);
 
-
-		$sql = "SELECT `{$this->tableName()}`.*, `{$this->tableName()}`.`public_id` AS schedule_pubid, `ac_patient`.`last_name`, `ac_patient`.`first_name` FROM `{$this->tableName()}` INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` WHERE {$this->tableName()}.`datetime_discharge` >= :datetime_start AND {$this->tableName()}.`datetime_discharge` <= :datetime_end AND {$this->tableName()}.`location_id` = :location_id AND {$this->tableName()}.`status` = :status ORDER BY :orderby";
 		$params = array(
 			':datetime_start' => $datetime_start,
 			':datetime_end' => $datetime_end,
-			':location_id' => $location,
 			':status' => $status,
 			':orderby' => $orderby
 		);
+
+
+		$sql = "SELECT `{$this->tableName()}`.*, `{$this->tableName()}`.`public_id` AS schedule_pubid, `ac_patient`.`last_name`, `ac_patient`.`first_name` FROM `{$this->tableName()}` INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` WHERE {$this->tableName()}.`datetime_discharge` >= :datetime_start AND {$this->tableName()}.`datetime_discharge` <= :datetime_end AND {$this->tableName()}.`location_id` IN (
+			";
+
+		foreach ($locations as $key => $location) {
+			// Fetch those patients who were admitted 60 days ago and discharge them
+			$this->dischargePatients($location);
+
+			$params[":location{$key}"] = $location->id;
+			$sql .= ":location{$key}, ";
+		}
+
+		$sql = trim($sql, ", ");
+
+
+		$sql .= ") :location_id AND {$this->tableName()}.`status` = :status ORDER BY :orderby";
+
+		debug ($sql, $params); die();
 
 		return $this->fetchAll($sql, $params);
 

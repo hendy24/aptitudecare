@@ -44,7 +44,7 @@
 
 				<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
 
-				{$admit->healthcare_facility_name}
+				{$admit->healthcare_facility_name}<br>
 			</div>
 			{/if}
 			{/foreach}
