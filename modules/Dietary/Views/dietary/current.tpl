@@ -8,10 +8,9 @@
 </script>
 
 {include file="$VIEWS/elements/{$searchBar}-search.tpl"}
-<br>
 <h1>Week Beginning {$startDate|date_format: "%A, %B %e, %G"}</h1>
 <h2>Week {$menuWeek} of the {$menu->name} Menu</h2>
-
+<br>
 <table id="menu-table">
 	<tr>
 		<th colspan="3" class="text-center">{$startDate|date_format:"%A, %B %e, %Y"}</th>

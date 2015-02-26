@@ -32,13 +32,14 @@ table#menu-table {
 }
 
 table#menu-table th {
-	padding-top: 50px;
 	padding-bottom: 5px;
 	font-size: 18px;
+	font-weight: normal;
+	background: #444;
+	color: #f1f1f1;
 }
 
 table#menu-table td {
-	padding: 0 15px;
 	width: 33%;
 }
 
@@ -49,6 +50,7 @@ table#menu-table a.button {
 
 table#menu-table td.menu-content {
 	vertical-align: top;
+	padding-left: 0;
 }
 
 div.menu {
@@ -56,18 +58,18 @@ div.menu {
 	display: inline-block;
 	height: 100%;
 	width: 100%;
-	margin-bottom: 35px;
+	margin-bottom: 50px;
+	border-radius: 5px;
 }
 
 div.menu-info {
-	padding: 5px;
-	border-radius: 3px;
+	padding: 0;
 }
 
 div.menu-edit-button {
 	position: absolute;
-	bottom: 0;
-	right: 10px;
+	bottom: 15px;
+	right: 15px;
 }
 
 #legend {

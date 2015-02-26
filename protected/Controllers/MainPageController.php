@@ -27,6 +27,11 @@ class MainPageController extends MainController {
 
 				// need to get the other locations to which the user has access and assign them as areas
 				$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
+			} elseif (input()->module == "Dietary") {
+				// Select only facilities
+				$locations = $this->loadModel('Location')->fetchFacilities();
+				// get either the selected location or the users' default location
+				$location = $this->getSelectedLocation($locations);
 			}
 
 		} else {

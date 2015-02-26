@@ -18,37 +18,44 @@ class HomeHealthController extends MainPageController {
 	public function index() {
 		$this->helper = 'PatientMenu';
 
+		$location = false;
+		$area = false;
+		// location in the url = a home health location
+		// area in the url = a facility location
+
 		if (isset(input()->location)) {
-			// If the location is set in the url, get the location by the public_id
+			// If the location is set in the url, get the home health location by the public_id
 			$location = $this->loadModel('Location', input()->location);
 
 			if (isset (input()->area)) {
-				$area = $this->loadModel('Location', input()->area);
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
+				$area = $this->loadModel('Location', input()->area);	
+			} 
+
 		} else {
-			// Get the users default location from the session
+			// If no location, the get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
-			//  If this is not a home health location need to get the associated home health agency
+
+			//  Check if the default location is home health, if not need to get the associated home health agency
 			if ($location->location_type != 2) {
-				$area = $location;
 				$location = $location->fetchHomeHealthLocation();
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
-			
+			} 		
 		}
 
-		if (!isset($area)) {
-			session()->setFlash('Cannot access the information for the selected area.', 'error');
-			//$this->redirect();
-		}
-		
 		smarty()->assignByRef('selectedArea', $area);
 		smarty()->assignByRef('loc', $location);
+
+		// get the areas (facilities) associated with the selected home health agency
+		if ($area) {
+			$areas = array($area);
+		} else {
+			$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);			
+		}
+
 		
-		// Probably need to do some type of user authorizated access check here
+		
+		
+		
+		// Probably need to do some type of user authorization access check here
 
 		// Check url for week in the past or future
 		if (isset (input()->weekSeed)) {
@@ -62,10 +69,6 @@ class HomeHealthController extends MainPageController {
 		$week = Calendar::getWeek($weekSeed);
 
 		$nextWeekSeed = date("Y-m-d", strtotime("+7 days", strtotime($week[0])));
-
-		smarty()->assign(array(
-			
-		));
 		
 
 		smarty()->assign(array(
@@ -78,7 +81,6 @@ class HomeHealthController extends MainPageController {
 
 		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
 		$_dateEnd = date('Y-m-d 23:59:59', strtotime($week[6]));
-		$_location_id = $area->id;
 		$_orderby = 'datetime_admit ASC';
 
 
@@ -89,9 +91,8 @@ class HomeHealthController extends MainPageController {
 
 		//	Get admission dashboard discharges as new pending admits
 		//	This will be integrated more tightly once the admission dashboard is re-built
-		$adDischarges = $this->loadModel('AdmissionDashboard')->fetchDischarges($_dateStart, $_dateEnd, $_location_id);
-		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $_location_id);
-
+		$adDischarges = $this->loadModel('AdmissionDashboard')->fetchDischarges($_dateStart, $_dateEnd, $location->id, $areas);
+		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $areas);
 		
 
 		// split the admits up by date
@@ -120,7 +121,7 @@ class HomeHealthController extends MainPageController {
 
 		$_status = "Discharged";
 		$_orderby = 'datetime_discharge ASC';
-		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $_location_id, $_status, $_orderby);
+		//$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $areas, $_status, $_orderby);
 
 		// Split up discharges for each day of the week
 		$dischargesByDate = array();
