@@ -17,7 +17,7 @@ class HomeHealthController extends MainPageController {
 	 
 	public function index() {
 		$this->helper = 'PatientMenu';
-				
+
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);
@@ -42,7 +42,7 @@ class HomeHealthController extends MainPageController {
 
 		if (!isset($area)) {
 			session()->setFlash('Cannot access the information for the selected area.', 'error');
-			$this->redirect();
+			//$this->redirect();
 		}
 		
 		smarty()->assignByRef('selectedArea', $area);

@@ -4,12 +4,66 @@ class MainPageController extends MainController {
 	
 		
 	public function index() {
-		
 		// Check if user is logged in, if not redirect to login page
 		if (!auth()->isLoggedIn()) {
 			$this->redirect(array('page' => 'Login', 'action' => 'index'));
 		}
 		
+	}
+
+
+	public function getLocations() {
+		
+		$selectedLocation = null;
+
+		// get all the locations to which the user has access
+		if (isset(input()->module)) {
+			// if the module is home health, select only home health locations
+			if (input()->module == "HomeHealth") {
+				$locations = $this->loadModel('Location')->fetchHomeHealthLocations($this->module);
+
+				// get either the selected location or the users' default location
+				$location = $this->getSelectedLocation($locations);
+
+				// need to get the other locations to which the user has access and assign them as areas
+				$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
+			}
+
+		} else {
+			$locations = $this->loadModel('Location')->fetchAllLocations();
+			$location = $this->getSelectedLocation($locations);
+		}
+		
+		
+		// get the users default location
+		
+
+		smarty()->assignByRef('locations', $locations);
+		smarty()->assign('selectedLocation', $location);
+		smarty()->assignByRef('areas', $areas);
+	}	
+
+
+	private function getSelectedLocation($locations) {
+		$user = auth()->getRecord();
+		
+
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = $this->loadModel('Location', $user->default_location);
+		}
+		
+
+		if (isset (input()->module)) {
+			// if we are on the homehealth module and the users default location type is 1
+			// then we need to get the associated homehealth location
+			if (input()->module == "HomeHealth" && $location->location_type == 1) {
+				$location = $location->fetchHomeHealthLocation();
+			}
+		}
+
+		return $location;
 	}
 	
 
@@ -21,9 +75,9 @@ class MainPageController extends MainController {
 			$tokens = explode(' ', $term);
 			$params = array();
 			$classes = array(
-				'case_manager' => 'CaseManager',
-				'physician' => 'Physician',
-				'healthcare_facility' => 'HealthcareFacility'
+				'ac_case_manager' => 'CaseManager',
+				'ac_physician' => 'Physician',
+				'ac_healthcare_facility' => 'HealthcareFacility'
 			);
 
 			//	Get the location to which the patient will be admitted 
@@ -40,23 +94,23 @@ class MainPageController extends MainController {
 				$token = trim($token);
 				$params[":term{$idx}"] = "%{$token}%";
 				foreach ($classes as $k => $t) {
-					if ($k != 'healthcare_facility') {
+					if ($k != 'ac_healthcare_facility') {
 						$sql .= "(SELECT `{$k}`.`id`, `{$k}`.`public_id`, CONCAT(`{$k}`.`first_name`, ' ', `{$k}`.`last_name`) AS name, @type:=\"{$t}\" AS type FROM `{$k}`";
 						if ($k == 'case_manager') {
-							$sql .= " INNER JOIN `healthcare_facility` ON `healthcare_facility`.`id`=`case_manager`.`healthcare_facility_id`";
+							$sql .= " INNER JOIN `ac_healthcare_facility` ON `ac_healthcare_facility`.`id`=`case_manager`.`healthcare_facility_id`";
 						}
 
 						$sql .= " WHERE `{$k}`.`first_name` LIKE :term{$idx} OR `{$k}`.`last_name` LIKE :term{$idx}";
-						if ($k == 'case_manager') {
-							$sql .= " AND (`healthcare_facility`.`state` = :state";
+						if ($k == 'home_health_case_manager') {
+							$sql .= " AND (`ac_healthcare_facility`.`state` = :state";
 							foreach ($additionalStates as $key => $addState) {
-								$sql .= " OR `healthcare_facility`.`state` = :add_state{$key}";
+								$sql .= " OR `ac_healthcare_facility`.`state` = :add_state{$key}";
 								
 							}
 						} else {
 							$sql .= " AND (`physician`.`state` = :state";
 							foreach ($additionalStates as $key => $addState) {
-								$sql .= " OR `physician`.`state` = :add_state{$key}";
+								$sql .= " OR `ac_physician`.`state` = :add_state{$key}";
 							}
 						}
 						$sql .= ")) UNION";
@@ -104,6 +158,14 @@ class MainPageController extends MainController {
 		smarty()->assignByRef('search_results', $search_results);
 	}
 
+
+	protected function dateDiff($start, $end) {
+			$start_ts = strtotime($start);
+			$end_ts = strtotime($end);
+			$diff = $end_ts - $start_ts;
+			return round($diff / 86400);
+
+	}
 
 
 

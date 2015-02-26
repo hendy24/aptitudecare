@@ -10,7 +10,7 @@
 	});
 </script>
 
-{include file="$VIEWS/elements/search_bar.tpl"}
+{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
 <h2>Pending Admissions</h2>
 
 <table class="view">

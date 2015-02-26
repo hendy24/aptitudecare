@@ -1,14 +1,13 @@
 <?php
 
-class Company extends AppModel {
+class Company extends AppData {
 	
-	public $table = 'company';
+	protected $table = 'company';
 	
-	public static function getEmailExt() {
-		$sql = "select * from `company` where id=1";
+	public function getEmailExt() {
+		$sql = "select global_email_ext from {$this->tableName()} where id=1";
 		
-		$query = static::generate();
-		return $query->fetchOne($sql);
+		return $this->fetchOne($sql);
 	}
 	
 }

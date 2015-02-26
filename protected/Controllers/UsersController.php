@@ -1,6 +1,6 @@
 <?php
 
-class UsersController extends MainController {
+class UsersController extends MainPageController {
 
 
 	/*
@@ -203,65 +203,64 @@ class UsersController extends MainController {
 
 		//	If we've made it this far then save the new user data
 		//	If user id is not empty then we are editing an existing user
-		if ($user->id != '') {
-			if ($user->save()) {
-				$user_location = $this->loadModel('UserLocation');
+		if ($user->save()) {
+			$user_location = $this->loadModel('UserLocation');
 
-				// 	Need to empty all records for this user from the location table 
-				// 	before saving them again.  This will allow us to de-select
-				// 	locations that have been selected previously.
-				$user_location->deleteCurrentLocations($user->id);
-				//	We will always save at least the default location
-				$user_location->user_id = $user_id;
-				$user_location->location_id = $user->default_location;
-				$user_location->save();
+			// 	Need to empty all records for this user from the location table 
+			// 	before saving them again.  This will allow us to de-select
+			// 	locations that have been selected previously.
+			$user_location->deleteCurrentLocations($user->id);
+			//	We will always save at least the default location
+			$user_location->user_id = $user->id;
+			$user_location->location_id = $user->default_location;
+			$user_location->save();
 
-				if (!empty (input()->user_location)) {
-					foreach (input()->user_location as $loc) {
-						$add_locations = $this->loadModel('UserLocation');
-						$add_locations->user_id = $user->id;
-						$add_locations->location_id = $loc; 	
-						$add_locations->save();
-					}
-				} 
-
-				if (isset ($userClinician)) {
-					$userClinician->user_id = $user->id;
-					$userClinician->save();
+			if (!empty (input()->user_location)) {
+				foreach (input()->user_location as $loc) {
+					$add_locations = $this->loadModel('UserLocation');
+					$add_locations->user_id = $user->id;
+					$add_locations->location_id = $loc; 	
+					$add_locations->save();
 				}
-				$success = true;
+			} 
 
+			if (isset ($userClinician)) {
+				$userClinician->user_id = $user->id;
+				$userClinician->save();
 			}
-		} else {
-			//	This is a new user
-			$user_id = $user->save();
-			if ($user_id != "") {
-				$user_location = $this->loadModel('UserLocation');
 
-				//	We will always save at least the default location
-				$user_location->user_id = $user_id;
-				$user_location->location_id = $user->default_location;
-				$user_location->save();
+			// Save the user to the admission dashboard
+			if ($user->default_module == 1) {
+				$siteUser = new AdmissionDashboardUser;
+				$siteUser->pubid = $user->public_id;
+				$siteUser->password = $user->password;
+				$siteUser->email = $user->email;
+				$siteUser->first = $user->first_name;
+				$siteUser->last = $user->last_name;
+				$siteUser->phone = $user->phone;
 
-				if (!empty (input()->user_location)) {
-					foreach (input()->user_location as $loc) {
-						$add_locations = $this->loadModel('UserLocation');
-						$add_locations->user_id = $user_id;
-						$add_locations->location_id = $loc; 	
-						$add_locations->save();
-					}
-				} 
-
-				if (isset ($userClinician)) {
-					$userClinician->user_id = $user_id;
-					$userClinician->save();
+				if ($user->group_id == 2) {
+					$siteUser->is_coordinator = 1;
+				} else {
+					$siteUser->is_coordinator = 0;
 				}
-				$success = true;
-			}
-			
-		}
+
+				$siteUser->default_facility = $user->default_location;
+				$siteUser->timeout = 1;
+				$siteUser->save($siteUser, db()->dbname2);
+
+				// Need to save additional locations for admissions
+				if (!empty ($add_locations)) {
+					foreach (input()->user_location as $loc) {
+						$admit_locations = new AdmissionDashboardLocations;
+						$admit_locations->site_user = $siteUser->id;
+						$admit_locations->facility = $loc;	
+						$admit_locations->save($admit_locations, db()->dbname2);
+					}
 					
-		if ($success) {
+				}
+			}
+
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
 
 			if (isset ($userClinician)) {

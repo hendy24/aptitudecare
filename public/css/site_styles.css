@@ -1,0 +1,103 @@
+
+ul {
+	list-style-type: none;
+}
+
+#container {
+	position: relative;
+	width: 95%;
+	margin: auto;
+}
+
+.dateTitle {
+	position: relative;
+	width: 100%;
+	text-align: center;
+	font-size: 18px;
+	clear: right;
+}
+
+.menuItems {
+	position: relative;
+	float: left;
+	width: 25%;
+	margin: 0;
+	padding: 20px;
+	height: 100px;
+}
+
+table#menu-table {
+	width: 90%;
+	margin: auto;
+}
+
+table#menu-table th {
+	padding-top: 50px;
+	padding-bottom: 5px;
+	font-size: 18px;
+}
+
+table#menu-table td {
+	padding: 0 15px;
+	width: 33%;
+}
+
+table#menu-table a.button {
+	vertical-align: bottom;
+	margin-top: 15px;
+}
+
+table#menu-table td.menu-content {
+	vertical-align: top;
+}
+
+div.menu {
+	position: relative;
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	margin-bottom: 35px;
+}
+
+div.menu-info {
+	padding: 5px;
+	border-radius: 3px;
+}
+
+div.menu-edit-button {
+	position: absolute;
+	bottom: 0;
+	right: 10px;
+}
+
+#legend {
+	margin: 75px auto 25px auto;
+	padding: 10px;
+	position: relative;
+	width: 90%;
+	border: 1px solid #333;
+	border-radius: 3px;
+}
+
+.legend-item {
+	position: relative;
+	padding: 15px 0;
+	clear: both;
+}
+
+.legend-box {
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin: 0 10px;
+}
+
+.legend-desc {
+	display: inline;
+	padding: 10px;
+	text-align: justify;
+}
+
+#location {
+	background: #333;
+}

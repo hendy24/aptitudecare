@@ -316,6 +316,7 @@ class PatientsController extends MainController {
 			$patient = $this->loadModel('Patient')->fetchById(input()->patient);
 		}
 
+
 		$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
 
 		//	Fetch location info
@@ -333,8 +334,6 @@ class PatientsController extends MainController {
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('schedule', $schedule);
 		smarty()->assign('title', 'Assign Clinicians');
-
-
 
 
 		if (input()->is('post')) {

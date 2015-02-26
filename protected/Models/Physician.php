@@ -1,6 +1,6 @@
 <?php 
 
-class Physician extends AppModel {
+class Physician extends AppData {
 
 	protected $table = 'physician';
 

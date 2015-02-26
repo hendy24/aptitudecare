@@ -14,7 +14,7 @@
 		});
 	});
 </script>
-{include file="$VIEWS/elements/search_bar.tpl"}
+{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
 <div id="date-header">
 	<div class="date-header-img">
 		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>

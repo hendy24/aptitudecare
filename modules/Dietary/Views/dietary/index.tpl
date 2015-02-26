@@ -1,0 +1,1 @@
+{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
