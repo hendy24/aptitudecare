@@ -18,7 +18,7 @@ class LoginController extends MainPageController {
 				
 		// Check for a global company email extension
 		$company = $this->loadModel('Company')->getEmailExt();
-		
+
 		smarty()->assign('site_email', $company->global_email_ext);
 		smarty()->assign('title', 'Login');
 
@@ -91,7 +91,7 @@ class LoginController extends MainPageController {
 		//	Strip everything after @ from email address
 		$string = explode('@', input()->username);
 		// Check for a global company email extension
-		$emailExt = Company::getEmailExt();	
+		$emailExt = $this->loadModel('Company')->getEmailExt();	
 
 		if (!empty ($emailExt)) {
 			$username = array(input()->username, $string[0] . $emailExt->global_email_ext);
