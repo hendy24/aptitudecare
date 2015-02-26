@@ -14,7 +14,18 @@
 		});
 	});
 </script>
-{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
+
+{if !$isMicro}
+	<div id="tv-mode-button">
+		<a href="{$current_url}&amp;is_micro=true" class="button">TV Mode</a>
+	</div> 
+	{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
+{else}
+	<div id="tv-mode-button">
+		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}{if $selectedArea}&amp;area={$selectedArea->public_id}{/if}" class="button">Desktop Mode</a>
+	</div> 
+	<h2>{$loc->name}</h2>
+{/if}
 <div id="date-header">
 	<div class="date-header-img">
 		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>

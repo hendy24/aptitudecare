@@ -18,6 +18,14 @@ class HomeHealthController extends MainPageController {
 	public function index() {
 		$this->helper = 'PatientMenu';
 
+		if (isset (input()->is_micro)) {
+			$this->template = "blank";
+			$isMicro = true;
+		} else {
+			$isMicro = false;
+		}
+		smarty()->assign('isMicro', $isMicro);
+
 		$location = false;
 		$area = false;
 		// location in the url = a home health location
