@@ -1,6 +1,6 @@
 <?php
 
-class PatientsController extends MainController {
+class PatientsController extends MainPageController {
 
 	public $module = 'HomeHealth';
 

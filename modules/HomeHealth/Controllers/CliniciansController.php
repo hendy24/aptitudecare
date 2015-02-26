@@ -1,6 +1,6 @@
 <?php
 
-class CliniciansController extends MainController {
+class CliniciansController extends MainPageController {
 
 	public function manage() {		
 		if (isset (input()->location)) {

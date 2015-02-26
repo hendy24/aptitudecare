@@ -1,6 +1,6 @@
 <?php
 
-class DataController extends MainController {
+class DataController extends MainPageController {
 
 
 	public function close() {
