@@ -1,6 +1,6 @@
 <?php
 
-class LocationsController extends MainController {
+class LocationsController extends MainPageController {
 
 
 	public function census() {

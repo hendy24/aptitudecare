@@ -1,6 +1,6 @@
 <?php
 
-class DischargesController extends MainController {
+class DischargesController extends MainPageController {
 
 	public function manage() {
 

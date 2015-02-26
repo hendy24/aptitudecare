@@ -1,6 +1,6 @@
 <?php
 
-class CaseManagersController extends MainController {
+class CaseManagersController extends MainPageController {
 
 	public function submitAdd() {
 		//	Right now everyone has the ability to add healthcare facilities

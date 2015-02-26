@@ -1,6 +1,6 @@
 <?php
 
-class PhysiciansController extends MainController {
+class PhysiciansController extends MainPageController {
 
 	public function searchPhysicians() {
 		$this->template = 'blank';

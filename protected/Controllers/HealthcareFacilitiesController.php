@@ -1,6 +1,6 @@
 <?php
 
-class HealthcareFacilitiesController extends MainController {
+class HealthcareFacilitiesController extends MainPageController {
 
 
 	/*
