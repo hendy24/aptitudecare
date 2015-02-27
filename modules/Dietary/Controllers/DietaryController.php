@@ -20,17 +20,44 @@ class DietaryController extends MainPageController {
 	public function current() {
 
 		smarty()->assign('title', "Current Menu");
-		if (isset(input()->date)) {
-			$startDate = date("Y-m-d", strtotime(input()->date));
+
+		// Check url for week in the past or future
+		if (isset (input()->weekSeed)) {
+			$weekSeed = input()->weekSeed;
+		// If no date is set in the url then default to this week
 		} else {
-			$startDate = date("Y-m-d", strtotime("last sunday"));
+			$weekSeed = date('Y-m-d');
 		}
-		$endDate = date("Y-m-d", strtotime("$startDate + 6 days"));
-		smarty()->assign('startDate', $startDate);
-		smarty()->assign('previousWeek', date('m/d/Y', strtotime("$startDate - 7 days")));
-		smarty()->assign('nextWeek', date('m/d/Y', strtotime("$startDate + 7 days")));
-		$urlDate = date('m/d/Y', strtotime($startDate));
-		$printDate = date("l, F j, Y", strtotime($startDate));
+
+		$week = Calendar::getWeek($weekSeed);
+
+		$nextWeekSeed = date("Y-m-d", strtotime("+7 days", strtotime($week[0])));
+		
+
+		smarty()->assign(array(
+			'weekSeed' => $weekSeed,
+			'weekStart' => date('Y-m-d', strtotime($weekSeed)),
+			'week' => $week,
+			'advanceWeekSeed' => $nextWeekSeed,
+			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
+		));
+
+		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
+		$_dateEnd = date('Y-m-d 23:59:59', strtotime($week[6]));
+
+		if (strtotime($_dateStart) > strtotime('now')) {
+			$today = date('Y-m-d', strtotime('now'));
+		} else {
+			$today = false;
+		}
+
+		smarty()->assign('today', $today);
+
+		smarty()->assign('startDate', $_dateStart);
+
+
+		$urlDate = date('m/d/Y', strtotime($_dateStart));
+		$printDate = date("l, F j, Y", strtotime($_dateStart));
 		smarty()->assign('urlDate', $urlDate);
 
 
@@ -43,22 +70,47 @@ class DietaryController extends MainPageController {
 		smarty()->assignByRef('location', $location);
 
 		// Get the menu id the facility is currently using
-		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $startDate);
+		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
 		smarty()->assign('menu', $menu);
 
 		// Get the menu day for today
 		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
-		$startDay = round($this->dateDiff($menu->date_start, $startDate) % $numDays->count + 1);
+		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
 		$endDay = $startDay + 6;
 
 
 		// Get the menu items for the week
-		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $startDate, $endDate, $startDay, $endDay, $menu->menu_id);
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateEnd, $startDay, $endDay, $menu->menu_id);
 		$this->normalizeMenuItems($menuItems);
 	}
 
 
 	public function corporate_menus() {
+		smarty()->assign('title', "Corporate Menus");
+
+		// Get all available menus
+		$menus = $this->loadModel('Menu')->fetchAll();
+		smarty()->assign('menus', $menus);
+
+		// Set the selected menu info
+		if (isset (input()->menu)) {
+			$selectedMenu = $this->loadModel('Menu', input()->menu);
+		} else {
+			// if no menu has been selected we will just assign the first menu in the array
+			$selectedMenu = $menus[0];
+		}
+		smarty()->assign('selectedMenu', $selectedMenu);
+
+		if (isset (input()->page)) {
+			$page = input()->page;
+		} else {
+			$page = 1;
+		}
+
+
+		// Fetch content for selected menu
+		$menuItems = $this->loadModel('MenuItem')->paginateMenuItems($selectedMenu->id, null, $page);
+		$this->normalizeMenuItems($menuItems);
 
 	}
 
@@ -115,12 +167,7 @@ class DietaryController extends MainPageController {
 	}
 
 
-	public function meal_times() {
-
-	}
-
-
-	public function welcome_info() {
+	public function general_info() {
 
 	}
 
@@ -136,16 +183,13 @@ class DietaryController extends MainPageController {
 	public function normalizeMenuItems($menuItems) {
 		foreach ($menuItems as $key => $item) {
 
-			if (isset ($item->date)) {
-				if ($item->date != "") {
-					$menuItems[$key]->type = "MenuMod";
-				} elseif ($item->menu_item_id != "") {
-					$menuItems[$key]->type = "MenuChange";
-				} else {
-					$menuItems[$key]->type = "MenuItem";
-				}
+			if (isset ($item->date) && $item->date != "") {
+				$menuItems[$key]->type = "MenuMod";
+			} elseif (isset ($item->menu_item_id) && $item->menu_item_id != "") {
+				$menuItems[$key]->type = "MenuChange";
+			} else {
+				$menuItems[$key]->type = "MenuItem";
 			}
-			
 
 			// Get the current week
 			$menuWeek = floor($item->day / 7);

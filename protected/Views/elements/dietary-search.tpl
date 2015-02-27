@@ -15,7 +15,7 @@
 <div id="search-header">
 	
 	{if count($modules) > 1}
-	<div id="modules">
+	<div id="action-left">
 		Module: <select name="module" id="module">
 			
 			{foreach $modules as $m}

@@ -12,6 +12,12 @@ class MenuController extends MainPageController {
 			$this->redirect();
 		}
 
+		if (isset (input()->date)) {
+			$date = input()->date;
+		} else {
+			$date = null;
+		}
+
 		// Need to fetch the menu item
 		if (input()->type == "MenuMod") {
 			// fetch the menu modification
@@ -40,7 +46,7 @@ class MenuController extends MainPageController {
 		smarty()->assign('location', $location);
 		smarty()->assign('menuItem', $menuItem);
 		smarty()->assign('menuType', input()->type);
-		smarty()->assign('date', input()->date);
+		smarty()->assign('date', $date);
 		smarty()->assign('menuMod', $menuMod);
 	}
 

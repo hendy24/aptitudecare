@@ -43,7 +43,7 @@
 					</ul>
 				</div>
 				<div class="menu-edit-button">
-					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit&amp;location={$location->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;date={"$startDate + $count day"|date_format:"%Y-%m-%d"}" class="button">Edit</a>
+					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit&amp;location={$location->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}" class="button">Edit</a>
 				</div>
 			</div>
 			
@@ -67,4 +67,10 @@
 			
 	{/foreach}
 </table>
+
+	{if isset ($pagination)}
+		{$url = "{$SITE_URL}?module=Dietary&page=dietary&action=facility_menus&menu={$currentMenu->id}"}
+		{include file="elements/pagination.tpl"}	
+	{/if}
+
 

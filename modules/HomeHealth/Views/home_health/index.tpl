@@ -20,25 +20,31 @@
 		<a href="{$current_url}&amp;is_micro=true" class="button">TV Mode</a>
 	</div> 
 	{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
-{else}
-	<div id="tv-mode-button">
-		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}{if $selectedArea}&amp;area={$selectedArea->public_id}{/if}" class="button">Desktop Mode</a>
-	</div> 
-	<h2>{$loc->name}</h2>
-{/if}
-<div id="date-header">
-	<div class="date-header-img">
-		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>
+	<div id="date-header">
+		<div class="date-header-img-left">
+			<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>
+		</div>
+		<div class="date-header-img-right">
+			<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" alt="next week" /></a>	
+		</div>	
+		<div class="date-header-text">
+			<h2>{$week[0]|date_format:"%a, %B %d, %Y"} &ndash; {$week[6]|date_format:"%a, %B %d, %Y"}</h2>
+		</div>
+		
 	</div>
-	<div class="date-header-text-center">
-		<h2>{$week[0]|date_format:"%a, %B %d, %Y"} &ndash; {$week[6]|date_format:"%a, %B %d, %Y"}</h2>
-	</div>
-	<div class="date-header-img">
-	<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" alt="next week" /></a>	
-	</div>	
-</div>
 
-<div class="clear"></div>
+{else}
+	<div id="desktop-mode-button">
+		<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}{if $selectedArea}&amp;area={$selectedArea->public_id}{/if}" class="button">Desktop Mode</a>
+	</div>
+	<div class="is-micro">
+		<h1>{$loc->name}</h1>
+	</div>
+	
+{/if}
+
+
+
 
 <div id="location-wrapper">
 	{foreach $admitsByDate as $day => $admits}
