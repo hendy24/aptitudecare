@@ -65,6 +65,10 @@ class MenuItem extends Dietary {
 		$menuMod = $this->loadTable('MenuMod');
 		$menuChange = $this->loadTable('MenuChange');
 
+		// get a count of the items in the menu
+		$sql = "SELECT count(id) AS items FROM {$this->tableName()} WHERE {$this->tableName()}.menu_id = {$menu_id}";
+		$count = $this->fetchOne($sql);
+
 		$sql = "SELECT 
 					COALESCE({$menuChange->tableName()}.id, {$this->tableName()}.id) as id, 
 					COALESCE({$menuChange->tableName()}.public_id, {$this->tableName()}.public_id) AS public_id, 
@@ -81,7 +85,8 @@ class MenuItem extends Dietary {
 
 		$pagination = new Paginator();
 		$pagination->default_ipp = 21;
-		return $pagination->paginate($sql, $params, $this, $page);
+		$pagination->items_total = $count->items;
+		return $pagination->paginate($sql, $params, $this, $page, 21);
 	}
 
 }

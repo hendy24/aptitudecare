@@ -8,9 +8,27 @@
 </script>
 
 {include file="$VIEWS/elements/{$searchBar}-search.tpl"}
-<h1>Week Beginning {$startDate|date_format: "%A, %B %e, %G"}</h1>
-<h2>Week {$menuWeek} of the {$menu->name} Menu</h2>
-<br>
+<div id="action-right">
+	<a href="" class="button">Print Menu</a>
+</div>
+<div id="dietary-date-header">
+	<div class="dietary-date-header-img-left">
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=dietary&amp;action=current&amp;location={$location->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>
+	</div>
+	<div class="dietary-date-header-img-right">
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=dietary&amp;action=current&amp;location={$location->public_id}&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" alt="next week" /></a>	
+	</div>	
+	<div class="dietary-date-header-text">
+		<h1 line-space">Week Beginning {$startDate|date_format: "%A, %B %e, %G"}</h1>
+		{if $today}
+			<a href="{$SITE_URL}/?module=Dietary&amp;page=dietary&amp;action=current&amp;location={$location->public_id}&amp;weekSeed={$today}" class="button">Today</a>
+		{/if}
+	</div>
+	
+</div>
+
+<h2><strong>Week {$menuWeek}</strong> of the <strong>{$menu->name}</strong> Menu</h2>
+
 <table id="menu-table">
 	<tr>
 		<th colspan="3" class="text-center">{$startDate|date_format:"%A, %B %e, %Y"}</th>

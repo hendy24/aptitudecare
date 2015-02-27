@@ -53,6 +53,11 @@ table#menu-table td.menu-content {
 	padding-left: 0;
 }
 
+div#menu {
+	position: relative;
+	margin-top: 50px;
+}
+
 div.menu {
 	position: relative;
 	display: inline-block;
@@ -113,5 +118,220 @@ div.menu-edit-button {
 
 #tv-mode-button {
 	position: absolute;
-	right: 15px;
+	right: 18px;
+	top: 40px;
 }
+
+#desktop-mode-button {
+	position: absolute;
+	right: 30px;
+	top: 20px;
+}
+
+
+#date-header {
+	position: relative;
+	margin: 0 auto;
+	padding: 5px 0;
+	width: 60%;
+	max-width: 800px;
+}
+
+
+.date-header-text {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.date-header-text h1 {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.date-header-img-left {
+	position: absolute;
+	top: 10px;
+	left: 25px;
+}
+
+.date-header-img-right {
+	position: absolute;
+	top: 10px;
+	right: 25px;
+}
+
+
+
+
+
+
+
+#dietary-date-header {
+	position: relative;
+	margin: 0 auto;
+	padding: 5px 0;
+	width: 60%;
+	max-width: 800px;
+}
+
+
+.dietary-date-header-text {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.dietary-date-header-text h1 {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.dietary-date-header-img-left {
+	position: absolute;
+	top: 5px;
+	left: 25px;
+}
+
+.dietary-date-header-img-right {
+	position: absolute;
+	top: 5px;
+	right: 25px;
+}
+
+.is-micro h1 {
+	margin: 5px;
+}
+
+#modules {
+	position: absolute;
+	top: 5px;
+}
+
+#patient-search {
+	position: relative;
+	top: -25px;
+}
+
+#patient-search input[type="text"] {
+	width: 250px;
+}
+
+div#areas {
+	position: absolute;
+	right: 15px;
+	top: 5px;
+}
+
+div#action-right {
+	position: absolute;
+	right: 70px;
+	top: 5px;
+}
+
+div#action-left {
+	position: absolute;
+	left: 65px;
+	top: 0;
+}
+
+
+
+/****************** Dashboard Page *******************/
+
+div#locations {
+	text-align: center;
+	margin: 5px auto;
+
+}
+div#locations select {
+	font-size: 24px;
+	height: 30px;
+	background: #444;
+	color: #f1f1f1;
+}
+
+#optgroup h1 {
+	font-size: 14px;
+}
+
+div#location-wrapper {
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+}
+
+div.location-container {
+	width: 14.2857143%;
+	min-height: 100px;
+	float: left;
+}
+
+div.location-day-box {
+	height: auto !important;
+	min-height: 180px;
+	border-radius: 3px;
+	padding: 5%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	background: none;
+}
+
+div.location-day-box-color {
+	background-color: #e6e6e6;
+}
+
+div.location-admit {
+	background: #75dc6d;
+	font-size: 11px;
+	line-height: 12px;
+	border-radius: 3px;
+	padding: 5px;
+	margin-top: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+div.location-admit-pending {
+	font-size: 11px;
+	line-height: 12px;
+	border-radius: 3px;
+	padding: 5px;
+	margin-top: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+.box-blue {
+	background: #6BBEFF;
+}
+
+.box-white {
+	background: #f1f1f1;
+	border: 1px solid #c8c8c8;
+}
+
+.location-discharge {
+	background: #FF6A6A;
+	font-size: 11px;
+	font-weight: normal;
+	line-height: 14px;
+	border-radius: 3px;
+	padding: 5px;
+	margin-top: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+.box-title {
+	margin: 0 0 4px 2px;
+	color: #b4b4b4;
+}
+
+.day-title {
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 4%;
+	color: #444;
+}
+
