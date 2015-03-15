@@ -3,19 +3,31 @@
 class DietaryController extends MainPageController {
 
 	// protected $template = "dietary";
+	public $module = "Dietary";
 	protected $navigation = 'dietary';
 	protected $searchBar = 'dietary';
+	protected $helper = 'DietaryMenu';
+
+
 
 	public function index() {
 		smarty()->assign("title", "Dietary");
 		// if user is not authorized to access this page, then re-direct
-		if (auth()->getRecord()) {
+		if (!auth()->getRecord()) {
+			$this->redirect();	
+		} 
 
+		// get the location
+		if (isset(input()->location) && input()->location != "") {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
 		}
 
-
+		// get a list of the current patients from the admission app for the current location
+		$currentPatients = $this->loadModel('AdmissionDashboard', false, 'HomeHealth')->fetchCurrentPatients($location->id);
+		smarty()->assign('currentPatients', $currentPatients);
 	}
-
 
 	public function current() {
 
@@ -118,6 +130,9 @@ class DietaryController extends MainPageController {
 	public function facility_menus() {
 		smarty()->assign('title', "Facility Menu");
 		$user = auth()->getRecord();
+
+		// check if user has permission to access this page
+		
 
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);

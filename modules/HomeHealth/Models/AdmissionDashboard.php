@@ -154,4 +154,161 @@ class AdmissionDashboard extends AppModel {
 		return true;
 		
 	}
+
+
+	public function fetchCurrentPatients($location_id = false) {
+		if ($location_id) {		
+			$params = array(
+				":locationid" => $location_id,
+				":datetime" => date('Y-m-d H:i:s', strtotime('now')),
+			);
+		
+		
+			$sql = "select distinct "
+				. db()->dbname2 . ".`room`.*,"
+				. db()->dbname2 . ".`patient_admit`.`pubid` as `patient_pubid`,"
+				. db()->dbname2 . ".`patient_admit`.`physician_id`,"
+				. db()->dbname2 . ".`patient_admit`.`last_name`,"
+				. db()->dbname2 . ".`patient_admit`.`first_name`,"
+				. db()->dbname2 . ".`patient_admit`.`address`,"
+				. db()->dbname2 . ".`patient_admit`.`city`,"
+				. db()->dbname2 . ".`patient_admit`.`state`,"
+				. db()->dbname2 . ".`patient_admit`.`zip`,"
+				. db()->dbname2 . ".`patient_admit`.`phone`,"
+				. db()->dbname2 . ".`patient_admit`.`sex`,"
+				. db()->dbname2 . ".`patient_admit`.`ethnicity`,"
+				. db()->dbname2 . ".`patient_admit`.`marital_status`,"
+				. db()->dbname2 . ".`patient_admit`.`ssn`,"
+				. db()->dbname2 . ".`patient_admit`.`birthday`,"
+				. db()->dbname2 . ".`patient_admit`.`religion`,"
+				. db()->dbname2 . ".`patient_admit`.`medicare_number`,"
+				. db()->dbname2 . ".`schedule`.`pubid` as `schedule_pubid`,"
+				. db()->dbname2 . ".`schedule`.`datetime_admit` as `datetime_admit`,"
+				. db()->dbname2 . ".`schedule`.`datetime_discharge` as `datetime_discharge`,"
+				. db()->dbname2 . ".`schedule`.`discharge_to` as `discharge_to`,"
+				. db()->dbname2 . ".`schedule`.`datetime_discharge_bedhold_end` as `datetime_discharge_bedhold_end`,"
+				. db()->dbname2 . ".`schedule`.`status` as `status`,"
+				. db()->dbname2 . ".`patient_admit_nursing`.`height`,"
+				. db()->dbname2 . ".`patient_admit_nursing`.`weight`,
+				`schedule`.`transfer_request`,"
+				. db()->dbname2 . ".`schedule_hospital`.`is_complete`,
+				`schedule_hospital`.`datetime_sent`
+				from " . db()->dbname2 . ".`room` 
+				inner join " . db()->dbname2 . ".`schedule` on " . db()->dbname2 . ".`schedule`.`room`=" . db()->dbname2 . ".`room`.`id` 
+				inner join " . db()->dbname2 . ".`patient_admit` on " . db()->dbname2 . ".`schedule`.`patient_admit`=" . db()->dbname2 . ".`patient_admit`.`id`
+				left join " . db()->dbname2 . ".`schedule_hospital` on " . db()->dbname2 . ".`schedule_hospital`.`schedule`=" . db()->dbname2 . ".`schedule`.`id`
+				left join " . db()->dbname2 . ".`patient_admit_nursing` on " . db()->dbname2 . ".`patient_admit_nursing`.`patient_admit`=" . db()->dbname2 . ".`patient_admit`.`id`
+				where " . db()->dbname2 . ".`room`.`facility`=:locationid 
+				and (" . db()->dbname2 . ".`schedule`.`status`='Approved' OR " . db()->dbname2 . ".`schedule`.`status`='Under Consideration' OR " . db()->dbname2 . ".`schedule`.`status` = 'Discharged')
+				and :datetime >= " . db()->dbname2 . ".schedule.`datetime_admit` 
+				and 
+				(
+					(" . db()->dbname2 . ".schedule.`datetime_discharge` IS NULL)
+					OR
+					(
+					" . db()->dbname2 . ".schedule.`datetime_discharge` >= :datetime
+					)
+					OR
+					(
+					" . db()->dbname2 . ".schedule.`discharge_to`!='Discharge to Hospital (Bed Hold)' and (:datetime < " . db()->dbname2 . ".schedule.`datetime_discharge`)
+					)
+					or
+					(
+					" . db()->dbname2 . ".schedule.`discharge_to`='Discharge to Hospital (Bed Hold)' and :datetime < " . db()->dbname2 . ".schedule.`datetime_discharge_bedhold_end`
+					)
+				)";
+		
+			$sql .= " GROUP BY " . db()->dbname2 . ".room.`id`
+				ORDER BY " . db()->dbname2 . ".room.`number`
+				";	
+
+			$result = $this->fetchAll($sql, $params);
+			$patientResults = array();
+
+
+			foreach ($result as $k => $r) {
+
+				//	If the items have already been saved to the db then get them.
+				$patient = $this->fetchById($r->patient_pubid, 'Patient');
+
+				if (empty ($patient)) {
+					$patient = new Patient();
+					$patient->public_id = $r->patient_pubid;
+					if ($r->last_name != "") {
+						$patient->last_name = $r->last_name;
+					}
+					if ($r->first_name != "") {
+						$patient->first_name = $r->first_name;
+					}
+					if (isset ($r->middle_name)) {
+						$patient->middle_name = $r->middle_name;
+					}
+					if (isset ($r->address)) {
+						$patient->address = $r->address;
+					}
+					if (isset ($r->city)) {
+						$patient->city = $r->city;
+					}
+					if (isset ($r->state)) {
+						$patient->state = $r->state;
+					}
+					if (isset ($r->zip)) {
+						$patient->zip = $r->zip;
+					}
+					if (isset ($r->phone)) {
+						$patient->phone = $r->phone;
+					}
+					if (isset ($r->sex)) {
+						$patient->sex = $r->sex;
+					}
+					if (isset ($r->birthday)) {
+						$patient->date_of_birth = $r->birthday;
+					}
+					if (isset ($r->ethnicity)) {
+						$patient->ethnicity = $r->ethnicity;
+					}
+					if (isset ($r->marital_status)) {
+						$patient->marital_status = $r->marital_status;
+					}
+					if (isset ($r->religion)) {
+						$patient->religion = $r->religion;
+					}
+					if (isset ($r->ssn)) {
+						$patient->ssn = $r->ssn;
+					}
+					if (isset ($r->medicare_number)) {
+						$patient->medicare_number = $r->medicare_number;
+					}
+					if (isset ($r->physician_id)) {
+						$patient->pcp_id = $r->physician_id;
+					}
+
+					// not getting all the patient info returned into an array that can be used.
+					// need to fix the $patientResults array
+
+					if ($patient->save()) {
+						$dp = new PatientInfo();
+						$dp->public_id = null;
+						$dp->patient_id = $patient->id;
+						if (isset ($r->height)) {
+							$dp->height = $r->height;
+						}
+						if (isset ($r->weight)) {
+							$dp->weight = $r->weight;
+						}
+
+						$dp->save();
+					} 
+				} 
+				$patient->number = $r->number;
+				$patientResults[$k] = $patient;
+				
+			}
+
+			return $patientResults;
+
+		}
+	
+		return false;
+	}
 }
