@@ -73,6 +73,76 @@
 			<td colspan="3"><input type="checkbox" name="texture" value="other"> Other</td>
 		</tr>
 
+
+		<tr>
+			<td colspan="3"><strong>Orders:</strong></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="orders" value="isolation"> Isolation</td>
+			<td><input type="checkbox" name="orders" value="fluid_restriction"> Fluid Restriction</td>
+			<td><input type="checkbox" name="orders" value="food_allergies_intolerances"> Food Allergies / Intolerances</td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="orders" value="clear_liquid"> Clear Liquid</td>
+			<td colspan="2"><input type="checkbox" name="orders" value="adaptive_equipment"> Adaptive Equipment</td>
+		</tr>
+
+
+		<tr>
+			<td colspan="3"><strong>Portion Size:</strong></td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="portion_size" value="small"> Small</td>
+			<td><input type="radio" name="portion_size" value="medium"> Medium</td>
+			<td><input type="radio" name="portion_size" value="large"> Large</td>
+		</tr>
+	
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td colspan="3"><strong>Breakfast:</strong></td>
+		</tr>
+		<tr>
+			<td colspan="3">Cereal:</td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="cereal" value="hot"> Hot</td>
+			<td><input type="radio" name="cereal" value="cold"> Cold</td>
+			<td><input type="radio" name="cereal" value="none"> None</td>
+		</tr>
+		<tr>
+			<td colspan="3">Bread:</td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="cereal" value="hot"> White</td>
+			<td colspan="2"><input type="radio" name="cereal" value="cold"> Wheat</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				Eggs:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<select name="egg_type">
+					<option value="">Select...</option>
+					<option value="scrambled">Scrambled</option>
+					<option value="over_easy">Over Easy</option>
+				</select>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td colspan="3"><strong>Lunch &amp; Dinner</strong></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				Avoided Vegetables:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				<input type="text" name="avoided_vegetables" size="30"> 
+			</td>
+		</tr>
 	</table>
 	
 </form>

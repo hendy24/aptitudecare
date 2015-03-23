@@ -145,7 +145,7 @@ div.menu-edit-button {
 }
 
 .date-header-text h1 {
-	margin-top: 0px;
+	margin-top: 5px;
 	margin-bottom: 10px;
 }
 
@@ -174,25 +174,32 @@ div.menu-edit-button {
 }
 
 .dietary-date-header-text h1 {
-	margin-top: 0px;
+	margin-top: 6px;
 	margin-bottom: 10px;
 	line-height: 30px;
 }
 
 .dietary-date-header-img-left {
-	position: absolute;
-	top: 10px;
-	left: 25px;
+	position: relative;
+	float: left;
+	margin-top: 8px;
 }
 
 .dietary-date-header-img-right {
-	position: absolute;
-	top: 10px;
-	right: 25px;
+	position: relative;
+	float: right;
+	margin-top: 8px;
 }
 
 .is-micro h1 {
 	margin: 5px;
+}
+
+#search-header {
+	position: relative;
+	width: 100%;
+	height: 18px;
+	margin-bottom: 30px;
 }
 
 #modules {
@@ -216,15 +223,13 @@ div#areas {
 }
 
 div#action-right {
-	position: absolute;
-	right: 70px;
-	top: 5px;
+	position: relative;
+	float: right;
 }
 
 div#action-left {
-	position: absolute;
-	left: 65px;
-	top: 0;
+	position: relative;
+	float: left;
 }
 
 
@@ -235,10 +240,12 @@ div#locations {
 	text-align: center;
 	margin: 5px auto;
 
+
 }
 div#locations select {
 	font-size: 24px;
 	height: 30px;
+	margin: 5px 0;
 	background: #444;
 	color: #f1f1f1;
 }
