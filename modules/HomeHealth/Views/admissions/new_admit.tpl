@@ -99,7 +99,6 @@
 		$("#new-admission").validate({
 			submitHandler: function(form) {
 				var $patientDiv = $(".patient-search-result");
-			
 				if ($clone != '') {
 					$("#patient-results").empty();
 					$clone.empty();

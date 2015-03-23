@@ -1,7 +1,12 @@
 <?php
 
 class MenuController extends MainPageController {
+
+	// protected $template = "dietary";
 	public $module = "Dietary";
+	protected $navigation = 'dietary';
+	protected $searchBar = 'dietary';
+
 
 	public function edit() {
 		smarty()->assign('title', "Edit Menu");
@@ -16,6 +21,14 @@ class MenuController extends MainPageController {
 			$date = input()->date;
 		} else {
 			$date = null;
+		}
+
+		if ($date == null) {
+			$corpEdit = true;
+			smarty()->assign('corporateEdit', $corpEdit);
+		} else {
+			$corpEdit = false;
+			smarty()->assign('corporateEdit', $corpEdit);
 		}
 
 		// Need to fetch the menu item
@@ -41,9 +54,23 @@ class MenuController extends MainPageController {
 			$menuItem->content = explode("<br />", $menuItem->content);
 		}
 
-		$location = $this->loadModel('Location', input()->location);
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+
+			// if location is set and corporateEdit is true, then we are on the edit facility
+			// page. We need to get a list of all the facilities
+			if ($corpEdit) {
+				$allLocations = $this->loadModel('Location')->fetchFacilities();
+			} else {
+				$allLocations = false;
+			}
+		} else {
+			$location = false;
+		}
+		
 
 		smarty()->assign('location', $location);
+		smarty()->assign('allLocations', $allLocations);
 		smarty()->assign('menuItem', $menuItem);
 		smarty()->assign('menuType', input()->type);
 		smarty()->assign('date', $date);
@@ -118,5 +145,10 @@ class MenuController extends MainPageController {
 			$this->redirect(input()->path);
 		}
 
+	}
+
+
+	public function submitCorpEdit() {
+		pr (input());
 	}
 }

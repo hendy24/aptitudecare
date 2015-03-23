@@ -114,16 +114,14 @@ class AdmissionsController extends MainPageController {
 		// 	Set patient status as pending for new admits
 		$schedule->status = "Pending";
 
-
 		// 	Break point.  If there are error messages set them in the session and redirect back
 		//	to the new admit page.
 		if (!empty($error_messages)) {
 			session()->setFlash($error_messages, 'error');
 			json_return(array('url' => SITE_URL));
 		} else {
-			$patient_id = $patient->save();
-			if ($patient_id != '') {
-				$schedule->patient_id = $patient_id;
+			if ($patient->save()) {
+				$schedule->patient_id = $patient->id;
 				if ($schedule->save()) {
 					session()->setFlash("The patient info and schedule for {$patient->first_name} {$patient->last_name} have been saved", "success");
 					json_return(array('url' => SITE_URL . "/?module=HomeHealth&location=" . input()->location . "&area=" . $location->public_id));
@@ -206,9 +204,9 @@ class AdmissionsController extends MainPageController {
 		$class = $this->loadModel('Patient');
 		$table = $class->fetchTable();
 
-		$sql = "SELECT `{$table}`.`public_id`, `{$table}`.`last_name`, `{$table}`.`first_name`, `{$table}`.`middle_name`, `{$table}`.`ssn`, `location`.`name` AS location_name, `home_health_schedule`.`datetime_discharge`, `home_health_schedule`.`status` FROM `{$table}` INNER JOIN `home_health_schedule` ON `patient`.`id`=`home_health_schedule`.`patient_id` INNER JOIN `location` ON `location`.`id`=`home_health_schedule`.`location_id` WHERE `{$table}`.`first_name` LIKE :first_name AND `{$table}`.`last_name` LIKE :last_name";
+		$sql = "SELECT `ac_patient`.`public_id`, `ac_patient`.`last_name`, `ac_patient`.`first_name`, `ac_patient`.`middle_name`, `ac_patient`.`ssn`, `ac_location`.`name` AS location_name, `home_health_schedule`.`datetime_discharge`, `home_health_schedule`.`status` FROM `ac_patient` INNER JOIN `home_health_schedule` ON `ac_patient`.`id`=`home_health_schedule`.`patient_id` INNER JOIN `ac_location` ON `ac_location`.`id`=`home_health_schedule`.`location_id` WHERE `ac_patient`.`first_name` LIKE :first_name AND `ac_patient`.`last_name` LIKE :last_name";
 		if (input()->middle_name != '') {
-			$sql .= " AND `{$table}`.`middle_name` LIKE :middle_name";
+			$sql .= " AND `ac_patient`.`middle_name` LIKE :middle_name";
 			$params[":middle_name"] = "%" . input()->middle_name . "%";
 		}
 		$params = array(

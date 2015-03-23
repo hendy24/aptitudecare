@@ -12,8 +12,8 @@
 	});
 </script>
 
+
 <div id="search-header">
-	
 	{if count($modules) > 1}
 	<div id="action-left">
 		Module: <select name="module" id="module">
@@ -23,6 +23,9 @@
 			{/foreach}
 		</select>
 	</div>
+	<div id="action-right">
+		<a href="" class="button">Print Menu</a>
+	</div>
 	{/if}
 	<div id="locations">
 		<select name="location" id="location">
@@ -31,5 +34,4 @@
 			{/foreach}
 		</select>
 	</div>
-		
-</div>
+</div>		
