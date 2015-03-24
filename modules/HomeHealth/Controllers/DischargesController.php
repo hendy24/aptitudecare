@@ -68,7 +68,7 @@ class DischargesController extends MainPageController {
 
 		$_status = 'Discharged';
 		$_orderby = 'datetime_discharge ASC';
-		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $area->id, $_status, $_orderby);
+		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, array($area), $_status, $_orderby);
 
 		// Split up discharges for each day of the week
 
@@ -92,7 +92,6 @@ class DischargesController extends MainPageController {
 		smarty()->assign('current', $current);
 		smarty()->assignByRef('discharged', $dischargesByDate);
 		smarty()->assign('week', $week);
-
 	}
 
 
