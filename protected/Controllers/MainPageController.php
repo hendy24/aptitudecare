@@ -41,8 +41,6 @@ class MainPageController extends MainController {
 		
 		
 		// get the users default location
-		
-
 		smarty()->assignByRef('locations', $locations);
 		smarty()->assign('selectedLocation', $location);
 		smarty()->assignByRef('areas', $areas);

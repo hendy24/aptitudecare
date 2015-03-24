@@ -32,14 +32,14 @@
 
 	<br><br>
 	<div id="date-header">
-		<div class="date-header-img">
-			<a href="{$SITE_URL}/?module=HomeHealth&amp;page=discharges&amp;action=schedule&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" /></a>
+		<div class="date-header-img-left">
+			<a href="{$SITE_URL}/?module=HomeHealth&amp;page=discharges&amp;action=schedule&amp;weekSeed={$retreatWeekSeed}&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" /></a>
 		</div>
 		<div class="date-header-text-center">
 			<h2>{$week[0]|date_format:"%a, %b %d, %Y"} &ndash; {$week[6]|date_format:"%a, %b %d, %Y"}</h2>
 		</div>
-		<div class="date-header-img">
-		<a href="{$SITE_URL}/?module=HomeHealth&amp;page=discharges&amp;action=schedule&amp;weekSeed={$advanceWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" /></a>	
+		<div class="date-header-img-right">
+		<a href="{$SITE_URL}/?module=HomeHealth&amp;page=discharges&amp;action=schedule&amp;weekSeed={$advanceWeekSeed}&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/next-icon.png" /></a>	
 		</div>	
 	</div>
 

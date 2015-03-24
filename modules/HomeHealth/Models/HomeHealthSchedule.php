@@ -88,10 +88,7 @@ class HomeHealthSchedule extends HomeHealth {
 		$sql = trim($sql, ", ");
 
 
-		$sql .= ") :location_id AND {$this->tableName()}.`status` = :status ORDER BY :orderby";
-
-		debug ($sql, $params); die();
-
+		$sql .= ") AND {$this->tableName()}.`status` = :status ORDER BY :orderby";
 		return $this->fetchAll($sql, $params);
 
 	}
@@ -99,7 +96,7 @@ class HomeHealthSchedule extends HomeHealth {
 
 	public function dischargePatients($location) {
 		$sql = "UPDATE {$this->tableName()} set status = 'Discharged' WHERE start_of_care < :cut_off_date AND status = 'Approved' AND location_id = :location_id";
-		$params[":location_id"] = $location;
+		$params[":location_id"] = $location->id;
 		$params[":cut_off_date"] = date('Y-m-d 00:00:01', strtotime("now - 60 days"));
 		return $this->update($sql, $params);
 	}
