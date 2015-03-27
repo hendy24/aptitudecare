@@ -47,12 +47,13 @@ class MenuController extends MainPageController {
 
 
 		// remove tags from the menu
-		if (strstr($menuItem->content, "<p>")) {
-			$menuItem->content = explode("<p>", $menuItem->content);
-			$menuItem->content = str_replace("</p>", "", $menuItem->content);
-		} else {
-			$menuItem->content = explode("<br />", $menuItem->content);
-		}
+		// if (strstr($menuItem->content, "<p>")) {
+		// 	$menuItem->content = explode("<p>", $menuItem->content);
+		// 	$menuItem->content = str_replace("</p>", "", $menuItem->content);
+		// } else {
+		// 	$menuItem->content = explode("<br />", $menuItem->content);
+		// }
+
 
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
@@ -67,6 +68,13 @@ class MenuController extends MainPageController {
 		} else {
 			$location = false;
 		}
+
+
+		if ($corpEdit) {
+			$allLocations = $this->loadModel('Location')->fetchFacilities();
+		} else {
+			$allLocations = false;
+		}
 		
 
 		smarty()->assign('location', $location);
@@ -80,7 +88,33 @@ class MenuController extends MainPageController {
 
 	public function submitEdit() {
 
-		// If this is alread a menu mod load the current changes...
+		// check if this is being submitted from a facility or corporate edit page
+		// corporate edit pages are the facility menus page as well as the corporate
+		// menus page, access to these page should be limited by user group
+
+		if (input()->date == null) {
+			// if the date is null then it is a corporate page
+			$this->corporateInfo();
+		} else {
+			// if there is a date set then it is a facility page
+			$this->facilityInfo();
+		}
+
+	}
+
+
+
+
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  Validate info submitted from menu edit pages
+	 * -------------------------------------------------------------------------
+	 */
+
+
+	private function facilityInfo() {
+				// If this is already a menu mod load the current changes...
 		if (input()->menu_type == "MenuMod") {
 			$menuItem = $this->loadModel('MenuMod', input()->public_id);
 		} else {
@@ -96,12 +130,11 @@ class MenuController extends MainPageController {
 			$location = $this->loadModel('Location', input()->location);
 		}
 
-
 		// if reset is not empty then delete the menu mod item
 		if (isset (input()->reset)) {
 			if ($menuItem->delete()) {
 				session()->setFlash("The menu changes have been deleted and the menu has been reset to the original menu items.", 'success');
-				$this->redirect(array('module' => 'Dietary', 'page' => 'dietary', 'action' => 'current', 'location' => $location->public_id));
+				$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
 			} else {
 				session()->setFlash("Could not reset the menu changes. Please try again", 'error');
 				$this->redirect(input()->path);
@@ -110,9 +143,7 @@ class MenuController extends MainPageController {
 
 
 		// get the original menu item
-		$origMenuItem = $this->loadModel('MenuItem', input()->public_id);
-
-				
+		$origMenuItem = $this->loadModel('MenuItem', input()->public_id);			
 		
 		// if there was no reason for a menu change entered throw an error
 		if (input()->reason == "") {
@@ -132,14 +163,14 @@ class MenuController extends MainPageController {
 		$menuItem->date = input()->date;
 
 		// set the menu content to be saved...
-		$menuItem->content = nl2br(input()->menu_content);
+		$menuItem->content = input()->menu_content;
 
 		// set the user info who made the change
 		$menuItem->user_id = auth()->getRecord()->id;
 
 		if ($menuItem->save()) {
 			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'success');
-			$this->redirect(array('module' => 'Dietary', 'page' => 'dietary', 'action' => 'current', 'location' => $location->public_id));
+			$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
 		} else {
 			session()->setFlash("Could not save the menu information. Please try again.", 'error');
 			$this->redirect(input()->path);
@@ -147,8 +178,97 @@ class MenuController extends MainPageController {
 
 	}
 
+	private function corporateInfo() {
 
-	public function submitCorpEdit() {
-		pr (input());
+		$menuItem = $this->loadModel('MenuItem', input()->public_id);
+		
+		// determine if this edit is for all locations or only those selected
+		if (input()->edit_type == "corp_menu") {
+			// this edit is for all locations
+			// set the menu item variables	
+			$menuItem->content = $this->validateMenuContent();
+
+			if ($menuItem->save()) {
+				session()->setFlash("The menu was successfully changed for all locations.", 'success');
+				$this->corpPageRedirect();
+			} else {
+				session()->setFlash("Could not save the menu. Please try again.", 'error');
+				$this->redirect(input()->path);
+			}
+
+
+		} elseif (input()->edit_type == "select_locations") {
+			// this edit is only for those locations selected
+
+			// verify that location(s) were selected
+			$location = array();
+			foreach (input() as $key => $test) {
+				$facility = preg_replace("/\d+$/", "", $key);
+				if ($facility == "facility") {
+					$location[] = $test;
+				}
+			}
+			// if selected locations is false then throw and error and redirect.
+			if (empty ($location)) {
+				session()->setFlash("You must select the location(s) for which you want to make the change", 'error');
+				$this->redirect(input()->path);
+			} 
+
+
+			$flash_message = array();
+			foreach ($location as $l) {
+				$location = $this->loadModel('Location', $l);
+				// load the menuChange model and make sure there is not an existing menuChange item
+				$menuChange = $this->loadModel('MenuChange')->fetchExisting($menuItem->id, $location->id);
+				$menuChange->content = $this->validateMenuContent();
+				$menuChange->menu_item_id = $menuItem->id;
+				$menuChange->location_id = $location->id;
+				$menuChange->user_id = auth()->getRecord()->id;
+				if ($menuChange->save()) {
+					$flash_message[]['success'] = "The menu was changed for {$location->name}";
+				} else {
+					$flash_message[]['error'] = "Could not change the menu for {$location->name}";
+				}
+			}
+
+			foreach ($flash_message as $message) {
+				foreach ($message as $k => $m) {
+					if ($k == "success") {
+						session()->setFlash($m, 'success');
+					} elseif ($k == "error") {
+						session()->setFlash($m, 'error');
+					}
+				}
+			}
+
+			$this->corpPageRedirect();
+
+		}
 	}
+
+
+
+	private function validateMenuContent() {
+		// change the menu content to the newly entered info
+		if (input()->menu_content == "") {
+			session()->setFlash("Enter the new menu content", 'error');
+			$this->redirect(input()->path);
+		} else {
+			return trim(input()->menu_content);
+		}
+	}
+
+
+	private function corpPageRedirect() {
+		// if the location is set we came from the facility menu page, redirect there
+		if (isset (input()->location)) {
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "facility_menus"));
+		} else {
+			// redirect to the corporate menu page
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus"));
+		}
+
+	}
+
+
 }

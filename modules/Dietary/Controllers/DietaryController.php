@@ -24,6 +24,10 @@ class DietaryController extends MainPageController {
 			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
 		}
 
+		if ($location->location_type != 1) {
+			$this->redirect();
+		}
+
 		// get a list of the current patients from the admission app for the current location
 		$currentPatients = $this->loadModel('AdmissionDashboard', false, 'HomeHealth')->fetchCurrentPatients($location->id);
 		smarty()->assign('currentPatients', $currentPatients);
@@ -45,6 +49,8 @@ class DietaryController extends MainPageController {
 			// Get the current week
 			$menuWeek = floor($item->day / 7);
 
+			$menuItems[$key]->content = nl2br($item->content);
+
 			// explode the tags
 			if (strstr($item->content, "<p>")) {
 				$menuItems[$key]->content = explode("<p>", $item->content);
@@ -52,7 +58,8 @@ class DietaryController extends MainPageController {
 			} else {
 				$menuItems[$key]->content = explode("<br />", $item->content);
 			}
-			
+
+
 		}
 
 		smarty()->assign('count', 0);

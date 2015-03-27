@@ -8,7 +8,10 @@ class InfoController extends DietaryController {
 	protected $helper = 'DietaryMenu';
 
 
-		public function current() {
+	
+
+
+	public function current() {
 
 		smarty()->assign('title', "Current Menu");
 
@@ -33,8 +36,8 @@ class InfoController extends DietaryController {
 			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
 		));
 
-		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
-		$_dateEnd = date('Y-m-d 23:59:59', strtotime($week[6]));
+		$_dateStart = date('Y-m-d', strtotime($week[0]));
+		$_dateEnd = date('Y-m-d', strtotime($week[6]));
 
 		if (strtotime($_dateStart) > strtotime('now')) {
 			$today = date('Y-m-d', strtotime('now'));
@@ -152,12 +155,49 @@ class InfoController extends DietaryController {
 
 
 	public function alt_menu_items() {
+		smarty()->assign('title', "Alternate Menu Items");
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
+		}
+		$alternates = $this->loadModel('Alternate')->fetchAlternates($location->id);
+		smarty()->assignByRef('alternates', $alternates);
+		smarty()->assignByRef('location', $location);
+	}
 
+	public function submitAltItems() {
+		$location = $this->loadModel('Location', input()->location);
+		$alternate = $this->loadModel('Alternate', input()->alt_menu_id);
+
+		if (input()->alt_menu == "") {
+			session()->setFlash("Please enter items for the alternate menu", 'error');
+			$this->redirect(input()->path());
+		} else {
+			$alternate->content = input()->alt_menu;
+		}
+
+		if ($alternate->location_id == "") {
+			$alternate->location_id = $location->id;
+		}
+
+		$alternate->user_id = auth()->getRecord()->id;
+
+		if ($alternate->save()) {
+			session()->setFlash("The alternate menu was changed for {$location->name}", 'success');
+			$this->redirect(array('module' => "Dietary"));
+		} else {
+			session()->setFlash("Could not save the alternate menu changes. Please try again.", 'error');
+			$this->redirect(input()->path);
+		}
+		
+
+		
 	}
 
 
 	public function menu_changes() {
-
+		smarty()->assign('title', "Menu Changes");
 	}
 
 

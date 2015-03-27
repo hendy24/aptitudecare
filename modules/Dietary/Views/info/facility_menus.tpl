@@ -2,11 +2,11 @@
 	$(document).ready(function() {
 		$("#location").change(function() {
 			var location = $("#location option:selected").val();
-			window.location.href = SITE_URL + "/?module=Dietary&page=dietary&action=facility_menus&location=" + location;
+			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=facility_menus&location=" + location;
 		});
 		$("#menus").change(function() {
 			var menu = $("#menus option:selected").val();
-			window.location.href = SITE_URL + "/?module=Dietary&page=dietary&action=facility_menus&location=" + {$location->public_id} + "menu=" + menu;
+			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=facility_menus&location=" + {$location->public_id} + "menu=" + menu;
 		});
 	});
 </script>
