@@ -53,6 +53,22 @@ table#menu-table td.menu-content {
 	padding-left: 0;
 }
 
+div.multiple-page-form {
+	margin: 25px auto;
+	width: 50%;
+	background: #d8d8d8;
+	padding: 10px;
+}
+
+div.multiple-page-form h2 {
+	font-weight: bold;
+}
+
+table.form-multiple {
+	width: 90%;
+	margin: 20px auto;
+}
+
 div#menu {
 	position: relative;
 	margin-top: 50px;

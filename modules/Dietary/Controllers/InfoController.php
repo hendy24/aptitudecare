@@ -154,17 +154,84 @@ class InfoController extends DietaryController {
 	}
 
 
-	public function alt_menu_items() {
-		smarty()->assign('title', "Alternate Menu Items");
+	public function public_page_items() {
+		smarty()->assign("title", "Public Page Items");
 		if (isset (input()->location)) {
-			$location = $this->loadModel('Location', input()->location);
+			$location = $this->loadModel("Location", input()->location);
 		} else {
-			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
+			$location = $this->loadModel("Location", auth()->getRecord()->default_location);
 		}
-		$alternates = $this->loadModel('Alternate')->fetchAlternates($location->id);
-		smarty()->assignByRef('alternates', $alternates);
-		smarty()->assignByRef('location', $location);
+		smarty()->assignByRef("location", $location);
+
+		// menu greeting
+		$menuGreeting = $this->loadModel("LocationDetail")->fetchOne(null, array("location_id" => $location->id));
+		smarty()->assign("menuGreeting", $menuGreeting);
+
+
+		// meal time info
+		$meals = $this->loadModel("Meal")->fetchAll(null, array("location_id" => $location->id));
+		smarty()->assign("meals", $meals);
+
+
+		// alternate menu items
+		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
+		smarty()->assignByRef("alternates", $alternates);		
+
+
+		
+
 	}
+
+
+
+	public function submitWelcomeInfo() {
+		$greeting = $this->loadModel("LocationDetail", input()->location_detail_id);
+		$location = $this->loadModel("Location", input()->location);
+		$greeting->menu_greeting = input()->menu_greeting;
+		if ($greeting->save()) {
+			session()->setFlash("The menu greeting info was changed for {$location->name}", "success");			
+		} else {
+			session()->setFlash("Could not save the greeting info. Please try again.", "error");
+		}
+
+		$this->redirect(input()->path);
+	}
+
+
+	public function submitMealTimes() {
+
+		$message = array();
+
+
+		$end_time = get_object_vars(input()->end);
+
+		foreach (input()->start as $key => $start_time) {
+			$meal = $this->loadModel("Meal", $key);
+			if ($start_time != "") {
+				$meal->start = date("H:i:s", strtotime($start_time));
+			} else {
+				session()->setFlash("Set a meal time and try again.", "error");
+				$this->redirect(input()->path);
+			}
+			if ($end_time  != "") {
+				$meal->end = date("H:i:s", strtotime($end_time[$key]));
+			} else {
+				session()->setFlash("Set a meal time and try again.", "error");
+				$this->redirect(input()->path);
+			}
+			
+			if ($meal->save()) {
+				$message[] = "The meal time was successfully saved.";
+			} else {
+				$message[] = "Could not save the meal time.";
+			}
+		}
+
+		session()->setFlash($message, "success");
+		$this->redirect(input()->path);
+
+	}
+
 
 	public function submitAltItems() {
 		$location = $this->loadModel('Location', input()->location);
@@ -185,25 +252,12 @@ class InfoController extends DietaryController {
 
 		if ($alternate->save()) {
 			session()->setFlash("The alternate menu was changed for {$location->name}", 'success');
-			$this->redirect(array('module' => "Dietary"));
 		} else {
 			session()->setFlash("Could not save the alternate menu changes. Please try again.", 'error');
-			$this->redirect(input()->path);
 		}
-		
-
-		
+		$this->redirect(input()->path);
 	}
 
-
-	public function menu_changes() {
-		smarty()->assign('title', "Menu Changes");
-	}
-
-
-	public function general_info() {
-
-	}
 
 
 	public function menu_start_date() {

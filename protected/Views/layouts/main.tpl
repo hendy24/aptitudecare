@@ -17,7 +17,8 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
-	<script type="text/javascript" src="{$JS}/datepicker.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/datepicker.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
 
 	<script>
@@ -65,7 +66,6 @@
 		<div id="content">	
 			{if $flashMessages}
 			<div id="flash-messages">
-				
 				{foreach $flashMessages as $class => $message}
 				<div class="{$class}">
 					<ul>

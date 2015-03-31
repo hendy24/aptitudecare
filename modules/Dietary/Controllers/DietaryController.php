@@ -59,6 +59,16 @@ class DietaryController extends MainPageController {
 				$menuItems[$key]->content = explode("<br />", $item->content);
 			}
 
+			if (isset ($item->mod_content)) {
+				// explode the tags
+				if (strstr($item->mod_content, "<p>")) {
+					$menuItems[$key]->mod_content = explode("<p>", $item->mod_content);
+					$menuItems[$key]->mod_content = str_replace("</p>", "", $item->mod_content);
+				} else {
+					$menuItems[$key]->mod_content = explode("<br />", $item->mod_content);
+				}
+			}
+
 
 		}
 

@@ -21,8 +21,6 @@
 			{/foreach}
 		</select>	
 	</div>
-
-
 </div>
 
 
