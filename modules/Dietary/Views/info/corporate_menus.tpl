@@ -8,10 +8,10 @@
 
 <div id="page-header">
 	<div id="action-left">
-		&nbsp;
+		{$this->loadElement("module")}
 	</div>
 	<div id="center-title">
-		<h1>{$selectedMenu->name} Menu</h1>
+		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
 		<select name="menu" id="menu">
@@ -20,6 +20,20 @@
 				<option value="{$menu->public_id}" {if $selectedMenu && $selectedMenu->id == $menu->id} selected{/if}>{$menu->name}</option>
 			{/foreach}
 		</select>	
+	</div>
+</div>
+
+
+
+<div id="page-header">
+	<div id="action-left">
+		&nbsp;
+	</div>
+	<div id="center-title">
+		<h1>{$selectedMenu->name} Menu</h1>
+	</div>
+	<div id="action-right">
+		
 	</div>
 </div>
 

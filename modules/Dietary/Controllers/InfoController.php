@@ -56,12 +56,7 @@ class InfoController extends DietaryController {
 
 
 		// Get the selected facility. If no facility has been selected return the users' default location
-		if (isset (input()->location)) {
-			$location = $this->loadModel("Location", input()->location);
-		} else {
-			$location = $this->loadModel("Location", auth()->getRecord()->default_location);
-		}
-		smarty()->assignByRef('location', $location);
+		$location = $this->getSelectedLocation();
 
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
@@ -111,16 +106,7 @@ class InfoController extends DietaryController {
 
 	public function facility_menus() {
 		smarty()->assign('title', "Facility Menu");
-		$user = auth()->getRecord();
-
-		// check if user has permission to access this page
-		
-
-		if (isset (input()->location)) {
-			$location = $this->loadModel('Location', input()->location);
-		} else {
-			$location = $this->loadModel('Location', $user->default_location);
-		}
+		$location = $this->getSelectedLocation();
 
 		$date = date('Y-m-d', strtotime("now"));
 		$currentMenu = $this->loadModel('LocationMenu')->fetchMenu($location->id, $date);
@@ -156,12 +142,7 @@ class InfoController extends DietaryController {
 
 	public function public_page_items() {
 		smarty()->assign("title", "Public Page Items");
-		if (isset (input()->location)) {
-			$location = $this->loadModel("Location", input()->location);
-		} else {
-			$location = $this->loadModel("Location", auth()->getRecord()->default_location);
-		}
-		smarty()->assignByRef("location", $location);
+		$location = $this->getSelectedLocation();
 
 		// menu greeting
 		$menuGreeting = $this->loadModel("LocationDetail")->fetchOne(null, array("location_id" => $location->id));
@@ -261,8 +242,41 @@ class InfoController extends DietaryController {
 
 
 	public function menu_start_date() {
+		smarty()->assign("title", "Menu Start Date");
+		$location = $this->getSelectedLocation();
 
+		$date = date("Y-m-d", strtotime("now"));
+		smarty()->assign("date", $date);
+		$availableMenus = $this->loadModel("LocationMenu")->fetchAvailable($location->id);
+		$currentMenu = $this->loadModel("LocationMenu")->fetchCurrent($location->id, $date);
+		smarty()->assignByRef("availableMenus", $availableMenus);
+		smarty()->assignByRef("currentMenu", $currentMenu);
 	}
 
+	public function submitStartDate() {
+		$location = $this->loadModel("Location", input()->location);
+		if (input()->menu != "") {
+			$menu = $this->loadModel("Menu", input()->menu);
+			$locationMenu = $this->loadModel("LocationMenu")->checkExisting($menu->id, $location->id);
+		} else {
+			session()->setFlash("Please select a new menu to start", "error");
+			$this->redirect(input()->path);
+		}
+
+		if (input()->date_start != "") {
+			$locationMenu->date_start = date("Y-m-d", strtotime(input()->date_start));
+			$date = input()->date_start;
+		} else {
+			session()->setFlash("Select the date to start the menu.", "error");
+			$this->redirect(input()->path);
+		}
+
+		if ($locationMenu->save()) {
+			session()->setFlash("The new menu will start on {$date} for {$location->name}", "success");
+			$this->redirect(array("module" => $this->module));
+		}
+		
+
+	}
 
 }

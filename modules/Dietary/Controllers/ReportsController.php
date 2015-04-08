@@ -9,10 +9,6 @@ class ReportsController extends DietaryController {
 
 	public function menu_changes() {
 		smarty()->assign('title', "Menu Changes");
-
-		// fetch all the facility locations
-		//$locations = $this->loadModel('Location')->fetchAll();
-
 		// set the time frame options for the drop down menu
 		$this->reportDays();
 
@@ -59,11 +55,7 @@ class ReportsController extends DietaryController {
 		smarty()->assign("title", "Menu Change Details");
 		$this->reportDays();
 
-		if (isset (input()->location) && input()->location != "") {
-			$location = $this->loadModel("Location", input()->location);
-		} else {
-			$location = $this->loadModel("Location", auth()->getRecord()->default_location);
-		}
+		$location = $this->getSelectedLocation();
 
 
 		if (isset (input()->days)) {

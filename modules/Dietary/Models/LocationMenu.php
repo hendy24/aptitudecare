@@ -22,4 +22,23 @@ class LocationMenu extends Dietary {
 
 		return $this->fetchAll($sql, $params);
 	}
+
+	public function fetchCurrent($location_id, $date) {
+		$menu = $this->loadTable("Menu");
+		$sql = "SELECT l.*, m.public_id, m.name FROM {$this->tableName()} l INNER JOIN {$menu->tableName()} AS m ON m.id = l.menu_id WHERE l.location_id = :location_id AND l.date_start < :date ORDER BY l.date_start DESC LIMIT 1";
+		$params = array(":location_id" => $location_id, ":date" => $date);
+		return $this->fetchOne($sql, $params);
+	}
+
+
+	public function checkExisting($menu_id, $location_id) {
+		$sql = "SELECT * FROM {$this->tableName()} lm WHERE lm.menu_id = :menu_id AND lm.location_id = :location_id LIMIT 1";
+		$params = array("menu_id" => $menu_id, ":location_id" => $location_id);
+		$result = $this->fetchOne($sql, $params);
+		if (!empty ($result)) {
+			return $result;
+		} else {
+			return $this;
+		}
+	}
 }

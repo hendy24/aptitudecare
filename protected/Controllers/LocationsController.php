@@ -5,29 +5,30 @@ class LocationsController extends MainPageController {
 
 	public function census() {
 		smarty()->assign('title', "Census");
+
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);
 
-			if (isset (input()->area)) {
-				if (input()->area != 'all') {
-					$area = $this->loadModel('Location', input()->area);
-				} else {
-					$area = 'all';
-				}
-				
+			if (isset (input()->area) && input()->area != "all") {
+				$area = $this->loadModel('Location', input()->area);
 			} else {
 				$area = $location->fetchLinkedFacility($location->id);
 			}
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+			
+			// if users' default location is not a home health, need to get home health
+			if ($location->location_type == 1) {
+				$location = $location->fetchHomeHealthLocation($location->id);
+			}
+
 			$area = $location->fetchLinkedFacility($location->id);
 		}
 
 		smarty()->assign('loc', $location);
-		smarty()->assign('selectedArea', $area);
-
+		smarty()->assignByRef('selectedArea', $area);
 		
 		if (isset (input()->order_by)) {
 			$_order_by = input()->order_by;
@@ -52,28 +53,30 @@ class LocationsController extends MainPageController {
 	public function recertification_list() {
 		smarty()->assign('title', "Re-certification List");
 		$this->helper = 'PatientMenu';
+		
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);
 
 			if (isset (input()->area)) {
-				if (input()->area != 'all') {
-					$area = $this->loadModel('Location', input()->area);
-				} else {
-					$area = 'all';
-				}
-				
+				$area = $this->loadModel('Location', input()->area);
 			} else {
 				$area = $location->fetchLinkedFacility($location->id);
 			}
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+			
+			// if users' default location is not a home health, need to get home health
+			if ($location->location_type == 1) {
+				$location = $location->fetchHomeHealthLocation($location->id);
+			}
+
 			$area = $location->fetchLinkedFacility($location->id);
 		}
 
 		smarty()->assign('loc', $location);
-		smarty()->assign('selectedArea', $area);
+		smarty()->assignByRef('selectedArea', $area);
 
 		$schedule = $this->loadModel('HomeHealthSchedule')->fetchReCertList($area->id);
 		smarty()->assignByRef('censusList', $schedule);

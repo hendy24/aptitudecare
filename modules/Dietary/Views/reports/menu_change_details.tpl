@@ -19,15 +19,7 @@
 		<a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=menu_changes" class="button">Back</a>
 	</div>
 	<div id="center-title">
-		<div id="locations">
-			<select name="location" id="location">
-				{foreach $locations as $location}	
-					<option value="{$location->public_id}" {if $location->public_id == $selectedLocation->public_id} selected{/if}>{$location->name}</option>
-				{/foreach}
-			</select>
-		</div>
-
-		<h1>Menu Change Details</h1>
+		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
 		<select name="num_days" id="num-days">
@@ -37,13 +29,14 @@
 		</select>	
 	</div>
 </div>
+<h1>Menu Change Details</h1>
 
 <div class="clear"></div>
 
 <table class="view" style="width: 75%">
 	{foreach from=$menuItems item=mod key=key name=menu_mod}
 	<tr>
-		<th colspan="5">Changed Menu</th>
+		<th class="header-row" colspan="5">Changed Menu</th>
 	</tr>
 	<tr>
 		<td class="text-center" style="width: 15%"><strong>Date</strong></td>
@@ -54,7 +47,7 @@
 	</tr>
 	<tr>
 		<td>{$mod->date|date_format}</td>
-		<td>{$meal_name($mod->meal_id)}</td>
+		<td>{$this->mealName($mod->meal_id)}</td>
 		<td>
 			<ul>
 			{foreach $mod->mod_content as $menu}
@@ -81,11 +74,14 @@
 		<td></td>
 		<td></td>
 	</tr>
+	<tr>
+		<td colspan="5" style="height: 100px">&nbsp;</td>
+	</tr>
 	{/foreach}
 </table>
 
 
 {if isset ($pagination)}
-	{$url = "{$SITE_URL}?module=Dietary&page=reports&action=menu_change_details"}
-	{include file="elements/pagination.tpl"}	
+	{$url = "{$SITE_URL}?module={$this->module}&page={$this->page}&action={$this->action}&days={$numDays}&location={$location->public_id}"}
+	{$this->loadElement("pagination", $url)}
 {/if}

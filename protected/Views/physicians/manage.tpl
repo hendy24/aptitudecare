@@ -48,16 +48,21 @@
 	});
 </script>
 
-
-<div id="modules" class="button left"><a href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
-<div id="locations">
-	<select name="location" id="location">
-	{foreach $locations as $location}
-		<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
-	{/foreach}
-	</select>
-	<h2>Manage Physicians</h2>
+<div id="page-header">
+	<div id="action-left"><a class="button" href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
+	<div id="center-title">
+		<div id="locations">
+			<select name="location" id="location">
+			{foreach $locations as $location}
+				<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
+			{/foreach}
+			</select>
+		</div>
+	</div>
+	<div id="action-right"></div>
 </div>
+
+<h2>Manage Physicians</h2>
 
 
 <table class="view">

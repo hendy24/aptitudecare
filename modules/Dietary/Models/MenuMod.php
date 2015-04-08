@@ -48,7 +48,7 @@ class MenuMod extends Dietary {
 		$sql = "SELECT mm.id, mm.public_id, mm.content AS mod_content, mm.reason as mod_reason, mm.date, mi.meal_id, mi.day, mi.content as content, CONCAT(user.first_name, \" \", user.last_name) as user_name FROM {$this->tableName()} mm INNER JOIN {$menuItem->tableName()} mi ON mi.id = mm.menu_item_id INNER JOIN {$user->tableName()} user ON user.id = mm.user_id WHERE mm.location_id = :location_id AND mm.date >= :date";
 
 		$pagination = new Paginator();
-		$pagination->defaul_ipp = 8;
+		$pagination->default_ipp = 8;
 		$pagination->items_total = $count->menu_mods;
 		return $pagination->paginate($sql, $params, $this, $page);
 	}

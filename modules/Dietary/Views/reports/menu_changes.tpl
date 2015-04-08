@@ -1,7 +1,7 @@
 <script>
 	$(document).ready(function() {
 		$("#num-days").change(function() {
-			window.location.href = SITE_URL + "/?module=Dietary&page=reports&action=menu_changes&days=" + $("option:selected", this).val();
+			window.location.href = SITE_URL + "/?module={$this->module}&page={$this->page}&action={$this->action}&days=" + $("option:selected", this).val();
 		});
 	});
 </script>
@@ -32,7 +32,7 @@
 	</tr>
 	{foreach from=$menuChanges item=change key=key name=change}
 	<tr>
-		<td class="bold-link"><a href="{$url}">{$change->name}</a></td>
+		<td class="bold-link"><a href="{$url}&amp;location={$change->public_id}">{$change->name}</a></td>
 		<td class="text-right">{$change->count}</td>
 	</tr>
 	{/foreach}

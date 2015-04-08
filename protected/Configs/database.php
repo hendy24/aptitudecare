@@ -6,7 +6,7 @@
 	$db->host = 'localhost';
 	$db->dbname2 = 'admit_dev';
 	$db->host2 = 'localhost';
-	$db->username = 'aptitude_care';
+	$db->username = 'aptitudecare';
 	$db->password = 'TbPKh46U';
 
 	

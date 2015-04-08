@@ -36,6 +36,7 @@ class DietaryController extends MainPageController {
 
 
 	public function normalizeMenuItems($menuItems) {
+		$menuWeek = false;
 		foreach ($menuItems as $key => $item) {
 
 			if (isset ($item->date) && $item->date != "") {

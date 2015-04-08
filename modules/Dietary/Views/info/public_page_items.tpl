@@ -9,8 +9,13 @@
 	}
 </script>
 
+<div id="page-header">
+	<div id="action-left">&nbsp;</div>
+	<div id="center-title">{$this->loadElement("selectLocation")}</div>
+	<div id="action-right">&nbsp;</div>
+</div>
 
-{$this->loadElement("select-facility")}
+
 
 <div class="multiple-page-form">
 	<h2>Welcome Info</h2>

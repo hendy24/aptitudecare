@@ -15,11 +15,11 @@
 	});
 </script>
 
+
+{$this->loadElement("homeHealthHeader")}
+
 {if !$isMicro}
-	<div id="tv-mode-button">
-		<a href="{$current_url}&amp;is_micro=true" class="button">TV Mode</a>
-	</div> 
-	{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
+	
 	<div id="date-header">
 		<div class="date-header-img-left">
 			<a href="{$SITE_URL}/?module=HomeHealth&amp;location={$loc->public_id}&amp;area={$selectedArea->public_id}&amp;weekSeed={$retreatWeekSeed}"><img class="left" src="{$FRAMEWORK_IMAGES}/icons/prev-icon.png" alt="previous week" /></a>

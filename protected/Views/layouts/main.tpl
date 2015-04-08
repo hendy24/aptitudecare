@@ -51,12 +51,7 @@
 			{/if}
 			<img src="{$logo}" alt="Logo" class="logo"/>
 			{if $auth->valid()}
-				<nav>
-					<ul>
-						{include file="$VIEWS/elements/{$navigation}-nav.tpl"}
-						{include file="$VIEWS/elements/data-nav.tpl"}
-					</ul>
-				</nav>
+				{$this->loadElement("navigation")}
 			{/if}
 		</div>
 	</div>

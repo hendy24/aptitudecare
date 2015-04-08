@@ -9,7 +9,6 @@ class DischargesController extends MainPageController {
 	public function schedule() {
 		smarty()->assign('title', "Schedule Discharges");
 		
-
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);
@@ -22,6 +21,12 @@ class DischargesController extends MainPageController {
 		} else {
 			// Get the users default location from the session
 			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+			
+			// if users' default location is not a home health, need to get home health
+			if ($location->location_type == 1) {
+				$location = $location->fetchHomeHealthLocation($location->id);
+			}
+
 			$area = $location->fetchLinkedFacility($location->id);
 		}
 

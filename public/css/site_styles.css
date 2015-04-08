@@ -253,16 +253,20 @@ div#page-header {
 
 
 div#action-left {
-	float: left;
-	width: 15%;
-	display: block;
+	position: relative;
+	top: -3px;
+	width: 20%;
+	min-width: 175px;
+	height: 25px;
+	display: inline-block;
 }
 
 div#center-title {
-	float: left;
-	width: 68%;
+	position: relative;
+	width: 58%;
+	height: 25px;
 	text-align: center;
-	display: block;
+	display: inline-block;
 }
 
 div#center-title h1 {
@@ -270,10 +274,13 @@ div#center-title h1 {
 }
 
 div#action-right {
-	float: right;
-	width: 15%;
-	margin-right: 2%;
-	display: block;
+	position: relative;
+	width: 20%;
+	height: 25px;
+	top: -6px;
+	right: 0;
+	text-align: right;
+	display: inline-block;
 }
 
 
@@ -282,12 +289,6 @@ div#action-right {
 
 /****************** Dashboard Page *******************/
 
-div#locations {
-	text-align: center;
-	margin: 5px auto;
-
-
-}
 div#locations select {
 	font-size: 24px;
 	height: 30px;
@@ -408,4 +409,20 @@ table#patient-info th a:hover {
 
 table#patient-info a:hover {
 	text-decoration: underline;
+}
+
+.current-menu-info {
+	width: 20%;
+	margin: 0 auto;
+	background: #d8d8d8;
+	padding: 2px 5px;
+}
+
+.current-menu-info p {
+	margin: 0;
+}
+
+#page-info {
+	width: 60%;
+	margin: auto;
 }
