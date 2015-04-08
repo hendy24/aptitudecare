@@ -15,6 +15,8 @@
 	});
 </script>
 
+Hello
+
 
 {$this->loadElement("homeHealthHeader")}
 
