@@ -53,6 +53,22 @@ table#menu-table td.menu-content {
 	padding-left: 0;
 }
 
+div.multiple-page-form {
+	margin: 25px auto;
+	width: 50%;
+	background: #d8d8d8;
+	padding: 10px;
+}
+
+div.multiple-page-form h2 {
+	font-weight: bold;
+}
+
+table.form-multiple {
+	width: 90%;
+	margin: 20px auto;
+}
+
 div#menu {
 	position: relative;
 	margin-top: 50px;
@@ -222,26 +238,57 @@ div#areas {
 	top: 5px;
 }
 
-div#action-right {
+
+
+
+
+/****************** Divs for the header on top of the page ******************/
+
+div#page-header {
 	position: relative;
-	float: right;
+	margin: 25px auto;
+	width: 100%;
+	height: 25px;
 }
+
 
 div#action-left {
 	position: relative;
-	float: left;
+	top: -3px;
+	width: 20%;
+	min-width: 175px;
+	height: 25px;
+	display: inline-block;
 }
+
+div#center-title {
+	position: relative;
+	width: 58%;
+	height: 25px;
+	text-align: center;
+	display: inline-block;
+}
+
+div#center-title h1 {
+	margin: 0;
+}
+
+div#action-right {
+	position: relative;
+	width: 20%;
+	height: 25px;
+	top: -6px;
+	right: 0;
+	text-align: right;
+	display: inline-block;
+}
+
+
 
 
 
 /****************** Dashboard Page *******************/
 
-div#locations {
-	text-align: center;
-	margin: 5px auto;
-
-
-}
 div#locations select {
 	font-size: 24px;
 	height: 30px;
@@ -362,4 +409,20 @@ table#patient-info th a:hover {
 
 table#patient-info a:hover {
 	text-decoration: underline;
+}
+
+.current-menu-info {
+	width: 20%;
+	margin: 0 auto;
+	background: #d8d8d8;
+	padding: 2px 5px;
+}
+
+.current-menu-info p {
+	margin: 0;
+}
+
+#page-info {
+	width: 60%;
+	margin: auto;
 }

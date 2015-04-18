@@ -49,17 +49,18 @@
 </script>
 
 
-<div id="modules" class="button left"><a href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
-<div id="locations">
-	<select name="location" id="location">
-	{foreach $locations as $location}
-		<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
-	{/foreach}
-	</select>
-	<h2>{$headerTitle}</h2>
+<div id="action-left"><a href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}" class="button">Add New</a></div>
+<div id="center-title">
+	<div id="locations">
+		<select name="location" id="location">
+		{foreach $locations as $location}
+			<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
+		{/foreach}
+		</select>
+	</div>
 </div>
-
-<br>
+	
+<h2>{$headerTitle}</h2>
 
 <input type="hidden" id="page" name="page" value="{$page}" />
 <table class="view">

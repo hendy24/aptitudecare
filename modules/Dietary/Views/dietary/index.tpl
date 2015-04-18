@@ -6,7 +6,21 @@
 		});
 	});
 </script>
-{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
+
+
+<div id="page-header">
+	<div id="action-left">
+		{$this->loadElement("module")}
+	</div>
+	<div id="center-title">
+		{$this->loadElement("selectLocation")}
+	</div>
+	<div id="action-right">
+		<a href="" class="button">Print</a>
+	</div>
+</div>
+
+
 <h1>Current Patients</h1>
 <table id="patient-info">
 	<tr>

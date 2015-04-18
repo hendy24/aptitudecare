@@ -24,6 +24,10 @@ class DietaryController extends MainPageController {
 			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
 		}
 
+		if ($location->location_type != 1) {
+			$this->redirect();
+		}
+
 		// get a list of the current patients from the admission app for the current location
 		$currentPatients = $this->loadModel('AdmissionDashboard', false, 'HomeHealth')->fetchCurrentPatients($location->id);
 		smarty()->assign('currentPatients', $currentPatients);
@@ -32,6 +36,7 @@ class DietaryController extends MainPageController {
 
 
 	public function normalizeMenuItems($menuItems) {
+		$menuWeek = false;
 		foreach ($menuItems as $key => $item) {
 
 			if (isset ($item->date) && $item->date != "") {
@@ -45,6 +50,8 @@ class DietaryController extends MainPageController {
 			// Get the current week
 			$menuWeek = floor($item->day / 7);
 
+			$menuItems[$key]->content = nl2br($item->content);
+
 			// explode the tags
 			if (strstr($item->content, "<p>")) {
 				$menuItems[$key]->content = explode("<p>", $item->content);
@@ -52,7 +59,18 @@ class DietaryController extends MainPageController {
 			} else {
 				$menuItems[$key]->content = explode("<br />", $item->content);
 			}
-			
+
+			if (isset ($item->mod_content)) {
+				// explode the tags
+				if (strstr($item->mod_content, "<p>")) {
+					$menuItems[$key]->mod_content = explode("<p>", $item->mod_content);
+					$menuItems[$key]->mod_content = str_replace("</p>", "", $item->mod_content);
+				} else {
+					$menuItems[$key]->mod_content = explode("<br />", $item->mod_content);
+				}
+			}
+
+
 		}
 
 		smarty()->assign('count', 0);

@@ -12,7 +12,10 @@
 		});
 	});
 </script>
-{include file="$VIEWS/elements/{$searchBar}-search.tpl"}
+
+{$this->loadElement("homeHealthHeader")}
+
+
 <h2>Schedule Discharges</h2>
 
 <div id="discharges">

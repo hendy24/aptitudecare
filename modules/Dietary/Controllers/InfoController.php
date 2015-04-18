@@ -8,7 +8,10 @@ class InfoController extends DietaryController {
 	protected $helper = 'DietaryMenu';
 
 
-		public function current() {
+	
+
+
+	public function current() {
 
 		smarty()->assign('title', "Current Menu");
 
@@ -33,8 +36,8 @@ class InfoController extends DietaryController {
 			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
 		));
 
-		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
-		$_dateEnd = date('Y-m-d 23:59:59', strtotime($week[6]));
+		$_dateStart = date('Y-m-d', strtotime($week[0]));
+		$_dateEnd = date('Y-m-d', strtotime($week[6]));
 
 		if (strtotime($_dateStart) > strtotime('now')) {
 			$today = date('Y-m-d', strtotime('now'));
@@ -53,12 +56,7 @@ class InfoController extends DietaryController {
 
 
 		// Get the selected facility. If no facility has been selected return the users' default location
-		if (isset (input()->location)) {
-			$location = $this->loadModel("Location", input()->location);
-		} else {
-			$location = $this->loadModel("Location", auth()->getRecord()->default_location);
-		}
-		smarty()->assignByRef('location', $location);
+		$location = $this->getSelectedLocation();
 
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
@@ -108,16 +106,7 @@ class InfoController extends DietaryController {
 
 	public function facility_menus() {
 		smarty()->assign('title', "Facility Menu");
-		$user = auth()->getRecord();
-
-		// check if user has permission to access this page
-		
-
-		if (isset (input()->location)) {
-			$location = $this->loadModel('Location', input()->location);
-		} else {
-			$location = $this->loadModel('Location', $user->default_location);
-		}
+		$location = $this->getSelectedLocation();
 
 		$date = date('Y-m-d', strtotime("now"));
 		$currentMenu = $this->loadModel('LocationMenu')->fetchMenu($location->id, $date);
@@ -151,24 +140,143 @@ class InfoController extends DietaryController {
 	}
 
 
-	public function alt_menu_items() {
+	public function public_page_items() {
+		smarty()->assign("title", "Public Page Items");
+		$location = $this->getSelectedLocation();
+
+		// menu greeting
+		$menuGreeting = $this->loadModel("LocationDetail")->fetchOne(null, array("location_id" => $location->id));
+		smarty()->assign("menuGreeting", $menuGreeting);
+
+
+		// meal time info
+		$meals = $this->loadModel("Meal")->fetchAll(null, array("location_id" => $location->id));
+		smarty()->assign("meals", $meals);
+
+
+		// alternate menu items
+		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
+		smarty()->assignByRef("alternates", $alternates);		
+
+
+		
 
 	}
 
 
-	public function menu_changes() {
+
+	public function submitWelcomeInfo() {
+		$greeting = $this->loadModel("LocationDetail", input()->location_detail_id);
+		$location = $this->loadModel("Location", input()->location);
+		$greeting->menu_greeting = input()->menu_greeting;
+		if ($greeting->save()) {
+			session()->setFlash("The menu greeting info was changed for {$location->name}", "success");			
+		} else {
+			session()->setFlash("Could not save the greeting info. Please try again.", "error");
+		}
+
+		$this->redirect(input()->path);
+	}
+
+
+	public function submitMealTimes() {
+
+		$message = array();
+
+
+		$end_time = get_object_vars(input()->end);
+
+		foreach (input()->start as $key => $start_time) {
+			$meal = $this->loadModel("Meal", $key);
+			if ($start_time != "") {
+				$meal->start = date("H:i:s", strtotime($start_time));
+			} else {
+				session()->setFlash("Set a meal time and try again.", "error");
+				$this->redirect(input()->path);
+			}
+			if ($end_time  != "") {
+				$meal->end = date("H:i:s", strtotime($end_time[$key]));
+			} else {
+				session()->setFlash("Set a meal time and try again.", "error");
+				$this->redirect(input()->path);
+			}
+			
+			if ($meal->save()) {
+				$message[] = "The meal time was successfully saved.";
+			} else {
+				$message[] = "Could not save the meal time.";
+			}
+		}
+
+		session()->setFlash($message, "success");
+		$this->redirect(input()->path);
 
 	}
 
 
-	public function general_info() {
+	public function submitAltItems() {
+		$location = $this->loadModel('Location', input()->location);
+		$alternate = $this->loadModel('Alternate', input()->alt_menu_id);
 
+		if (input()->alt_menu == "") {
+			session()->setFlash("Please enter items for the alternate menu", 'error');
+			$this->redirect(input()->path());
+		} else {
+			$alternate->content = input()->alt_menu;
+		}
+
+		if ($alternate->location_id == "") {
+			$alternate->location_id = $location->id;
+		}
+
+		$alternate->user_id = auth()->getRecord()->id;
+
+		if ($alternate->save()) {
+			session()->setFlash("The alternate menu was changed for {$location->name}", 'success');
+		} else {
+			session()->setFlash("Could not save the alternate menu changes. Please try again.", 'error');
+		}
+		$this->redirect(input()->path);
 	}
+
 
 
 	public function menu_start_date() {
+		smarty()->assign("title", "Menu Start Date");
+		$location = $this->getSelectedLocation();
 
+		$date = date("Y-m-d", strtotime("now"));
+		smarty()->assign("date", $date);
+		$availableMenus = $this->loadModel("LocationMenu")->fetchAvailable($location->id);
+		$currentMenu = $this->loadModel("LocationMenu")->fetchCurrent($location->id, $date);
+		smarty()->assignByRef("availableMenus", $availableMenus);
+		smarty()->assignByRef("currentMenu", $currentMenu);
 	}
 
+	public function submitStartDate() {
+		$location = $this->loadModel("Location", input()->location);
+		if (input()->menu != "") {
+			$menu = $this->loadModel("Menu", input()->menu);
+			$locationMenu = $this->loadModel("LocationMenu")->checkExisting($menu->id, $location->id);
+		} else {
+			session()->setFlash("Please select a new menu to start", "error");
+			$this->redirect(input()->path);
+		}
+
+		if (input()->date_start != "") {
+			$locationMenu->date_start = date("Y-m-d", strtotime(input()->date_start));
+			$date = input()->date_start;
+		} else {
+			session()->setFlash("Select the date to start the menu.", "error");
+			$this->redirect(input()->path);
+		}
+
+		if ($locationMenu->save()) {
+			session()->setFlash("The new menu will start on {$date} for {$location->name}", "success");
+			$this->redirect(array("module" => $this->module));
+		}
+		
+
+	}
 
 }

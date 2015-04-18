@@ -1,21 +1,44 @@
 <script>
 	$(document).ready(function() {
 		$("#menu").change(function() {
-			window.location.href = SITE_URL + "/?module=Dietary&page=dietary&action=corporate_menus&menu=" + $("option:selected", this).val();
+			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=corporate_menus&menu=" + $("option:selected", this).val();
 		});
 	});
 </script>
 
-<h1>{$selectedMenu->name} Menu</h1>
-
-<div id="action-right">
-	<select name="menu" id="menu">
-		<option value="">Select a menu...</option>
-		{foreach from=$menus item=menu key=key name=menu}
-			<option value="{$menu->id}" {if $selectedMenu && $selectedMenu->id == $menu->id} selected{/if}>{$menu->name}</option>
-		{/foreach}
-	</select>	
+<div id="page-header">
+	<div id="action-left">
+		{$this->loadElement("module")}
+	</div>
+	<div id="center-title">
+		{$this->loadElement("selectLocation")}
+	</div>
+	<div id="action-right">
+		<select name="menu" id="menu">
+			<option value="">Select a menu...</option>
+			{foreach from=$menus item=menu key=key name=menu}
+				<option value="{$menu->public_id}" {if $selectedMenu && $selectedMenu->id == $menu->id} selected{/if}>{$menu->name}</option>
+			{/foreach}
+		</select>	
+	</div>
 </div>
+
+
+
+<div id="page-header">
+	<div id="action-left">
+		&nbsp;
+	</div>
+	<div id="center-title">
+		<h1>{$selectedMenu->name} Menu</h1>
+	</div>
+	<div id="action-right">
+		
+	</div>
+</div>
+
+
+
 
 <div id="menu">
 	<table id="menu-table">

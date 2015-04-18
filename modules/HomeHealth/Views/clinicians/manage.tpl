@@ -1,43 +1,29 @@
-<script>
+<script type="text/javascript">
 	$(document).ready(function() {
-		$("#location").change(function(e) {
-			window.location = SITE_URL + "/?module=HomeHealth&page=clinicians&action=manage&location=" + $("#locations option:selected").val();
+		$("#location").change(function() {
+			window.location.href = SITE_URL + "/?module={$this->module}&page={$this->page}&action={$this->action}&location=" + $("option:selected", this).val();
 		});
-
-		$("#filter").change(function(e) {
-			e.preventDefault();
-			if ($(this).val() == 'all') {
-				window.location.href = SITE_URL + "/?module=HomeHealth&page=clinicians&action=manage";
-			} else {
-				window.location.href = SITE_URL + "/?module=HomeHealth&page=clinicians&action=manage&filter=" + $("#filter option:selected").val();
-			}
-			
-		});
-	}); 
+	});
 </script>
 
-
-<div id="modules" class="button left"><a href="{$SITE_URL}/?page=users&amp;action=add&amp;type=clinician&amp;location={$location_id}">Add New</a></div>
-<div id="locations">
-	<select name="location" id="location">
-	{foreach $locations as $location}
-		<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
-	{/foreach}
-	</select>
+<div id="page-header">
+	<div id="action-left">
+		<a class="button" href="{$SITE_URL}/?page=users&amp;action=add&amp;location={$location_id}">Add New</a>
+	</div>
+	<div id="center-title">
+		<div id="locations">
+			<select name="location" id="location">
+			{foreach $locations as $location}
+				<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
+			{/foreach}
+			</select>
+		</div>
+	</div>
+	<div id="action-right"></div>
 </div>
+
+
 <h2>Manage Clinicians</h2>
-
-<div id="areas">
-	<select name="filter" id="filter">
-		<option value="all">All</option>
-		{foreach $clinicianOptions as $type}
-		<option value="{$type->name}"{if $type->name == $filter} selected{/if}>{$type->description}</option>
-		{/foreach}
-	</select>
-</div>
-
-<br><br>
-
 
 <table class="view">
 	{foreach $clinicianTypes as $type}

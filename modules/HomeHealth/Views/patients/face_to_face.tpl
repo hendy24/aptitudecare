@@ -1,7 +1,7 @@
 <script>
 	$(document).ready(function() {
 		$("#physician-search").autocomplete({
-			serviceUrl: SiteUrl,
+			serviceUrl: SITE_URL,
 			params: {
 				page: 'Physicians',
 				action: 'searchPhysicians',

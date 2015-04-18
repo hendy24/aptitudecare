@@ -12,10 +12,40 @@ class MainPageController extends MainController {
 	}
 
 
+	public function setModule($folder, $name, $module) {
+		//	If the module is specified in the url we will look in the module directory first for the view file.
+		//	If it is not there we will look next in the default view directory.
+		if ($module != "") {
+			$this->module = $module;
+			if (file_exists(MODULES_DIR . DS . $module . DS . 'Views/' . underscoreString($folder) . DS . $name . '.tpl')) {
+				smarty()->assign('content', MODULES_DIR . DS . $module . DS . 'Views/' . underscoreString($folder) . '/' . $name . '.tpl');
+			} else {
+				smarty()->assign('content', underscoreString($folder) . '/' . $name . '.tpl');
+			}
+		
+		//	If no module is set then we will get the content from the default view directory.
+		//	!!!!!! TO-DO: Probably should check if the file exists and if not show a pretty error page. !!!!!!!!!!!
+		} else {
+			if (auth()->getRecord()) {
+				$this->module = $this->loadModel("Module", auth()->getRecord()->default_module)->name;
+			} else {
+				$this->module = null;
+			}
+			
+			if (file_exists (VIEWS . DS . underscoreString($folder) . DS . $name . '.tpl')) {
+				smarty()->assign('content', underscoreString($folder) . '/' . $name . '.tpl');
+			} else {
+				smarty()->assign('content', "error/no-template.tpl");
+			}
+			
+		}
+	}
+
 	public function getLocations() {
 		
 		$selectedLocation = null;
-
+		$selectedArea = null;
+		
 		// get all the locations to which the user has access
 		if (isset(input()->module)) {
 			// if the module is home health, select only home health locations
@@ -27,6 +57,12 @@ class MainPageController extends MainController {
 
 				// need to get the other locations to which the user has access and assign them as areas
 				$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
+
+				if (isset (input()->area)) {
+					$selectedArea = $this->loadModel("Location", input()->area);
+				} else {
+					$selectedArea = null;
+				}
 			} elseif (input()->module == "Dietary") {
 				// Select only facilities
 				$locations = $this->loadModel('Location')->fetchFacilities();
@@ -44,13 +80,13 @@ class MainPageController extends MainController {
 		smarty()->assignByRef('locations', $locations);
 		smarty()->assign('selectedLocation', $location);
 		smarty()->assignByRef('areas', $areas);
+		smarty()->assign('selectedArea', $selectedArea);
 	}	
 
 
-	private function getSelectedLocation($locations) {
+	public function getSelectedLocation() {
 		$user = auth()->getRecord();
 		
-
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
 		} else {
@@ -65,6 +101,8 @@ class MainPageController extends MainController {
 				$location = $location->fetchHomeHealthLocation();
 			}
 		}
+
+		smarty()->assign("location", $location);
 
 		return $location;
 	}
@@ -170,6 +208,18 @@ class MainPageController extends MainController {
 
 	}
 
+
+	public function mealName($meal_id) {
+		if ($meal_id == 1) {
+			return "Breakfast";
+		} elseif ($meal_id == 2) {
+			return "Lunch";
+		} elseif ($meal_id == 3) {
+			return "Dinner";
+		} else {
+			return false;
+		}
+	}
 
 
 }
