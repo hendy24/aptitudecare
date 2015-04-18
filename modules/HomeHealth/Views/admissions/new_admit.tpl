@@ -3,6 +3,7 @@
 		// $('#new_admission').validate();
 		$('#admit-request-phone').mask("(999) 999-9999");
 		$('#admit-request-zip').mask("99999");
+		$("#referral-individual").hide();
 		var $clone = "";
 		var location = "";
 		var admitDate = "";
@@ -124,7 +125,7 @@
 
 							$clone.find("input.previous-patient-id:hidden").val(e.public_id);
 							$clone.find(".previous-patient-name").append(e.first_name + " " + e.last_name);
-							$clone.find(".previous-patient-ssn").append(e.ssn);
+							$clone.find(".previous-patient-dob").append(e.date_of_birth);
 							$clone.find(".previous-patient-location").append(e.location_name);
 							$clone.find(".previous-discharge-date").append(date);
 							if (e.status == "Pending") {
@@ -231,13 +232,13 @@
 			
 		<tr>	
 			<td><strong>Location:</strong></td>
-			<td><strong>Area</strong></td>
+			<td><strong>Area:</strong></td>
 		</tr>
 		<tr>
 			<td>
 				<select name="location" id="admit-request-location">
 					{foreach $locations as $location}
-					<option value="{$location->public_id}"{if $location->id == $auth->getRecord()->default_location} selected{/if}>{$location->name}</option>
+					<option value="{$location->public_id}"{if $location->id == $selectedLocation->id} selected{/if}>{$location->name}</option>
 					{/foreach}
 				</select>
 			</td>
@@ -250,7 +251,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong>Admit From:</strong></td>
+			<td><strong>Patient Location:</strong></td>
 			<td colspan="2"><strong>Referral Source:</strong></td>
 		</tr>
 		<tr>
@@ -262,11 +263,27 @@
 				</a>
 			</td>
 			<td colspan="2">
+				<select name="referral_source" id="referral-source">
+					<option value="">Select...</option>
+					<option value="hospital">Hospital</option>
+					<option value="assisted_independent_living">Assisted/Independent Living</option>
+					<option value="physician">Physician</option>
+					<option value="group_home">Group Home</option>
+					<option value="skilled_nursing_facility">Skilled Nursing Facility</option>
+				</select>
+			</td>
+		</tr>
+
+		<tr id="referral-individual">
+			<td>&nbsp;</td>
+			<td class="location" colspan="2">
 				<input type="text" id="referral-source-search" style="width: 250px" />
 				<input type="hidden" id="referral-source" name="referred_by_id" />
 				<input type="hidden" id="referral-source-type" name="referred_by_type" />
 			</td>
 		</tr>
+
+
 		<tr>
 			<td colspan="3">&nbsp;</td>
 		</tr>
@@ -308,7 +325,7 @@
 	<h2>Previous Patient Search Results</h2>
 	<div class="patient-search-result">
 		<h2 class="previous-patient-name"></h2>
-		<p class="previous-patient-ssn"><strong>SSN:</strong>&nbsp; </p>
+		<p class="previous-patient-dob"><strong>Date of Birth:</strong>&nbsp; </p>
 		<p class="previous-patient-location"><strong>Location:</strong>&nbsp; </p>
 		<p class="previous-discharge-date"><strong>Discharge Date:</strong>&nbsp; </p>
 		<p class="previous-admit-status"><strong>Admission Status:</strong>&nbsp; </p>

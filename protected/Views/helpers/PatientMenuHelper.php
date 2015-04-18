@@ -8,7 +8,8 @@ class PatientMenuHelper {
 		$rand = rand(1, 10000) * $patient->id;
 		$options = '';
 		$options .= "<li><a href=\"/?module=HomeHealth&amp;page=patients&amp;action=inquiry&amp;patient={$patient->public_id}\">Inquiry Record</a></li>";
-		$options .= "<li><a href=\"/?module=HomeHealth&amp;page=patients&amp;action=face_to_face&amp;patient={$patient->public_id}\">Face to Face Form</a></li>";
+		// $options .= "<li><a href=\"/?module=HomeHealth&amp;page=patients&amp;action=face_to_face&amp;patient={$patient->public_id}\">Face to Face Form</a></li>";
+		$options .= "<li><a href=\"/?module=HomeHealth&amp;page=patients&amp;action=patient_files&amp;patient={$patient->public_id}\">Patient Files</a></li>";
 		$options .= "<li><a href=\"/?module=HomeHealth&amp;page=patients&amp;action=assign_clinicians&amp;patient={$patient->public_id}\">Assign Clinicians</a></li>";
 		
 		//	If everything is ready show the approve link

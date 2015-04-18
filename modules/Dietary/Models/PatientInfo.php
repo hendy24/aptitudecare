@@ -6,9 +6,15 @@ class PatientInfo extends Dietary {
 
 
 	public function fetchDietInfo($patientid) {
-		$sql = "SELECT * FROM {$this->tableName()} WHERE {$this->tableName()}.patient_id = :patientid LIMIT 1";
+		$sql = "SELECT pi.* FROM {$this->tableName()} pi WHERE pi.patient_id = :patientid LIMIT 1";
 		$params[":patientid"] = $patientid;
-		return $this->fetchOne($sql, $params);
+		$result = $this->fetchOne($sql, $params);
+
+		if (!empty ($result)) {
+			return $result;
+		} else {
+			return $this;
+		}
 	}
 
 }

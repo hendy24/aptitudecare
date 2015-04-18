@@ -1,7 +1,9 @@
 <li>Data
 	<ul>
-		{if $this->module == "Admissions" || $this->module == "HomeHealth"}
-		<li><a href="{$SITE_URL}/?page=data&amp;action=manage&amp;type=case_managers">Case Managers</a></li>
+		{if $this->getModule() == "Admissions" || $this->getModule() == "HomeHealth"}
+		<li>
+			<a href="{$SITE_URL}/?page=data&amp;action=manage&amp;type=case_managers">Case Managers</a>
+		</li>
 		<li><a href="{$SITE_URL}/?module=HomeHealth&amp;page=clinicians&amp;action=manage">Home Health Clinicians</a></li>
 		<li><a href="{$SITE_URL}/?page=data&amp;action=manage&amp;type=healthcare_facilities">Healthcare Facilities</a></li>
 		<li><a href="{$SITE_URL}/?page=physicians&amp;action=manage">Physicians</a></li>

@@ -1,18 +1,65 @@
 <?php
 
 class MainPageController extends MainController {
-	
-		
+
+	protected $module;
+	protected $locations;
+	protected $location;
+	protected $areas;
+	protected $area;
+
 	public function index() {
 		// Check if user is logged in, if not redirect to login page
 		if (!auth()->isLoggedIn()) {
 			$this->redirect(array('page' => 'Login', 'action' => 'index'));
 		}
-		
+
 	}
 
 
-	public function setModule($folder, $name, $module) {
+	public function getSiteInfo($folder, $name, $module = '') {
+		// if there is a company logo in the img directory... load it, otherwise use the aptitudecare logo
+		if (file_exists(SITE_DIR . '/public/img/logo.jpg')) {
+			$logo = IMAGES . '/logo.jpg';
+		} elseif (file_exists(SITE_DIR . '/public/img/logo.png')) {
+			$logo = IMAGES . '/logo.png';
+		} else {
+			$logo = FRAMEWORK_IMAGES . '/aptitudecare.png';
+		}
+		smarty()->assign('logo', $logo);
+
+		$this->setContent($folder, $name, $module);
+		if (auth()->valid()) {
+			$this->fetchLocations();
+			$this->fetchArea();
+		}
+
+		if ($module != '') {
+			// Get the modules to which the user has access
+			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
+		} else {
+			$modules = '';
+		}
+
+		smarty()->assign('modules', $modules);
+
+		//	If no module variable is present get the session module
+		if ($module == '') {
+			$module = session()->getModule();
+		}
+
+		if (auth()->isLoggedIn()) {
+			if (!$this->verifyModuleAccess($modules, $module)) {
+				$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
+			}
+		}
+
+		smarty()->assign('module', $module);
+
+	}
+
+
+	private function setContent($folder, $name, $module) {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
 		if ($module != "") {
@@ -22,7 +69,7 @@ class MainPageController extends MainController {
 			} else {
 				smarty()->assign('content', underscoreString($folder) . '/' . $name . '.tpl');
 			}
-		
+
 		//	If no module is set then we will get the content from the default view directory.
 		//	!!!!!! TO-DO: Probably should check if the file exists and if not show a pretty error page. !!!!!!!!!!!
 		} else {
@@ -31,82 +78,129 @@ class MainPageController extends MainController {
 			} else {
 				$this->module = null;
 			}
-			
+
 			if (file_exists (VIEWS . DS . underscoreString($folder) . DS . $name . '.tpl')) {
 				smarty()->assign('content', underscoreString($folder) . '/' . $name . '.tpl');
 			} else {
 				smarty()->assign('content', "error/no-template.tpl");
 			}
-			
+
 		}
 	}
 
-	public function getLocations() {
-		
-		$selectedLocation = null;
+	private function fetchLocations() {
+		$areas = null;
 		$selectedArea = null;
-		
-		// get all the locations to which the user has access
-		if (isset(input()->module)) {
-			// if the module is home health, select only home health locations
-			if (input()->module == "HomeHealth") {
-				$locations = $this->loadModel('Location')->fetchHomeHealthLocations($this->module);
 
-				// get either the selected location or the users' default location
-				$location = $this->getSelectedLocation($locations);
+		if ($this->module == "HomeHealth") {
+			$locations = $this->loadModel('Location')->fetchHomeHealthLocations($this->module);
+			$location = $this->getSelectedLocation();
+			// need to get the other locations to which the user has access and assign them as areas
+			$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
 
-				// need to get the other locations to which the user has access and assign them as areas
-				$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
-
-				if (isset (input()->area)) {
-					$selectedArea = $this->loadModel("Location", input()->area);
-				} else {
-					$selectedArea = null;
-				}
-			} elseif (input()->module == "Dietary") {
-				// Select only facilities
-				$locations = $this->loadModel('Location')->fetchFacilities();
-				// get either the selected location or the users' default location
-				$location = $this->getSelectedLocation($locations);
+			if (isset (input()->area)) {
+				$selectedArea = $this->loadModel("Location", input()->area);
+			} else {
+				$selectedArea = "all";
 			}
-
+		} elseif ($this->module == "Dietary") {
+			// Select only facilities
+			$locations = $this->loadModel('Location')->fetchFacilities();
+			// get either the selected location or the users' default location
+			$location = $this->getSelectedLocation();
 		} else {
 			$locations = $this->loadModel('Location')->fetchAllLocations();
 			$location = $this->getSelectedLocation($locations);
 		}
-		
-		
-		// get the users default location
+
+		$this->locations = $locations;
+		$this->location = $location;
+		$this->areas = $areas;
 		smarty()->assignByRef('locations', $locations);
 		smarty()->assign('selectedLocation', $location);
 		smarty()->assignByRef('areas', $areas);
 		smarty()->assign('selectedArea', $selectedArea);
-	}	
+	}
 
-
-	public function getSelectedLocation() {
+	private function getSelectedLocation() {
 		$user = auth()->getRecord();
-		
+
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
 		} else {
 			$location = $this->loadModel('Location', $user->default_location);
 		}
-		
 
-		if (isset (input()->module)) {
-			// if we are on the homehealth module and the users default location type is 1
-			// then we need to get the associated homehealth location
-			if (input()->module == "HomeHealth" && $location->location_type == 1) {
-				$location = $location->fetchHomeHealthLocation();
-			}
+		// if we are on the homehealth module and the users default location type is 1
+		// then we need to get the associated homehealth location
+		if ($this->module == "HomeHealth" && $location->location_type == 1) {
+			$location = $location->fetchHomeHealthLocation();
 		}
-
 		smarty()->assign("location", $location);
-
 		return $location;
 	}
-	
+
+
+	private function verifyModuleAccess($user_modules, $module) {
+		if (!empty ($user_modules)) {
+			foreach ($user_modules as $m) {
+				if ($m->name == $module) {
+					return true;
+				}
+			}
+		} elseif (auth()->is_admin()) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	private function fetchArea() {
+		if (isset(input()->location)) {
+			// If the location is set in the url, get the location by the public_id
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			// Get the users default location from the session
+			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+		}
+
+		//  Check if the default location is home health, if not need to get the associated home health agency
+		if ($location->location_type != 2) {
+			$location = $location->fetchHomeHealthLocation();
+		}
+
+		if (isset (input()->area) && input()->area != "all" && input()->area != "") {
+			$area = $this->loadModel('Location', input()->area);
+		} else {
+			$area = "all";
+		}
+
+		smarty()->assignByRef('loc', $location);
+		smarty()->assignByRef('selectedArea', $area);
+		$this->area = $area;
+		return $area;
+	}
+
+
+	public function getModule() {
+		return $this->module;
+	}
+
+	public function getLocation() {
+		return $this->location;
+	}
+
+	public function getArea() {
+		if ($this->area != "" && $this->area != "all") {
+			return $this->area;
+		}
+		return false;
+	}
+
+	public function getAreas() {
+		return $this->areas;
+	}
 
 	public function searchReferralSources() {
 		$this->template = 'blank';
@@ -121,7 +215,7 @@ class MainPageController extends MainController {
 				'ac_healthcare_facility' => 'HealthcareFacility'
 			);
 
-			//	Get the location to which the patient will be admitted 
+			//	Get the location to which the patient will be admitted
 			$location = $this->loadModel('Location', input()->location);
 			$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
 			$params[":state"] = $location->state;
@@ -146,7 +240,7 @@ class MainPageController extends MainController {
 							$sql .= " AND (`ac_healthcare_facility`.`state` = :state";
 							foreach ($additionalStates as $key => $addState) {
 								$sql .= " OR `ac_healthcare_facility`.`state` = :add_state{$key}";
-								
+
 							}
 						} else {
 							$sql .= " AND (`physician`.`state` = :state";
@@ -162,9 +256,9 @@ class MainPageController extends MainController {
 						}
 						$sql .= ")";
 						$sql .= ") UNION";
-					} 	
+					}
 				}
-				
+
 
 			}
 
@@ -185,7 +279,7 @@ class MainPageController extends MainController {
 			foreach ($r as $k => $i) {
 				$resultArray['suggestions'][$k]['value'] = $i->name;
 				$resultArray['suggestions'][$k]['data'] = array('id' => $i->id, 'type' => $i->type);
-			}			
+			}
 		}
 
 		json_return($resultArray);

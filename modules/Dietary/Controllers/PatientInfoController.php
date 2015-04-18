@@ -1,7 +1,7 @@
 <?php
 
 class PatientInfoController extends MainPageController {
-	
+
 	public $module = "Dietary";
 	protected $navigation = 'dietary';
 	protected $searchBar = 'dietary';
@@ -23,8 +23,21 @@ class PatientInfoController extends MainPageController {
 		// get the diet info for the selected patient
 		$patientInfo = $this->loadModel('PatientInfo')->fetchDietInfo($patient->id);
 
+		// set arrays for checkboxes, dropdowns, etc.
+		$dietOrder = array("None/Regular", "AHA/Cardiac", "No Added Salt", "Renal",
+		"2 gram Na", "Fortified/High Calorie", "Other");
+		$texture = array("Regular", "Mechanical Soft", "Puree", "Full Liquid",
+			"Clear Liquid", "Tube Feeding", "Nectar Thick Liquids", "Honey Thick Liquids",
+			"Pudding Thick Liquids", "Other");
+		$portionSize = array("Small", "Medium", "Large");
+		$orders = array("Isolation", "Fluid Restriction", "Clear Liquid", "Adaptive Equipment", "Other");
+
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
+		smarty()->assign("dietOrder", $dietOrder);
+		smarty()->assign("texture", $texture);
+		smarty()->assign("portionSize", $portionSize);
+		smarty()->assign("orders", $orders);	
 	}
 
 
