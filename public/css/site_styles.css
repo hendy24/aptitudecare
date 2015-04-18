@@ -223,11 +223,6 @@ div.menu-edit-button {
 	top: 5px;
 }
 
-#patient-search {
-	position: relative;
-	top: -25px;
-}
-
 #patient-search input[type="text"] {
 	width: 250px;
 }
@@ -254,33 +249,45 @@ div#page-header {
 
 div#action-left {
 	position: relative;
-	top: -3px;
-	width: 20%;
-	min-width: 175px;
+	float: left;
+	width: 30%;
 	height: 25px;
-	display: inline-block;
+	display: inline;
+	text-align: left;
 }
 
 div#center-title {
 	position: relative;
-	width: 58%;
+	float: left;
+	width: 40%;
 	height: 25px;
 	text-align: center;
-	display: inline-block;
-}
-
-div#center-title h1 {
-	margin: 0;
 }
 
 div#action-right {
 	position: relative;
-	width: 20%;
+	float: left;
+	width: 30%;
 	height: 25px;
-	top: -6px;
-	right: 0;
 	text-align: right;
-	display: inline-block;
+}
+
+
+#sub-header {
+	position: relative;
+	width: 100%;
+	height: 38px;
+	top: -40px;
+}
+
+#patient-search {
+	float: left;
+	margin-top: 20px;
+}
+
+#download-links {
+	float: right;
+	margin-right: 60px;
 }
 
 
@@ -328,24 +335,41 @@ div.location-day-box-color {
 }
 
 div.location-admit {
-	background: #75dc6d;
 	font-size: 11px;
 	line-height: 12px;
 	border-radius: 3px;
+	border: 1px solid #c8c8c8;
 	padding: 5px;
 	margin-top: 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 }
 
-div.location-admit-pending {
-	font-size: 11px;
-	line-height: 12px;
-	border-radius: 3px;
-	padding: 5px;
-	margin-top: 3px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
+div.under-consideration {
+	background: #ffffff;
+}
+
+div.confirmed {
+	background:  #6BBEFF;
+}
+
+div.pending {
+	background: yellow;
+}
+
+div.approved {
+	background: #75dc6d;
+}
+
+#legend {
+	position: relative;
+	margin: 50px auto;
+	width: 35%;
+	border: none;
+}
+
+#legend h2 {
+	text-align: left;
 }
 
 .box-blue {
@@ -426,3 +450,4 @@ table#patient-info a:hover {
 	width: 60%;
 	margin: auto;
 }
+

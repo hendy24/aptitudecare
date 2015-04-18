@@ -6,47 +6,19 @@ class PhysiciansController extends MainPageController {
 		$this->template = 'blank';
 		
 		$term = input()->query;
-		if ($term != '') {
-			$tokens = explode(' ', $term);
-			$params = array();
-
-			$sql = "SELECT * FROM `physician` WHERE ";
-			foreach ($tokens as $idx => $token) {
-				$token = trim($token);
-				$sql .= " first_name like :term{$idx} OR last_name like :term{$idx} AND";
-				$params[":term{$idx}"] = "%{$token}%";
-			}
-
-			$sql = rtrim($sql, ' AND');
-
-			if (isset (input()->location)) {
-				$location = $this->loadModel('Location', input()->location);
-				$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
-
-				$params[':location_state'] = $location->state;
-				$sql .= " AND (`physician`.`state` = :location_state";
-
-				foreach ($additionalStates as $k => $s) {
-					$params[":add_states{$k}"] = $s->state;
-					$sql .= " OR `physician`.`state` = :add_states{$k}";
-				}
-				$sql .= ")";
-			}
-
-			$sql .= " ORDER BY `physician`.`last_name` ASC";
-
-			$class = $this->loadModel('HealthcareFacility');
-
-			$results = db()->fetchRows($sql, $params, $class);
-
-		} else {
-			$results = array();
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+			$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
 		}
 
+		$result = $this->loadModel('Physician')->searchByName($term);
+
 		$resultArray = array();
-		foreach ($results as $k => $r) {
-			$resultArray['suggestions'][$k]['value'] = $r->last_name . ', ' . $r->first_name ;
-			$resultArray['suggestions'][$k]['data'] = $r->id;
+		if (!empty ($result)) {
+			foreach ($result as $k => $r) {
+				$resultArray['suggestions'][$k]['value'] = $r->last_name . ', ' . $r->first_name ;
+				$resultArray['suggestions'][$k]['data'] = $r->id;
+			}
 		}
 
 		json_return($resultArray);

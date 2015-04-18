@@ -14,7 +14,7 @@ class LocationMenu extends Dietary {
 
 		return $this->fetchOne($sql, $params);
 	}
-	
+
 	public function fetchAvailable($location_id) {
 		$menu = $this->loadTable('Menu');
 		$sql = "SELECT * FROM {$this->tableName()} INNER JOIN {$menu->tableName()} ON {$menu->tableName()}.id = {$this->tableName()}.menu_id WHERE {$this->tableName()}.location_id = :location_id";
@@ -25,7 +25,7 @@ class LocationMenu extends Dietary {
 
 	public function fetchCurrent($location_id, $date) {
 		$menu = $this->loadTable("Menu");
-		$sql = "SELECT l.*, m.public_id, m.name FROM {$this->tableName()} l INNER JOIN {$menu->tableName()} AS m ON m.id = l.menu_id WHERE l.location_id = :location_id AND l.date_start < :date ORDER BY l.date_start DESC LIMIT 1";
+		$sql = "SELECT l.*, m.id, m.name FROM {$this->tableName()} l INNER JOIN {$menu->tableName()} AS m ON m.id = l.menu_id WHERE l.location_id = :location_id AND l.date_start < :date ORDER BY l.date_start DESC LIMIT 1";
 		$params = array(":location_id" => $location_id, ":date" => $date);
 		return $this->fetchOne($sql, $params);
 	}

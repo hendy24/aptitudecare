@@ -41,7 +41,6 @@ class PatientsController extends MainPageController {
 		// 	Get DME Equipment
 		smarty()->assign('dmEquipment', $this->loadModel('DmEquipment')->fetchEquipment());
 
-
 		//	Set admitting facility
 		if ($schedule->admit_from_id != '') {
 			$admit_from = $this->loadModel('HealthcareFacility', $schedule->admit_from_id);
@@ -57,20 +56,32 @@ class PatientsController extends MainPageController {
 		} else {
 			$pcp = array();
 		}
-		smarty()->assignByRef('pcp', $pcp);
+		smarty()->assign("pcp", $pcp);
+
+		if ($schedule->following_physician_id != '') {
+			$followingPhysician  = $this->loadModel('Physician', $schedule->following_physician_id);
+		} else {
+			$followingPhysician = array();
+		}
+
+		smarty()->assign("followingPhysician", $followingPhysician);
 
 
 		//	Set surgeon/specialist
-		if ($schedule->surgeon_id != '') {
-			$surgeon = $this->loadModel('Physician', $schedule->surgeon_id);
+		if ($schedule->specialist_id != '') {
+			$specialist = $this->loadModel('Physician', $schedule->specialist_id);
 		} else {
-			$surgeon = array();
+			$specialist = array();
 		}
-		smarty()->assignByRef('surgeon', $surgeon);
+		smarty()->assign("specialist", $specialist);
+
+
+
 
 
 		/*
 		 *	PROCESS SUBMITTED INQUIRY FORM
+		 *
 		 */
 
 		if (input()->is('post')) {
@@ -142,9 +153,13 @@ class PatientsController extends MainPageController {
 				$error_messages[] = "Enter the patient's Primary Care Physician";
 			}
 
-			if (input()->surgeon_id != '') {
-				$schedule->surgeon_id = input()->surgeon_id;
+			if (input()->specialist_id != '') {
+				$schedule->specialist_id = input()->specialist_id;
 			} 
+
+			if (input()->following_physician_id != '') {
+				$schedule->following_physician_id = input()->following_physician_id;
+			}
 			
 			if (input()->diagnosis1_onset_date != '') {
 				$schedule->diagnosis1_onset_date = input()->diagnosis1_onset_date;
@@ -262,12 +277,22 @@ class PatientsController extends MainPageController {
 				$schedule->f2f_received = false;
 			}
 
+			if (input()->clinicians_assigned == true) {
+				$schedule->clinicians_assigned = true;
+			} else {
+				$schedule->clinicians_assigned = false;
+			}
+
 			if (input()->insurance_verified == true) {
 				$schedule->insurance_verified = true;
 			} else {
 				$schedule->insurance_verified = false;
 			}
-			
+
+			if ($schedule->status != "Approved" && ($schedule->f2f_received && $schedule->clinicians_assigned && $schedule->insurance_verified)) {
+				$schedule->status = "Pending";
+			} 
+
 
 			// 	BREAKPOINT 
 			//	We will allow fields to be left blank, the form data that has been entered and will be saved, 
@@ -361,6 +386,32 @@ class PatientsController extends MainPageController {
 			}
 		}
 
+	}
+
+
+
+
+	public function patient_files() {
+		smarty()->assign("title", "Patient Files");
+
+		// fetch patient info
+		if (input()->patient != "") {
+			$patient = $this->loadModel("Patient", input()->patient);
+		} else {
+			session()->setFlash("Could not find the patient you were looking for.", 'error');
+			$this->redirect();
+		}
+
+		$patientFiles = $this->loadModel("PatientNote")->fetchNotes($patient->id);
+
+		smarty()->assign("patient", $patient);
+		smarty()->assign("patientFiles", $patientFiles);
+		
+	}
+
+
+	public function search_patients() {
+		pr (input()); die();
 	}
 
 

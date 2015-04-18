@@ -9,29 +9,20 @@ class DischargesController extends MainPageController {
 	public function schedule() {
 		smarty()->assign('title', "Schedule Discharges");
 		
-		if (isset(input()->location)) {
-			// If the location is set in the url, get the location by the public_id
-			$location = $this->loadModel('Location', input()->location);
+		$location = $this->getLocation();
+		$area = $this->getArea();
 
-			if (isset (input()->area)) {
-				$area = $this->loadModel('Location', input()->area);
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
-		} else {
-			// Get the users default location from the session
-			$location = $this->loadModel('Location', auth()->getDefaultLocation());
-			
-			// if users' default location is not a home health, need to get home health
-			if ($location->location_type == 1) {
-				$location = $location->fetchHomeHealthLocation($location->id);
-			}
-
-			$area = $location->fetchLinkedFacility($location->id);
+		if (!$area) {
+			$areas = $this->getAreas();
 		}
 
-		smarty()->assign('loc', $location);
-		smarty()->assignByRef('selectedArea', $area);
+		if (isset (input()->area) && input()->area != "all") {
+			// get single selected area
+			$areas = array($this->getArea());
+		} else {
+			// get all the areas
+			$areas = $this->getAreas();
+		}
 
 
 		// Check url for week in the past or future
@@ -62,10 +53,20 @@ class DischargesController extends MainPageController {
 
 		$_dateStart = date('Y-m-d 00:00:01', strtotime($week[0]));
 		$_dateEnd = date ('Y-m-d 23:59:59', strtotime($week[6]));
-		$_location_id = $area->id;
+		if (isset ($area->id)) {
+			$_location_id = $area->id;
+		} else {
+			$_location_id = false;
+		}
+		
 
 		// Get all patients currently at the facility for the current week
-		$current = $this->loadModel('Patient')->fetchCurrentPatients($area->id);
+		if (isset ($area->id)) {
+			$current = $this->loadModel('Patient')->fetchCurrentPatients($area->id);
+		} else {
+			$current = $this->loadModel('Patient')->fetchCurrentPatients($areas);
+		}
+		
 
 		/*
 		 *	Get Discharges for the week
@@ -73,7 +74,7 @@ class DischargesController extends MainPageController {
 
 		$_status = 'Discharged';
 		$_orderby = 'datetime_discharge ASC';
-		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, array($area), $_status, $_orderby);
+		$discharges = $this->loadModel('HomeHealthSchedule')->fetchDischarges($_dateStart, $_dateEnd, $areas, $_status, $_orderby);
 
 		// Split up discharges for each day of the week
 

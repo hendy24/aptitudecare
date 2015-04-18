@@ -1,8 +1,8 @@
 <nav>
 	<ul>
-		{if $this->module == "HomeHealth"}
+		{if $this->getModule() == "HomeHealth"}
 			{$this->loadElement("homeHealthNav")}
-		{elseif $this->module == "Dietary"}
+		{elseif $this->getModule() == "Dietary"}
 			{$this->loadElement("dietaryNav")}
 		{/if}
 

@@ -14,16 +14,13 @@ class DietaryController extends MainPageController {
 		smarty()->assign("title", "Dietary");
 		// if user is not authorized to access this page, then re-direct
 		if (!auth()->getRecord()) {
-			$this->redirect();	
-		} 
-
-		// get the location
-		if (isset(input()->location) && input()->location != "") {
-			$location = $this->loadModel('Location', input()->location);
-		} else {
-			$location = $this->loadModel('Location', auth()->getRecord()->default_location);
+			$this->redirect();
 		}
 
+		// get the location
+		$location = $this->getLocation();
+
+		// check if the user has permission to access this module
 		if ($location->location_type != 1) {
 			$this->redirect();
 		}

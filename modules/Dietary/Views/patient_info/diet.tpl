@@ -34,100 +34,92 @@
 		<tr>
 			<th colspan="3">Diet Info</th>
 		</tr>
+		<tr>
+			<td><strong>Food Allergies:</strong></td>
+			<td colspan="2" class="text-right"><input type="text" name="food_allergies" size="64" value=""></td>
+		</tr>
+		<tr>
+			<td><strong>Food dislikes or intolerances:</strong></td>
+			<td colspan="2" class="text-right"><input type="text" name="food_dislikes" size="64" value=""></td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
 
 
 		<tr>
-			<td colspan="3"><strong>Restrictions:</strong></td>
+			<td colspan="3"><strong>Diet Info:</strong></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="restrictions" value="none"> None/Regular</td>
-			<td><input type="checkbox" name="restrictions" value="general_diabetic"> General Diabetic</td>
-			<td><input type="checkbox" name="restrictions" value="aha_cardiac"> AHA / Cardiac</td>
+		{foreach from=$dietOrder item="diet" name="dietItem"}
+			<td><input type="checkbox" name="diet_order" value="{$diet}">{$diet}</td>
+		{if $smarty.foreach.dietItem.iteration is div by 3}
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="restrictions" value="no_added_salt"> No Added Salt</td>
-			<td><input type="checkbox" name="restrictions" value="low_sodium"> Low Sodium</td>
-			<td><input type="checkbox" name="restrictions" value="renal"> Renal</td>
+		{/if}
+		{/foreach}
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="restrictions" value="renal_diabetic"> Renal Diabetic</td>
-			<td><input type="checkbox" name="restrictions" value="fortified_high_calorie"> Fortified / High Calorie</td>
-			<td><input type="checkbox" name="restrictions" value="other"> Other</td>
+			<td colspan="3">&nbsp;</td>
 		</tr>
+
 
 
 		<tr>
 			<td colspan="3"><strong>Texture:</strong></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="texture" value="regular"> Regular</td>
-			<td><input type="checkbox" name="texture" value="mechanical_soft"> Mechanical Soft</td>
-			<td><input type="checkbox" name="texture" value="puree"> Puree</td>
+			{foreach from=$texture item="diet" name="dietItem"}
+				<td><input type="checkbox" name="texture" value="{$diet}">{$diet}</td>
+			{if $smarty.foreach.dietItem.iteration is div by 3}
+			</tr>
+			<tr>
+			{/if}
+			{/foreach}
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="texture" value="full_liquid"> Full Liquid</td>
-			<td><input type="checkbox" name="texture" value="clear_liquid"> Clear Liquid</td>
-			<td><input type="checkbox" name="texture" value="tube_feeding"> Tube Feeding</td>
+			<td colspan="3">&nbsp;</td>
 		</tr>
-		<tr>
-			<td colspan="3"><input type="checkbox" name="texture" value="other"> Other</td>
-		</tr>
+
 
 
 		<tr>
 			<td colspan="3"><strong>Orders:</strong></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="orders" value="isolation"> Isolation</td>
-			<td><input type="checkbox" name="orders" value="fluid_restriction"> Fluid Restriction</td>
-			<td><input type="checkbox" name="orders" value="food_allergies_intolerances"> Food Allergies / Intolerances</td>
+			{foreach from=$orders item="diet" name="dietItem"}
+				<td><input type="checkbox" name="texture" value="{$diet}">{$diet}</td>
+			{if $smarty.foreach.dietItem.iteration is div by 3}
+			</tr>
+			<tr>
+			{/if}
+			{/foreach}
 		</tr>
-		<tr>
-			<td><input type="checkbox" name="orders" value="clear_liquid"> Clear Liquid</td>
-			<td colspan="2"><input type="checkbox" name="orders" value="adaptive_equipment"> Adaptive Equipment</td>
-		</tr>
-
-
-		<tr>
-			<td colspan="3"><strong>Portion Size:</strong></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="portion_size" value="small"> Small</td>
-			<td><input type="radio" name="portion_size" value="medium"> Medium</td>
-			<td><input type="radio" name="portion_size" value="large"> Large</td>
-		</tr>
-	
 		<tr>
 			<td colspan="3">&nbsp;</td>
 		</tr>
 
+
+
 		<tr>
-			<td colspan="3"><strong>Breakfast:</strong></td>
+			<td colspan="3"><strong>Lunch &amp; Dinner Portion Size:</strong></td>
 		</tr>
 		<tr>
-			<td colspan="3">Cereal:</td>
+			{foreach from=$portionSize item="diet" name="dietItem"}
+				<td><input type="radio" name="portion_size" value="{$diet}"> {$diet}</td>
+			{/foreach}
 		</tr>
 		<tr>
-			<td><input type="radio" name="cereal" value="hot"> Hot</td>
-			<td><input type="radio" name="cereal" value="cold"> Cold</td>
-			<td><input type="radio" name="cereal" value="none"> None</td>
+			<td><strong>Special Requests:</strong></td>
+			<td colspan="2" class="text-right"><input type="text" name="food_allergies" size="64" value=""></td>
 		</tr>
 		<tr>
-			<td colspan="3">Bread:</td>
+			<td colspan="3"><strong>Snacks</strong></td>
 		</tr>
 		<tr>
-			<td><input type="radio" name="cereal" value="hot"> White</td>
-			<td colspan="2"><input type="radio" name="cereal" value="cold"> Wheat</td>
-		</tr>
-		<tr>
-			<td colspan="3">
-				Eggs:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<select name="egg_type">
-					<option value="">Select...</option>
-					<option value="scrambled">Scrambled</option>
-					<option value="over_easy">Over Easy</option>
-				</select>
-			</td>
+			<td>AM<input type="text" name="am_snack"></td>
+			<td>PM<input type="text" name="pm_snack"></td>
+			<td>Bedtime<input type="text" name="bedtime_snack"></td>
 		</tr>
 
 		<tr>
@@ -135,14 +127,8 @@
 		</tr>
 
 		<tr>
-			<td colspan="3"><strong>Lunch &amp; Dinner</strong></td>
-		</tr>
-		<tr>
-			<td colspan="3">
-				Avoided Vegetables:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-				<input type="text" name="avoided_vegetables" size="30"> 
-			</td>
+			<td colspan="3" class="text-right"><input type="submit" value="Save"></td>
 		</tr>
 	</table>
-	
+
 </form>

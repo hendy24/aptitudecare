@@ -43,7 +43,7 @@ class HomeHealthSchedule extends HomeHealth {
 
 		$sql = trim($sql, ", ");
 
-		$sql .= ") AND ({$this->tableName()}.`status` = 'Approved' OR {$this->tableName()}.`status` = 'Pending')";
+		$sql .= ") AND ({$this->tableName()}.`status` = 'Approved' OR {$this->tableName()}.`status` = 'Pending' OR {$this->tableName()}.status = 'Under Consideration')";
 		return $this->fetchAll($sql, $params, $this);
 	}
 
@@ -56,7 +56,6 @@ class HomeHealthSchedule extends HomeHealth {
 	 */
 
 	public function fetchDischarges($datetime_start, $datetime_end, $locations = array(), $status = null, $orderby = null) {
-
 		if ($status == null) {
 			$status = 'Scheduled Discharge';
 		}
@@ -74,29 +73,46 @@ class HomeHealthSchedule extends HomeHealth {
 		);
 
 
-		$sql = "SELECT `{$this->tableName()}`.*, `{$this->tableName()}`.`public_id` AS schedule_pubid, `ac_patient`.`last_name`, `ac_patient`.`first_name` FROM `{$this->tableName()}` INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` WHERE {$this->tableName()}.`datetime_discharge` >= :datetime_start AND {$this->tableName()}.`datetime_discharge` <= :datetime_end AND {$this->tableName()}.`location_id` IN (
-			";
+		$sql = "SELECT `{$this->tableName()}`.*, `{$this->tableName()}`.`public_id` AS schedule_pubid, `ac_patient`.`last_name`, `ac_patient`.`first_name` FROM `{$this->tableName()}` INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` WHERE {$this->tableName()}.`datetime_discharge` >= :datetime_start AND {$this->tableName()}.`datetime_discharge` <= :datetime_end";
 
-		foreach ($locations as $key => $location) {
-			// Fetch those patients who were admitted 60 days ago and discharge them
-			$this->dischargePatients($location);
-
-			$params[":location{$key}"] = $location->id;
-			$sql .= ":location{$key}, ";
+		if (is_array($locations)) {
+			$locString = null;
+			foreach ($locations as $l) {
+				$locString .= "{$l->id}, ";
+			}
+			$locString = trim($locString, ", ");
+			
+			$params[":location"] = $locString;
+		} else {
+			$params[":location"] = $locations;
 		}
 
-		$sql = trim($sql, ", ");
+		$sql .= " AND {$this->tableName()}.`location_id` IN (:location)";
 
 
-		$sql .= ") AND {$this->tableName()}.`status` = :status ORDER BY :orderby";
+		$sql .= " AND {$this->tableName()}.`status` = :status ORDER BY :orderby";
 		return $this->fetchAll($sql, $params);
 
 	}
 
 
 	public function dischargePatients($location) {
-		$sql = "UPDATE {$this->tableName()} set status = 'Discharged' WHERE start_of_care < :cut_off_date AND status = 'Approved' AND location_id = :location_id";
-		$params[":location_id"] = $location->id;
+		$sql = "UPDATE {$this->tableName()} set status = 'Discharged' WHERE start_of_care < :cut_off_date AND status = 'Approved'";
+
+		if (is_array($location)) {
+			$locString = null;
+			foreach ($location as $l) {
+				$locString .= "{$l->id}, ";
+			}
+			$locString = trim($locString, ", ");
+			
+			$params[":location"] = $locString;
+		} else {
+			$params[":location"] = $location;
+		}
+
+		$sql .= "AND location_id IN (:location)";
+
 		$params[":cut_off_date"] = date('Y-m-d 00:00:01', strtotime("now - 60 days"));
 		return $this->update($sql, $params);
 	}

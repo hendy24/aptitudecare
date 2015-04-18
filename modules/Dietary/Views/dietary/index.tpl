@@ -36,8 +36,8 @@
 	{foreach from=$currentPatients key=k item=patient name=count}
 		<td>{$patient->number}</td>
 		<td>{$patient->last_name}, {$patient->first_name}</td>
-		<td>{$patientTools->menu($patient)}</td>
-		
+		<td>{$dietaryMenu->menu($patient)}</td>
+
 	{if $smarty.foreach.count.iteration is div by 2}
 		</tr>
 		<tr>

@@ -8,7 +8,7 @@ class InfoController extends DietaryController {
 	protected $helper = 'DietaryMenu';
 
 
-	
+
 
 
 	public function current() {
@@ -26,7 +26,7 @@ class InfoController extends DietaryController {
 		$week = Calendar::getWeek($weekSeed);
 
 		$nextWeekSeed = date("Y-m-d", strtotime("+7 days", strtotime($week[0])));
-		
+
 
 		smarty()->assign(array(
 			'weekSeed' => $weekSeed,
@@ -56,7 +56,7 @@ class InfoController extends DietaryController {
 
 
 		// Get the selected facility. If no facility has been selected return the users' default location
-		$location = $this->getSelectedLocation();
+		$location = $this->getLocation();
 
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
@@ -106,7 +106,7 @@ class InfoController extends DietaryController {
 
 	public function facility_menus() {
 		smarty()->assign('title', "Facility Menu");
-		$location = $this->getSelectedLocation();
+		$location = $this->getLocation();
 
 		$date = date('Y-m-d', strtotime("now"));
 		$currentMenu = $this->loadModel('LocationMenu')->fetchMenu($location->id, $date);
@@ -142,7 +142,7 @@ class InfoController extends DietaryController {
 
 	public function public_page_items() {
 		smarty()->assign("title", "Public Page Items");
-		$location = $this->getSelectedLocation();
+		$location = $this->getLocation();
 
 		// menu greeting
 		$menuGreeting = $this->loadModel("LocationDetail")->fetchOne(null, array("location_id" => $location->id));
@@ -156,10 +156,10 @@ class InfoController extends DietaryController {
 
 		// alternate menu items
 		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
-		smarty()->assignByRef("alternates", $alternates);		
+		smarty()->assignByRef("alternates", $alternates);
 
 
-		
+
 
 	}
 
@@ -170,7 +170,7 @@ class InfoController extends DietaryController {
 		$location = $this->loadModel("Location", input()->location);
 		$greeting->menu_greeting = input()->menu_greeting;
 		if ($greeting->save()) {
-			session()->setFlash("The menu greeting info was changed for {$location->name}", "success");			
+			session()->setFlash("The menu greeting info was changed for {$location->name}", "success");
 		} else {
 			session()->setFlash("Could not save the greeting info. Please try again.", "error");
 		}
@@ -200,7 +200,7 @@ class InfoController extends DietaryController {
 				session()->setFlash("Set a meal time and try again.", "error");
 				$this->redirect(input()->path);
 			}
-			
+
 			if ($meal->save()) {
 				$message[] = "The meal time was successfully saved.";
 			} else {
@@ -241,9 +241,16 @@ class InfoController extends DietaryController {
 
 
 
+/*
+ * SET MENU START DATE
+ * This page is used to set the start date when changing the menu the facility will
+ * be using. This change usually only occurs twice per years, but depends on how
+ * many menus the facility will utilyze throughout the year.
+ *
+ */
 	public function menu_start_date() {
 		smarty()->assign("title", "Menu Start Date");
-		$location = $this->getSelectedLocation();
+		$location = $this->getLocation();
 
 		$date = date("Y-m-d", strtotime("now"));
 		smarty()->assign("date", $date);
@@ -253,6 +260,14 @@ class InfoController extends DietaryController {
 		smarty()->assignByRef("currentMenu", $currentMenu);
 	}
 
+
+
+	/*
+	 * SUBMIT THE START DATE
+	 * Submits, checks for errors, and saves the start date submitted from the set
+	 * set menu start date page.
+	 *
+	 */
 	public function submitStartDate() {
 		$location = $this->loadModel("Location", input()->location);
 		if (input()->menu != "") {
@@ -275,7 +290,7 @@ class InfoController extends DietaryController {
 			session()->setFlash("The new menu will start on {$date} for {$location->name}", "success");
 			$this->redirect(array("module" => $this->module));
 		}
-		
+
 
 	}
 

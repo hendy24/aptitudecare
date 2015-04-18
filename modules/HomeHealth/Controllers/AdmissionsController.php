@@ -43,11 +43,6 @@ class AdmissionsController extends MainPageController {
 
 	public function new_admit() {
 		smarty()->assign('title', 'New Admission');
-
-		// Get areas based on the users' default location
-		$areas = $this->loadModel('Location')->fetchLinkedFacilities(auth()->getRecord()->default_location);
-		smarty()->assignByRef('areas', $areas);
-
 	}
 
 
@@ -201,23 +196,19 @@ class AdmissionsController extends MainPageController {
 
 	public function searchPrevPatients() {
 
-		$class = $this->loadModel('Patient');
-		$table = $class->fetchTable();
-
-		$sql = "SELECT `ac_patient`.`public_id`, `ac_patient`.`last_name`, `ac_patient`.`first_name`, `ac_patient`.`middle_name`, `ac_patient`.`ssn`, `ac_location`.`name` AS location_name, `home_health_schedule`.`datetime_discharge`, `home_health_schedule`.`status` FROM `ac_patient` INNER JOIN `home_health_schedule` ON `ac_patient`.`id`=`home_health_schedule`.`patient_id` INNER JOIN `ac_location` ON `ac_location`.`id`=`home_health_schedule`.`location_id` WHERE `ac_patient`.`first_name` LIKE :first_name AND `ac_patient`.`last_name` LIKE :last_name";
-		if (input()->middle_name != '') {
-			$sql .= " AND `ac_patient`.`middle_name` LIKE :middle_name";
-			$params[":middle_name"] = "%" . input()->middle_name . "%";
+		if (isset (input()->first_name)) {
+			$first_name = input()->first_name;
 		}
-		$params = array(
-			":first_name" => "%" . input()->first_name . "%",
-			":last_name" => "%" . input()->last_name . "%",
-		);
-
-		$result = db()->fetchRows($sql, $params, $class);
-
+		if (isset (input()->last_name)) {
+			$last_name = input()->last_name;
+		}
+		
+		if (isset (input()->middle_name)) {
+			$middle_name = input()->middle_name;
+		}
+		$patient = $this->loadModel('Patient');
+		$result = $patient->fetchPreviousPatients($last_name, $first_name, $middle_name);
 		json_return ($result);
-
 	}
 
 

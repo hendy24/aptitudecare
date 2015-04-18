@@ -165,4 +165,12 @@ class Location extends AppData {
 		return $this->fetchAll($sql, $params);
 	}
 
+
+	public function fetchHealthcareFacilityId() {
+		$healthcareFacility = $this->loadTable("HealthcareFacility");
+		$sql = "SELECT hf.id FROM {$healthcareFacility->tableName()} hf WHERE hf.name = :name";
+		$params[":name"] = $this->name;
+		return $this->fetchOne($sql, $params);
+	}
+
 }

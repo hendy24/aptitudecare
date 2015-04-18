@@ -52,7 +52,7 @@
 		});
 
 
-		$("#pcp-search").autocomplete({
+		$(".physician-search").autocomplete({
 			serviceUrl: SITE_URL,
 			params: {
 				page: 'Physicians',
@@ -60,19 +60,7 @@
 				location: $("#location").val()
 			}, minChars: 3,
 			onSelect: function (suggestion) {
-				$("#pcp").val(suggestion.data);
-			}
-		});
-
-		$("#surgeon-search").autocomplete({
-			serviceUrl: SITE_URL,
-			params: {
-				page: 'Physicians',
-				action: 'searchPhysicians',
-				location: $("#location").val()
-			}, minChars: 3,
-			onSelect: function (suggestion) {
-				$("#surgeon").val(suggestion.data);
+				$(this).parent().find("input:hidden").val(suggestion.data);
 			}
 		});
 
@@ -113,6 +101,13 @@
 
 <h1>Pre-Admission Inquiry Record<br>
 <span class="text-14">for</span> <br><span class="text-20">{$patient->first_name} {$patient->last_name}</span></h1>
+
+<div id="sub-header">
+		<div id="download-links">
+		<a href="{$current_url}&amp;isMicro=true"><img src="{$FRAMEWORK_IMAGES}/icons/printer.png" alt=""></a>
+	</div>
+</div>
+
 
 <form action="{$SITE_URL}" name="inquiry" method="post" id="inquiry-form">
 	<input type="hidden" name="module" value="HomeHealth" />
@@ -246,19 +241,29 @@
 			</td>
 			<td>
 				<strong>Primary Care Physician:</strong><br>
-				<input type="text" id="pcp-search" {if isset($pcp->id)}value="{$pcp->last_name}, {$pcp->first_name}"{else}value=""{/if} style="width:200px" />
+				<input type="text" class="physician-search" {if isset($pcp->id)}value="{$pcp->fullName()}"{else}value=""{/if} style="width:200px" />
 				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
 					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
-				<input type="hidden" id="pcp" name="pcp_id" {if isset($pcp->id)}value="{$pcp->id}" {else} value=""{/if} />
+				<input type="hidden" id="pcp" class="physician-id" name="pcp_id" {if isset($pcp->id)}value="{$pcp->id}" {else} value=""{/if} />
 			</td>
 			<td>
 				<strong>Surgeon/Specialist:</strong><br>
-				<input type="text" id="surgeon-search" style="width:200px" {if isset($surgeon->id)}value="{$surgeon->last_name}, {$surgeon->first_name}"{else} value=""{/if} />
+				<input type="text" class="physician-search" style="width:200px" {if isset($specialist->id)}value="{$specialist->fullName()}"{else} value=""{/if} />
 				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
 					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
-				<input type="hidden" id="surgeon" name="surgeon_id" {if isset($surgeon->id)}value="{$surgeon->id}" {else} value=""{/if} />
+				<input type="hidden" id="specialist" class="physician-id" name="specialist_id" {if isset($specialist->id)}value="{$specialist->id}" {else} value=""{/if} />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<strong>Following Physician:</strong><br>
+				<input type="text" class="physician-search" {if isset($followingPhysician->id)}value="{$followingPhysician->fullName()}"{else}value=""{/if} style="width:200px" />
+				<a href="/?page=physicians&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
+					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
+				</a>
+				<input type="hidden" id="following-physician" class="physician-id" name="following_physician_id" {if isset($followingPhysician->id)}value="{$followingPhysician->id}" {else} value=""{/if} />
 			</td>
 		</tr>
 		<tr>
@@ -405,6 +410,11 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td><input type="checkbox" name="f2f_received" value="true"{if $schedule->f2f_received == true} checked{/if} /> Face to Face Completed</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td><input type="checkbox" name="clinicians_assigned" value="true"{if $schedule->clinicians_assigned == true} checked{/if} /> Clinicians Assigned</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>

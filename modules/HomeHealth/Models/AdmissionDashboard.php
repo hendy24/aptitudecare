@@ -59,13 +59,20 @@ class AdmissionDashboard extends AppModel {
 			}
 
 			$schedule->public_id = $r->schedule_pubid;
-			$schedule->admit_from_id = $r->facility;
+
+			// need to find the healthcare facility id by the location name
+			$healthcare_facility = $this->loadTable("Location", $r->facility)->fetchHealthcareFacilityId();
+			
+			if (isset ($healthcare_facility->id)) {
+				$schedule->admit_from_id = $healthcare_facility->id;
+			}
+			
 			$schedule->referred_by_type = "ahc_facility";
 			$schedule->location_id = $r->facility;
 			$schedule->datetime_created = mysql_datetime();
 			$schedule->datetime_modified = mysql_datetime();
 			$schedule->inpatient_diagnosis = $r->other_diagnosis;
-			$schedule->surgeon_id = $r->ortho_id;
+			$schedule->specialist_id = $r->ortho_id;
 			$schedule->primary_insurance = $r->paymethod;
 			$schedule->primary_insurance_number = $r->medicare_number;
 
@@ -138,14 +145,22 @@ class AdmissionDashboard extends AppModel {
 				$name = "notes_name{$i}";
 				
 				$patient_notes = new PatientNote;
-				$patient_notes->patient_id = $patient_id;
-				$patient_notes->file = $r->$file;
-				$patient_notes->name = $r->$name;
-				if ($patient_notes->file != null) {
-					$patient_notes->save();
-				}
+
+				// check for already existing files and save
 				
+				$patient_notes->patient_id = $patient->id;
+				if (isset ($r->$name) && $r->$name != null) {
+					$patient_notes->name = $r->$name;
+				}
+
+				if (isset ($r->$file) && $r->$file != null) {
+					$patient_notes->file = $r->$file;
+					if (!$patient_notes->checkExisting()) {
+						$patient_notes->save();
+					}
+				}				
 			}
+
 			$schedule->save();
 			
 

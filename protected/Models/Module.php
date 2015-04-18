@@ -1,7 +1,7 @@
 <?php
 
 class Module extends AppData {
-	
+
 	protected $table = 'module';
 
 	public function fetchUserModules($user) {
@@ -9,5 +9,11 @@ class Module extends AppData {
 		$params[':userid'] = $user;
 		return $this->fetchAll($sql, $params);
 	}
-	
+
+	public function fetchDefaultModule() {
+		$params[":default_module"] = auth()->getRecord()->default_module;
+		$sql = "SELECT m.* FROM {$this->tableName()} m WHERE m.id = :default_module";
+		return $this->fetchOne($sql, $params);
+	}
+
 }
