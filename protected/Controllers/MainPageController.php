@@ -34,11 +34,11 @@ class MainPageController extends MainController {
 			$this->fetchArea();
 		}
 
-		if ($module != '') {
+		if ($this->module != '') {
 			// Get the modules to which the user has access
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 		} else {
-			$modules = '';
+			$modules = 'HomeHealth';
 		}
 
 		smarty()->assign('modules', $modules);
@@ -52,7 +52,7 @@ class MainPageController extends MainController {
 			if (!$this->verifyModuleAccess($modules, $module)) {
 				$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
 			}
-		}
+		} 
 
 		smarty()->assign('module', $module);
 
