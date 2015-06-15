@@ -4,6 +4,9 @@
 		$('#admit-request-phone').mask("(999) 999-9999");
 		$('#admit-request-zip').mask("99999");
 		$("#referral-individual").hide();
+		$("#referral-source-name").hide();
+		$("#physician-referral-name").hide();
+		$(".hidden-title").hide();
 		var $clone = "";
 		var location = "";
 		var admitDate = "";
@@ -14,6 +17,18 @@
 		var zip = "";
 		var locationId = $("#admit-request-location option:selected").val();
 
+
+		$("#referral-source-type").change(function(){
+			if ($(this).val() == "physician") {
+				$(".hidden-title").show();
+				$("#physician-referral-name").show();
+			} else {
+				$(".hidden-title").show();
+				$("#referral-source-name").show();
+				$("#referral-individual").show();
+
+			}
+		});
 
 		$("#admit-request-location").change(function() {
 			$("#admit-request-area option").remove();
@@ -28,15 +43,12 @@
 			},
 			'json'
 			);
-
-
 		});
 
 		$("#admit-request-location").on("change", function() {
 			$("#admit-from-search").autocomplete({
 				serviceUrl: SITE_URL,
 				params: { 
-					module: 'HomeHealth',
 					page: 'HealthcareFacilities',
 					action: 'searchFacilityName',
 					location: $("option:selected", this).val()
@@ -48,50 +60,70 @@
 
 			});
 
-			$("#referral-source-search").autocomplete({
+			// Duplicated to work on change, not just on page load
+			$(".healthcare-facility-search").autocomplete({
 				serviceUrl: SITE_URL,
 				params: {
-					page: 'MainPage',
-					action: 'searchReferralSources',
-					location: $("option:selected", this).val()
+					module: "HomeHealth",
+					page: "HealthcareFacilities",
+					action: "searchFacilityName",
+					location: $("#admit-request-location option:selected").val(),
 				}, minChars: 4,
 				width: "300",
 				onSelect: function (suggestion) {
-					$("#referral-source").val(suggestion.data['id']);
-					$("#referral-source-type").val(suggestion.data['type']);
+					$(this).next(".healthcare-facility-id").val(suggestion.data);
+					$(this).val(suggestion.value);
 				}
 			});
 
+			$(".physician-search").autocomplete({
+				serviceUrl: SITE_URL,
+				params: {
+					page: "Physicians",
+					action: "searchPhysicians",
+					location: $("#admit-request-location option:selected").val(),
+					referral_type: $("#referral-source-type option:selected").val()
+				}, minChars: 4,
+				width: "300",
+				onSelect: function (suggestion) {
+					$(this).next(".physician-id").val(suggestion.data);
+					$(this).val(suggestion.value);
+				}
+			});
+
+
+
 		});
 
 
-		$("#admit-from-search").autocomplete({
-			serviceUrl: SITE_URL,
-			params: { 
-				module: 'HomeHealth',
-				page: 'HealthcareFacilities',
-				action: 'searchFacilityName',
-				location: $("#admit-request-location option:selected").val()
-			}, minChars: 3,
-			width: "300",
-			onSelect: function (suggestion) {
-				$("#admit-from").val(suggestion.data);
-			}
-
-		});
-
-
-		$("#referral-source-search").autocomplete({
+		$(".healthcare-facility-search").autocomplete({
 			serviceUrl: SITE_URL,
 			params: {
-				page: 'MainPage',
-				action: 'searchReferralSources',
-				location: $("#admit-request-location option:selected").val()
+				module: "HomeHealth",
+				page: "HealthcareFacilities",
+				action: "searchFacilityName",
+				location: $("#admit-request-location option:selected").val(),
 			}, minChars: 4,
 			width: "300",
 			onSelect: function (suggestion) {
-				$("#referral-source").val(suggestion.data['id']);
-				$("#referral-source-type").val(suggestion.data['type']);
+				$(this).next(".healthcare-facility-id").val(suggestion.data);
+				$(this).val(suggestion.value);
+			}
+		});
+
+
+		$(".physician-search").autocomplete({
+			serviceUrl: SITE_URL,
+			params: {
+				page: "Physicians",
+				action: "searchPhysicians",
+				location: $("#admit-request-location option:selected").val(),
+				referral_type: $("#referral-source-type option:selected").val()
+			}, minChars: 4,
+			width: "300",
+			onSelect: function (suggestion) {
+				$(this).next(".physician-id").val(suggestion.data);
+				$(this).val(suggestion.value);
 			}
 		});
 
@@ -223,7 +255,7 @@
 	<input type="hidden" name="submit" value="true" />
 	<table class="form">
 		<tr>
-			<td colspan="3"><strong>Admit Date:</strong></td>
+			<td colspan="3" class="title"><strong>Admit Date:</strong></td>
 			
 		</tr>
 		<tr>
@@ -231,8 +263,8 @@
 		</tr>
 			
 		<tr>	
-			<td><strong>Location:</strong></td>
-			<td><strong>Area:</strong></td>
+			<td class="title"><strong>Location:</strong></td>
+			<td class="title" colspan="2"><strong>Area:</strong></td>
 		</tr>
 		<tr>
 			<td>
@@ -242,7 +274,7 @@
 					{/foreach}
 				</select>
 			</td>
-			<td>
+			<td colspan="2">
 				<select name="area" id="admit-request-area">
 					{foreach $areas as $area}
 					<option value="{$area->public_id}">{$area->name}</option>
@@ -251,32 +283,43 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong>Patient Location:</strong></td>
-			<td colspan="2"><strong>Referral Source:</strong></td>
+			<td class="title"><strong>Patient Location:</strong></td>
+			<td class="title"><strong>Referral Source:</strong></td>
+			<td class="title hidden-title"><strong>Referral Source Name:</strong></td>
 		</tr>
 		<tr>
 			<td style="width: 275px">
-				<input type="text" id="admit-from-search" style="width: 250px" required />
-				<input type="hidden" name="admit_from" id="admit-from" />
+				<input type="text" class="healthcare-facility-search" style="width: 250px" required />
+				<input type="hidden" name="admit_from" class="healthcare-facility-id" />
 				<a href="/?page=healthcare_facilities&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
 					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 			</td>
-			<td colspan="2">
-				<select name="referral_source" id="referral-source">
+			<td>
+				<select name="referral_source" id="referral-source-type">
 					<option value="">Select...</option>
-					<option value="hospital">Hospital</option>
-					<option value="assisted_independent_living">Assisted/Independent Living</option>
+					<option value="3">Hospital</option>
+					<option value="4">Assisted/Independent Living</option>
 					<option value="physician">Physician</option>
-					<option value="group_home">Group Home</option>
-					<option value="skilled_nursing_facility">Skilled Nursing Facility</option>
+					<option value="5">Group Home</option>
+					<option value="1">Skilled Nursing Facility</option>
 				</select>
+			</td>
+			<td id="referral-source-name">
+				<input type="text"  class="healthcare-facility-search" name="referral_name" style="width: 250px">
+				<input type="hidden" name="referred_by_id" class="healthcare-facility-id" />
+			</td>
+			<td id="physician-referral-name">
+				<input type="text"  class="physician-search" name="referral_name" style="width: 250px">
+				<input type="hidden" name="referred_physician_id" class="physician-id" />
 			</td>
 		</tr>
 
 		<tr id="referral-individual">
 			<td>&nbsp;</td>
+			<td>&nbsp;</td>
 			<td class="location" colspan="2">
+				<strong>Referring Individual</strong><br>
 				<input type="text" id="referral-source-search" style="width: 250px" />
 				<input type="hidden" id="referral-source" name="referred_by_id" />
 				<input type="hidden" id="referral-source-type" name="referred_by_type" />
@@ -288,12 +331,12 @@
 			<td colspan="3">&nbsp;</td>
 		</tr>
 		<tr>
-			<td colspan="3"><strong>Patient Info:</strong></td>
+			<td class="section-title" colspan="3"><strong>Patient Info:</strong></td>
 		</tr>
 		<tr>
-			<td>Last Name</td>
-			<td>First Name</td>
-			<td>Middle Name</td>
+			<td class="title">Last Name</td>
+			<td class="title">First Name</td>
+			<td class="title">Middle Name</td>
 		</tr>
 		<tr>
 			<td><input type="text" id="admit-request-last-name" name="last_name" style="width:250px;" required  /></td>
@@ -301,8 +344,8 @@
 			<td><input type="text" id="admit-request-middle-name" name="middle_name" /></td>
 		</tr>
 		<tr>
-			<td>Phone</td>
-			<td>Zip</td>
+			<td class="title">Phone</td>
+			<td class="title">Zip</td>
 		</tr>
 		<tr>
 			<td><input type="text" id="admit-request-phone" name="phone" required /></td>
