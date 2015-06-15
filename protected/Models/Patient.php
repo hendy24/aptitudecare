@@ -8,25 +8,21 @@ class Patient extends AppData {
 	public function fetchCurrentPatients($location, $order_by = false) {
 		$schedule = $this->loadTable('HomeHealthSchedule');
 		$physician = $this->loadTable('Physician');
-		$sql = "SELECT p.*, s.`public_id` AS schedule_pubid, s.`referral_date`, s.`datetime_discharge`, CONCAT(physician.`last_name`, ', ', physician.`first_name`) AS physician_name FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.`patient_id` = p.`id` LEFT JOIN {$physician->tableName()} AS physician ON physician.`id` = s.`pcp_id` WHERE s.`status` = 'Approved'";
+		$sql = "SELECT p.*, s.`public_id` AS schedule_pubid, s.`referral_date`, s.`datetime_discharge`, CONCAT(physician.`last_name`, ', ', physician.`first_name`) AS physician_name FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.`patient_id` = p.`id` LEFT JOIN {$physician->tableName()} AS physician ON physician.`id` = s.`pcp_id` WHERE s.`status` = 'Approved' AND s.location_id IN (";
 
 
 		if (is_array($location)) {
-
-			$locString = null;
-			foreach ($location as $l) {
-				$locString .= "{$l->id}, ";
+			foreach ($location as $key => $location) {
+				$params[":location{$key}"] = $location->id;
+				$sql .= ":location{$key}, ";
 			}
-			$locString = trim($locString, ", ");
-			
-			$params[":location"] = $locString;
+
+			$sql = trim($sql, ", ");
+			$sql .= " )";
 		} else {
 			$params[":location"] = $location;
-		}
-
-		$sql .= "AND s.location_id IN (:location)";
-
-		
+			$sql .= " :location)";
+		} 		
 
 		$sql .= " ORDER BY ";
 		switch ($order_by) {
@@ -55,7 +51,7 @@ class Patient extends AppData {
 				break;
 				
 		}
-		
+
 		return $this->fetchAll($sql, $params);
 	}
 

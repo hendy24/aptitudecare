@@ -307,7 +307,7 @@ class PatientsController extends MainPageController {
 			if ($patient->save()) {	//	First save the patient info
 				if ($schedule->save()) {
 					session()->setFlash("The inquiry record for {$patient->first_name} {$patient->last_name} has been saved.", 'success');
-					$this->redirect();
+					$this->redirect(array("module" => "HomeHealth"));
 				} else {
 					session()->setFlash("Could not save the inquiry record for {$patient->first_name} {$patient->last_name}.  Please try again.");
 					$this->redirect(input()->path);
@@ -322,7 +322,6 @@ class PatientsController extends MainPageController {
 		}
 
 	}
-
 
 
 

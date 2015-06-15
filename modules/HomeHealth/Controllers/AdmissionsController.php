@@ -69,6 +69,9 @@ class AdmissionsController extends MainPageController {
 		if (input()->referred_by_id != '') {
 			$schedule->referred_by_id = input()->referred_by_id;
 			$schedule->referred_by_type = underscoreString(input()->referred_by_type);
+		} elseif (input()->referred_physician_id != '') {
+			$schedule->referred_by_id = input()->referred_physician_id;
+			$schedule->referred_by_type = "physician";
 		}
 
 
@@ -107,7 +110,7 @@ class AdmissionsController extends MainPageController {
 		}
 
 		// 	Set patient status as pending for new admits
-		$schedule->status = "Pending";
+		$schedule->status = "Under Consideration";
 
 		// 	Break point.  If there are error messages set them in the session and redirect back
 		//	to the new admit page.
