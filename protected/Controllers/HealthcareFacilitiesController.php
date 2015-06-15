@@ -13,43 +13,15 @@ class HealthcareFacilitiesController extends MainPageController {
 		$this->template = 'blank';
 
 		$term = input()->query;
+		if (isset (input()->location)) {
+			$location = input()->location;
+		} else {
+			$location = false;
+		}
+		
 
 		if ($term != '') {
-			$tokens = explode(' ', $term);
-			$params = array();
-
-			$sql = "SELECT * FROM ac_healthcare_facility WHERE ";
-			foreach ($tokens as $idx => $token) {
-				$token = trim($token);
-				$sql .= " name like :term{$idx} AND";
-				$params[":term{$idx}"] = "%{$token}%";
-			}
-			$sql = rtrim($sql, ' AND');
-
-			if (isset (input()->location)) {
-				$location = $this->loadModel('Location', input()->location);
-				$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
-
-				$params[':location_state'] = $location->state;
-				$sql .= " AND (ac_healthcare_facility.state = :location_state";
-
-				foreach ($additionalStates as $k => $s) {
-					$params[":add_states{$k}"] = $s->state;
-					$sql .= " OR ac_healthcare_facility.state = :add_states{$k}";
-				}
-
-				$sql .= ")";
-			} elseif (isset (input()->state) && input()->state != '') {
-				$params[':state'] = input()->state;
-				$sql .= " AND ac_healthcare_facility.state = :state";
-			}
-
-			$sql .= " ORDER BY `ac_healthcare_facility`.`name` ASC";
-
-			$class = $this->loadModel('HealthcareFacility');
-
-			$results = db()->fetchRows($sql, $params, $class);
-
+			$results = $this->loadModel("HealthcareFacility")->searchFacilities($term, $location);
 		} else {
 			$results = array();
 		}
