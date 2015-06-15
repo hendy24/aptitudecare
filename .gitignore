@@ -1,3 +1,4 @@
 .DS_Store
 protected/Compile
 public/index.php
+protected/Configs/database.php
