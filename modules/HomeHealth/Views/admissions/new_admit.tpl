@@ -22,10 +22,13 @@
 			if ($(this).val() == "physician") {
 				$(".hidden-title").show();
 				$("#physician-referral-name").show();
+				$("#referral-source-name").hide();
+				$("#referral-individual").hide();
 			} else {
 				$(".hidden-title").show();
 				$("#referral-source-name").show();
 				$("#referral-individual").show();
+				$("#physician-referral-name").hide();
 
 			}
 		});
@@ -90,8 +93,6 @@
 					$(this).val(suggestion.value);
 				}
 			});
-
-
 
 		});
 
@@ -202,11 +203,14 @@
 				if (data.name == "location") {
 					location = data.value;
 				}
+				if (data.name == "area") {
+					area = data.value;
+				}
 				if (data.name == "admit_from") {
 					admitFrom = data.value;
 				}
-				if (data.name == "referred_by_id") {
-					referredBy = data.value;
+				if (data.name == "referral_source") {
+					referralSource = data.value;
 				}
 				if (data.name == "referred_by_type") {
 					referredByType = data.value;
@@ -218,7 +222,13 @@
 					zip = data.value;
 				}
 			});
-			
+
+			if ($(".physician-id").val() != "") {
+				referredBy = $(".physician-id").val();
+			} else if ($(".healthcare-facility-id").val() != "") {
+				referredBy = $(".healthcare-facility-id").val();
+			}
+
 			$.post(SITE_URL, { 
 				module: "HomeHealth",
 				page: "Admissions",
@@ -226,7 +236,9 @@
 				patient_id: patientId,
 				referral_date: referralDate,
 				location: location,
+				area: area,
 				admit_from: admitFrom,
+				referral_source: referralSource,
 				referred_by_id: referredBy,
 				referred_by_type: referredByType,
 				phone: phone,
@@ -311,7 +323,7 @@
 			</td>
 			<td id="physician-referral-name">
 				<input type="text"  class="physician-search" name="referral_name" style="width: 250px">
-				<input type="hidden" name="referred_physician_id" class="physician-id" />
+				<input type="hidden" name="physician_id" class="physician-id" />
 			</td>
 		</tr>
 
