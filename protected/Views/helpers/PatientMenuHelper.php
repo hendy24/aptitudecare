@@ -30,6 +30,10 @@ class PatientMenuHelper {
 			$options .= "</a></li>";
 		}
 
+		if ($patient->status != "Approved") {
+			$options .= "<li><a href=\"/?module=HomeHealth&amp;page=patients&amp;action=cancel_inquiry&amp;patient={$patient->public_id}\">Cancel this Inquiry</a></li>";
+			}
+
 	echo <<<END
 		<dl style="" class="dropdown">
 			<dt><a id="linkglobal{$rand}" style="cursor:pointer;"></a></dt>

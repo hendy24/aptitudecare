@@ -501,10 +501,26 @@ class PatientsController extends MainPageController {
 
 		if ($schedule->save()) {
 			session()->setFlash("{$patient->fullName()} has been approved", "success");
-			$this->redirect();
+			$this->redirect(array('module' => 'HomeHealth'));
 		} else {
 			session()->setFlash("Could not complete the request.  Please try again.", "error");
-			$this->redirect();
+			$this->redirect(array('module' => 'HomeHealth'));
+		}
+	}
+
+
+	public function cancel_inquiry() {
+		$patient = $this->loadModel('Patient', input()->patient);
+		$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
+
+		$schedule->status = "Cancelled";
+
+		if ($schedule->save()) {
+			session()->setFlash("The patient inquiry for {$patient->fullName()} has been cancelled.", 'success');
+			$this->redirect(array('module' => 'HomeHealth'));
+		} else {
+			session()->setFlash("Could not cancel the inquiry record for {$patient->fullName()}. Please try again.", 'error');
+			$this->redirect(array('module' => 'HomeHealth'));
 		}
 	}
 

@@ -66,10 +66,10 @@ class AdmissionsController extends MainPageController {
 			$error_messages[] = "Enter the location from which the patient will be admitted";
 		}
 
-		if (input()->referred_by_id != '') {
+		if (isset (input()->referred_by_id)) {
 			$schedule->referred_by_id = input()->referred_by_id;
 			$schedule->referred_by_type = underscoreString(input()->referred_by_type);
-		} elseif (input()->referred_physician_id != '') {
+		} elseif (isset (input()->referred_physician_id)) {
 			$schedule->referred_by_id = input()->referred_physician_id;
 			$schedule->referred_by_type = "physician";
 		}
@@ -141,10 +141,10 @@ class AdmissionsController extends MainPageController {
 			$patient = $this->loadModel('Patient')->fetchById(input()->patient_id);
 			$prevSchedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
 			$schedule = $this->loadModel('HomeHealthSchedule');
-			$location = $this->loadModel('Location')->fetchById(input()->location);
+			$location = $this->loadModel('Location')->fetchById(input()->area);
 		}
 
-		
+
 		//	If the patient's status is approved they are a current patient
 		if ($prevSchedule->status == "Approved") {
 			$error_messages[] = "{$patient->first_name} {$patient->last_name} was already admitted on " . display_date($prevSchedule->referral_date);
@@ -156,10 +156,16 @@ class AdmissionsController extends MainPageController {
 			//	Set the new schedule info with the previous patient id
 			$schedule->patient_id = $patient->id;
 			$schedule->referral_date = mysql_datetime_admit(input()->referral_date);
+			$schedule->start_of_care = mysql_datetime_admit(input()->referral_date);
 			$schedule->location_id = $location->id;
 			$schedule->admit_from_id = input()->admit_from;
+			if (input()->referred_by_type == "physician") {
+				$schedule->referred_by_type = "physician";
+			} else {
+				$schedule->referred_by_type = "healthcare_facility";
+			}
 			$schedule->referred_by_id = input()->referred_by_id;
-			$schedule->referred_by_type = input()->referred_by_type;
+			
 
 			//	If the phone number is different than before update it
 			if ($patient->phone !== input()->phone) {
@@ -172,24 +178,34 @@ class AdmissionsController extends MainPageController {
 			}
 		}
 
-		$schedule->status = "Pending";
 
+		// The model is not fetching an object will all the row names empty,
+		// rather than spend additional time troubleshooting this issue
+		// I am manually creating the table names which are not automatically 
+		// saving -- kwh 2015-06-16
+		$schedule->public_id = null;
+		$schedule->datetime_created = null;
+		$schedule->datetime_modified = null;
+		$schedule->user_created = null;
+		$schedule->user_modified = null;
+
+
+		$schedule->status = "Under Consideration";
 
 		//	Breakpoint
 		if (!empty ($error_messages)) {
 			session()->setFlash($error_messages, 'error');
-			json_return (array('url' => SITE_URL));
+			json_return (array('url' => SITE_URL . "/?module=HomeHealth"));
 		}
-
 
 		//	If no errors then save the patient and schedule info
 
 		if ($schedule->save() && $patient->save()) {
 			session()->setFlash($patient->first_name . " " . $patient->last_name . " has been saved.");
-			json_return (array('url' => SITE_URL));
+			json_return (array('url' => SITE_URL . "/?module=HomeHealth"));
 		} else {
 			session()->setFlash("Could not save the patient info", "error");
-			json_return(array('url' => SITE_URL));
+			json_return(array('url' => SITE_URL . "/?module=HomeHealth"));
 		}
 		
 
