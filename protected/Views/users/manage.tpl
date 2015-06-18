@@ -58,6 +58,9 @@
 			{foreach $locations as $location}
 				<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
 			{/foreach}
+			{foreach $areas as $area}
+				<option value="{$area->public_id}" {if $area->public_id == $location_id} selected{/if}><h1>{$area->name}</h1></option>
+			{/foreach}
 			</select>
 		</div>
 	</div>
