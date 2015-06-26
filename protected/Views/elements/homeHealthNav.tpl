@@ -1,5 +1,5 @@
 <li><a href="{$SITE_URL}?module=HomeHealth">Home</a></li>
-<li>Admissions
+<li><a href="" onClick="return true">Admissions</a>
 	<ul>
 		<li><a href="{$SITE_URL}?module=HomeHealth&amp;page=admissions&amp;action=new_admit">New Admission</a></li>
 		<li><a href="{$SITE_URL}?module=HomeHealth&amp;page=admissions&amp;action=pending_admits">Pending Admissions</a></li>
