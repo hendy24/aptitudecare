@@ -1,4 +1,4 @@
-<li>Data
+<li><a href="" onClick="return true">Data</a>
 	<ul>
 		{if $this->getModule() == "Admissions" || $this->getModule() == "HomeHealth"}
 		<li>
