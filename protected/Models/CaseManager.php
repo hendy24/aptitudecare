@@ -49,5 +49,41 @@ class CaseManager extends AppData {
 	}
 
 
+	public function searchByName($term = false, $location = false, $additional_states = array()) {
+
+		$healthcare_facilities = $this->loadTable("HealthcareFacility");
+
+		if ($term) {
+			$tokens = explode(" ", $term);
+			$params = array();
+
+			$sql = "SELECT cm.* FROM {$this->tableName()} cm INNER JOIN {$healthcare_facilities->tablename()} f ON f.id = cm.healthcare_facility_id WHERE ";
+			foreach ($tokens as $idx => $token) {
+				$token = trim($token);
+				$sql .= " cm.first_name like :term{$idx} OR cm.last_name like :term{$idx} AND";
+				$params[":term{$idx}"] = "%{$token}%";
+			}
+			$sql = rtrim($sql, ' AND');
+		}
+
+		if ($location) {
+			$params[':location_state'] = $location->state;
+			$sql .= " AND (f.`state` = :location_state";
+
+			foreach ($additionalStates as $k => $s) {
+				$params[":add_states{$k}"] = $s->state;
+				$sql .= " OR f.`state` = :add_states{$k}";
+			}
+			$sql .= ")";
+		}
+
+		$sql .= " ORDER BY cm.`last_name` ASC";
+
+		return $this->fetchAll($sql, $params);
+
+
+	}
+
+
 
 }

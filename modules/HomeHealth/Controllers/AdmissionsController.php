@@ -66,15 +66,6 @@ class AdmissionsController extends MainPageController {
 			$error_messages[] = "Enter the location from which the patient will be admitted";
 		}
 
-		if (isset (input()->referred_by_id)) {
-			$schedule->referred_by_id = input()->referred_by_id;
-			$schedule->referred_by_type = underscoreString(input()->referred_by_type);
-		} elseif (isset (input()->referred_physician_id)) {
-			$schedule->referred_by_id = input()->referred_physician_id;
-			$schedule->referred_by_type = "physician";
-		}
-
-
 		//	Patient First name
 		if (input()->first_name != '') {
 			$patient->first_name = input()->first_name;
@@ -111,6 +102,18 @@ class AdmissionsController extends MainPageController {
 
 		// 	Set patient status as pending for new admits
 		$schedule->status = "Under Consideration";
+
+		$schedule->referred_by_location_id = input()->referred_by_location_id;
+
+		if (input()->referred_by_individual_id != "") {
+			$schedule->referred_by_individual_id = input()->referred_by_individual_id;
+			$schedule->referred_by_type = "healthcare_facility";
+		} elseif (input()->physician_id != "") {
+			$schedule->referred_by_individual_id = input()->physician_id;
+			$schedule->referred_by_type = "physician";
+		}
+		
+			
 
 		// 	Break point.  If there are error messages set them in the session and redirect back
 		//	to the new admit page.
@@ -159,12 +162,17 @@ class AdmissionsController extends MainPageController {
 			$schedule->start_of_care = mysql_datetime_admit(input()->referral_date);
 			$schedule->location_id = $location->id;
 			$schedule->admit_from_id = input()->admit_from;
-			if (input()->referred_by_type == "physician") {
-				$schedule->referred_by_type = "physician";
-			} else {
+
+			if (input()->referred_by_location_id != "") {
+				$schedule->referred_by_location_id = input()->referred_by_location_id;
 				$schedule->referred_by_type = "healthcare_facility";
+			} else {
+				$schedule->referred_by_type = "physician";
 			}
-			$schedule->referred_by_id = input()->referred_by_id;
+
+			$schedule->referred_by_individual_id = input()->referred_by_individual_id;
+			
+			$schedule->referred_by_individual_id = input()->referred_by_individual_id;
 			
 
 			//	If the phone number is different than before update it

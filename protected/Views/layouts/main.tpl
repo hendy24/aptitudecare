@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
@@ -20,6 +21,7 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/datepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/dropzone/dropzone.js"></script>
 
 	<script>
 		var SITE_URL = '{$SITE_URL}';
