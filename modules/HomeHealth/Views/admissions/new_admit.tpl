@@ -89,7 +89,21 @@
 				}, minChars: 4,
 				width: "300",
 				onSelect: function (suggestion) {
-					$(this).next(".physician-id").val(suggestion.data);
+					$("#physician-id").val(suggestion.data);
+					$(this).val(suggestion.value);
+				}
+			});
+
+			$("#referral-source-search").autocomplete({
+				serviceUrl: SITE_URL,
+				params: {
+					page: "CaseManager",
+					action: "searchReferralSource",
+					location: $("#admit-request-location option:selected").val(),
+				}, minChars: 4,
+				width: "300",
+				onSelect: function (suggestion) {
+					$("#referred-by-individual-id").val(suggestion.data);
 					$(this).val(suggestion.value);
 				}
 			});
@@ -123,7 +137,22 @@
 			}, minChars: 4,
 			width: "300",
 			onSelect: function (suggestion) {
-				$(this).next(".physician-id").val(suggestion.data);
+				$("#physician-id").val(suggestion.data);
+				$(this).val(suggestion.value);
+			}
+		});
+
+
+		$("#referral-source-search").autocomplete({
+			serviceUrl: SITE_URL,
+			params: {
+				page: "CaseManagers",
+				action: "searchReferralSource",
+				location: $("#admit-request-location option:selected").val(),
+			}, minChars: 4,
+			width: "300",
+			onSelect: function (suggestion) {
+				$("#referred-by-individual-id").val(suggestion.data);
 				$(this).val(suggestion.value);
 			}
 		});
@@ -215,6 +244,9 @@
 				if (data.name == "referred_by_type") {
 					referredByType = data.value;
 				}
+				if (data.name == "referred_by_id") {
+					referredById = data.value;
+				}
 				if (data.name == "phone") {
 					phone = data.value;
 				}
@@ -223,10 +255,12 @@
 				}
 			});
 
-			if ($(".physician-id").val() != "") {
-				referredBy = $(".physician-id").val();
-			} else if ($(".healthcare-facility-id").val() != "") {
-				referredBy = $(".healthcare-facility-id").val();
+			if ($(".referred-by-location-id").val() != "") {
+				referredByLocationId = $(".referred-by-location-id").val();
+				referredByIndividualId = $("#referred-by-individual-id").val();
+			} else {
+				referredByLocationId = null;
+				referredByIndividualId = $("#physician-id").val();
 			}
 
 			$.post(SITE_URL, { 
@@ -239,7 +273,8 @@
 				area: area,
 				admit_from: admitFrom,
 				referral_source: referralSource,
-				referred_by_id: referredBy,
+				referred_by_location_id: referredByLocationId,
+				referred_by_individual_id: referredByIndividualId,
 				referred_by_type: referredByType,
 				phone: phone,
 				zip: zip
@@ -267,8 +302,7 @@
 	<input type="hidden" name="submit" value="true" />
 	<table class="form">
 		<tr>
-			<td colspan="3" class="title"><strong>Admit Date:</strong></td>
-			
+			<td colspan="3" class="title"><strong>Admit Date:</strong></td>			
 		</tr>
 		<tr>
 			<td colspan="3"><input type="text" class="datepicker" name="referral_date" value="" required /></td>
@@ -319,22 +353,24 @@
 			</td>
 			<td id="referral-source-name">
 				<input type="text"  class="healthcare-facility-search" name="referral_name" style="width: 250px">
-				<input type="hidden" name="referred_by_id" class="healthcare-facility-id" />
+				<input type="hidden" name="referred_by_location_id" class="healthcare-facility-id referred-by-location-id" />
 			</td>
 			<td id="physician-referral-name">
 				<input type="text"  class="physician-search" name="referral_name" style="width: 250px">
-				<input type="hidden" name="physician_id" class="physician-id" />
+				<input type="hidden" name="physician_id" id="physician-id" />
 			</td>
 		</tr>
 
 		<tr id="referral-individual">
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
 			<td class="location" colspan="2">
 				<strong>Referring Individual</strong><br>
 				<input type="text" id="referral-source-search" style="width: 250px" />
-				<input type="hidden" id="referral-source" name="referred_by_id" />
-				<input type="hidden" id="referral-source-type" name="referred_by_type" />
+				<a href="/?page=case_managers&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
+					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
+				</a>
+				<input type="hidden" id="referred-by-individual-id" name="referred_by_individual_id" />
+				<input type="hidden" id="referred-by-type" name="referred_by_type" />
 			</td>
 		</tr>
 

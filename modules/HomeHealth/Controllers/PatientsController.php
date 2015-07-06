@@ -409,6 +409,197 @@ class PatientsController extends MainPageController {
 	}
 
 
+	public function fileUpload() {
+		// fetch patient info
+		if (input()->patient == "") {
+			$error_messages = "Could not find the selected patient.";
+		} else {
+			$patient = $this->loadModel("Patient", input()->patient);
+			$patientNote = $this->loadModel("PatientNote");
+		}
+		if ( !empty ($_FILES)) {
+			$tempFile = $_FILES['file']['tmp_name'];
+			$fileType = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			$targetPath = dirname(dirname(dirname(dirname (__FILE__)))) . DS . "public/files/patient_files/";
+			$fileName = getRandomString() . "." . $fileType;
+			$targetFile = $targetPath . $fileName;
+			
+		
+
+			if (move_uploaded_file($tempFile, $targetFile)) {
+				// success
+				// need to create a file name and save to the patient's record
+				$patientNote->patient_id = $patient->id;
+				$patientNote->file = $fileName;
+				$patientNote->name = $_FILES['file']['name'];
+				if ($patientNote->save()) {
+					json_return (array("filetype" => $fileType, "name" => $patientNote->name));
+				} else {
+					return false;
+				}
+			} else {
+				// failure
+				return false;
+			}
+			
+		} else {
+			// error message
+			return false;
+		}
+	}
+
+
+	public function previewNotesFile() {
+		smarty()->assign("title", "Patient Note");
+
+		// get the page offset, or start at 0
+		$offset = (input()->offset != "" && is_numeric(input()->offset) && input()->offset > 0) ? input()->offset : 0;
+		smarty()->assign("offset", $offset);
+
+		// number of pages in a chunck
+		$numPages = 5;
+		smarty()->assign("numPages", $numPages);
+
+		// the page we came from
+		smarty()->assign("b", input()->b);
+
+		if (input()->width == '') {
+			$width = 930;
+		} else {
+			$width = input()->width;
+		}
+		smarty()->assign("width", $width);
+
+		// check for the patient id
+		if (input()->patient != "") {
+			$patient = $this->loadModel("Patient", input()->patient);
+			smarty()->assignByRef("patient", $patient);
+		} else {
+			 $error_messages[] = "Could not find the patient you are looking for. Please try again.";
+		}
+
+		// check for the file name 
+		if (input()->file != "") {
+			$filename = input()->file;
+		} else {
+			$error_messages[] = "Could not find the file name. Please try again.";
+		}
+
+		if (!empty ($error_messages)) {
+			session()->setFlash($error_messages, 'error');
+			$this->redirect(input()->path);
+		}
+
+		$note = $this->loadModel("PatientNote")->fetchNote($patient->id, $filename);
+		smarty()->assignByRef("note", $note);
+
+		// get the path to the file
+		$pdfFile = $this->getFilePath() . "{$note->file}";
+
+		if (file_exists($pdfFile)) {
+			try {
+				$image = new Imagick($pdfFile);
+				$totalPages = $image->getNumberImages();
+				smarty()->assign("totalPages", $totalPages);
+
+				// figure out how many pages actually exist in this chunk
+				if ($offset + $numPages + 1 > $totalPages) {
+					$thisChunkNumPages = $totalPages - $offset;
+				} else {
+					$thisChunkNumPages = $numPages;
+				}
+				smarty()->assign("thisChunkNumPages", $thisChunkNumPages);
+			} catch (ImagickException $e) {
+				session()->setFlash("Could not file the selected file.", 'error');
+				$this->redirect();
+			}
+		} else {
+			session()->setFlash("Could not file the selected file.", 'error');
+			$this->redirect();
+		}
+		
+	}
+
+
+	public function previewNotesFileImage() {
+		// get the page offset we'll start at, or default to 0
+		$offset = (input()->offset != '' && is_numeric(input()->offset) && input()->offset > 0) ? input()->offset : 0;
+		
+		// get the number of pages from the request, or default to 5
+		$numPages = (input()->numPages != '' && is_numeric(input()->numPages) && input()->numPages > 0) ? input()->numPages : 5;
+
+		// we should be told when invoked how many total pages there are
+		$totalPages = input()->totalPages;
+
+				// check for the patient id
+		if (input()->patient != "") {
+			$patient = $this->loadModel("Patient", input()->patient);
+			smarty()->assignByRef("patient", $patient);
+		} else {
+			 $error_messages[] = "Could not find the patient you are looking for. Please try again.";
+		}
+
+		// check for the file name 
+		if (input()->file != "") {
+			$filename = input()->file;
+			smarty()->assign("filename", $filename);
+		} else {
+			$error_messages[] = "Could not find the file name. Please try again.";
+		}
+
+		if (!empty ($error_messages)) {
+			session()->setFlash($error_messages, 'error');
+			$this->redirect(input()->path);
+		}
+
+		// fetch the patient note
+		$note = $this->loadModel("PatientNote")->fetchNote($patient->id, $filename);
+
+		// get the path to the file
+		$pdfFile = $this->getFilePath() . "{$note->file}";
+
+		if (file_exists($pdfFile)) {
+			$width = input()->width;
+			try {
+				$image = new Imagick;
+				// figure out how many pages actually exist in this chunk
+				if ($offset + $numPages + 1 > $totalPages) {
+					$numPages = $totalPages - $offset;
+				}
+				// cycle from the offset to the number of requested pages, adding a page to
+				// the stack as we go
+				for ($i=$offset; $i < ($offset + $numPages); $i++) {
+					$image_sub = new Imagick();
+					$image_sub->setResolution(200, 200);
+					$image_sub->readImage($pdfFile. "[{$i}]");
+					$image_sub->setImageCompression(Imagick::COMPRESSION_LOSSLESSJPEG); 
+					$image_sub->setImageCompressionQuality(100);
+					$image_sub->thumbnailImage($width, 0);
+					$image->addImage($image_sub);
+				}
+				$image->resetIterator();
+				// stack them horizontally
+				$image_multi = $image->appendImages(false);
+				// as a PNG
+				$image_multi->setImageFormat('jpg');
+	
+				// add in the  blob back to the item and output as a PNG
+				header("Content-type: image/jpg");
+				echo $image_multi->getImageBlob();
+			} catch (ImagickException $e) {
+				
+			}
+		} else {
+			
+		}
+
+		exit;
+
+
+
+	}
+
+
 	public function search_patients() {
 		pr (input()); die();
 	}
@@ -522,6 +713,11 @@ class PatientsController extends MainPageController {
 			session()->setFlash("Could not cancel the inquiry record for {$patient->fullName()}. Please try again.", 'error');
 			$this->redirect(array('module' => 'HomeHealth'));
 		}
+	}
+
+
+	private function getFilePath() {
+		return SITE_DIR . DS . "public" . DS . "files" . DS . "patient_files" . DS;
 	}
 
 

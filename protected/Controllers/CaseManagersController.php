@@ -81,5 +81,28 @@ class CaseManagersController extends MainPageController {
 		
 	}
 
+	public function searchReferralSource() {
+		$this->template = "blank";
+
+		$term = input()->query;
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+			$additionalStates = $this->loadModel('LocationLinkState')->getAdditionalStates($location->id);
+		}
+
+		$result = $this->loadModel('CaseManager')->searchByName($term);
+
+		$resultArray = array();
+		if (!empty ($result)) {
+			foreach ($result as $k => $r) {
+				$resultArray['suggestions'][$k]['value'] = $r->last_name . ', ' . $r->first_name ;
+				$resultArray['suggestions'][$k]['data'] = $r->id;
+			}
+		}
+
+		json_return($resultArray);
+		
+	}
+
 
 }
