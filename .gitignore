@@ -1,3 +1,5 @@
 .DS_Store
 protected/Compile
 protected/.DS_Store
+.dev
+public/files/

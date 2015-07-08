@@ -435,17 +435,33 @@ class PatientsController extends MainPageController {
 				if ($patientNote->save()) {
 					json_return (array("filetype" => $fileType, "name" => $patientNote->name));
 				} else {
-					return false;
+					json_return(false);
 				}
 			} else {
 				// failure
-				return false;
+				json_return(false);
 			}
 			
 		} else {
 			// error message
-			return false;
+			json_return(false);
 		}
+	}
+
+
+
+	public function deleteFile() {
+		if (input()->public_id != '' && input()->filename != '') {
+			//	Fetch the file by name and user id
+			$patient = $this->loadModel("Patient", input()->public_id);
+			$note = $this->loadModel("PatientNote")->fetchNote($patient->id, input()->filename);
+			if ($note->deleteNote()) {
+				json_return(true);
+			}
+			json_return(false);
+		}
+		json_return(false);
+
 	}
 
 
@@ -494,9 +510,9 @@ class PatientsController extends MainPageController {
 		smarty()->assignByRef("note", $note);
 
 		// get the path to the file
-		$pdfFile = $this->getFilePath() . "{$note->file}";
+		$pdfFile = $this->getFilePath($note->file);
 
-		if (file_exists($pdfFile)) {
+		if ($pdfFile) {
 			try {
 				$image = new Imagick($pdfFile);
 				$totalPages = $image->getNumberImages();
@@ -556,9 +572,9 @@ class PatientsController extends MainPageController {
 		$note = $this->loadModel("PatientNote")->fetchNote($patient->id, $filename);
 
 		// get the path to the file
-		$pdfFile = $this->getFilePath() . "{$note->file}";
+		$pdfFile = $this->getFilePath($note->file);
 
-		if (file_exists($pdfFile)) {
+		if ($pdfFile) {
 			$width = input()->width;
 			try {
 				$image = new Imagick;
@@ -581,10 +597,10 @@ class PatientsController extends MainPageController {
 				// stack them horizontally
 				$image_multi = $image->appendImages(false);
 				// as a PNG
-				$image_multi->setImageFormat('jpg');
+				$image_multi->setImageFormat('png');
 	
 				// add in the  blob back to the item and output as a PNG
-				header("Content-type: image/jpg");
+				header("Content-type: image/png");
 				echo $image_multi->getImageBlob();
 			} catch (ImagickException $e) {
 				
@@ -716,8 +732,28 @@ class PatientsController extends MainPageController {
 	}
 
 
-	private function getFilePath() {
-		return SITE_DIR . DS . "public" . DS . "files" . DS . "patient_files" . DS;
+	private function getFilePath($name) {
+		if (file_exists(SITE_DIR . DS . ".dev")) {
+			$dir = dirname(ROOT) . DS . "aptitudecare" . DS . "sites" . DS . "ahc" . DS . "protected" . DS . "assets";
+		} else {
+			$dir = dirname(ROOT) . DS . "sites" . DS . "ahc" . "live" . DS . "protected" . DS . "assets";
+		}
+
+		// search home health directory for the file first
+		if (file_exists(SITE_DIR . DS . "public" . DS . "files" . DS . "patient_files" . DS . $name)) {
+			return SITE_DIR . DS . "public" . DS . "files" . DS . "patient_files" . DS . $name;
+		} else {
+			// search the admission app directory for the file
+			$directory = new RecursiveDirectoryiterator($dir);
+			$iterator = new RecursiveIteratorIterator($directory);
+			foreach ($iterator as $file) {
+				if ($file->getFilename() == $name) {
+					return $file->getPath() . DS . $name;
+				}
+			}
+		}
+
+		return false;
 	}
 
 
