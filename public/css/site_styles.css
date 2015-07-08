@@ -451,3 +451,37 @@ table#patient-info a:hover {
 	margin: auto;
 }
 
+
+/********* Preview file page *************/
+
+#preview-chunks {
+	margin: 25px auto;
+	text-align: center;
+}
+
+#preview-buttons {
+	margin: 25px auto;
+	text-align: center;
+}
+
+#go-back {
+	position: absolute;
+	right: 12%;
+}
+
+.filename {
+	margin: 3px;
+	padding: 2px;
+}
+
+.trashcan {
+	float: right;
+}
+
+#image-inner {
+	min-height: 300px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+
