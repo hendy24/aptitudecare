@@ -736,9 +736,9 @@ class PatientsController extends MainPageController {
 		if (file_exists(SITE_DIR . DS . ".dev")) {
 			$dir = dirname(ROOT) . DS . "aptitudecare" . DS . "sites" . DS . "ahc" . DS . "protected" . DS . "assets";
 		} else {
-			$dir = dirname(ROOT) . DS . "sites" . DS . "ahc" . "live" . DS . "protected" . DS . "assets";
+			$dir = dirname(ROOT) . DS . "sites" . DS . "ahc" . DS . "live" . DS . "protected" . DS . "assets";
 		}
-
+		
 		// search home health directory for the file first
 		if (file_exists(SITE_DIR . DS . "public" . DS . "files" . DS . "patient_files" . DS . $name)) {
 			return SITE_DIR . DS . "public" . DS . "files" . DS . "patient_files" . DS . $name;
