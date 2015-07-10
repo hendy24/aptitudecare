@@ -244,7 +244,7 @@
 				if (data.name == "referred_by_type") {
 					referredByType = data.value;
 				}
-				if (data.name == "referred_by_id") {
+				if (data.name == "referred_by_location_id") {
 					referredById = data.value;
 				}
 				if (data.name == "phone") {
