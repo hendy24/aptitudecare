@@ -3,14 +3,14 @@
 class HomeHealthSchedule extends HomeHealth {
 
 	protected $table = 'schedule';
-	protected $belongsTo = array(
-		'Patient' => array(
-			'table' => 'patient',
-			'join_type' => 'inner',
-			'inner_key' => 'patient_id',
-			'foreign_key' => 'id'
-		)
-	);
+	// protected $belongsTo = array(
+	// 	'Patient' => array(
+	// 		'table' => 'patient',
+	// 		'join_type' => 'inner',
+	// 		'inner_key' => 'patient_id',
+	// 		'foreign_key' => 'id'
+	// 	)
+	// );
 
 
 	/*

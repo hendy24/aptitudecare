@@ -39,49 +39,52 @@
 
 
 <div id="location-wrapper">
-	{foreach $admitsByDate as $day => $admits}
-	<div class="location-container">
-		<h3 class="day-title">{$day|date_format:"%a, %b %e"}</h3>
+	<div id="admits">
+		
+		{foreach $admitsByDate as $day => $admits}
+		<div class="location-container">
+			<h3 class="day-title">{$day|date_format:"%a, %b %e"}</h3>
+			<div class="location-day-box location-day-box-admit {cycle name="admitDayColumn" values="location-day-box-color, "}" droppable="true">
+				<input type="hidden" class="date" value="{$day}" />
+				<div class="box-title">Admit</div>
+				{foreach $admits as $admit}
+				{if isset($admit->id)}
+				<div class="location-admit{if $admit->status == "Under Consideration"} under-consideration {if $admit->confirmed} confirmed{/if} {elseif $admit->status == "Pending"} pending{elseif $admit->status == "Approved"} approved{/if}" draggable="true">
+					<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientMenu->menu($admit)}<br>
 
-		<div class="location-day-box location-day-box-admit {cycle name="admitDayColumn" values="location-day-box-color, "}" droppable="true">
-			<input type="hidden" class="date" value="{$day}" />
-			<div class="box-title">Admit</div>
-			{foreach $admits as $admit}
-			{if isset($admit->id)}
-			<div class="location-admit{if $admit->status == "Under Consideration"} under-consideration {if $admit->confirmed} confirmed{/if} {elseif $admit->status == "Pending"} pending{elseif $admit->status == "Approved"} approved{/if}" draggable="true">
-				<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientMenu->menu($admit)}<br>
+					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
 
-				<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
+					{$admit->healthcare_facility_name}<br>
+				</div>
+				{/if}
+				{/foreach}
 
-				{$admit->healthcare_facility_name}<br>
+
 			</div>
-			{/if}
-			{/foreach}
-
-
 		</div>
+		{/foreach}
 	</div>
-	{/foreach}
 
 	<div class="clear"></div>
 	<div class="horizontal-break"></div>
-
-	{foreach $dischargesByDate as $day => $discharges}
-	<div class="location-container">
-		<h3 class="day-title">{$day|date_format:"%a, %b %e"}</h3>
-		<div class="location-day-box location-day-box-discharge {cycle name="dischargeDayColumn" values="location-day-box-color, "}">
-			<div class="box-title">Discharge</div>
-			{foreach $discharges as $discharge}
-			{if isset ($discharge->id)}
-				<div class="location-discharge">
-					<strong>{$discharge->last_name}, {$discharge->first_name}</strong><br>
-				</div>
-			{/if}
-			{/foreach}
+	
+	<div id="discharges">
+		{foreach $dischargesByDate as $day => $discharges}
+		<div class="location-container">
+			<h3 class="day-title">{$day|date_format:"%a, %b %e"}</h3>
+			<div class="location-day-box location-day-box-discharge {cycle name="dischargeDayColumn" values="location-day-box-color, "}">
+				<div class="box-title">Discharge</div>
+				{foreach $discharges as $discharge}
+				{if isset ($discharge->id)}
+					<div class="location-discharge">
+						<strong>{$discharge->last_name}, {$discharge->first_name}</strong><br>
+					</div>
+				{/if}
+				{/foreach}
+			</div>
 		</div>
+		{/foreach}
 	</div>
-	{/foreach}
-
 </div>
 <div class="clear"></div>
 

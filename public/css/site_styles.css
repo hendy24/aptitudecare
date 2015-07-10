@@ -314,9 +314,24 @@ div#location-wrapper {
 	margin: 0 auto;
 }
 
+div#admits {
+	float: left;
+	width: 100%;
+}
+
+div#discharges {
+	position: relative;
+	height: auto;
+}
+
+div#day1 {
+
+}
+
+
+
 div.location-container {
 	width: 14.2857143%;
-	min-height: 100px;
 	float: left;
 }
 

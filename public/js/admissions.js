@@ -14,19 +14,16 @@
 function init() {
 	var requestData = null;
 
-	$(".location-admit-pending").draggable({
+	$(".location-admit").draggable({
 		containment: "#location-wrapper",
 		cursor: "move",
 		cursorAt: { left: 5 },
 		stack: $(".location-admit-pending"),
-		snap: true,
-		axis: "x",
 		helper: "clone",
 		start: function (e, ui) {
 			$(this).addClass("moving-element");
 		},
 		drag: function (e, ui) {
-
 		}, 
 		stop: function (e, ui) {
 			$(this).removeClass("moving-element");
@@ -39,10 +36,9 @@ function init() {
 		drop: function (e, ui) {
 			var dropped = ui.draggable;
 			var droppedOn = $(this);
-			var publicId = dropped.find("input:first").val();
+			var publicId = dropped.find("input.schedule-id").val();
 			var date = $(this).find("input:first").val();
-			$(this).append(dropped);
-
+			$(this).append(dropped);			
 			$.post(SITE_URL, { page: "admissions", action: "moveAdmitDate", public_id: publicId, date: date });
 		}
 	});
