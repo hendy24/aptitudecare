@@ -141,7 +141,7 @@ class Patient extends AppData {
 	}
 
 
-	public function fetchPatientSearch($term) {
+	public function fetchPatientSearch($term, $locations = false) {
 		if ($term != '') {
 			$tokens = explode(' ', $term);
 			$params = array();
@@ -149,11 +149,39 @@ class Patient extends AppData {
 			foreach ($tokens as $idx => $token) {
 				$token = trim($token);
 				$params[":term{$idx}"] = "%{$token}%";
-				$sql = "(SELECT `{$this->tableName()}`.*, `home_health_schedule`.`referral_date`, `home_health_schedule`.`datetime_discharge`, home_health_schedule.clinicians_assigned, home_health_schedule.f2f_received, `home_health_schedule`.`status` FROM `{$this->tableName()}` INNER JOIN `home_health_schedule` ON `home_health_schedule`.`patient_id` = `{$this->tableName()}`.`id` WHERE `{$this->tableName()}`.`first_name` LIKE :term{$idx} OR `{$this->table}`.`last_name` LIKE :term{$idx}) UNION ";
+
+				// load other database tables
+				$hhs = $this->loadTable("HomeHealthSchedule");
+				$hf = $this->loadTable("HealthcareFacility");
+				$p = $this->loadTable("Physician");
+
+				$sql = "SELECT patient.*, hhs.referral_date, hhs.start_of_care, hhs.datetime_discharge, hhs.clinicians_assigned, hhs.f2f_received, hhs.status, hf.name, p.last_name AS physician_last, p.first_name AS physician_first FROM `{$this->tableName()}` patient INNER JOIN {$hhs->tableName()} hhs ON hhs.`patient_id` = patient.`id` LEFT JOIN {$hf->tableName()} hf ON hf.id = hhs.referred_by_location_id LEFT JOIN {$p->tableName()} p ON p.id = hhs.following_physician_id WHERE patient.`first_name` LIKE :term{$idx} OR patient.`last_name` LIKE :term{$idx} UNION ";
 			}
 
 			$sql = trim($sql, ' UNION');
-			return $this->fetchAll($sql, $params);
+
+			if (is_array($locations)) {
+				$sql .= " AND hhs.location_id IN (";
+
+				foreach ($locations as $key => $location) {
+					$params[":location{$key}"] = $location->id;
+					$sql .= ":location{$key}, ";
+				}
+
+				$sql = trim($sql, ", ");
+				$sql .= " )";
+			} else {
+				$params[":location"] = $location;
+				$sql .= " :location)";
+			} 	
+
+			$result = $this->fetchAll($sql, $params);
+
+			if (!empty($result)) {
+				return $result;
+			}
+
+			return false;
 
 
 		}
