@@ -617,7 +617,23 @@ class PatientsController extends MainPageController {
 
 
 	public function search_patients() {
-		pr (input()); die();
+		smarty()->assign("title", "Search Patients by Name");
+		$this->helper = 'PatientMenu';
+		if (input()->term == "") {
+			$this->redirect();
+		} else {
+			$patient_name = input()->term;
+			$obj = $this->loadModel("Patient");
+			$locations = $this->loadModel("Location")->fetchAllLocations();
+		}
+
+		$results = $obj->fetchPatientSearch($patient_name, $locations);
+
+		if (empty ($results)) {
+			smarty()->assign("results", false);
+		} else {
+			smarty()->assignByRef("results", $results);
+		}
 	}
 
 
