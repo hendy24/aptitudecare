@@ -111,7 +111,12 @@ class LoginController extends MainPageController {
 		} else {
 			$this->redirect(array('page' => 'login'));
 		}
-		die();
+		exit;
+	}
+
+	public function admission_logout() {
+		auth()->logout();
+		$this->redirect(array('page' => 'login', 'action' => 'index'));
 	}
 	
 	public function logout() {

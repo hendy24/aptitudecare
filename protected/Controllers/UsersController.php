@@ -237,7 +237,12 @@ class UsersController extends MainPageController {
 				$siteUser->email = $user->email;
 				$siteUser->first = $user->first_name;
 				$siteUser->last = $user->last_name;
-				$siteUser->phone = $user->phone;
+				if ($user->phone != "") {
+					$siteUser->phone = $user->phone;
+				} else {
+					$siteUser->phone = "";
+				}
+				
 
 				if ($user->group_id == 2) {
 					$siteUser->is_coordinator = 1;
@@ -258,6 +263,11 @@ class UsersController extends MainPageController {
 						$admit_locations->save($admit_locations, db()->dbname2);
 					}
 					
+				} else {
+					$admit_locations = new AdmissionDashboardLocations;
+					$admit_locations->site_user = $siteUser->id;
+					$admit_locations->facility = $user->default_location;
+					$admit_locations->save($admit_locations, db()->dbname2);
 				}
 			}
 
