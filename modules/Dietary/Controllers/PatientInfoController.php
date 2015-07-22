@@ -42,7 +42,7 @@ class PatientInfoController extends MainPageController {
 
 
 	public function saveDiet() {
-
+		pr (input()); exit;
 	}
 
 	public function traycard() {

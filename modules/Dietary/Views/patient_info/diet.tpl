@@ -2,7 +2,8 @@
 <h2>for {$patient->fullName()}</h2>
 
 <form action="{$SITE_URL}" method="post" id="edit-diet">
-	<input type="hidden" name="page" value="saveDiet" />
+	<input type="hidden" name="page" value="PatientInfo" />
+	<input type="hidden" name="action" value="saveDiet" />
 	<br>
 	<table class="form">
 		<tr>

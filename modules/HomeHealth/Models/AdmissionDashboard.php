@@ -6,6 +6,7 @@ class AdmissionDashboard extends AppModel {
 
 
 	public function fetchDischarges($datetime_start, $datetime_end, $location_id, $areas) {
+
 		$params = array(
 			":datetime_start" => date('Y-m-d 00:00:01', strtotime($datetime_start)),
 			":datetime_end" => date('Y-m-d 23:59:59', strtotime($datetime_end)),
