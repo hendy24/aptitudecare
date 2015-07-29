@@ -199,6 +199,7 @@ class AdmissionDashboard extends AppModel {
 				. db()->dbname2 . ".`patient_admit`.`religion`,"
 				. db()->dbname2 . ".`patient_admit`.`medicare_number`,"
 				. db()->dbname2 . ".`schedule`.`pubid` as `schedule_pubid`,"
+				. db()->dbname2 . ".`schedule`.`facility`,"
 				. db()->dbname2 . ".`schedule`.`datetime_admit` as `datetime_admit`,"
 				. db()->dbname2 . ".`schedule`.`datetime_discharge` as `datetime_discharge`,"
 				. db()->dbname2 . ".`schedule`.`discharge_to` as `discharge_to`,"
@@ -249,73 +250,78 @@ class AdmissionDashboard extends AppModel {
 
 				if (empty ($patient)) {
 					$patient = new Patient();
-					$patient->public_id = $r->patient_pubid;
-					if ($r->last_name != "") {
-						$patient->last_name = $r->last_name;
-					}
-					if ($r->first_name != "") {
-						$patient->first_name = $r->first_name;
-					}
-					if (isset ($r->middle_name)) {
-						$patient->middle_name = $r->middle_name;
-					}
-					if (isset ($r->address)) {
-						$patient->address = $r->address;
-					}
-					if (isset ($r->city)) {
-						$patient->city = $r->city;
-					}
-					if (isset ($r->state)) {
-						$patient->state = $r->state;
-					}
-					if (isset ($r->zip)) {
-						$patient->zip = $r->zip;
-					}
-					if (isset ($r->phone)) {
-						$patient->phone = $r->phone;
-					}
-					if (isset ($r->sex)) {
-						$patient->sex = $r->sex;
-					}
-					if (isset ($r->birthday)) {
-						$patient->date_of_birth = $r->birthday;
-					}
-					if (isset ($r->ethnicity)) {
-						$patient->ethnicity = $r->ethnicity;
-					}
-					if (isset ($r->marital_status)) {
-						$patient->marital_status = $r->marital_status;
-					}
-					if (isset ($r->religion)) {
-						$patient->religion = $r->religion;
-					}
-					if (isset ($r->ssn)) {
-						$patient->ssn = $r->ssn;
-					}
-					if (isset ($r->medicare_number)) {
-						$patient->medicare_number = $r->medicare_number;
-					}
-					if (isset ($r->physician_id)) {
-						$patient->pcp_id = $r->physician_id;
-					}
+				}
 
-					// not getting all the patient info returned into an array that can be used.
-					// need to fix the $patientResults array
+				$patient->public_id = $r->patient_pubid;
+				if ($r->last_name != "") {
+					$patient->last_name = $r->last_name;
+				}
+				if ($r->first_name != "") {
+					$patient->first_name = $r->first_name;
+				}
+				if (isset ($r->middle_name)) {
+					$patient->middle_name = $r->middle_name;
+				}
+				if (isset ($r->address)) {
+					$patient->address = $r->address;
+				}
+				if (isset ($r->city)) {
+					$patient->city = $r->city;
+				}
+				if (isset ($r->state)) {
+					$patient->state = $r->state;
+				}
+				if (isset ($r->zip)) {
+					$patient->zip = $r->zip;
+				}
+				if (isset ($r->phone)) {
+					$patient->phone = $r->phone;
+				}
+				if (isset ($r->sex)) {
+					$patient->sex = $r->sex;
+				}
+				if (isset ($r->birthday)) {
+					$patient->date_of_birth = $r->birthday;
+				}
+				if (isset ($r->ethnicity)) {
+					$patient->ethnicity = $r->ethnicity;
+				}
+				if (isset ($r->marital_status)) {
+					$patient->marital_status = $r->marital_status;
+				}
+				if (isset ($r->religion)) {
+					$patient->religion = $r->religion;
+				}
+				if (isset ($r->ssn)) {
+					$patient->ssn = $r->ssn;
+				}
+				if (isset ($r->medicare_number)) {
+					$patient->medicare_number = $r->medicare_number;
+				}
+				if (isset ($r->physician_id)) {
+					$patient->pcp_id = $r->physician_id;
+				}
 
-					if ($patient->save()) {
-						$dp = new PatientInfo();
-						$dp->public_id = null;
-						$dp->patient_id = $patient->id;
-						if (isset ($r->height)) {
-							$dp->height = $r->height;
-						}
-						if (isset ($r->weight)) {
-							$dp->weight = $r->weight;
-						}
+				// not getting all the patient info returned into an array that can be used.
+				// need to fix the $patientResults array
 
-						$dp->save();
-					} 
+
+				if ($patient->save()) {
+					// check for 
+					$obj = new PatientInfo;
+					$patientInfo = $obj->fetchDietInfo($patient->id);
+					// $patientInfo->public_id = null;
+					$patientInfo->patient_id = $patient->id;
+					if (isset ($r->height)) {
+						$patientInfo->height = $r->height;
+					}
+					if (isset ($r->weight)) {
+						$patientInfo->weight = $r->weight;
+					}
+					$patientInfo->location_id = $r->facility;
+					$patientInfo->save();
 				} 
+
 				$patient->number = $r->number;
 				$patientResults[$k] = $patient;
 				
@@ -326,5 +332,13 @@ class AdmissionDashboard extends AppModel {
 		}
 	
 		return false;
+	}
+
+
+
+	public function fetchSchedule($patient_id) {
+		$sql = "SELECT schedule.*, room.number AS room_number FROM " . db()->dbname2 . ".schedule INNER JOIN " . db()->dbname2 . ".room ON room.id = schedule.room WHERE schedule.patient_admit = (SELECT patient_admit.id FROM " . db()->dbname2 . ".patient_admit WHERE patient_admit.pubid = :patient_id) ORDER BY datetime_admit DESC LIMIT 1";
+		$params[":patient_id"] = $patient_id;
+		return $this->fetchOne($sql, $params);
 	}
 }

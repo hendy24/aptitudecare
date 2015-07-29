@@ -26,7 +26,7 @@ class DietaryController extends MainPageController {
 		}
 
 		// get a list of the current patients from the admission app for the current location
-		$currentPatients = $this->loadModel('AdmissionDashboard', false, 'HomeHealth')->fetchCurrentPatients($location->id);
+		$currentPatients = $this->loadModel('AdmissionDashboard')->fetchCurrentPatients($location->id);
 		smarty()->assign('currentPatients', $currentPatients);
 	}
 

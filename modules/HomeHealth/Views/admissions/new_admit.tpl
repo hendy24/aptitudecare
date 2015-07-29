@@ -1,3 +1,4 @@
+<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
 <script>
 	$(document).ready(function() {
 		// $('#new_admission').validate();
