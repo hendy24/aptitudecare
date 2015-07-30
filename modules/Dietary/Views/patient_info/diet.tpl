@@ -193,7 +193,7 @@
 			<td><strong>Weight:</strong></td>
 		</tr>
 		<tr>
-			<td><input type="text" name="date_of_birth" value="{display_date($patient->date_of_birth)}"></td>
+			<td><input type="text" class="datepicker" name="date_of_birth" value="{display_date($patient->date_of_birth)}" /></td>
 			<td><input type="text" name="height" value="{$patientInfo->height}"  size="8"></td>
 			<td><input type="text" name="weight" value="{$patientInfo->weight}" size="8"></td>
 		</tr>

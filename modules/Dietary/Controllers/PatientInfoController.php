@@ -1,10 +1,9 @@
 <?php
 
-class PatientInfoController extends MainPageController {
+class PatientInfoController extends DietaryController {
 
-	public $module = "Dietary";
-	protected $navigation = 'dietary';
-	protected $searchBar = 'dietary';
+	// protected $navigation = 'dietary';
+	// protected $searchBar = 'dietary';
 
 
 	public function diet() {
@@ -62,6 +61,10 @@ class PatientInfoController extends MainPageController {
 
 		$patientDiet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
 		$patientDiet->patient_id = $patient->id;
+
+		$patient->first_name = input()->first_name;
+		$patient->last_name = input()->last_name;
+		$patient->date_of_birth = mysql_date(input()->date_of_birth);
 
 		// if input fields are not empty then set the data
 		if (input()->height != "") {
@@ -161,7 +164,7 @@ class PatientInfoController extends MainPageController {
 		}
 
 		// save the patient diet info
-		if ($patientDiet->save()) {
+		if ($patientDiet->save() && $patient->save()) {
 			// save the patient's allergies
 			foreach ($allergiesArray as $item) {
 				$item->save();
@@ -200,18 +203,117 @@ class PatientInfoController extends MainPageController {
 			$this->redirect();
 		}
 
-		// need to get the schedule info from the admission db
-		$schedule = $this->loadModel("AdmissionDashboard")->fetchSchedule($patient->public_id);
 		// need to get patient diet info
 		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
+		// get patient schedule info
+		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
+
+		// get allergies, food dislikes, and snacks
+		// fetch the allergies, dislikes and snacks
+		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
+		$dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
+		$am_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "am");
+		$pm_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "pm");
+		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
 
 		// calculate the patients age
 		$age = getAge(date('m/d/Y', strtotime($patient->date_of_birth)));
 
 		smarty()->assignByRef('patient', $patient);
+		smarty()->assignByRef('schedule', $schedule);
 		smarty()->assignByRef('diet', $diet);
+		smarty()->assignByRef('allergies', $allergies);
+		smarty()->assignByRef('dislikes', $dislikes);
+		smarty()->assignByRef('am_snacks', $am_snacks);
+		smarty()->assignByRef('pm_snacks', $pm_snacks);
+		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
+
 		smarty()->assignByRef('schedule', $schedule);
 		smarty()->assign('age', $age);
+	}
+
+
+
+	public function addPatient() {
+		smarty()->assign("title", "Add New Patient");
+
+		if (input()->number != "") {
+			$number = input()->number;
+		} else {
+			$number = "";
+		}
+
+		if (input()->location != "") {
+			$location = $this->loadModel("Location", input()->location);
+		} else {
+			session()->setFlash("No location was selected. Please try again", 'error');
+			$this->redirect();
+		}
+
+
+		smarty()->assign("number", $number);
+		smarty()->assignByRef('location', $location);
+
+	}
+
+
+	public function saveAddPatient() {
+		$feedback = array();
+		$patient = $this->loadModel("Patient");
+		if (input()->location != "") {
+			$location = $this->loadModel("Location", input()->location);
+		} else {
+			session()->setFlash("No location was selected. Please try again", 'error');
+			$this->redirect(input()->currentUrl);
+		}
+
+		if (input()->number != "") {
+			$room = $this->loadModel("Room")->getRoom($location->id, input()->number);
+		} else {
+			session()->setFlash("No room number was selected. Please try again", 'error');
+			$this->redirect(input()->currentUrl);
+		}
+
+		if (input()->last_name != "") {
+			$patient->last_name = input()->last_name;
+		} else {
+			$feedback[] = "Enter a last name";
+		}
+
+		if (input()->first_name != "") {
+			$patient->first_name = input()->first_name;
+		} else {
+			$feedback[] = "Enter a first name.";
+		}
+
+		// Breakpoint
+		if (!empty ($feedback)) {
+			session()->setFlash($feedback, 'error');
+			$this->redirect(input()->currentUrl);
+		}
+
+		// save patient info
+		if ($patient->save()) {
+			// if the patient info save is successful, then set the patient admit data and save it
+			$schedule = $this->loadModel("Schedule");
+			$schedule->patient_id = $patient->id;
+			$schedule->location_id = $location->id;
+			$schedule->room_id = $room->id;
+			$schedule->datetime_admit = mysql_date(input()->admit_date);
+			$schedule->status = "Approved";
+
+			if ($schedule->save()) {
+				session()->setFlash("Added {$patient->fullName()}", 'success');
+				$this->redirect(array("module" => "Dietary"));
+			} else {
+				session()->setFlash("Could not add patient. Please try again.", 'error');
+				$this->redirect(array("module" => "Dietary"));
+			}
+		} else {
+			session()->setFlash("Could not add patient. Please try again.", 'error');
+			$this->redirect(array("module" => "Dietary"));
+		}
+
 	}
 
 

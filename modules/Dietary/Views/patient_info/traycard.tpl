@@ -1,5 +1,5 @@
 <script>
-	window.onload = function () { window.print(); }
+	//window.onload = function () { window.print(); }
 </script>
 
 <h1>{$patient->fullName()}</h1>
@@ -16,7 +16,7 @@
 	</tr>
 	<tr>
 		<td class="text-strong">Room #</td>
-		<td>{$schedule->room_number}</td>
+		<td>{$schedule->number}</td>
 		<td class="text-strong">Age:</td>
 		<td>{$age}</td>
 	</tr>
@@ -33,13 +33,51 @@
 		<td class="text-strong">Portion Size:</td>
 		<td>{$diet->portion_size}</td>
 		<td class="text-strong">AM Snack</td>
-		<td>{$diet->am_snack}</td>
+		<td>
+			<ul>
+			{foreach from=$am_snacks item=item}
+				<li>{$item->name|default: "None"}</li>
+			{/foreach}
+			</ul>
+		</td>
 	</tr>
 	<tr>
 		<td class="text-strong">PM Snack</td>
-		<td>{$diet->pm_snack}</td>
+		<td>
+			<ul>
+			{foreach from=$pm_snacks item=item}
+				<li>{$item->name|default: "None"}</li>
+			{/foreach}
+			</ul>			
+		</td>
+
 		<td class="text-strong">Bedtime Snack</td>
-		<td>{$diet->bedtime_snack}</td>
+		<td>
+			<ul>
+			{foreach from=$bedtime_snacks item=item}
+				<li>{$item->name|default: "None"}</li>
+			{/foreach}
+			</ul>			
+		</td>
+	</tr>
+	<tr>
+		<td class="text-strong">Allergies</td>
+		<td>
+			<ul>
+			{foreach from=$allergies item=item}
+				<li>{$item->name|default: "None"}</li>
+			{/foreach}
+			</ul>			
+		</td>
+
+		<td class="text-strong">Dislikes</td>
+		<td>
+			<ul>
+			{foreach from=$dislikes item=item}
+				<li>{$item->name|default: "None"}</li>
+			{/foreach}
+			</ul>			
+		</td>
 	</tr>
 	<tr>
 		<td class="text-strong">Special Requests:</td>

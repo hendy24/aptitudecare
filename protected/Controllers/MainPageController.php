@@ -2,7 +2,7 @@
 
 class MainPageController extends MainController {
 
-	protected $module;
+	public $module;
 	protected $locations;
 	protected $location;
 	protected $areas;

@@ -5,7 +5,7 @@ class AdmissionDashboard extends AppModel {
 	protected $table = 'schedule';
 
 
-	public function fetchDischarges($datetime_start, $datetime_end, $location_id, $areas) {
+	public function syncDischarges($datetime_start, $datetime_end, $location_id, $areas) {
 
 		$params = array(
 			":datetime_start" => date('Y-m-d 00:00:01', strtotime($datetime_start)),
@@ -27,31 +27,41 @@ class AdmissionDashboard extends AppModel {
 
 		//	Map data to correct columns for the new db and save the rows, they can then be fetched with a single query
 		foreach ($result as $r) {
-			//	Check if the patient data has already been synchronized
-
-			$scheduleObj = new HomeHealthSchedule();
-			$patientObj = new Patient();
-
 			//	If the items have already been saved to the db then get them.
-			$schedule = $scheduleObj->fetchById($r->schedule_pubid);
-			$patient = $patientObj->fetchById($r->patient_pubid);
+			$hhScheduleObj = new HomeHealthSchedule;
+			$hhSchedule = $hhScheduleObj->checkExisting($r->facility, $r->patient_pubid);
+			$patient = $this->fetchById($r->patient_pubid, 'Patient');
+			$schedule = $this->fetchById($r->schedule_pubid, 'Schedule');
 
-			//	If the schedule is empty then this is a new object, we are going to set the start of care
-			//	date to be equal to the discharge date
+			if (empty ($hhSchedule)) {
+				$hhSchedule = new HomeHealthSchedule;
+			}
+			if (empty($patient)) {
+				$patient = new Patient;
+			}
 			if (empty ($schedule)) {
-				$schedule = new HomeHealthSchedule();
-				$schedule->start_of_care = $r->datetime_discharge;
+				$schedule = new Schedule;
+			}
+
+
+
+
+			//	If the hhSchedule is empty then this is a new object, we are going to set the start of care
+			//	date to be equal to the discharge date
+			if (empty ($hhSchedule)) {
+				$hhSchedule = new HomeHealthhhSchedule();
+				$hhSchedule->start_of_care = $r->datetime_discharge;
 			} else {
 				//	it is possible that the start of care date has been modified in the home health application
 				//	and the discharge date has been changed in the admission application.  If that has happened
 				//	we need to reset the start of care date to match the new discharge date
-				if ($schedule->referral_date !== $r->datetime_discharge) {
-					$schedule->start_of_care = $r->datetime_discharge;
+				if ($hhSchedule->referral_date !== $r->datetime_discharge) {
+					$hhSchedule->start_of_care = $r->datetime_discharge;
 				}
 			}
 
 			//	This will update the referral date if the discharge date changes
-			$schedule->referral_date = $r->datetime_discharge;
+			$hhSchedule->referral_date = $r->datetime_discharge;
 
 			
 
@@ -59,28 +69,28 @@ class AdmissionDashboard extends AppModel {
 				$patient = new Patient();
 			}
 
-			$schedule->public_id = $r->schedule_pubid;
+			$hhSchedule->public_id = $r->schedule_pubid;
 
 			// need to find the healthcare facility id by the location name
 			$healthcare_facility = $this->loadTable("Location", $r->facility)->fetchHealthcareFacilityId();
 			
 			if (isset ($healthcare_facility->id)) {
-				$schedule->admit_from_id = $healthcare_facility->id;
+				$hhSchedule->admit_from_id = $healthcare_facility->id;
 			}
 			
-			$schedule->referred_by_type = "ahc_facility";
-			$schedule->location_id = $r->facility;
-			$schedule->datetime_created = mysql_datetime();
-			$schedule->datetime_modified = mysql_datetime();
-			$schedule->inpatient_diagnosis = $r->other_diagnosis;
-			$schedule->specialist_id = $r->ortho_id;
-			$schedule->primary_insurance = $r->paymethod;
-			$schedule->primary_insurance_number = $r->medicare_number;
+			$hhSchedule->referred_by_type = "ahc_facility";
+			$hhSchedule->location_id = $r->facility;
+			$hhSchedule->datetime_created = mysql_datetime();
+			$hhSchedule->datetime_modified = mysql_datetime();
+			$hhSchedule->inpatient_diagnosis = $r->other_diagnosis;
+			$hhSchedule->specialist_id = $r->ortho_id;
+			$hhSchedule->primary_insurance = $r->paymethod;
+			$hhSchedule->primary_insurance_number = $r->medicare_number;
 
 			if ($r->service_disposition == "AHC Home Health") {
-				$schedule->confirmed = true;
+				$hhSchedule->confirmed = true;
 			} else {
-				$schedule->confirmed = false;
+				$hhSchedule->confirmed = false;
 			}
 
 			$patient->public_id = $r->patient_pubid;
@@ -128,41 +138,70 @@ class AdmissionDashboard extends AppModel {
 			$patient->ssn = $r->ssn;
 			$patient->emergency_contact = $r->emergency_contact_name1;
 			$patient->emergency_phone = $r->emergency_contact_phone1;
-			
 
 
+			$schedule->public_id = $r->schedule_pubid;
+			$schedule->location_id = $r->facility;
+			$schedule->room_id = $r->room;
+			$schedule->datetime_admit = $r->datetime_admit;
+			$schedule->datetime_discharge = $r->datetime_discharge;
+			$schedule->discharge_to = $r->discharge_to;
+			$schedule->discharge_disposition = $r->discharge_disposition;
+			$schedule->service_disposition = $r->service_disposition;
+			$schedule->discharge_location_id = $r->discharge_location_id;
+			$schedule->home_health_id = $r->home_health_id;
+			$schedule->discharge_address = $r->discharge_address;
+			$schedule->discharge_city = $r->discharge_city;
+			$schedule->discharge_state = $r->discharge_state;				
+			$schedule->discharge_zip = $r->discharge_zip;
+			$schedule->discharge_phone = $r->discharge_phone;
+			$schedule->datetime_discharge_bedhold_end = $r->datetime_discharge_bedhold_end;
+			$schedule->discharge_comment = $r->discharge_comment;
+			$schedule->readmit_type = $r->readmit_type;
+			$schedule->elective = $r->elective;
+			$schedule->confirmed = $r->confirmed;
+			$schedule->datetime_confirmed = $r->datetime_confirmed;
+			$schedule->user_confirmed = $r->site_user_confirmed;
+			$schedule->discharge_transfer_schedule = $r->discharge_transfer_schedule;
+			$schedule->transfer_request = $r->transfer_request;
+			$schedule->transfer_from_facility = $r->transfer_from_facility;
+			$schedule->transfer_to_facility = $r->transfer_to_facility;
+			$schedule->transfer_comment = $r->transfer_comment;
+			$schedule->admit_order = $r->admit_order;
+			$schedule->status = $r->status;
+			$schedule->discharge_datetime_modified = $r->discharge_datetime_modified;
+			$schedule->discharge_user_modified = $r->discharge_site_user_modified;
 
 
-			$patient_id = $patient->save();
-			if (isset ($patient->id)) {
-				$patient_id = $patient->id;
+			if ($patient->save()) {
+				$hhSchedule->patient_id = $patient->id;
+				$hhSchedule->save();
 				$schedule->patient_id = $patient->id;
-			} else {
-				$schedule->patient_id = $patient_id;
-			}
+				$schedule->save();
 
-			for ($i = 0; $i <= 9; $i++) {
-				$file = "notes_file{$i}";
-				$name = "notes_name{$i}";
-				
-				$patient_notes = new PatientNote;
+				for ($i = 0; $i <= 9; $i++) {
+					$file = "notes_file{$i}";
+					$name = "notes_name{$i}";
+					
+					$patient_notes = new PatientNote;
 
-				// check for already existing files and save
-				
-				$patient_notes->patient_id = $patient->id;
-				if (isset ($r->$name) && $r->$name != null) {
-					$patient_notes->name = $r->$name;
-				}
-
-				if (isset ($r->$file) && $r->$file != null) {
-					$patient_notes->file = $r->$file;
-					if (!$patient_notes->checkExisting()) {
-						$patient_notes->save();
+					// check for already existing files and save
+					
+					$patient_notes->patient_id = $patient->id;
+					if (isset ($r->$name) && $r->$name != null) {
+						$patient_notes->name = $r->$name;
 					}
-				}				
+
+					if (isset ($r->$file) && $r->$file != null) {
+						$patient_notes->file = $r->$file;
+						if (!$patient_notes->checkExisting()) {
+							$patient_notes->save();
+						}
+					}				
+				}
 			}
 
-			$schedule->save();
+			
 			
 
 		}
@@ -172,7 +211,7 @@ class AdmissionDashboard extends AppModel {
 	}
 
 
-	public function fetchCurrentPatients($location_id = false) {
+	public function syncCurrentPatients($location_id = false) {
 		if ($location_id) {		
 			$params = array(
 				":locationid" => $location_id,
@@ -181,35 +220,57 @@ class AdmissionDashboard extends AppModel {
 		
 		
 			$sql = "select distinct "
-				. db()->dbname2 . ".`room`.*,"
-				. db()->dbname2 . ".`patient_admit`.`pubid` as `patient_pubid`,"
-				. db()->dbname2 . ".`patient_admit`.`physician_id`,"
-				. db()->dbname2 . ".`patient_admit`.`last_name`,"
-				. db()->dbname2 . ".`patient_admit`.`first_name`,"
-				. db()->dbname2 . ".`patient_admit`.`address`,"
-				. db()->dbname2 . ".`patient_admit`.`city`,"
-				. db()->dbname2 . ".`patient_admit`.`state`,"
-				. db()->dbname2 . ".`patient_admit`.`zip`,"
-				. db()->dbname2 . ".`patient_admit`.`phone`,"
-				. db()->dbname2 . ".`patient_admit`.`sex`,"
-				. db()->dbname2 . ".`patient_admit`.`ethnicity`,"
-				. db()->dbname2 . ".`patient_admit`.`marital_status`,"
-				. db()->dbname2 . ".`patient_admit`.`ssn`,"
-				. db()->dbname2 . ".`patient_admit`.`birthday`,"
-				. db()->dbname2 . ".`patient_admit`.`religion`,"
-				. db()->dbname2 . ".`patient_admit`.`medicare_number`,"
-				. db()->dbname2 . ".`schedule`.`pubid` as `schedule_pubid`,"
-				. db()->dbname2 . ".`schedule`.`facility`,"
-				. db()->dbname2 . ".`schedule`.`datetime_admit` as `datetime_admit`,"
-				. db()->dbname2 . ".`schedule`.`datetime_discharge` as `datetime_discharge`,"
-				. db()->dbname2 . ".`schedule`.`discharge_to` as `discharge_to`,"
-				. db()->dbname2 . ".`schedule`.`datetime_discharge_bedhold_end` as `datetime_discharge_bedhold_end`,"
-				. db()->dbname2 . ".`schedule`.`status` as `status`,"
-				. db()->dbname2 . ".`patient_admit_nursing`.`height`,"
-				. db()->dbname2 . ".`patient_admit_nursing`.`weight`,
-				`schedule`.`transfer_request`,"
-				. db()->dbname2 . ".`schedule_hospital`.`is_complete`,
-				`schedule_hospital`.`datetime_sent`
+				. db()->dbname2 . ".`room`.*, "
+				. db()->dbname2 . ".`patient_admit`.`pubid` as `patient_pubid`, "
+				. db()->dbname2 . ".`patient_admit`.`physician_id`, "
+				. db()->dbname2 . ".`patient_admit`.`last_name`, "
+				. db()->dbname2 . ".`patient_admit`.`first_name`, "
+				. db()->dbname2 . ".`patient_admit`.`address`, "
+				. db()->dbname2 . ".`patient_admit`.`city`, "
+				. db()->dbname2 . ".`patient_admit`.`state`, "
+				. db()->dbname2 . ".`patient_admit`.`zip`, "
+				. db()->dbname2 . ".`patient_admit`.`phone`, "
+				. db()->dbname2 . ".`patient_admit`.`sex`, "
+				. db()->dbname2 . ".`patient_admit`.`ethnicity`, "
+				. db()->dbname2 . ".`patient_admit`.`marital_status`, "
+				. db()->dbname2 . ".`patient_admit`.`ssn`, "
+				. db()->dbname2 . ".`patient_admit`.`birthday`, "
+				. db()->dbname2 . ".`patient_admit`.`religion`, "
+				. db()->dbname2 . ".`patient_admit`.`medicare_number`, "
+				. db()->dbname2 . ".`schedule`.`pubid` as `schedule_pubid`, "
+				. db()->dbname2 . ".`schedule`.`facility`, "
+				. db()->dbname2 . ".`schedule`.`datetime_admit`, "
+				. db()->dbname2 . ".`schedule`.`datetime_discharge`, "
+				. db()->dbname2 . ".`schedule`.`discharge_to`, "
+				. db()->dbname2 . ".`schedule`.`discharge_disposition`, "
+				. db()->dbname2 . ".`schedule`.`service_disposition`, "
+				. db()->dbname2 . ".`schedule`.`discharge_location_id`, "
+				. db()->dbname2 . ".`schedule`.`home_health_id`, "
+				. db()->dbname2 . ".`schedule`.`discharge_address`, "
+				. db()->dbname2 . ".`schedule`.`discharge_city`, "
+				. db()->dbname2 . ".`schedule`.`discharge_state`, "
+				. db()->dbname2 . ".`schedule`.`discharge_zip`, "
+				. db()->dbname2 . ".`schedule`.`discharge_phone`, "
+				. db()->dbname2 . ".`schedule`.`datetime_discharge_bedhold_end` as `datetime_discharge_bedhold_end`, "
+				. db()->dbname2 . ".`schedule`.`discharge_comment`, "
+				. db()->dbname2 . ".`schedule`.`readmit_type`, "
+				. db()->dbname2 . ".`schedule`.`elective`, "
+				. db()->dbname2 . ".`schedule`.`confirmed`, "
+				. db()->dbname2 . ".`schedule`.`datetime_confirmed`, "
+				. db()->dbname2 . ".`schedule`.`site_user_confirmed`, "
+				. db()->dbname2 . ".`schedule`.`discharge_transfer_schedule`, "
+				. db()->dbname2 . ".`schedule`.`transfer_request`, "
+				. db()->dbname2 . ".`schedule`.`transfer_from_facility`, "
+				. db()->dbname2 . ".`schedule`.`transfer_to_facility`, "
+				. db()->dbname2 . ".`schedule`.`transfer_comment`, "
+				. db()->dbname2 . ".`schedule`.`admit_order`, "
+				. db()->dbname2 . ".`schedule`.`status`, "
+				. db()->dbname2 . ".`schedule`.`discharge_datetime_modified`, "
+				. db()->dbname2 . ".`schedule`.`discharge_site_user_modified`, "
+				. db()->dbname2 . ".`patient_admit_nursing`.`height`, "
+				. db()->dbname2 . ".`patient_admit_nursing`.`weight`, "
+				. db()->dbname2 . ".`schedule_hospital`.`is_complete`, "
+				. db()->dbname2 . ".`schedule_hospital`.`datetime_sent`
 				from " . db()->dbname2 . ".`room` 
 				inner join " . db()->dbname2 . ".`schedule` on " . db()->dbname2 . ".`schedule`.`room`=" . db()->dbname2 . ".`room`.`id` 
 				inner join " . db()->dbname2 . ".`patient_admit` on " . db()->dbname2 . ".`schedule`.`patient_admit`=" . db()->dbname2 . ".`patient_admit`.`id`
@@ -237,7 +298,7 @@ class AdmissionDashboard extends AppModel {
 		
 			$sql .= " GROUP BY " . db()->dbname2 . ".room.`id`
 				ORDER BY " . db()->dbname2 . ".room.`number`
-				";	
+				";
 
 			$result = $this->fetchAll($sql, $params);
 			$patientResults = array();
@@ -247,9 +308,14 @@ class AdmissionDashboard extends AppModel {
 
 				//	If the items have already been saved to the db then get them.
 				$patient = $this->fetchById($r->patient_pubid, 'Patient');
+				$schedule = $this->fetchById($r->schedule_pubid, 'Schedule');
 
 				if (empty ($patient)) {
-					$patient = new Patient();
+					$patient = new Patient;
+				}
+
+				if (empty ($schedule)) {
+					$schedule = new Schedule;
 				}
 
 				$patient->public_id = $r->patient_pubid;
@@ -302,24 +368,62 @@ class AdmissionDashboard extends AppModel {
 					$patient->pcp_id = $r->physician_id;
 				}
 
-				// not getting all the patient info returned into an array that can be used.
-				// need to fix the $patientResults array
 
+				$schedule->public_id = $r->schedule_pubid;
+				$schedule->location_id = $r->facility;
+				$schedule->room_id = $r->number;
+				$schedule->datetime_admit = $r->datetime_admit;
+				$schedule->datetime_discharge = $r->datetime_discharge;
+				$schedule->discharge_to = $r->discharge_to;
+				$schedule->discharge_disposition = $r->discharge_disposition;
+				$schedule->service_disposition = $r->service_disposition;
+				$schedule->discharge_location_id = $r->discharge_location_id;
+				$schedule->home_health_id = $r->home_health_id;
+				$schedule->discharge_address = $r->discharge_address;
+				$schedule->discharge_city = $r->discharge_city;
+				$schedule->discharge_state = $r->discharge_state;				
+				$schedule->discharge_zip = $r->discharge_zip;
+				$schedule->discharge_phone = $r->discharge_phone;
+				$schedule->datetime_discharge_bedhold_end = $r->datetime_discharge_bedhold_end;
+				$schedule->discharge_comment = $r->discharge_comment;
+				$schedule->readmit_type = $r->readmit_type;
+				$schedule->elective = $r->elective;
+				$schedule->confirmed = $r->confirmed;
+				$schedule->datetime_confirmed = $r->datetime_confirmed;
+				$schedule->user_confirmed = $r->site_user_confirmed;
+				$schedule->discharge_transfer_schedule = $r->discharge_transfer_schedule;
+				$schedule->transfer_request = $r->transfer_request;
+				$schedule->transfer_from_facility = $r->transfer_from_facility;
+				$schedule->transfer_to_facility = $r->transfer_to_facility;
+				$schedule->transfer_comment = $r->transfer_comment;
+				$schedule->admit_order = $r->admit_order;
+				$schedule->status = $r->status;
+				$schedule->discharge_datetime_modified = $r->discharge_datetime_modified;
+				$schedule->discharge_user_modified = $r->discharge_site_user_modified;
 
 				if ($patient->save()) {
-					// check for 
-					$obj = new PatientInfo;
-					$patientInfo = $obj->fetchDietInfo($patient->id);
-					// $patientInfo->public_id = null;
-					$patientInfo->patient_id = $patient->id;
-					if (isset ($r->height)) {
-						$patientInfo->height = $r->height;
+					$schedule->patient_id = $patient->id;
+
+					if ($schedule->save()) {
+						// Save the dietary patient info
+						$obj = new PatientInfo;
+						$patientInfo = $obj->fetchPatientInfoByPatient($patient->id, $schedule->location_id);
+						if (empty ($patientInfo)) {
+							$patientInfo = new PatientInfo;
+							$patientInfo->patient_id = $patient->id;
+						}
+
+						// $patientInfo->public_id = null;
+						
+						if (isset ($r->height)) {
+							$patientInfo->height = $r->height;
+						}
+						if (isset ($r->weight)) {
+							$patientInfo->weight = $r->weight;
+						}
+						$patientInfo->location_id = $r->facility;
+						$patientInfo->save();
 					}
-					if (isset ($r->weight)) {
-						$patientInfo->weight = $r->weight;
-					}
-					$patientInfo->location_id = $r->facility;
-					$patientInfo->save();
 				} 
 
 				$patient->number = $r->number;
@@ -341,4 +445,74 @@ class AdmissionDashboard extends AppModel {
 		$params[":patient_id"] = $patient_id;
 		return $this->fetchOne($sql, $params);
 	}
+
+
+
+
+
+	public function fetchEmptyRooms($location_id) {
+		$sql = "select * from " . db()->dbname2 . ".`room` where facility=:facilityid and id not in (
+			select `room`.`id` from " . db()->dbname2 . ".`room` 
+			inner join " . db()->dbname2 . ".`schedule` on `schedule`.`room`=`room`.`id` 
+			where `room`.`facility`=:facilityid 
+			and :datetime >= `datetime_admit` 
+			and (`schedule`.`status`='Approved' || `schedule`.`status`='Under Consideration' || `schedule`.`status` = 'Discharged')
+			and 
+			(
+				(`datetime_discharge` IS NULL)
+				OR
+				(
+				`datetime_discharge` >= :datetime
+				)
+				OR
+				(
+				`discharge_to`!='Discharge to Hospital (Bed Hold)' and :datetime < `datetime_discharge`
+				)
+				or
+				(
+				`discharge_to`='Discharge to Hospital (Bed Hold)' and :datetime < `datetime_discharge_bedhold_end`
+				)
+			)
+		)
+		ORDER BY `number`
+		";
+		$params = array(":facilityid" => $location_id, ":datetime" => date('Y-m-d H:i:s', strtotime('now')));
+		return $this->fetchAll($sql, $params);
+
+	}
+
+
+
+
+	public function mergeRooms($empty, $scheduled) {
+		$temp = array();
+		$index = array();
+		foreach ($empty as $k => $v) {
+			$temp[$v->number] = $v->number;
+			$index[$v->number] = array("empty", $k);
+		}
+		foreach ($scheduled as $k => $v) {
+			$temp[$v->number] = $v->number;
+			$index[$v->number] = array("scheduled", $k);
+		}
+		sort($temp);
+
+		$retval = array();
+		foreach ($temp as $number) {
+			$which = $index[$number][0];
+			$idx = $index[$number][1];
+			$retval[] = ${$which}[$idx];
+		}
+
+		return $retval;
+
+	}
+
+
+
+
+
+
+
+
 }

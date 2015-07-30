@@ -4,7 +4,7 @@ class Patient extends AppData {
 
 	protected $table = 'patient';
 
-
+	// this function will get the current home health patients
 	public function fetchCurrentPatients($location, $order_by = false) {
 		$schedule = $this->loadTable('HomeHealthSchedule');
 		$physician = $this->loadTable('Physician');
@@ -51,10 +51,26 @@ class Patient extends AppData {
 				break;
 				
 		}
-
 		return $this->fetchAll($sql, $params);
 	}
 
+
+	/* 
+	 * CURRENT PATIENTS FROM NEW DATABASE
+	 *
+	 * This function selects the current patients from the new master database (not the admissions db). After the admission
+	 * app is rebuilt the patient_admit table will need to be updated with more rows and this query will need to be updated
+	 * to properly fetch the patient info.
+	 *
+	 * Used on (DietaryController.php => line 47)
+	 */
+	public function fetchPatients($location_id) {
+		$schedule = $this->loadTable("Schedule");
+		$room = $this->loadTable("Room");
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE s.location_id = :location_id AND s.status = 'Approved'";
+		$params[":location_id"] = $location_id;
+		return $this->fetchAll($sql, $params);
+	}
 
 
 
