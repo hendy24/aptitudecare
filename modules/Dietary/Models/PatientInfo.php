@@ -17,4 +17,11 @@ class PatientInfo extends Dietary {
 		}
 	}
 
+
+	public function fetchPatientInfoByPatient($patient_id, $location_id) {
+		$sql = "SELECT * FROM {$this->tableName()} WHERE patient_id = :patient_id AND location_id = :location_id";
+		$params = array(":patient_id" => $patient_id, ":location_id" => $location_id);
+		return $this->fetchOne($sql, $params);
+	}
+
 }

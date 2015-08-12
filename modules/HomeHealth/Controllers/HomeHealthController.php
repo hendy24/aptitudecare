@@ -67,12 +67,11 @@ class HomeHealthController extends MainPageController {
 
 		/*
 		 *	GET ADMISSIONS FOR THE WEEK
-		 *	Fetch admission dashboard discharges as new pending admits
-		 *	This will be integrated more tightly once the admission dashboard is re-built
+		 *	Sync admission dashboard discharges with the ac_*.admit_schedule table and ac_*.patient table
+		 *	Remove $adDischarges once the admission app has been re-built in the new framework.
 		 */
-		$adDischarges = $this->loadModel('AdmissionDashboard')->fetchDischarges($_dateStart, $_dateEnd, $location->id, $areas);
+		$adDischarges = $this->loadModel('AdmissionDashboard')->syncDischarges($_dateStart, $_dateEnd, $location->id, $areas);
 		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $areas);
-
 
 		// split the admits up by date
 		$admitByDate = array();
@@ -122,7 +121,6 @@ class HomeHealthController extends MainPageController {
 
 		// Set page titles
 		smarty()->assign('title', 'Home Health Dashboard');	// This is the title that is set in the html head
-
 
 	}
 

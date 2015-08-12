@@ -17,11 +17,15 @@
 				<td>&nbsp;</td>
 				<td style="text-align: right">{$site_email}</td>
 			</tr>
+			{else}
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
 			{/if}
-			
 			<tr>
 				<td>Password:</td>
-				<td><input type="password" name="password" value="" /></td>
+				<td class="text-right"><input type="password" name="password" value="" /></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="right"><input type="submit" value="Login" style="margin-top: 10px;" /></td>

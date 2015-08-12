@@ -7,21 +7,22 @@
 
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css">
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.css" />
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/tagit/css/jquery.tagit.css" />
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/datepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/dropzone/dropzone.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/tagit/js/tag-it.min.js"></script>
 
 	<script>
 		var SITE_URL = '{$SITE_URL}';

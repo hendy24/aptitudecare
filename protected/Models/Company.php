@@ -7,7 +7,13 @@ class Company extends AppData {
 	public function getEmailExt() {
 		$sql = "select global_email_ext from {$this->tableName()} where id=1";
 		
-		return $this->fetchOne($sql);
+		$result = $this->fetchOne($sql);
+
+		if (!is_null($result)) {
+			return $result;
+		}
+
+		return false;
 	}
 	
 }

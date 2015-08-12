@@ -75,8 +75,12 @@ class ReportsController extends DietaryController {
 		}
 
 		$results = $this->loadModel("MenuMod")->paginateMenuMods($location->id, $days, $page);
-		$this->normalizeMenuItems($results);
+		foreach ($results as $key => $item) {
+			$results[$key]->mod_content = explode("\n", $item->mod_content);
+			$results[$key]->content = explode("\n", $item->content);
+		}
 
+		smarty()->assignByRef('menuItems', $results);
 		smarty()->assign("numDays", $days);
 	}
 

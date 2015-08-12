@@ -19,7 +19,12 @@ class LoginController extends MainPageController {
 		// Check for a global company email extension
 		$company = $this->loadModel('Company')->getEmailExt();
 
-		smarty()->assign('site_email', $company->global_email_ext);
+		if ($company) {
+			smarty()->assign('site_email', $company->global_email_ext);
+		} else {
+			smarty()->assign('site_email', "");
+		}
+		
 		smarty()->assign('title', 'Login');
 
 

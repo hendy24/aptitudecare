@@ -6,7 +6,7 @@
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=corporate_menus">Corporate Menus</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=menu_start_date">Menu Start Date</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=public_page_items">Public Page Items</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=preview_public_page">Preview Public Page</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=public&amp;location={$location->public_id}" target="_blank">Preview Public Page</a></li>
 	</ul>
 </li>
 <li>Reports

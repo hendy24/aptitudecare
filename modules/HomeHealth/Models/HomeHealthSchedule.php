@@ -146,4 +146,15 @@ class HomeHealthSchedule extends HomeHealth {
 		return $this->fetchAll($sql, $params);
 	}
 
+
+
+	public function checkExisting($location_id, $patient_id) {
+		$patient = $this->loadTable("Patient");
+		$sql = "SELECT * FROM {$this->tableName()} WHERE location_id = :location_id AND patient_id = (SELECT id FROM {$patient->tableName()} WHERE public_id = :patient_id) LIMIT 1";
+		$params[":location_id"] = $location_id;
+		$params[":patient_id"] = $patient_id;
+
+		return $this->fetchOne($sql, $params);
+	}
+
 }

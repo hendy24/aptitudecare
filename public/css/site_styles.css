@@ -93,19 +93,17 @@ div.menu-edit-button {
 	right: 15px;
 }
 
-#legend {
-	margin: 75px auto 25px auto;
+#legendary {
+	margin: 75px;
 	padding: 10px;
 	position: relative;
-	width: 90%;
-	border: 1px solid #333;
-	border-radius: 3px;
 }
 
 .legend-item {
 	position: relative;
 	padding: 15px 0;
 	clear: both;
+	width: 100%;
 }
 
 .legend-box {
@@ -126,7 +124,7 @@ div.menu-edit-button {
 }
 
 #blank-wrapper {
-	width: 92%;
+	width: 800px;
 	min-height: 100%;
 	margin: 10px auto 25px auto;
 	position: relative;

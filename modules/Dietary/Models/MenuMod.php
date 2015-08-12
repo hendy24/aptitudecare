@@ -25,7 +25,7 @@ class MenuMod extends Dietary {
 		}
 
 		// only get the skilled nursing facilities and then group by location
-		$sql .= " count FROM {$location->tableName()} loc";
+		$sql .= " count FROM {$location->tableName()} loc WHERE loc.location_type = 1";
 
 		return $this->fetchAll($sql, $params);
 
