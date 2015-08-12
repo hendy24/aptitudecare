@@ -1,6 +1,6 @@
 <?php
 
-class MenuController extends MainPageController {
+class MenuController extends DietaryController {
 
 	// protected $template = "dietary";
 	public $module = "Dietary";
@@ -99,6 +99,61 @@ class MenuController extends MainPageController {
 			// if there is a date set then it is a facility page
 			$this->facilityInfo();
 		}
+
+	}
+
+
+	public function meal_order_form() {
+		$this->template = "blank";
+		smarty()->assign('title', "Meal Order Form");
+
+		// // get location
+		// $location = $this->loadModel("Location", input()->location);
+
+		if (isset (input()->start_date)) {
+			$start_date = date("Y-m-d", strtotime(input()->start_date));
+		} else {
+			$start_date = date("Y-m-d", strtotime("now"));
+		}
+
+		if (isset (input()->end_date)) {
+			$end_date = date("Y-m-d", strtotime(input()->end_date));
+		} else {
+			$end_date = date("Y-m-d", strtotime("now"));
+		}
+
+
+		smarty()->assign('startDate', $start_date);
+
+
+		$urlDate = date('m/d/Y', strtotime($start_date));
+		$printDate = date("l, F j, Y", strtotime($start_date));
+		smarty()->assign('urlDate', $urlDate);
+
+
+		// Get the selected facility. If no facility has been selected return the users' default location
+		$location = $this->getLocation();
+
+		// Get the menu id the facility is currently using
+		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $start_date);
+		smarty()->assign('menu', $menu);
+
+		// Get the menu day for today
+		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
+		$startDay = round($this->dateDiff($menu->date_start, $start_date) % $numDays->count + 1);
+
+		// Get the menu items for the week
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $start_date, $end_date, $startDay, $startDay, $menu->menu_id);
+		$this->normalizeMenuItems($menuItems);
+
+		smarty()->assignByRef('menuItems', $menuItems);
+
+		// get alternates
+		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
+
+		// put alternates in an array to display similar to the meal menu
+		$alternatesArray = explode("; ", $alternates->content);
+		smarty()->assignByRef("alternates", $alternatesArray);
 
 	}
 

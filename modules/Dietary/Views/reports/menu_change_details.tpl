@@ -51,7 +51,7 @@
 		<td>
 			<ul>
 			{foreach $mod->mod_content as $menu}
-				<li>{$menu|unescape:'html'}</li>
+				<li>{$menu}</li>
 			{/foreach}
 			</ul>
 		</td>
@@ -67,7 +67,7 @@
 		<td>
 			<ul>
 			{foreach $mod->content as $menu}
-				<li>{$menu|unescape:'html'}</li>
+				<li>{$menu}</li>
 			{/foreach}
 			</ul>
 		</td>
@@ -81,7 +81,7 @@
 </table>
 
 
-{if isset ($pagination)}
+{if isset ($pagination) && $pagination->num_pages > 1}
 	{$url = "{$SITE_URL}?module={$this->module}&page={$this->page}&action={$this->action}&days={$numDays}&location={$location->public_id}"}
 	{$this->loadElement("pagination", $url)}
 {/if}

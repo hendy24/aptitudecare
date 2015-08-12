@@ -30,8 +30,6 @@
 		<td>{$diet->orders}</td>
 	</tr>
 	<tr>
-		<td class="text-strong">Portion Size:</td>
-		<td>{$diet->portion_size}</td>
 		<td class="text-strong">AM Snack</td>
 		<td>
 			<ul>
@@ -40,6 +38,8 @@
 			{/foreach}
 			</ul>
 		</td>
+		<td class="text-strong">Portion Size:</td>
+		<td>{$diet->portion_size}</td>
 	</tr>
 	<tr>
 		<td class="text-strong">PM Snack</td>

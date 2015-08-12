@@ -45,7 +45,7 @@
 				<div class="menu-info {if $menuItem->type == "MenuMod"}background-blue{elseif $menuItem->type == "MenuChange"} background-grey{/if}">
 					<ul>
 					{foreach $menuItem->content as $menu}
-						<li>{$menu|unescape:'html'}</li>
+						<li>{$menu}</li>
 					{/foreach}
 					</ul>
 				</div>
@@ -75,7 +75,7 @@
 	{/foreach}
 </table>
 
-<div id="legend">
+<div id="legendary">
 	<h2>Menu Color Legend</h2>
 	<div class="legend-item">
 		<div class="legend-box background-grey"></div>

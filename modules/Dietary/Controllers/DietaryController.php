@@ -92,7 +92,7 @@ class DietaryController extends MainPageController {
 
 
 		}
-
+		
 		smarty()->assign('count', 0);
 		smarty()->assign('menuWeek', $menuWeek);
 		smarty()->assignByRef('menuItems', $menuItems);

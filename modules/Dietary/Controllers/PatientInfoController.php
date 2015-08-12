@@ -79,40 +79,33 @@ class PatientInfoController extends DietaryController {
 		$allergiesArray = array();
 		if (!empty (input()->allergies)) {
 			foreach (input()->allergies as $item) {
-				$patientFoodInfo = $this->loadModel("PatientFoodInfo");
-				$patientFoodInfo->patient_id = $patient->id;
-				$dietaryAllergy = $this->loadModel("Allergy")->fetchByName($item);
-				if ($dietaryAllergy) {
-					$patientFoodInfo->food_id = $dietaryAllergy->id;
-				} else {
-					$dietaryAllergy->name = $item;
-					$dietaryAllergy->save();
-					$patientFoodInfo->food_id = $dietaryAllergy->id;
-				}
-				$patientFoodInfo->allergy = true;
-				$allergiesArray[] = $patientFoodInfo;
+				$allergy = $this->loadModel("Allergy")->fetchByName($item);
+				$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $allergy->id);
+
+				if ($foodInfo->patient_id == "") {
+					$foodInfo->patient_id = $patient->id;
+					$foodInfo->food_id = $allergy->id;
+					$foodInfo->allergy = true;
+					$allergiesArray[] = $foodInfo;	
+				} 
 			}
 		}
-
 
 		// set dislikes array
 		$dislikesArray = array();
 		if (!empty (input()->dislikes)) {
 			foreach (input()->dislikes as $item) {
-				$patientFoodInfo = $this->loadModel("PatientFoodInfo");
-				$patientFoodInfo->patient_id = $patient->id;
-				$dietaryDislike = $this->loadModel("Dislike")->fetchByName($item);
-				if ($dietaryDislike) {
-					$patientFoodInfo->food_id = $dietaryDislike->id;
-				} else {
-					$dietaryDislike->name = $item;
-					$dietaryDislike->save();
-					$patientFoodInfo->food_id = $dietaryDislike->id;
-				}
-				$dislikesArray[] = $patientFoodInfo;
+				$dislike = $this->loadModel("Dislike")->fetchByName($item);
+				$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $dislike->id);
+
+				if ($foodInfo->patient_id == "") {
+					$foodInfo->patient_id = $patient->id;
+					$foodInfo->food_id = $dislike->id;
+					$foodInfo->allergy = false;
+					$dislikesArray[] = $foodInfo;	
+				} 
 			}
 		}
-
 
 		if (input()->diet_info != "") {
 			$patientDiet->diet_info = input()->diet_info;
@@ -184,7 +177,7 @@ class PatientInfoController extends DietaryController {
 
 			$location = $this->loadModel("Location", $patientDiet->location_id);
 			session()->setFlash(array("Diet Info was saved for {$patient->fullName()}", $feedback), "success");
-			$this->redirect(array("module" => "Dietary", "page" => "Dietary", "action" => "index", "location" => $location->public_id));
+			$this->redirect(array("module" => "Dietary", "page" => "Dietary", "location" => $location->public_id));
 		} else {
 			session()->setFlash($feedback, "error");
 			$this->redirect(input()->currentUrl);
@@ -194,7 +187,7 @@ class PatientInfoController extends DietaryController {
 
 	public function traycard() {
 		smarty()->assign("title", "Print Traycard");
-		$this->template = "blank";
+		$this->template = "print";
 
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -302,7 +295,12 @@ class PatientInfoController extends DietaryController {
 			$schedule->datetime_admit = mysql_date(input()->admit_date);
 			$schedule->status = "Approved";
 
-			if ($schedule->save()) {
+			// set dietary patient info
+			$dietaryInfo = $this->loadModel("PatientInfo");
+			$dietaryInfo->patient_id = $patient->id;
+			$dietaryInfo->location_id = $location->id;
+
+			if ($schedule->save() && $dietaryInfo->save()) {
 				session()->setFlash("Added {$patient->fullName()}", 'success');
 				$this->redirect(array("module" => "Dietary"));
 			} else {

@@ -55,7 +55,7 @@ class AdmissionDashboard extends AppModel {
 				//	it is possible that the start of care date has been modified in the home health application
 				//	and the discharge date has been changed in the admission application.  If that has happened
 				//	we need to reset the start of care date to match the new discharge date
-				if ($hhSchedule->referral_date !== $r->datetime_discharge) {
+				if (isset ($hhSchedule->referral_date) && $hhSchedule->referral_date !== $r->datetime_discharge) {
 					$hhSchedule->start_of_care = $r->datetime_discharge;
 				}
 			}

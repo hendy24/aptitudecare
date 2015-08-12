@@ -67,8 +67,8 @@
 				<td>Dinner</td>
 				{/if}
 
-				<td><input type="text" name="start[{$meal->id}]" value="{$meal->start}" class="timepicker"></td>
-				<td><input type="text" name="end[{$meal->id}]" value="{$meal->end}" class="timepicker"></td>
+				<td><input type="text" name="start[{$meal->id}]" value="{$meal->start|date_format:"%l:%M %P"}" class="timepicker"></td>
+				<td><input type="text" name="end[{$meal->id}]" value="{$meal->end|date_format:"%l:%M %P"}" class="timepicker"></td>
 			</tr>
 			{/foreach}
 			<tr>
@@ -93,8 +93,9 @@
 
 		<table class="form-multiple">
 			<tr>
-				<td colspan="2">
+				<td colspan="2" class="text-center">
 					<textarea name="alt_menu" id="alt-menu" cols="75" rows="10">{$alternates->content|unescape:"html"}</textarea>
+					<p class="text-12" style="margin:0;"><strong>IMPORTANT:</strong> The alternate menu items must be separated with a semicolon (;) for them to display properly.</p>
 				</td>
 			</tr>
 			<tr>

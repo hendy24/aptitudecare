@@ -122,7 +122,7 @@ class MainPageController extends MainController {
 		smarty()->assign('selectedArea', $selectedArea);
 	}
 
-	private function getSelectedLocation() {
+	protected function getSelectedLocation() {
 		$user = auth()->getRecord();
 
 		if (isset (input()->location)) {
