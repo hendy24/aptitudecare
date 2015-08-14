@@ -9,10 +9,10 @@
 	<link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css">
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" />
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/tagit/css/jquery.tagit.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
@@ -20,16 +20,18 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/datepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.row-grid.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/dropzone/dropzone.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/tagit/js/tag-it.min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.pack.js"></script>	
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/gridify-min.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/require.js"></script>	
+
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.js"></script>	
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
 
 	<script>
 		var SITE_URL = '{$SITE_URL}';
-		Shadowbox.init({
-			handleOversize: "drag",
-			modal: true,
-		});
 	</script>
 
 	<script type="text/javascript" src="{$JS}/general.js"></script>
