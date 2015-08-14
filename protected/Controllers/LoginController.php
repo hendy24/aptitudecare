@@ -2,12 +2,15 @@
 
 class LoginController extends MainPageController {
 
-/*
- * -------------------------------------------
- * LOGIN PAGE
- * -------------------------------------------
- *
- */
+	public $allow_access = true;
+
+	
+	/*
+	 * -------------------------------------------
+	 * LOGIN PAGE
+	 * -------------------------------------------
+	 *
+	 */
 	public function index() {	
 		
 		if (auth()->isLoggedIn()) {

@@ -156,6 +156,7 @@ class PhotosController extends DietaryController {
 			foreach (input()->photo as $id => $approved) {
 				$photo = $this->loadModel("Photo", $id);
 				$photo->approved = $approved;
+				$photo->user_approved = auth()->getRecord()->id;
 				if ($photo->save()) {
 					$success = true;
 				}

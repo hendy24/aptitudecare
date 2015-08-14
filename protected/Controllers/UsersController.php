@@ -2,6 +2,7 @@
 
 class UsersController extends MainPageController {
 
+	public $module = "";
 
 	/*
 	 * -------------------------------------------------------------------------

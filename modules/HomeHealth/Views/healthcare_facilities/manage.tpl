@@ -1,1 +1,0 @@
-<h1>Healthcare Facilities</h1>

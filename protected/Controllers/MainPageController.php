@@ -17,7 +17,7 @@ class MainPageController extends MainController {
 	}
 
 
-	public function getSiteInfo($folder, $name, $module = '') {
+	public function getSiteInfo() {
 		// if there is a company logo in the img directory... load it, otherwise use the aptitudecare logo
 		if (file_exists(SITE_DIR . '/public/img/logo.jpg')) {
 			$logo = IMAGES . '/logo.jpg';
@@ -28,59 +28,53 @@ class MainPageController extends MainController {
 		}
 		smarty()->assign('logo', $logo);
 
-		$this->setContent($folder, $name, $module);
+		// If the user is logged in get the locations and area to which the user has access
 		if (auth()->valid()) {
 			$this->fetchLocations();
 			$this->fetchArea();
-		}
+		} 
 
-		if ($this->module != '') {
-			// Get the modules to which the user has access
-			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
-		} else {
-			$modules = 'HomeHealth';
-		}
-
+		// Fetch the modules to which the user has access
+		$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 		smarty()->assign('modules', $modules);
 
 		//	If no module variable is present get the session module
-		if ($module == '') {
-			$module = session()->getModule();
+		if ($this->module == '') {
+			$this->module = session()->getModule();
+		} else {
+			// if there is module set then set it to the session
+			session()->setModule($this->module);
 		}
 
+		// Set the content from the controller and cooresponding view
+		$this->setContent();
+
+
 		if (auth()->isLoggedIn()) {
-			if (!$this->verifyModuleAccess($modules, $module)) {
+			if (!$this->verifyModuleAccess($modules, $this->module)) {
 				$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
 			}
 		} 
 
-		smarty()->assign('module', $module);
-
+		smarty()->assign('module', $this->module);
 	}
 
 
-	private function setContent($folder, $name, $module) {
+	private function setContent() {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
-		if ($module != "") {
-			$this->module = $module;
-			if (file_exists(MODULES_DIR . DS . $module . DS . 'Views/' . underscoreString($folder) . DS . $name . '.tpl')) {
-				smarty()->assign('content', MODULES_DIR . DS . $module . DS . 'Views/' . underscoreString($folder) . '/' . $name . '.tpl');
+
+		if ($this->module != "") {
+			if (file_exists(MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
+				smarty()->assign('content', MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . '/' . $this->action . '.tpl');
 			} else {
-				smarty()->assign('content', underscoreString($folder) . '/' . $name . '.tpl');
+				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
 			}
 
 		//	If no module is set then we will get the content from the default view directory.
-		//	!!!!!! TO-DO: Probably should check if the file exists and if not show a pretty error page. !!!!!!!!!!!
 		} else {
-			if (auth()->getRecord()) {
-				$this->module = $this->loadModel("Module", auth()->getRecord()->default_module)->name;
-			} else {
-				$this->module = null;
-			}
-
-			if (file_exists (VIEWS . DS . underscoreString($folder) . DS . $name . '.tpl')) {
-				smarty()->assign('content', underscoreString($folder) . '/' . $name . '.tpl');
+			if (file_exists (VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.tpl')) {
+				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
 			} else {
 				smarty()->assign('content', "error/no-template.tpl");
 			}
@@ -91,7 +85,6 @@ class MainPageController extends MainController {
 	private function fetchLocations() {
 		$areas = null;
 		$selectedArea = null;
-
 		if ($this->module == "HomeHealth") {
 			$locations = $this->loadModel('Location')->fetchHomeHealthLocations($this->module);
 			$location = $this->getSelectedLocation();
@@ -314,7 +307,5 @@ class MainPageController extends MainController {
 			return false;
 		}
 	}
-
-
 
 }
