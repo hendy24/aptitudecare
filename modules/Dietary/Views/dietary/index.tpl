@@ -77,7 +77,6 @@
 	</div>
 </div>
 
-
 <h1>Current Patients</h1>
 <input type="hidden" id="location" value="{$location->public_id}">
 <input type="hidden" name="currentUrl" value="{$currentUrl}">

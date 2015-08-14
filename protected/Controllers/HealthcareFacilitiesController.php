@@ -3,6 +3,46 @@
 class HealthcareFacilitiesController extends MainPageController {
 
 
+	/* 
+	 * Manage page
+	 *	
+	 */
+	public function manage() {
+		if (isset (input()->location)) {
+			$loc_id = input()->location;
+		} else {
+			//	Fetch the users default location
+			$user = auth()->getRecord();
+			$loc_id = $user->default_location;
+		}
+		$location = $this->loadModel('Location', $loc_id);
+		smarty()->assign('location_id', $location->public_id);
+
+		if (isset (input()->orderBy)) {
+			$_orderBy = input()->orderBy;
+		} else {
+			$_orderBy = false;
+		}
+
+		$healthcare_facility = $this->loadModel("HealthcareFacility")->fetchManageData($location, $_orderBy);
+
+		$classArray[0] = array();
+		if (!empty ($healthcare_facility)) {
+			foreach ($healthcare_facility as $key => $value) {
+				foreach ($value as $k => $v) {
+					$classArray[$key][$k] = $v;
+					if (!in_array($k, $value->fetchFields())) {
+						unset($classArray[$key][$k]);
+					}
+
+				}
+
+			}
+		}
+
+		smarty()->assign('data', $classArray);		
+	}
+
 	/*
 	 * -------------------------------------------------------------------------
 	 *  AJAX CALL TO SEARCH THE DATABASE FOR FACILITY NAMES

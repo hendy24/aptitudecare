@@ -7,7 +7,7 @@ class HealthcareFacility extends AppData {
 	protected $belongsTo = array(
 		'LocationType' => array(
 			'table' => 'ac_location_type',
-			'join_type' => 'INNER',
+			'join_type' => 'LEFT',
 			'inner_key' => 'location_type_id',
 			'foreign_key' => 'id',
 			'join_field' => array(

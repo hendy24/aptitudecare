@@ -5,7 +5,6 @@
 		{elseif $this->getModule() == "Dietary"}
 			{$this->loadElement("dietaryNav")}
 		{/if}
-
 		{$this->loadElement("dataTab")}
 	</ul>
 </nav>

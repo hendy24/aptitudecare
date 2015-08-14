@@ -9,7 +9,6 @@ class AdmissionsController extends MainPageController {
 		$this->helper = 'PatientMenu';
 		smarty()->assign('title', 'Pending Admissions');
 		
-
 		if (isset(input()->location)) {
 			// If the location is set in the url, get the location by the public_id
 			$location = $this->loadModel('Location', input()->location);

@@ -2,6 +2,46 @@
 
 class CaseManagersController extends MainPageController {
 
+
+	public function manage() {
+		if (isset (input()->location)) {
+			$loc_id = input()->location;
+		} else {
+			//	Fetch the users default location
+			$user = auth()->getRecord();
+			$loc_id = $user->default_location;
+		}
+		$location = $this->loadModel('Location', $loc_id);
+		smarty()->assign('location_id', $location->public_id);
+
+		if (isset (input()->orderBy)) {
+			$_orderBy = input()->orderBy;
+		} else {
+			$_orderBy = false;
+		}
+
+		$class = $this->loadModel("CaseManager")->fetchManageData($location, $_orderBy);
+
+		$classArray[0] = array();
+		if (!empty ($class)) {
+			foreach ($class as $key => $value) {
+				foreach ($value as $k => $v) {
+					$classArray[$key][$k] = $v;
+					if (!in_array($k, $value->fetchFields())) {
+						unset($classArray[$key][$k]);
+					}
+
+				}
+
+			}
+		}
+
+		smarty()->assign('data', $classArray);
+
+
+	}
+
+
 	public function submitAdd() {
 		//	Right now everyone has the ability to add healthcare facilities
 		if (!auth()->has_permission(input()->action, 'case_managers')) {
