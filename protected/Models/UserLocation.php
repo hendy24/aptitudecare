@@ -5,12 +5,6 @@ class UserLocation extends AppData {
 	protected $table = 'user_location';
 
 
-	public function deleteCurrentLocations($user_id) {
-		$sql = "DELETE FROM {$this->tableName()} WHERE user_id = :user_id";
-		$params[":user_id"] = $user_id;
-		return $this->deleteQuery($sql, $params);
-	}
-
 	public function fetchUserLocations($user_id) {
 		$sql = "SELECT * FROM {$this->tableName()} INNER JOIN ac_location ON ac_location.id = ac_user_location.location_id WHERE user_id = :id AND ac_location.location_type = 1";
 		$params[":id"] = $user_id;

@@ -81,6 +81,14 @@ class User extends AppData {
 	}
 
 
+	public function fetchUserAssignedLocations() {
+		$sql = "SELECT `ac_location`.* FROM `ac_location` LEFT JOIN `ac_user_location` ON `ac_user_location`.`location_id` = `ac_location`.`id` WHERE `ac_user_location`.`user_id`=:id";
+		$params[':id'] = $this->id;
+		
+		return $this->fetchAll($sql, $params);
+	}
+
+
 	public function fetchLocationStates() {
 		$locations = $this->fetchUserLocations();
 		$locString = null;

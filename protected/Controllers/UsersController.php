@@ -1,16 +1,18 @@
 <?php
 
+/**
+ * UsersController class
+ *
+ * @package AptitudeFramework v1.0
+ * @author Kemish W. Hendershot (kwh)
+ **/
+
 class UsersController extends MainPageController {
 
-	public $module = "";
-
-	/*
-	 * -------------------------------------------------------------------------
-	 *  SAVE A NEW USER TO THE DATABASE
-	 * -------------------------------------------------------------------------
+	/* 
+	 * Manage all users 
+	 *	
 	 */
-
-
 	public function manage() {
 		smarty()->assign('title', "Manage Users");
 		// Fetch all users for the location
@@ -30,63 +32,98 @@ class UsersController extends MainPageController {
 
 	}
 
-	public function add() {
-		//	We are only going to allow facility administrators and better to add data
-		if (!auth()->has_permission(input()->action, 'site_users')) {
-			$this->redirect();
+
+
+	/* 
+	 * Add a new user page 
+	 *	
+	 */
+	// public function add() {
+	// 	//	We are only going to allow facility administrators and better to add data
+	// 	if (!auth()->hasPermission("add_user")) {
+	// 		$this->redirect();
+	// 	}
+
+	// 	smarty()->assign('title', "Add a new User");
+	// 	smarty()->assign('location_id', input()->location);
+
+	// 	if (isset (input()->location)) {
+	// 		$location = $this->loadModel('Location', input()->location);
+	// 	} else {
+	// 		//	Get the users default location
+	// 		$location = $this->loadModel('Location', auth()->getDefaultLocation());
+	// 	}
+
+	// 	//	Fetch locations to which the user can add new users
+	// 	$locations = $this->loadModel('User')->fetchUserLocations();
+	// 	smarty()->assign('available_locations', $this->loadModel('User')->fetchUserLocations());
+
+	// 	//	Fetch groups to which the user has permission to add users
+	// 	smarty()->assign('groups', $this->loadModel('Group')->fetchAll());
+
+	// 	// Get available modules
+	// 	smarty()->assignByRef('available_modules', $this->loadModel('Module')->fetchAll());
+
+	// 	//	Fetch clinician types
+	// 	$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
+	// 	smarty()->assign('clinicianTypes', $clinicianTypes);
+
+	// }
+
+
+
+
+
+	/* 
+	 * Edit page for an existing user  
+	 *	
+	 */
+	public function user() {
+
+		if (input()->type == "add") {
+			// this is a new user being added
+			smarty()->assign('title', "Add a new User");
+			smarty()->assign('page_header', "Add a New User");
+			smarty()->assign('existing', false);
+
+			if (!auth()->hasPermission("add_user")) {
+				session()->setFlash("You do not have permission to add new users.", 'error');
+				$this->redirect();
+			}
+			$user = $this->loadModel("User");
+		} elseif (input()->type == "edit") {
+			// we are editing an already existing user
+			smarty()->assign('title', 'Edit User');
+			smarty()->assign('page_header', "Edit User");
+			smarty()->assign('existing', true);
+
+			if (input()->id != '') {
+				$user = $this->loadModel('User', input()->id);
+			} else {
+				session()->setFlash("Could not find the selected user", "error");
+				$this->redirect(input()->currentUrl);
+			}
 		}
 
-		smarty()->assign('title', "Add a new User");
-		smarty()->assign('location_id', input()->location);
-
-		if (isset (input()->location)) {
-			$location = $this->loadModel('Location', input()->location);
+		if (input()->location != "") {
+			smarty()->assign('current_location', input()->location);
 		} else {
-			//	Get the users default location
-			$location = $this->loadModel('Location', auth()->getDefaultLocation());
+			smarty()->assign('current_location', "");
 		}
+		
 
-		//	Fetch locations to which the user can add new users
-		$locations = $this->loadModel('User')->fetchUserLocations();
-		smarty()->assign('available_locations', $this->loadModel('User')->fetchUserLocations());
+		smarty()->assign('group_id', $user->group_id);
+		smarty()->assign('default_location', $user->default_location);
+		smarty()->assign('public_id', $user->public_id);
+		smarty()->assign('default_mod', $user->default_module);
 
-		//	Fetch groups
-		smarty()->assign('groups', $this->loadModel('Group')->fetchAll());
+		//	Fetch the users additional locations
+		$additional_locations = $user->fetchUserLocations();
+		//	Fetch locations for which the user is already assigned
+		$assigned_locations = $user->fetchUserAssignedLocations($user->id);
+		smarty()->assignByRef('additional_locations', $additional_locations);
+		smarty()->assignByRef('assigned_locations', $assigned_locations);
 
-
-		//	Fetch clinician types
-		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
-		smarty()->assign('clinicianTypes', $clinicianTypes);
-
-	}
-
-
-
-
-	public function edit() {
-		if (input()->id != '') {
-			$user = $this->loadModel('User', input()->id);
-		} else {
-			session()->setFlash("Could not find the selected user", "error");
-			$this->redirect(input()->currentUrl);
-		}
-
-		smarty()->assign('title', 'Edit User');
-		smarty()->assign('current_location', input()->location);
-
-		if (!empty ($user)) {
-			smarty()->assign('group_id', $user->group_id);
-			smarty()->assign('default_location', $user->default_location);
-			smarty()->assign('public_id', $user->public_id);
-			smarty()->assign('default_mod', $user->default_module);
-
-			//	Fetch the users additional locations
-			$additional_locations = $user->fetchUserLocations();
-			//	Fetch locations for which the user is already assigned
-			$assigned_locations = $user->fetchUserLocations($user->id);
-			smarty()->assignByRef('additional_locations', $additional_locations);
-			smarty()->assignByRef('assigned_locations', $assigned_locations);
-		}
 
 		//	Get Locations
 		//	Get the logged in user info to pull locations
@@ -105,8 +142,15 @@ class UsersController extends MainPageController {
 		// Get available modules
 		smarty()->assignByRef('available_modules', $this->loadModel('Module')->fetchAll());
 
+		// fetch the modules to which the user has access
+		smarty()->assignByRef('assigned_modules', $this->loadModel('UserModule')->fetchAssignedModules($user->id));
+
+
 		//	Get Groups
 		smarty()->assignByRef('groups', $this->loadModel('Group')->fetchAll());
+
+		// fetch the user assigned groups
+		smarty()->assign('user_groups', $this->loadModel('UserGroup')->fetchAssignedGroups($user->id));
 
 		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
 		smarty()->assign('clinicianTypes', $clinicianTypes);
@@ -115,20 +159,26 @@ class UsersController extends MainPageController {
 	}
 
 
-	public function submitAdd() {
-		if (!auth()->has_permission('add', 'site_users')) {
-			$error_messages[] = "You do not have permission to add new users";
-			session()->setFlash($error_messages, 'error');
+
+
+
+	/* 
+	 * Submit the info for the new user 
+	 *	
+	 */
+	public function save_user() {
+
+		if (!auth()->hasPermission("add_user")) {
+			session()->setFlash("You do not have permission to add new users", 'error');
 			$this->redirect();
 		}
 
 		if (isset (input()->id)) {
-			$id = input()->id;
+			$user = $this->loadModel('User', input()->id);
 		} else {
-			$id = null;
+			$user = $this->loadModel('User');
 		}
 
-		$user = $this->loadModel('User', $id);
 
 		//	Validate form fields
 		if (input()->first_name != '') {
@@ -201,7 +251,6 @@ class UsersController extends MainPageController {
 		}
 		$success = false;
 
-
 		//	If we've made it this far then save the new user data
 		//	If user id is not empty then we are editing an existing user
 		if ($user->save()) {
@@ -210,29 +259,61 @@ class UsersController extends MainPageController {
 			// 	Need to empty all records for this user from the location table 
 			// 	before saving them again.  This will allow us to de-select
 			// 	locations that have been selected previously.
-			$user_location->deleteCurrentLocations($user->id);
+			$user_location->deleteCurrent($user->id);
 			//	We will always save at least the default location
 			$user_location->user_id = $user->id;
 			$user_location->location_id = $user->default_location;
 			$user_location->save();
 
-			if (!empty (input()->user_location)) {
-				foreach (input()->user_location as $loc) {
-					$add_locations = $this->loadModel('UserLocation');
-					$add_locations->user_id = $user->id;
-					$add_locations->location_id = $loc; 	
-					$add_locations->save();
-				}
-			} 
 
+			// Save the users additional locations
+			foreach (input()->additional_locations as $loc) {
+				$add_locations = $this->loadModel('UserLocation');
+				$add_locations->user_id = $user->id;
+				$add_locations->location_id = $loc; 	
+				$add_locations->save();
+			}
+
+			// If the user is a clinician, save it
 			if (isset ($userClinician)) {
 				$userClinician->user_id = $user->id;
 				$userClinician->save();
 			}
 
+
+			$admission_access = false;
+
+			// Delete all groups for the curent user so we can reset and save them again
+			$groups = $this->loadModel('UserGroup')->deleteCurrent($user->id);
+			// Save the users additional groups
+			foreach (input()->additional_groups as $group) {
+				if ($group == 1) {
+					$admission_access = true;
+				}
+				$add_groups = $this->loadModel('UserGroup');
+				$add_groups->user_id = $user->id;
+				$add_groups->group_id = $group;
+				$add_groups->save();
+			}
+
+
+			$modules = $this->loadModel('UserModule')->deleteCurrent($user->id);
+			// Save the users additional modules
+			$i = 0;
+			foreach (input()->additional_modules as $mod) {
+				$add_modules = $this->loadModel('UserModule');
+				$add_modules->user_id = $user->id;
+				$add_modules->module_id = $mod;
+				$add_modules->save();
+				$i++;
+			}
+
 			// Save the user to the admission dashboard
-			if ($user->default_module == 1) {
-				$siteUser = new AdmissionDashboardUser;
+			if ($user->default_module == 1 || $admission_access) {
+				$obj = new AdmissionDashboardUser;
+
+				// need to check for existing user in admission db
+				$siteUser = $obj->checkForExisting($user->public_id);
 				$siteUser->pubid = $user->public_id;
 				$siteUser->password = $user->password;
 				$siteUser->email = $user->email;
@@ -251,13 +332,17 @@ class UsersController extends MainPageController {
 					$siteUser->is_coordinator = 0;
 				}
 
+				if ($i > 1) {
+					$siteUser->module_access = 1;
+				}
+
 				$siteUser->default_facility = $user->default_location;
 				$siteUser->timeout = 1;
 				$siteUser->save($siteUser, db()->dbname2);
 
 				// Need to save additional locations for admissions
-				if (!empty ($add_locations)) {
-					foreach (input()->user_location as $loc) {
+				if (!empty (input()->additional_locations)) {
+					foreach (input()->additional_locations as $loc) {
 						$admit_locations = new AdmissionDashboardLocations;
 						$admit_locations->site_user = $siteUser->id;
 						$admit_locations->facility = $loc;	
@@ -290,6 +375,12 @@ class UsersController extends MainPageController {
 	}
 
 
+
+
+	/* 
+	 * Reset a user's password 
+	 *	
+	 */
 	public function reset_password() {
 		smarty()->assign('title', 'Reset Password');
 		
@@ -344,6 +435,12 @@ class UsersController extends MainPageController {
 
 
 
+
+
+	/* 
+	 * Check if a user exists in the db 
+	 *	
+	 */
 	public function verify_user() {
 		$user = $this->loadModel('User')->findByEmail(input()->term);
 		if ($user->id != '') {
@@ -354,104 +451,17 @@ class UsersController extends MainPageController {
 	}
 
 
+
+
+	/* 
+	 * Get modules available for the group 
+	 *	
+	 */
 	public function fetchModulesByGroup() {
 		$availableModules = $this->loadModel('Group')->fetchModules(input()->group);
 		json_return($availableModules);
 	}
 
 
-	//	This is a function to be used once when the home health app goes live and user management is moved to the new framework
-	
-	// public function resetUserPasswords() {
 
-	// 	$passwordArray = array();
-	// 	$users = $this->loadModel('User')->fetchCustom("SELECT * FROM user");
-		
-	// 	foreach ($users as $u) {
-	// 		$password = getRandomString();
-	// 		$u->password = auth()->encrypt_password($password);
-	// 		$u->temp_password = true;
-
-	// 		$passwordArray[$u->default_location][] = array('first_name' => $u->first_name, 'last_name' => $u->last_name, 'email' => $u->email, 'password' => $password);
-			
-	// 		if ($u->save()) {
-	// 			$mail = new PHPMailer;
-
-	// 			$mail->isSMTP();
-	// 			$mail->Host = "smtp.gmail.com";
-	// 			$mail->SMTPDebug = 0;
-	// 			$mail->SMTPAuth = true;
-	// 			$mail->SMTPSecure = "ssl";
-	// 			$mail->Port = 465;
-	// 			$mail->Username = "kemish@aptitudeit.net";
-	// 			$mail->Password = "TSoGlafib!2";
-
-	// 			$mail->From = "no-reply@aptitudecare.com";
-	// 			$mail->FromName = "AptitudeCare";
-	// 			$mail->AddReplyTo ("helpdesk@aptitudecare.com", "AptitudeCare Help Desk");
-	// 			$mail->AddAddress($u->email, $u->fullName());
-
-	// 			$mail->WordWrap = 150;
-	// 			$mail->Subject = "Admission Dashboard Password Reset";
-	// 			$mail->Body = "Due to a recent update it was neccessary to reset all user passwords for the Admission Dashboard.  Your password has been reset to {$password}. You will be prompted to reset it the next time you login at http://ahc.aptitudecare.com.  If you have any question please send an email to helpdesk@aptitudecare.com";
-
-
-	// 			if (!$mail->Send()) {
-	// 				echo "Mailer Error: " . $mail->ErrorInfo . "<br>";
-	// 			} else {
-	// 				echo "Message Sent!<br>"; 
-					
-	// 			}
-	// 		}
-	// 	}
-
-	// 	$userList = null;
-
-	// 	foreach ($passwordArray as $location => $p) {
-	// 		foreach ($users as $u) {
-	// 			if ($u->default_location == $location && $u->group_id == 1) {
-
-	// 				foreach ($p as $list) {
-	// 					$userList .= "Name: " . $list["first_name"] . " " . $list["last_name"] . "\r\n" .
-	// 						"Email (username): " . $list["email"] . "\r\n" .
-	// 						"Password: " . $list["password"] . "\r\n\r\n";
-	// 				}
-
-	// 				$mail = new PHPMailer;
-
-	// 				$mail->isSMTP();
-	// 				$mail->Host = "smtp.gmail.com";
-	// 				$mail->SMTPDebug = 0;
-	// 				$mail->SMTPAuth = true;
-	// 				$mail->SMTPSecure = "ssl";
-	// 				$mail->Port = 465;
-	// 				$mail->Username = "kemish@aptitudeit.net";
-	// 				$mail->Password = "TSoGlafib!2";
-
-	// 				$mail->From = "no-reply@aptitudecare.com";
-	// 				$mail->FromName = "AptitudeCare";
-	// 				$mail->AddReplyTo ("helpdesk@aptitudecare.com", "AptitudeCare Help Desk");
-	// 				$mail->AddAddress($u->email, $u->fullName());
-
-	// 				$mail->WordWrap = 150;
-	// 				$mail->Subject = "Password Change List";
-	// 				$mail->Body = "Following is a list of the password changes for all the users in your facilily.\r\n\r\n" . $userList;
-
-	// 				if (!$mail->Send()) {
-	// 					echo "Mailer Error: " . $mail->ErrorInfo . "<br>";
-	// 				} else {
-	// 					echo "Message Sent!<br>"; 
-						
-	// 				}
-					
-	// 			}
-	// 		}
-	// 	}
-
-	// 	echo "Success"; die();
-
-	// }
-
-
-
-}
+} // END CLASS

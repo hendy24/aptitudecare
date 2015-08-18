@@ -105,7 +105,20 @@ class Location extends AppData {
 	public function fetchHomeHealthLocation() {
 		$sql = "SELECT * FROM {$this->tableName()} WHERE {$this->tableName()}.id = (SELECT home_health_id FROM home_health_facility_link WHERE home_health_facility_link.facility_id = :facility_id)";
 		$params[":facility_id"] = $this->id;
+		
 		return $this->fetchOne($sql, $params);
+	}
+
+
+	public function fetchHomeHealthLocationByLocation($location_id = false) {
+		$sql = "SELECT * FROM {$this->tableName()} WHERE {$this->tableName()}.id = (SELECT home_health_id FROM home_health_facility_link WHERE home_health_facility_link.facility_id = :facility_id)";
+		if ($location_id) {
+			$params[":facility_id"] = $location_id;
+		} else {
+			$params[":facility_id"] = $this->id;
+		}
+		
+		return $this->fetchAll($sql, $params);
 	}
 
 	public function fetchLinkedFacility($location_id = false) {
@@ -125,7 +138,6 @@ class Location extends AppData {
 
 			
 		$params[':user_id'] = $user->id;
-
 		return $this->fetchOne($sql, $params);
 	}
 	

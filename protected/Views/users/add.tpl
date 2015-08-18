@@ -102,7 +102,7 @@
 <br>
 <form name="add_user" id="add-user" method="post" action="{$SITE_URL}">
 	<input type="hidden" name="page" value="users" />
-	<input type="hidden" name="action" value="submitAdd" />
+	<input type="hidden" name="action" value="submit_add" />
 	<input type="hidden" name="submit" value="true" />
 	<input type="hidden" name="path" value="{$current_url}" />
 	<input type="hidden" name="location_public_id" value="{$location_id}" />
@@ -186,6 +186,14 @@
 				<select name="default_module" id="user-module">
 					<option value="">Select a module...</option>
 				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Additional Modules:</strong></td>
+			<td>
+				{foreach from=$available_modules item=module}
+					<input type="checkbox" name="modules[]" value="{$module->id}">{$module->name}<br>
+				{/foreach}
 			</td>
 		</tr>
 
