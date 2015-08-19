@@ -46,14 +46,12 @@ class PhotosController extends DietaryController {
 		} else {
 			$this->redirect(input()->current_url);
 		}
-		
 		$photo->name = input()->name;
 		$photo->description = input()->description;
 		$photo->info_added = true;
 
 		if ($photo->save()) {
 			// when photos are uploaded, send an email to dietary managers?
-
 			return true;
 		}
 		return false;
@@ -79,6 +77,11 @@ class PhotosController extends DietaryController {
 	 *	
 	 */
 	public function manage_photos() {
+		if (!auth()->hasPermission('manage_dietary_photos')) {
+			session()->setFlash("You do not have permission to access this page.", 'error');
+			$this->redirect();
+		}
+
 		smarty()->assign('title', "Manage Photos");
 		$photos = $this->loadModel("Photo")->fetchPhotosForApproval();
 		smarty()->assign('photos', $photos);
