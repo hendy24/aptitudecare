@@ -35,8 +35,10 @@ class MainPageController extends MainController {
 		} 
 
 		// Fetch the modules to which the user has access
-		$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
-		smarty()->assign('modules', $modules);
+		if (auth()->isLoggedIn()) {
+			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
+			smarty()->assign('modules', $modules);
+		}
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
@@ -51,6 +53,10 @@ class MainPageController extends MainController {
 
 
 		if (auth()->isLoggedIn()) {
+			if ($this->action == "admission_login") {
+				// this is a hack to allow switching between modules until the admission module is rebuilt.
+				$this->module = "HomeHealth";
+			}
 			if (!$this->verifyModuleAccess($modules, $this->module)) {
 				$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
 			}
@@ -86,7 +92,10 @@ class MainPageController extends MainController {
 		$areas = null;
 		$selectedArea = null;
 		if ($this->module == "HomeHealth") {
-			$locations = $this->loadModel('Location')->fetchHomeHealthLocations($this->module);
+			$locations = $this->loadModel('Location')->fetchHomeHealthLocations();
+			if (empty($locations)) {
+				$locations = $this->loadModel('Location')->fetchHomeHealthLocationByLocation(auth()->getRecord()->default_location);
+			}
 			$location = $this->getSelectedLocation();
 			// need to get the other locations to which the user has access and assign them as areas
 			$areas = $this->loadModel('Location')->fetchFacilitiesByHomeHealthId($location->id);
@@ -105,6 +114,7 @@ class MainPageController extends MainController {
 			$locations = $this->loadModel('Location')->fetchAllLocations();
 			$location = $this->getSelectedLocation($locations);
 		}
+
 
 		$this->locations = $locations;
 		$this->location = $location;

@@ -50,7 +50,7 @@
 
 <div id="page-header">
 	<div id="action-left">
-		<a class="button" href="{$SITE_URL}/?page=users&amp;action=add&amp;location={$location_id}">Add New</a>
+		<a class="button" href="{$SITE_URL}/?page=users&amp;action=user&amp;type=add&amp;location={$location_id}">Add New</a>
 	</div>
 	<div id="center-title">
 		<div id="locations">
@@ -95,7 +95,7 @@
 		<td>{$user->default_module}</td>
 		<td>{$user->group_name}</td>
 		<td>
-			<a href="{$SITE_URL}/?page=users&amp;action=edit&amp;location={$location_id}&amp;id={$user->public_id}">
+			<a href="{$SITE_URL}/?page=users&amp;action=user&amp;type=edit&amp;location={$location_id}&amp;id={$user->public_id}">
 				<img src="{$FRAMEWORK_IMAGES}/pencil.png" alt="">
 			</a>
 		</td>
