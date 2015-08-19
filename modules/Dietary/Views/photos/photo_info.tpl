@@ -7,8 +7,9 @@
 			var name = tableRow.find(".name").val();
 			var description = tableRow.find(".description").val();
 			var currentUrl = $("#current-url").val();
-
+			
 			$.post(SITE_URL, { 
+					module: "dietary",
 					page: "photos", 
 					action: "save_photo_info", 
 					photo_id: photoId,

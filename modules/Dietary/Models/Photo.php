@@ -16,7 +16,7 @@ class Photo extends Dietary {
 		$location = $this->loadTable("Location");
 		$user = $this->loadTable("User");
 
-		$sql = "SELECT p.*, l.name AS location_name, CONCAT(u.first_name, \" \", u.last_name) AS username FROM {$this->tableName()} p INNER JOIN {$location->tableName()} l ON l.id = p.location_id INNER JOIN {$user->tableName()} u ON u.id = p.user_created WHERE approved IS NULL ORDER BY datetime_created ASC";
+		$sql = "SELECT p.*, l.name AS location_name, CONCAT(u.first_name, \" \", u.last_name) AS username FROM {$this->tableName()} p INNER JOIN {$location->tableName()} l ON l.id = p.location_id INNER JOIN {$user->tableName()} u ON u.id = p.user_created WHERE approved = false ORDER BY datetime_created ASC";
 		return $this->fetchAll($sql);
 	}
 

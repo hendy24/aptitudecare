@@ -46,7 +46,7 @@ class PhotosController extends DietaryController {
 		} else {
 			$this->redirect(input()->current_url);
 		}
-
+		
 		$photo->name = input()->name;
 		$photo->description = input()->description;
 		$photo->info_added = true;
@@ -129,6 +129,7 @@ class PhotosController extends DietaryController {
 				$photo->location_id = $location->id;				
 				$photo->filename = $fileName;
 				$photo->info_added = false;
+				$photo->approved = false;
 				if ($photo->save()) {
 					if ($this->createThumbnail($photo->filename)) {
 						json_return (array("filetype" => $fileType, "name" => $photo->filename));
@@ -163,6 +164,13 @@ class PhotosController extends DietaryController {
 				$photo->approved = $approved;
 				$photo->user_approved = auth()->getRecord()->id;
 				if ($photo->save()) {
+					if ($approved == false) {
+						// delete the file image and thumbnail
+						$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
+						$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
+						unlink($targetImagePath . $photo->filename);
+						unlink($targetThumbsPath . $photo->filename);
+					}
 					$success = true;
 				}
 			}
@@ -188,7 +196,7 @@ class PhotosController extends DietaryController {
 	public function createThumbnail($filename) {
 		$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
 		$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
-
+		
 		if (preg_match('/[.](jpg)$/', $filename)) {
 			$image = imagecreatefromjpeg($targetImagePath . $filename);
 		} elseif (preg_match('/[.](gif)$/', $filename)) {
@@ -207,9 +215,26 @@ class PhotosController extends DietaryController {
 
 		imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
 		// imagecopyresized($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
+		
+		
+		// if there is no photos directory, create it
+		if (!file_exists($targetImagePath)) {
+			mkdir($targetImagePath, 0777, true);
+		}
+		
+		// if there is no thumbs directory, create it
+		if (!file_exists($targetThumbsPath)) {
+			mkdir($targetThumbsPath, 0777, false);
+		} 
+		
 
-
-		return imagejpeg($new_image, $targetThumbsPath . $filename);
+		if (imagejpeg($new_image, $targetThumbsPath . $filename)) {
+			echo "hello";
+		} else {
+			echo "goodbye";
+		}
+		
+		exit;
 
 	}
 
