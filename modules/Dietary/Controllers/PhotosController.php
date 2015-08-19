@@ -46,14 +46,12 @@ class PhotosController extends DietaryController {
 		} else {
 			$this->redirect(input()->current_url);
 		}
-		
 		$photo->name = input()->name;
 		$photo->description = input()->description;
 		$photo->info_added = true;
 
 		if ($photo->save()) {
 			// when photos are uploaded, send an email to dietary managers?
-
 			return true;
 		}
 		return false;

@@ -9,7 +9,6 @@
 			var currentUrl = $("#current-url").val();
 			
 			$.post(SITE_URL, { 
-					module: "dietary",
 					page: "photos", 
 					action: "save_photo_info", 
 					photo_id: photoId,
