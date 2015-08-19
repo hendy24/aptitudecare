@@ -46,7 +46,7 @@ class PhotosController extends DietaryController {
 		} else {
 			$this->redirect(input()->current_url);
 		}
-
+		
 		$photo->name = input()->name;
 		$photo->description = input()->description;
 		$photo->info_added = true;
@@ -159,6 +159,13 @@ class PhotosController extends DietaryController {
 				$photo->approved = $approved;
 				$photo->user_approved = auth()->getRecord()->id;
 				if ($photo->save()) {
+					if ($approved == false) {
+						// delete the file image and thumbnail
+						$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
+						$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
+						unlink($targetImagePath . $photo->filename);
+						unlink($targetThumbsPath . $photo->filename);
+					}
 					$success = true;
 				}
 			}
