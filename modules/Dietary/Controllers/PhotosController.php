@@ -79,6 +79,11 @@ class PhotosController extends DietaryController {
 	 *	
 	 */
 	public function manage_photos() {
+		if (!auth()->hasPermission('manage_dietary_photos')) {
+			session()->setFlash("You do not have permission to access this page.", 'error');
+			$this->redirect();
+		}
+
 		smarty()->assign('title', "Manage Photos");
 		$photos = $this->loadModel("Photo")->fetchPhotosForApproval();
 		smarty()->assign('photos', $photos);
