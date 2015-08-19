@@ -36,7 +36,7 @@
 				<div class="menu-info {if $menuItem->type == "MenuMod"}background-blue{elseif $menuItem->type == "MenuChange"} background-grey{/if}">
 					<ul>
 					{foreach $menuItem->content as $menu}
-						<li>{$menu|unescape:'html'}</li>
+						<li>{$menu|strip_tags:true}</li>
 					{/foreach}
 					</ul>
 				</div>

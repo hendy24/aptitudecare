@@ -40,7 +40,7 @@
 </script>
 
 
-<h1>Edit Physician</h1>
+<h1>{$pageHeader}</h1>
 	
 <form name="add" id="add" method="post" action="{$siteUrl}">
 	<input type="hidden" name="page" value="physicians" />

@@ -86,7 +86,7 @@ class MenuController extends DietaryController {
 	}
 
 
-	public function submitEdit() {
+	public function submit_edit() {
 
 		// check if this is being submitted from a facility or corporate edit page
 		// corporate edit pages are the facility menus page as well as the corporate
@@ -198,7 +198,14 @@ class MenuController extends DietaryController {
 
 
 		// get the original menu item
-		$origMenuItem = $this->loadModel('MenuItem', input()->public_id);			
+		if (input()->menu_type == "MenuChange") {
+			$menuChange = true;
+			$origMenuItem = $this->loadModel('MenuChange', input()->public_id);
+		} else {
+			$menuChange = false;
+			$origMenuItem = $this->loadModel('MenuItem', input()->public_id);
+		}
+		
 		
 		// if there was no reason for a menu change entered throw an error
 		if (input()->reason == "") {
@@ -209,7 +216,11 @@ class MenuController extends DietaryController {
 		}
 
 		// set the menu item id
-		$menuItem->menu_item_id = $origMenuItem->id;
+		if ($menuChange) {
+			$menuItem->menu_item_id = $origMenuItem->menu_item_id;
+		} else {
+			$menuItem->menu_item_id = $origMenuItem->id;
+		}
 
 		// set the location
 		$menuItem->location_id = $location->id;
