@@ -42,9 +42,45 @@ class CaseManagersController extends MainPageController {
 	}
 
 
-	public function submitAdd() {
+	public function case_manager() {
+		smarty()->assignByRef('location', $this->loadModel('Location', input()->location));
+		
+		if (isset (input()->isMicro)) {
+			smarty()->assign('isMicro', true);
+		} else {
+			smarty()->assign('isMicro', false);
+		}
+
+
+		if (input()->type == "add") {
+			smarty()->assign('title', "Add Case Manager");
+			smarty()->assign('pageHeader', "Add a Case Manager");
+
+			// load an empty case manager object
+			$cm = $this->loadModel('CaseManager');
+		} elseif (input()->type == "edit") {
+			smarty()->assign('title', "Edit Case Manager");
+			smarty()->assign('pageHeader', "Edit Case Manager");
+
+			// need to get the existing case manager info
+			$cm = $this->loadModel('CaseManager', input()->id);
+
+
+		} else {
+			session()->setFlash("Could not load page. Please try again.");
+			$this->redirect(input()->current_url);
+		}		
+
+
+		smarty()->assignByRef('cm', $cm);
+		smarty()->assignByRef('healthcareFacility', $this->loadModel('HealthcareFacility', $cm->healthcare_facility_id));
+
+	}
+
+
+	public function submit_add() {
 		//	Right now everyone has the ability to add healthcare facilities
-		if (!auth()->has_permission(input()->action, 'case_managers')) {
+		if (!auth()->hasPermission("manage_case_managers")) {
 			$this->redirect();
 		}
 
@@ -106,7 +142,7 @@ class CaseManagersController extends MainPageController {
 			if (isset (input()->isMicro) && input()->isMicro == true) {
 				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			} else {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'case_managers'));				
+				$this->redirect(array('page' => 'case_managers', 'action' => 'manage'));				
 			}
 		}
 

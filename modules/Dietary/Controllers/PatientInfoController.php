@@ -227,7 +227,7 @@ class PatientInfoController extends DietaryController {
 
 
 
-	public function addPatient() {
+	public function add_patient() {
 		smarty()->assign("title", "Add New Patient");
 
 		if (input()->number != "") {

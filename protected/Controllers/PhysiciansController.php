@@ -46,24 +46,48 @@ class PhysiciansController extends MainPageController {
 	}
 
 
-	public function edit() {
+	public function physician() {
 		//	We are only going to allow facility administrators and better to add data
-		if (!auth()->has_permission(input()->action, input()->page)) {
+		if (!auth()->hasPermission('manage_physicians')) {
 			$this->redirect();
 		}
 
-		if (input()->id != '') {
-			$physician = $this->loadModel('Physician', input()->id);
+		if (isset (input()->isMicro)) {
+			smarty()->assign('isMicro', true);
 		} else {
-			$this->redirect();
+			smarty()->assign('isMicro', false);
 		}
-		smarty()->assign('title', "Edit Physician");
-		smarty()->assignByRef('physician', $physician);
+
+
+		if (input()->type == "add") {
+			smarty()->assign('title', "Add Physician");
+			smarty()->assign('pageHeader', "Add a Physician");
+
+			// load empty physician object
+			$p = $this->loadModel('Physician');
+		} elseif (input()->type == "edit") {
+			smarty()->assign('title', "Edit Physician");
+			smarty()->assign('pageHeader', "Edit Physician");
+
+			if (input()->id != '') {
+				$p = $this->loadModel('Physician', input()->id);
+			} else {
+				$this->redirect();
+			}
+
+		} else {
+			session()->setFlash("Could not load the page. Please try again.");
+			$this->redirect(input()->current_url);
+		}
+
+
+		
+		smarty()->assignByRef('physician', $p);
 	}
 
 
 	public function submitAdd() {
-		if (!auth()->has_permission('add', 'physicians')) {
+		if (!auth()->hasPermission('manage_physicians')) {
 			$error_messages[] = "You do not have permission to add new physicians";
 			session()->setFlash($error_messages, 'error');
 			$this->redirect();
@@ -74,8 +98,6 @@ class PhysiciansController extends MainPageController {
 		} else {
 			$id = null;
 		}
-
-		echo $id;
 
 		$physician = $this->loadModel('Physician', $id);
 

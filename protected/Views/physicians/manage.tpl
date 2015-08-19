@@ -49,7 +49,7 @@
 </script>
 
 <div id="page-header">
-	<div id="action-left"><a class="button" href="{$SITE_URL}/?page={$type}&amp;action=add&amp;location={$location_id}">Add New</a></div>
+	<div id="action-left"><a class="button" href="{$SITE_URL}/?page=physicians&amp;action=physician&amp;type=add&amp;location={$location_id}">Add New</a></div>
 	<div id="center-title">
 		<div id="locations">
 			<select name="location" id="location">
@@ -84,7 +84,7 @@
 		<td>{$physician->state}</td>
 		<td>{$physician->phone}</td>
 		<td>
-			<a href="{$SITE_URL}/?page=physicians&amp;action=edit&amp;id={$physician->public_id}">
+			<a href="{$SITE_URL}/?page=physicians&amp;action=physician&amp;type=edit&amp;id={$physician->public_id}">
 				<img src="{$FRAMEWORK_IMAGES}/pencil.png" alt="">
 			</a>
 		</td>

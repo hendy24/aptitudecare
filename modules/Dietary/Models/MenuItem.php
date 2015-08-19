@@ -47,7 +47,7 @@ class MenuItem extends Dietary {
 				LEFT JOIN {$menuChange->tableName()} ON ({$menuChange->tableName()}.menu_item_id = dietary_menu_item.id AND {$menuChange->tableName()}.location_id = :location_id) 
 	
 				WHERE (({$this->tableName()}.day BETWEEN :start_day AND :end_day) AND ({$this->tableName()}.menu_id = :menu_id)) ORDER BY {$this->tableName()}.id ASC";
-			
+		
 		// return the results
 		return $this->fetchCustom($sql, $params);
 	}

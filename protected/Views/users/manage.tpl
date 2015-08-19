@@ -64,9 +64,6 @@
 			</select>
 		</div>
 	</div>
-	<div id="action-right">
-		{$this->loadElement("selectArea")}
-	</div>
 </div>
 
 

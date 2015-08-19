@@ -43,6 +43,34 @@ class HealthcareFacilitiesController extends MainPageController {
 		smarty()->assign('data', $classArray);		
 	}
 
+
+	public function location() {
+
+		if (isset (input()->isMicro)) {
+			smarty()->assign('isMicro', true);
+		} else {
+			smarty()->assign('isMicro', false);
+		}
+
+		// get healthcare facility types
+		smarty()->assign('facilityTypes', $this->loadModel('LocationType')->getTypes());
+
+		// get content based on whether we are adding a new facility or editing an existing one
+		if (input()->type == "add") {
+			smarty()->assign('title', "Add New Healthcare Facility");
+			
+			$l = $this->loadModel('HealthcareFacility');
+		} else {
+			smarty()->assign('title', "Edit Healthcare Facility");
+
+			$l = $this->loadModel('HealthcareFacility', input()->id);
+		}
+
+		// assign the location info to a smarty variable
+		smarty()->assignByRef('l', $l);
+
+	}
+
 	/*
 	 * -------------------------------------------------------------------------
 	 *  AJAX CALL TO SEARCH THE DATABASE FOR FACILITY NAMES
@@ -51,7 +79,6 @@ class HealthcareFacilitiesController extends MainPageController {
 
 	public function searchFacilityName() {
 		$this->template = 'blank';
-
 		$term = input()->query;
 		if (isset (input()->location)) {
 			$location = input()->location;
@@ -93,11 +120,13 @@ class HealthcareFacilitiesController extends MainPageController {
 	}
 
 	public function submitAdd() {
-		if (!auth()->has_permission('add', 'healthcare_facility')) {
+
+		if (!auth()->hasPermission("manage_healthcare_facilities")) {
 			$error_messages[] = "You do not have permission to add new healthcare facilities";
 			session()->setFlash($error_messages, 'error');
 			$this->redirect();
 		}
+
 
 		if (isset (input()->id)) {
 			$id = input()->id;
@@ -153,7 +182,6 @@ class HealthcareFacilitiesController extends MainPageController {
 			unset($facility->location_type);
 		}
 
-
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
 			session()->setFlash($error_messages, 'error');
@@ -163,8 +191,8 @@ class HealthcareFacilitiesController extends MainPageController {
 		//	If we've made it this far then save the new facility data
 		if ($facility->save()) {
 			session()->setFlash("Successfully added/edited {$facility->name}", 'success');
-			if (!isset (input()->isMicro)) {
-				$this->redirect(array('page' => 'data', 'action' => 'manage', 'type' => 'healthcare_facilities'));
+			if (!input()->isMicro) {
+				$this->redirect(array('page' => 'healthcare_facilities', 'action' => 'manage'));
 			} else {
 				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			}
