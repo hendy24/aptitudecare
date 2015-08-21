@@ -22,7 +22,7 @@
  */
 
 	if (!defined('ROOT')) {
-		define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
+		define('ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))));
 	}
 	
 	if (!defined('SITE_DIR')) {
