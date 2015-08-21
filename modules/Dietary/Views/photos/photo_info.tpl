@@ -37,9 +37,9 @@
 			<td><input type="text" class="name" name="name" placeholder="Photo name"></td>
 			<td><textarea name="description" class="description" placeholder="Photo description" cols="30" rows="4"></textarea></td>
 			<td>
-				<input type="submit" value="Submit">
-{* 				<input type="button" data-photo-id="{$photo->public_id}" class="save" value="Save">
- *}			</td>
+{* 				<input type="submit" value="Submit"> *}
+				<input type="button" data-photo-id="{$photo->public_id}" class="save" value="Save">
+ 			</td>
 		</tr>
 	</form>
 	{/foreach}
