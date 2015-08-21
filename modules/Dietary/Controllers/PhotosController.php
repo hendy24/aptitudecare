@@ -52,9 +52,13 @@ class PhotosController extends DietaryController {
 
 		if ($photo->save()) {
 			// when photos are uploaded, send an email to dietary managers?
-			return true;
+			//return true;
+			session()->setFlash("The photo info was successfully saved.", 'success');
+			$this->redirect(input()->current_url);
+		} else {
+			session()->setFlash("Could not save photo info.", 'error');
+			$this->redirect(input()->current_url);
 		}
-		return false;
 	}
 
 
@@ -127,7 +131,6 @@ class PhotosController extends DietaryController {
 				$photo->location_id = $location->id;				
 				$photo->filename = $fileName;
 				$photo->info_added = false;
-				$photo->approved = false;
 				if ($photo->save()) {
 					if ($this->createThumbnail($photo->filename)) {
 						json_return (array("filetype" => $fileType, "name" => $photo->filename));
