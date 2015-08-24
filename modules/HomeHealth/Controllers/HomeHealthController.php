@@ -81,6 +81,8 @@ class HomeHealthController extends MainPageController {
 				foreach ($admits as $admit) {
 					if (strtotime($day) == strtotime(date('Y-m-d', strtotime($admit->start_of_care)))) {
 						$admitsByDate[$day][] = $admit;
+					}  elseif (strtotime($day) == strtotime(date('Y-m-d', strtotime($admit->referral_date)))) {
+						$admitsByDate[$day][] = $admit;
 					} else {
 						$admitsByDate[$day][] = array();
 					}
