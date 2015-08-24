@@ -44,6 +44,7 @@ class HomeHealthSchedule extends HomeHealth {
 		$sql = trim($sql, ", ");
 
 		$sql .= ") AND ({$this->tableName()}.`status` = 'Approved' OR {$this->tableName()}.`status` = 'Pending' OR {$this->tableName()}.status = 'Under Consideration')";
+
 		return $this->fetchAll($sql, $params, $this);
 	}
 
