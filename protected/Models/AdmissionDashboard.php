@@ -93,6 +93,9 @@ class AdmissionDashboard extends AppModel {
 				$hhSchedule->confirmed = false;
 			}
 
+			// Get the service disposition from the admission discharge
+			$hhSchedule->service_disposition = $r->service_disposition;
+
 			$patient->public_id = $r->patient_pubid;
 			$patient->first_name = $r->first_name;
 			$patient->last_name = $r->last_name;
@@ -179,26 +182,29 @@ class AdmissionDashboard extends AppModel {
 				$schedule->patient_id = $patient->id;
 				$schedule->save();
 
-				for ($i = 0; $i <= 9; $i++) {
-					$file = "notes_file{$i}";
-					$name = "notes_name{$i}";
+				// Per request, patient note files are no longer pulled from the admission dashboard
+				// removed on 2015-08-25 by kwh
+				
+				// for ($i = 0; $i <= 9; $i++) {
+				// 	$file = "notes_file{$i}";
+				// 	$name = "notes_name{$i}";
 					
-					$patient_notes = new PatientNote;
+				// 	$patient_notes = new PatientNote;
 
-					// check for already existing files and save
+				// 	// check for already existing files and save
 					
-					$patient_notes->patient_id = $patient->id;
-					if (isset ($r->$name) && $r->$name != null) {
-						$patient_notes->name = $r->$name;
-					}
+				// 	$patient_notes->patient_id = $patient->id;
+				// 	if (isset ($r->$name) && $r->$name != null) {
+				// 		$patient_notes->name = $r->$name;
+				// 	}
 
-					if (isset ($r->$file) && $r->$file != null) {
-						$patient_notes->file = $r->$file;
-						if (!$patient_notes->checkExisting()) {
-							$patient_notes->save();
-						}
-					}				
-				}
+				// 	if (isset ($r->$file) && $r->$file != null) {
+				// 		$patient_notes->file = $r->$file;
+				// 		if (!$patient_notes->checkExisting()) {
+				// 			$patient_notes->save();
+				// 		}
+				// 	}				
+				// }
 			}
 
 			

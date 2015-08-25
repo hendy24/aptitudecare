@@ -49,9 +49,8 @@
 				<div class="box-title">Admit</div>
 				{foreach $admits as $admit}
 				{if isset($admit->id)}
-				<div class="location-admit{if $admit->status == "Under Consideration"} under-consideration {if $admit->confirmed} confirmed{/if} {elseif $admit->status == "Pending"} pending{elseif $admit->status == "Approved"} approved{/if}" draggable="true">
+				<div class="location-admit{if $admit->status == "Under Consideration"} under-consideration {if $admit->confirmed} confirmed {elseif ($admit->service_disposition != "") AND ($admit->service_disposition != "AHC Home Health") AND {$admit->service_disposition != "No Services"}} other-service {elseif $admit->noServices == "No Services"} no-services{/if} {elseif $admit->status == "Pending"} pending{elseif $admit->status == "Approved"} approved{/if}" draggable="true">
 					<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientMenu->menu($admit)}<br>
-
 					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
 
 					{$admit->healthcare_facility_name}<br>
@@ -94,6 +93,8 @@
 <div id="legend">
 	<h2>Color Legend</h2>
 	<div class="location-admit">Potential admission.</div>
+	<div class="location-admit other-service">Patient is using another home health agency, acute rehab, or outpatient therapy.</div>
+	<div class="location-admit no-service">Patient has no services.</div>
 	<div class="location-admit confirmed">Confirmed admission.</div>
 	<div class="location-admit pending">All items have been received and confirmed. Patient is pending final approval.</div>
 	<div class="location-admit approved">Admission is approved and complete.</div>

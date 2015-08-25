@@ -150,6 +150,81 @@ class Patient extends AppData {
 	}
 
 
+
+	/* 
+	 * Fetch Patients for the 90-Day Census 
+	 *	
+	 */
+	public function fetch90DayCensusPatients($location_id, $order_by = false, $all = false) {
+		$schedule = $this->loadTable('HomeHealthSchedule');
+		$physician = $this->loadTable('Physician');
+		$healthcare_facility = $this->loadTable('HealthcareFacility');
+		$sql = "SELECT 
+			p.*, 
+			s.public_id AS schedule_pubid, 
+			hc_f.name AS referral_source, 
+			s.clinicians_assigned,
+			s.referral_date, 
+			s.start_of_care, 
+			s.datetime_discharge, 
+			s.f2f_received, 
+			s.status, 
+			CONCAT(physician.last_name, ', ', physician.first_name) AS physician_name
+			
+			FROM {$this->tableName()} p 
+
+			INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id 
+			LEFT JOIN {$physician->tableName()} AS physician ON physician.id = s.following_physician_id 
+			LEFT JOIN {$healthcare_facility->tableName()} as hc_f ON s.referred_by_location_id = hc_f.id
+
+			WHERE s.referral_date >= :datetime_start 
+			AND s.referral_date <= :datetime_end 
+			AND (s.status = 'Approved' OR s.status = 'Discharged') 
+			AND ";
+
+		if ($all) {
+			$sql .= " s.location_id IN (SELECT facility_id FROM home_health_facility_link WHERE home_health_id = :location_id)";
+		} else {
+			$sql .= " s.location_id = :location_id";
+		}
+
+		$sql .= " ORDER BY ";
+		switch ($order_by) {
+			case "patient_name":
+				$sql .= " p.last_name ASC";
+				break;
+
+			case "admit_date":
+				$sql .=" s.referral_date ASC";
+				break;
+
+			case "discharge_date":
+				$sql .=" s.datetime_discharge ASC";
+				break;
+
+			case "pcp":
+				$sql .=" physician.last_name ASC";
+				break;
+
+			case "referral_source":
+				$sql .= " ac_healthcare_facility.name ASC";
+				break;
+
+			default:
+				$sql .=" p.last_name ASC, s.referral_date ASC";
+				break;
+				
+		}
+
+		$params[":location_id"] = $location_id;
+		$params[":datetime_start"] = date('Y-m-d H:i:s', strtotime("now - 90 days"));
+		$params[":datetime_end"] = date('Y-m-d H:i:s', strtotime("now"));
+
+		return $this->fetchAll($sql, $params);
+
+	}
+
+
 	public function fetchPendingAdmits($location_id) {
 		$sql = "SELECT {$this->tableName()}.*, home_health_schedule.*, ac_location.name AS location_name, CONCAT(ac_physician.last_name, ', ', ac_physician.first_name) AS physician_name FROM {$this->tableName()} INNER JOIN home_health_schedule ON home_health_schedule.patient_id = ac_patient.id INNER JOIN ac_location ON ac_location.id = home_health_schedule.admit_from_id LEFT JOIN ac_physician ON ac_physician.id = home_health_schedule.pcp_id WHERE home_health_schedule.location_id = :location_id";
 		$params[":location_id"] = $location_id;
