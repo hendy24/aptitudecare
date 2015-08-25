@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/tagit/css/jquery.tagit.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
@@ -27,12 +28,20 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.pack.js"></script>	
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/gridify-min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/require.js"></script>	
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>	
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.js"></script>	
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
 
 	<script>
 		var SITE_URL = '{$SITE_URL}';
+		Shadowbox.init({
+			height: 425,
+			width: 450,
+			handleOversize: "resize",
+			overlayColor: "#666",
+			overlayOpacity: "0.25"
+		});
 	</script>
 
 	<script type="text/javascript" src="{$JS}/general.js"></script>

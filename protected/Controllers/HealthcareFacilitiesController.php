@@ -119,8 +119,8 @@ class HealthcareFacilitiesController extends MainPageController {
 		smarty()->assignByRef('facilityTypes', $facility_types);
 	}
 
-	public function submitAdd() {
 
+	public function submitAdd() {
 		if (!auth()->hasPermission("manage_healthcare_facilities")) {
 			$error_messages[] = "You do not have permission to add new healthcare facilities";
 			session()->setFlash($error_messages, 'error');
