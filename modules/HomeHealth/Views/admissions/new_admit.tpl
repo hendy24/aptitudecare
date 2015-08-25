@@ -338,7 +338,7 @@
 			<td style="width: 275px">
 				<input type="text" class="healthcare-facility-search" style="width: 250px" required />
 				<input type="hidden" name="admit_from" class="healthcare-facility-id" />
-				<a href="/?page=healthcare_facilities&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
+				<a href="/?page=healthcare_facilities&amp;action=location&amp;type=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
 					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 			</td>
@@ -367,7 +367,7 @@
 			<td class="location" colspan="2">
 				<strong>Referring Individual</strong><br>
 				<input type="text" id="referral-source-search" style="width: 250px" />
-				<a href="/?page=case_managers&amp;action=add&amp;isMicro=1" rel="shadowbox;width=800;height=550">
+				<a href="/?page=case_managers&amp;action=case_manager&amp;type=add&amp;location={$selectedLocation->id}&amp;isMicro=1" rel="shadowbox;width=800;height=550">
 					<img src="{$FRAMEWORK_IMAGES}/add-black-bkgnd.png" class="add-button" alt="">
 				</a>
 				<input type="hidden" id="referred-by-individual-id" name="referred_by_individual_id" />
