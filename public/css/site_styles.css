@@ -366,6 +366,16 @@ div.confirmed {
 	background:  #6BBEFF;
 }
 
+div.other-service {
+	background: #333333;
+	color: #f1f1f1;
+}
+
+div.no-service {
+	background: #E60000;
+	color: #f1f1f1;
+}
+
 div.pending {
 	background: yellow;
 }

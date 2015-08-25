@@ -14,6 +14,7 @@
 <li><a href="" onClick="return true">Info</a>
 	<ul>
 		<li><a href="{$SITE_URL}/?module=HomeHealth&amp;page=locations&amp;action=census">Census</a></li>
+		<li><a href="{$SITE_URL}/?module=HomeHealth&amp;page=locations&amp;action=ninety_day_census">90-Day Census</a></li>
 		<li><a href="{$SITE_URL}/?module=HomeHealth&amp;page=locations&amp;action=recertification_list">Re-Certification List</a></li>
 	</ul>
 </li>

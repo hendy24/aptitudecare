@@ -129,4 +129,9 @@ class HomeHealthController extends MainPageController {
 
 
 
+	public function otherServices() {
+		echo "hello";
+	}
+
+
 }

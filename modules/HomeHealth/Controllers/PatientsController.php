@@ -331,62 +331,177 @@ class PatientsController extends MainPageController {
 	 * --------------------------------------------------------
 	 */
 
-	public function assign_clinicians() {
-		//	Get patient info
-		$patient = null;
-		if (input()->patient == '') {
-			$this->redirect();
-		} else {
-			$patient = $this->loadModel('Patient')->fetchById(input()->patient);
-		}
+
+	// Functionality was removed per request
+
+	// public function assign_clinicians() {
+	// 	//	Get patient info
+	// 	$patient = null;
+	// 	if (input()->patient == '') {
+	// 		$this->redirect();
+	// 	} else {
+	// 		$patient = $this->loadModel('Patient')->fetchById(input()->patient);
+	// 	}
 
 
-		$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
+	// 	$schedule = $this->loadModel('HomeHealthSchedule')->fetchByPatientId($patient->id);
 
-		//	Fetch location info
-		$homeHealth = $this->loadModel('Location', $schedule->location_id)->fetchHomeHealthLocation();
+	// 	//	Fetch location info
+	// 	$homeHealth = $this->loadModel('Location', $schedule->location_id)->fetchHomeHealthLocation();
 
-		//	Fetch clinician types
-		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
-		smarty()->assign('clinicianTypes', $clinicianTypes);
+	// 	//	Fetch clinician types
+	// 	$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
+	// 	smarty()->assign('clinicianTypes', $clinicianTypes);
 
-		$clinician = $this->loadModel('User');
-		foreach ($clinicianTypes as $type) {
-			$clinicianByType[$type->name] = $clinician->fetchByType($type->name, $homeHealth->id);
-		}
-		smarty()->assignByRef('clinicianByType', $clinicianByType);
-		smarty()->assignByRef('patient', $patient);
-		smarty()->assignByRef('schedule', $schedule);
-		smarty()->assign('title', 'Assign Clinicians');
+	// 	$clinician = $this->loadModel('User');
+	// 	foreach ($clinicianTypes as $type) {
+	// 		$clinicianByType[$type->name] = $clinician->fetchByType($type->name, $homeHealth->id);
+	// 	}
+	// 	smarty()->assignByRef('clinicianByType', $clinicianByType);
+	// 	smarty()->assignByRef('patient', $patient);
+	// 	smarty()->assignByRef('schedule', $schedule);
+	// 	smarty()->assign('title', 'Assign Clinicians');
 
 
-		if (input()->is('post')) {
-			foreach (input()->clinician_id as $k => $id) {
-				foreach ($clinicianTypes as $type) {
-					if ($type->name == $k) {
-						$schedule->{$type->name . "_id"} = $id;
-					}
-				}
-			}
+	// 	if (input()->is('post')) {
+	// 		foreach (input()->clinician_id as $k => $id) {
+	// 			foreach ($clinicianTypes as $type) {
+	// 				if ($type->name == $k) {
+	// 					$schedule->{$type->name . "_id"} = $id;
+	// 				}
+	// 			}
+	// 		}
 
 			
-			if ($schedule->sn_id != '') {
-				$schedule->clinicians_assigned = true;
-			} else {
-				$schedule->clinicians_assigned = false;
-			}
+	// 		if ($schedule->sn_id != '') {
+	// 			$schedule->clinicians_assigned = true;
+	// 		} else {
+	// 			$schedule->clinicians_assigned = false;
+	// 		}
 
-			if ($schedule->save()) {
-				session()->setFlash('Successfully assigned clinician(s) for ' . $patient->fullName(), 'success');
-				$this->redirect();
+	// 		if ($schedule->save()) {
+	// 			session()->setFlash('Successfully assigned clinician(s) for ' . $patient->fullName(), 'success');
+	// 			$this->redirect();
+	// 		} else {
+	// 			session()->setFlash("Could not save clinician(s)", 'error');
+	// 			$this->redirect(input()->currentUrl);
+	// 		}
+	// 	}
+
+	// }
+
+
+
+
+	/* 
+	 * Enter patient Visits 
+	 *	
+	 */
+
+	public function visits() {
+		if (input()->patient != "") {
+			$patient = $this->loadModel('Patient', input()->patient);
+		} else {
+			session()->setFlash("Could not find the patient. Please try again.", 'error');
+			$this->redirect();
+		}
+
+		// Fetch any past patient visits
+		$patientVisits = $this->loadModel('HomeHealthPatientVisit')->fetchPatientVisits($patient->id);
+
+		smarty()->assignByRef('patient', $patient);
+		smarty()->assignByRef('patientVisits', $patientVisits);
+	}
+
+
+	public function submit_patient_visits() {
+		$visits = array();
+		if (input()->patient != "") {
+			$patient = $this->loadModel('Patient', input()->patient);
+		} else {
+			session()->setFlash("Could not find the patient. Please try again.", 'error');
+			$this->redirect();
+		}
+
+
+		// check visit values for the physician
+		if (input()->physician_visit_date != "") {
+			// if the date is not empty but the time is, throw an error
+			if (input()->physician_visit_time == "") {
+				session()->setFlash("Enter the time of the physician visit", 'error');
+				$this->redirect(input()->current_url);
 			} else {
-				session()->setFlash("Could not save clinician(s)", 'error');
-				$this->redirect(input()->currentUrl);
+				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
+				$hhVisit->patient_id = $patient->id;
+				$hhVisit->visit_type = "physician";
+				$hhVisit->datetime_visit = date("Y-m-d H:i:s", strtotime(input()->physician_visit_date . " " . input()->physician_visit_time));
+				$visit[] = $hhVisit;
 			}
 		}
 
-	}
+		// check visit values for nurse practitioner
+		if (input()->nurse_practitioner_visit_date != "") {
+			if (input()->nurse_practitioner_visit_time == "") {
+				session()->setFlash("Enter the time of the nurse practitioner visit", 'error');
+				$this->redirect(input()->current_url);
+			} else {
+				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
+				$hhVisit->patient_id = $patient->id;
+				$hhVisit->visit_type = "nurse_practitioner";
+				$hhVisit->datetime_visit = date("Y-m-d H:i:s", strtotime(input()->nurse_practitioner_visit_date . " " . input()->nurse_practitioner_visit_time));
+				$visit[] = $hhVisit;
 
+			}
+		}
+
+
+		if (input()->nurse_visit_date != "") {
+			if (input()->nurse_visit_time == "") {
+				session()->setFlash("Enter the time of the nurse visit", 'error');
+				$this->redirect(input()->current_url);
+			} else {
+				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
+				$hhVisit->patient_id = $patient->id;
+				$hhVisit->visit_type = "nurse";
+				$hhVisit->datetime_visit = date("Y-m-d H:i:s", strtotime(input()->nurse_visit_date . " " . input()->nurse_visit_time));
+				$visit[] = $hhVisit;
+
+			}
+		}
+
+
+		if (input()->therapist_visit_date != "") {
+			if (input()->therapist_visit_time == "") {
+				session()->setFlash("Enter the time of the therapis visit", 'error');
+				$this->redirect(input()->current_url);
+			} else {
+				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
+				$hhVisit->patient_id = $patient->id;
+				$hhVisit->visit_type = "therapist";
+				$hhVisit->datetime_visit = date("Y-m-d H:i:s", strtotime(input()->therapist_visit_date . " " . input()->therapist_visit_time));
+				$visit[] = $hhVisit;
+
+			}
+		}
+
+		foreach ($visit as $v) {
+			if ($v->save()) {
+				$success = true;
+			} else {
+				$success = false;
+			}
+		}
+
+		if ($success) {
+			session()->setFlash("Saved the visit times for {$patient->fullName()}", 'success');
+			$this->redirect(array("module" => "HomeHealth"));
+		} else {
+			session()->setFlash("Could not save the visit times for {$patient->fullName()}", 'error');
+			$this->redirect(array("module" => "HomeHealth"));
+		}
+
+
+	}
 
 
 
