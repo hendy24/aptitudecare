@@ -225,11 +225,6 @@ class Patient extends AppData {
 	}
 
 
-	public function fetchPendingAdmits($location_id) {
-		$sql = "SELECT {$this->tableName()}.*, home_health_schedule.*, ac_location.name AS location_name, CONCAT(ac_physician.last_name, ', ', ac_physician.first_name) AS physician_name FROM {$this->tableName()} INNER JOIN home_health_schedule ON home_health_schedule.patient_id = ac_patient.id INNER JOIN ac_location ON ac_location.id = home_health_schedule.admit_from_id LEFT JOIN ac_physician ON ac_physician.id = home_health_schedule.pcp_id WHERE home_health_schedule.location_id = :location_id";
-		$params[":location_id"] = $location_id;
-		return $this->fetchAll($sql, $params);
-	}
 
 
 	public function fetchPatientSearch($term, $locations = false) {

@@ -15,7 +15,6 @@
 
 
 <h2>Pending Admissions</h2>
-
 <table class="view">
 	<tr>
 		<th>Patient Name</th>
