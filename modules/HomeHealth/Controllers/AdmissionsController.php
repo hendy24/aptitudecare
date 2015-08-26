@@ -1,41 +1,50 @@
 <?php
 
-class AdmissionsController extends MainPageController {
+class AdmissionsController extends HomeHealthController {
 	
-	public $module = 'HomeHealth';
-
 
 	public function pending_admits() {
 		$this->helper = 'PatientMenu';
 		smarty()->assign('title', 'Pending Admissions');
-		
-		if (isset(input()->location)) {
-			// If the location is set in the url, get the location by the public_id
-			$location = $this->loadModel('Location', input()->location);
 
-			if (isset (input()->area)) {
-				$area = $this->loadModel('Location', input()->area);
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
+		$location = $this->getLocation();
+		$areas = $this->getArea();
+
+		if (isset (input()->area) && input()->area != "all") {
+			// get single selected area
+			$areas = array($this->getArea());
 		} else {
-			// Get the users default location from the session
-			$location = $this->loadModel('Location', auth()->getDefaultLocation());
-			//  If this is not a home health location need to get the associated home health agency
-			if ($location->location_type != 2) {
-				$area = $location;
-				$location = $location->fetchHomeHealthLocation();
-			} else {
-				$area = $location->fetchLinkedFacility($location->id);
-			}
-			
+			// get all the areas
+			$areas = $this->getAreas();
 		}
 
-		smarty()->assign('loc', $location);
-		smarty()->assignByRef('selectedArea', $area);
+		// if (isset(input()->location)) {
+		// 	// If the location is set in the url, get the location by the public_id
+		// 	$location = $this->loadModel('Location', input()->location);
+
+		// 	if (isset (input()->area)) {
+		// 		$area = $this->loadModel('Location', input()->area);
+		// 	} else {
+		// 		$area = $location->fetchLinkedFacility($location->id);
+		// 	}
+		// } else {
+		// 	// Get the users default location from the session
+		// 	$location = $this->loadModel('Location', auth()->getDefaultLocation());
+		// 	//  If this is not a home health location need to get the associated home health agency
+		// 	if ($location->location_type != 2) {
+		// 		$area = $location;
+		// 		$location = $location->fetchHomeHealthLocation();
+		// 	} else {
+		// 		$area = $location->fetchLinkedFacility($location->id);
+		// 	}
+			
+		// }
+
+		// smarty()->assign('loc', $location);
+		// smarty()->assignByRef('selectedArea', $area);
 
 
-		$admits = $this->loadModel('Patient')->fetchPendingAdmits($area->id);
+		$admits = $this->loadModel('HomeHealthSchedule')->fetchPendingAdmits($areas);
 		smarty()->assignByRef('admits', $admits);
 	}
 

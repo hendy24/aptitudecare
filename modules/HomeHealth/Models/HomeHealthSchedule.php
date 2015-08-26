@@ -30,8 +30,25 @@ class HomeHealthSchedule extends HomeHealth {
 			':datetime_end' => date('Y-m-d 23:59:59', strtotime($datetime_end)),
 		);
 
+		$patient = $this->loadTable('Patient');
+		$location = $this->loadTable('Location');
+		$healthcare_facility = $this->loadTable('HealthcareFacility');
 
-		$sql = "SELECT `{$this->tableName()}`.*, {$this->tableName()}.public_id AS hh_public_id, `ac_patient`.*, `ac_location`.`name` AS location_name, `ac_healthcare_facility`.`name` AS healthcare_facility_name FROM {$this->tableName()} INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` INNER JOIN `ac_location` ON `ac_location`.`id` = `{$this->tableName()}`.`location_id` INNER JOIN `ac_healthcare_facility` ON `ac_healthcare_facility`.`id` = `{$this->tableName()}`.`admit_from_id` WHERE {$this->tableName()}.`referral_date` >= :datetime_start AND {$this->tableName()}.`referral_date` <= :datetime_end AND {$this->tableName()}.`location_id` IN (";
+		$sql = "SELECT 
+			hhs.*, 
+			hhs.public_id AS hh_public_id, 
+			p.*, 
+			l.`name` AS location_name, 
+			hc_f.`name` AS healthcare_facility_name 
+
+			FROM {$this->tableName()} hhs
+			INNER JOIN {$patient->tableName()} AS p ON hhs.`patient_id` = p.`id` 
+			INNER JOIN {$location->tableName()} AS l ON l.`id` = hhs.`location_id` 
+			INNER JOIN {$healthcare_facility->tableName()} AS hc_f ON hc_f.`id` = hhs.`admit_from_id` 
+
+			WHERE hhs.`referral_date` >= :datetime_start 
+			AND hhs.`referral_date` <= :datetime_end 
+			AND hhs.`location_id` IN (";
 
 		
 
@@ -43,10 +60,57 @@ class HomeHealthSchedule extends HomeHealth {
 
 		$sql = trim($sql, ", ");
 
-		$sql .= ") AND ({$this->tableName()}.`status` = 'Approved' OR {$this->tableName()}.`status` = 'Pending' OR {$this->tableName()}.status = 'Under Consideration')";
+		$sql .= ") AND (hhs.`status` = 'Approved' OR hhs.`status` = 'Pending' OR hhs.status = 'Under Consideration')";
 
 		return $this->fetchAll($sql, $params, $this);
 	}
+
+
+
+	public function fetchPendingAdmits($locations = array()) {
+		$location = $this->loadTable('Location');
+		$physician = $this->loadTable('Physician');
+		$patient = $this->loadTable('Patient');
+		$healthcare_facility = $this->loadTable('HealthcareFacility');
+
+		// Check url for week in the past or future
+		if (isset (input()->weekSeed)) {
+			$weekSeed = input()->weekSeed;
+		// If no date is set in the url then default to this week
+		} else {
+			$weekSeed = date('Y-m-d');
+		}
+		$week = Calendar::getWeek($weekSeed);
+		$nextWeekSeed = date("Y-m-d", strtotime("+7 days", strtotime($week[0])));
+
+		// $params[":datetime_start"] = date('Y-m-d 00:00:01', strtotime($week[0]));
+		// $params[":datetime_end"] = date('Y-m-d 23:59:59', strtotime($week[6]));
+
+		$sql = "SELECT 
+			hhs.*, 
+			hhs.public_id AS hh_public_id, 
+			p.*, 
+			l.`name` AS location_name, 
+			hc_f.`name` AS healthcare_facility_name 
+
+			FROM {$this->tableName()} hhs
+			INNER JOIN {$patient->tableName()} AS p ON hhs.`patient_id` = p.`id` 
+			INNER JOIN {$location->tableName()} AS l ON l.`id` = hhs.`location_id` 
+			INNER JOIN {$healthcare_facility->tableName()} AS hc_f ON hc_f.`id` = hhs.`admit_from_id` 
+			LEFT JOIN {$physician->tableName()} AS physician ON physician.id = hhs.pcp_id 
+
+			WHERE hhs.`location_id` IN (";
+
+		foreach ($locations as $key => $location) {
+			$params[":location{$key}"] = $location->id;
+			$sql .= ":location{$key}, ";
+		}
+		$sql = trim($sql, ", ");
+		$sql .= ") AND (hhs.confirmed = 1 AND (hhs.`status` = 'Pending' OR hhs.status = 'Under Consideration')) ORDER BY hhs.referral_date DESC";
+
+		return $this->fetchAll($sql, $params);
+	}
+
 
 
 
