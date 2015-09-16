@@ -29,7 +29,9 @@ class LocationsController extends MainPageController {
 			$patients = $this->loadModel('Patient')->fetchCensusPatients($areas->id, $_order_by);
 		}
 
+		$numOfPatients = count($patients);
 		smarty()->assignByRef('patients', $patients);
+		smarty()->assign('numOfPatients', $numOfPatients);
 
 		if (isset (input()->export)) {
 			$this->exportToExcel($patients, $location);

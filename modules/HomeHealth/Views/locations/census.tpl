@@ -77,6 +77,9 @@
 	</div>
 </div>
 
+<div id="patient-count">
+	<strong>Total # of Patients:</strong> {$numOfPatients}
+</div>
 
 <table class="view">
 	<tr>
