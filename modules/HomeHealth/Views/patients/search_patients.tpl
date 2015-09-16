@@ -19,8 +19,8 @@
 		<td>{$result->start_of_care|date_format}</td>
 		<td>{$result->datetime_discharge|date_format}</td>
 		<td>{$result->name}</td>
-		<td>{$result->address}<br>{$result->city}, {$result->state} {$result->zip}</td>
-		<td>{$result->physician_last}, {$result->physician_first}</td>
+		<td>{if !empty($result->address)}{$result->address}<br>{$result->city}, {$result->state} {$result->zip}{/if}</td>
+		<td>{if !empty ($result->physician_last)}{$result->physician_last}, {$result->physician_first}{/if}</td>
 	</tr>
 	{/foreach}
 	{else}
