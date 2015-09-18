@@ -516,3 +516,32 @@ table#patient-info a:hover {
 .note p {
 	color: #666;
 }
+
+
+#patient-count {
+	float: right;
+	margin: 0 0 10px 0;
+}
+
+
+/*** Activities Page ****/
+
+#activities {
+	margin: 50px 0 15px 30px;
+}
+
+#activities table {
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 800px;
+}
+
+#activities table td {
+	background-color: #f2f2f2;
+	padding: 5px 10px;
+}
+
+#activities img {
+	margin-top: 15px;
+}
+
