@@ -49,8 +49,10 @@ class Location extends AppData {
 			return false;
 			exit;
 		}	
+		
+		$user_location = $this->loadTable('UserLocation');
 
-		$sql = "SELECT {$this->tableName()}.* FROM {$this->tableName()} INNER JOIN ac_user_location ON ac_user_location.location_id = {$this->tableName()}.id";
+		$sql = "SELECT {$this->tableName()}.* FROM {$this->tableName()} INNER JOIN ac_user_location ON {$user_location->tableName()}.location_id = {$this->tableName()}.id";
 
 		if ($module != '') {
 			$sql .= " INNER JOIN ac_modules_enabled ON ac_modules_enabled.location_id = ac_location.id INNER JOIN ac_module ON ac_module.id = ac_modules_enabled.module_id";
