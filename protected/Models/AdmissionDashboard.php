@@ -93,9 +93,6 @@ class AdmissionDashboard extends AppModel {
 				$hhSchedule->confirmed = false;
 			}
 
-			// Get the service disposition from the admission discharge
-			$hhSchedule->service_disposition = $r->service_disposition;
-
 			$patient->public_id = $r->patient_pubid;
 			$patient->first_name = $r->first_name;
 			$patient->last_name = $r->last_name;
@@ -175,7 +172,6 @@ class AdmissionDashboard extends AppModel {
 			$schedule->discharge_datetime_modified = $r->discharge_datetime_modified;
 			$schedule->discharge_user_modified = $r->discharge_site_user_modified;
 
-
 			if ($patient->save()) {
 				$hhSchedule->patient_id = $patient->id;
 				$hhSchedule->save();
@@ -206,8 +202,6 @@ class AdmissionDashboard extends AppModel {
 				// 	}				
 				// }
 			}
-
-			
 			
 
 		}

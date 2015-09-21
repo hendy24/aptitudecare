@@ -49,11 +49,14 @@
 				<div class="box-title">Admit</div>
 				{foreach $admits as $admit}
 				{if isset($admit->id)}
-				<div class="location-admit{if $admit->status == "Under Consideration"} under-consideration {if $admit->confirmed} confirmed {elseif ($admit->service_disposition != "") AND ($admit->service_disposition != "AHC Home Health") AND {$admit->service_disposition != "No Services"}} other-service {elseif $admit->noServices == "No Services"} no-services{/if} {elseif $admit->status == "Pending"} pending{elseif $admit->status == "Approved"} approved{/if}" draggable="true">
+				<div class="location-admit {if $admit->status == "Under Consideration"}{if $admit->confirmed} confirmed{elseif $admit->service_disposition == "No Services"} no-service {elseif $admit->service_disposition != "" AND $admit->service_disposition != "AHC Home Health"} other-service {else} under-consideration{/if}{elseif $admit->status == "Pending"} pending {elseif $admit->status == "Confirmed"} confirmed {/if} draggable="true">
 					<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientMenu->menu($admit)}<br>
-					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}" />
-
+					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}">
 					{$admit->healthcare_facility_name}<br>
+
+					{if !empty ($admit->dc_location)}
+						<strong>Location:</strong> {$admit->dc_location}
+					{/if}
 				</div>
 				{/if}
 				{/foreach}
