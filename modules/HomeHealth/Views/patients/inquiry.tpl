@@ -409,7 +409,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td><input type="checkbox" name="f2f_received" value="true"{if $schedule->f2f_received == true} checked{/if} /> Face to Face Completed</td>
+			<td><input type="checkbox" name="f2f_received" value="true"{if $schedule->f2f_received == true} checked{/if} /> Face to Face Confirmed</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
