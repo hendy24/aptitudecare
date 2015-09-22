@@ -55,7 +55,9 @@
 					{$admit->healthcare_facility_name}<br>
 
 					{if !empty ($admit->dc_location)}
-						<strong>Location:</strong> {$admit->dc_location}
+						<strong>Provider:</strong> {$admit->dc_location}
+					{elseif !empty ($admit->hh_name)}
+						<strong>Provider:</strong> {$admit->hh_name}
 					{/if}
 				</div>
 				{/if}

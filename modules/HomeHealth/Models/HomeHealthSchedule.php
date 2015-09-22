@@ -43,7 +43,8 @@ class HomeHealthSchedule extends HomeHealth {
 			s. discharge_location_id,
 			l.`name` AS location_name, 
 			hc_f.`name` AS healthcare_facility_name,
-			dc_location.`name` AS dc_location
+			dc_location.`name` AS dc_location,
+			hh_location.`name` AS hh_name
 
 			FROM {$this->tableName()} hhs
 			INNER JOIN {$patient->tableName()} AS p ON hhs.`patient_id` = p.`id` 
@@ -51,6 +52,7 @@ class HomeHealthSchedule extends HomeHealth {
 			INNER JOIN {$schedule->tableName()} AS s ON p.id = s.patient_id
 			INNER JOIN {$healthcare_facility->tableName()} AS hc_f ON hc_f.`id` = hhs.`admit_from_id` 
 			LEFT JOIN {$healthcare_facility->tableName()} AS dc_location ON dc_location.`id` = s.`discharge_location_id`
+			LEFT JOIN {$healthcare_facility->tableName()} AS hh_location ON hh_location.`id` = s.`home_health_id`
 
 			WHERE hhs.`referral_date` >= :datetime_start 
 			AND hhs.`referral_date` <= :datetime_end 
