@@ -49,7 +49,7 @@ class HomeHealthSchedule extends HomeHealth {
 			FROM {$this->tableName()} hhs
 			INNER JOIN {$patient->tableName()} AS p ON hhs.`patient_id` = p.`id` 
 			INNER JOIN {$location->tableName()} AS l ON l.`id` = hhs.`location_id` 
-			INNER JOIN {$schedule->tableName()} AS s ON p.id = s.patient_id
+			LEFT JOIN {$schedule->tableName()} AS s ON p.id = s.patient_id
 			INNER JOIN {$healthcare_facility->tableName()} AS hc_f ON hc_f.`id` = hhs.`admit_from_id` 
 			LEFT JOIN {$healthcare_facility->tableName()} AS dc_location ON dc_location.`id` = s.`discharge_location_id`
 			LEFT JOIN {$healthcare_facility->tableName()} AS hh_location ON hh_location.`id` = s.`home_health_id`
@@ -69,7 +69,7 @@ class HomeHealthSchedule extends HomeHealth {
 		$sql = trim($sql, ", ");
 
 		$sql .= ") AND (hhs.`status` = 'Approved' OR hhs.`status` = 'Pending' OR hhs.status = 'Under Consideration')";
-
+		
 		return $this->fetchAll($sql, $params, $this);
 	}
 
