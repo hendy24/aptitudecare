@@ -17,7 +17,7 @@ class ActivitiesController extends MainPageController {
 		// make sure the user has permission to access this page
 		if (!auth()->hasPermission('manage_activities')) {
 			session()->setFlash("You don't have permission to access that page.", 'error');
-			$this->redirect();
+			$this->redirect(array('module' => auth()->getRecord()->default_module));
 		}
 
 		// set the start and end dates for the week view
@@ -35,16 +35,13 @@ class ActivitiesController extends MainPageController {
 
 		smarty()->assignByRef('activitiesArray', $activities);
 		smarty()->assign('title', "Activities");
-<<<<<<< HEAD
 		
 		if (input()->is('post')) {
 			
 		}
 
-=======
 		smarty()->assign('startDate', $start_date);
 		smarty()->assign('endDate', $end_date);
->>>>>>> 2e5631a5790d0aae90287c1be10677c5579b9913
 	}
 
 
@@ -165,51 +162,51 @@ class ActivitiesController extends MainPageController {
 	}
 
 
-	public function save_activity() {
-		if (input()->location != "") {
-			$location = $this->loadModel('Location', input()->location);
-		} else {
-			session()->setFlash("The activity did not save.  Try again in a few minutes.", 'error');
-			$this->redirect(input()->path);
-		}		
+	// public function save_activity() {
+	// 	if (input()->location != "") {
+	// 		$location = $this->loadModel('Location', input()->location);
+	// 	} else {
+	// 		session()->setFlash("The activity did not save.  Try again in a few minutes.", 'error');
+	// 		$this->redirect(input()->path);
+	// 	}		
 		
-		if (isset (input()->activity_id)) {
-			$activity = $this->loadModel('Activity', input()->activity_id);
-		} else {
-			$activity = $this->loadModel('Activity');
-		}
+	// 	if (isset (input()->activity_id)) {
+	// 		$activity = $this->loadModel('Activity', input()->activity_id);
+	// 	} else {
+	// 		$activity = $this->loadModel('Activity');
+	// 	}
 		
-		$activity->location_id = $location->id;
+	// 	$activity->location_id = $location->id;
 		
-		if (input()->description != "") {
-			$activity->description = input()->description;
-		} else {
-			$error_messages[] = "Enter an activity description";
-		}
+	// 	if (input()->description != "") {
+	// 		$activity->description = input()->description;
+	// 	} else {
+	// 		$error_messages[] = "Enter an activity description";
+	// 	}
 
-		if (input()->datetime_start != "") {
-			$activity->datetime_start = mysql_date(input()->datetimestart);
-		} else {
-			$error_messages[] = "Select a start date";
-		}
+	// 	if (input()->datetime_start != "") {
+	// 		$activity->datetime_start = mysql_date(input()->datetimestart);
+	// 	} else {
+	// 		$error_messages[] = "Select a start date";
+	// 	}
 		
 		
-		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
-			$this->redirect(input()->path);
-		}
+	// 	if (!empty ($error_messages)) {
+	// 		session()->setFlash($error_messages, 'error');
+	// 		$this->redirect(input()->path);
+	// 	}
 		
-		if ($activity->save()) {
-			session()->setFlash("Activity created successfully!", 'success');
-			$this->redirect(array('module' => 'Activities'));
+	// 	if ($activity->save()) {
+	// 		session()->setFlash("Activity created successfully!", 'success');
+	// 		$this->redirect(array('module' => 'Activities'));
 
-		} else {
-			session()->setFlash("The activity did not save.  Try again in a few minutes.", 'error');
-			$this->redirect(input()->path);			
-		}
+	// 	} else {
+	// 		session()->setFlash("The activity did not save.  Try again in a few minutes.", 'error');
+	// 		$this->redirect(input()->path);			
+	// 	}
 		
 		
-	}
+	// }
 
 
 

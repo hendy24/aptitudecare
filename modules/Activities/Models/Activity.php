@@ -30,11 +30,11 @@ class Activity extends Info {
 
 			WHERE activity.location_id = :location_id
 			AND (
-				(activity_schedule.date_start >= :start_date AND activity_schedule.date_start <= :end_date)
-				OR (activity_schedule.repeat_week = :repeat_week AND activity_schedule.repeat_weekday = :repeat_weekday AND activity_schedule.date_start <= :start_date)
-				OR (activity_schedule.repeat_weekday = :repeat_weekday AND activity_schedule.date_start = :start_date)
+				(activity_schedule.datetime_start >= :start_date AND activity_schedule.datetime_start <= :end_date)
+				OR (activity_schedule.repeat_week = :repeat_week AND activity_schedule.repeat_weekday = :repeat_weekday AND activity_schedule.datetime_start <= :start_date)
+				OR (activity_schedule.repeat_weekday = :repeat_weekday AND activity_schedule.datetime_start = :start_date)
 				)
-			ORDER BY activity_schedule.date_start ASC LIMIT 7";
+			ORDER BY activity_schedule.datetime_start ASC LIMIT 7";
 
 		$activities  = array();
 		$activitiesArray = array();
