@@ -4,7 +4,7 @@ class AdmissionDashboardUser extends AppModel {
 
 	protected $prefix = false;
 	protected $table = "site_user";
-
+	protected $dbname = null;
 
 	public function __construct() {
 		$this->dbname = db()->dbname2;
