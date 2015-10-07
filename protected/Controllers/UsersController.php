@@ -376,6 +376,27 @@ class UsersController extends MainPageController {
 
 
 
+	public function delete_user() {
+
+		//	If the id var is filled then delete the item with that id
+		if (input()->id != '') {
+			$user = $this->loadModel('User', input()->id);
+
+			if ($user->delete()) {	
+				if ($siteUser = $this->loadModel('AdmissionDashboardUser')->deleteSiteUser(input()->id)) {
+					return true;
+				}
+				return false;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
+
+
 
 	/* 
 	 * Reset a user's password 

@@ -18,4 +18,14 @@ class AdmissionDashboardUser extends AppModel {
 		}
 	}
 
+	public function deleteSiteUser($public_id) {
+		$sql = "DELETE FROM " . db()->dbname2 . ".site_user WHERE pubid = :pubid";
+		$params[":pubid"] = $public_id;
+
+		if ($this->deleteQuery($sql, $params)) {
+			return true;
+		}
+		return false;
+	}
+
 }	

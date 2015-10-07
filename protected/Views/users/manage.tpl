@@ -15,7 +15,7 @@
 							url: SITE_URL,
 							data: {
 								page: "users",
-								action: 'deleteId',
+								action: 'delete_user',
 								id: id,
 							},
 							success: function() {
