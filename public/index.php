@@ -40,6 +40,7 @@
 	define('APP_PUBLIC_DIR', SITE_DIR . DS . 'public');
 	define('APP_PROTECTED_DIR', SITE_DIR . DS . 'protected');
 	define('MODULES_DIR', SITE_DIR . DS . 'modules');
+	define('VENDORS_DIR', FRAMEWORK_PROTECTED_DIR . DS . 'Vendors');
 
 
 	// Use https, otherwise the site stylesheets and images will not load properly

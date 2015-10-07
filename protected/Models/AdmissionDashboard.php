@@ -2,6 +2,7 @@
 
 class AdmissionDashboard extends AppModel {
 
+	protected $prefix = false;
 	protected $table = 'schedule';
 
 

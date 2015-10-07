@@ -105,7 +105,7 @@
 <div id="legend">
 	<h2>Color Legend</h2>
 	<div class="location-admit">Potential admission.</div>
-	<div class="location-admit other-service">Patient is using another home health agency, acute rehab, or outpatient therapy.</div>
+	<div class="location-admit other-service">Patient is using another home health agency, or outpatient therapy.</div>
 	<div class="location-admit no-service">Patient has no services.</div>
 	<div class="location-admit confirmed">Confirmed admission.</div>
 	<div class="location-admit pending">All items have been received and confirmed. Patient is pending final approval.</div>
