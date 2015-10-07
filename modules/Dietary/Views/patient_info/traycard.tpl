@@ -2,91 +2,78 @@
 	//window.onload = function () { window.print(); }
 </script>
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+<style>
+	.danger{
+		color:red;
+		font-weight: bold;
+	}
+	.meal{
+    padding: 18px;
+    height: 870px;
+    background-image: url("http://content.mycutegraphics.com/borders/heart-on-a-line-border.png");
+    background-size: 349px 866px;
+    background-repeat: no-repeat;
+	}
+	.brdr-bot{
+		border-bottom:#ddd 1px solid;
+	}
+	.fRight{
+		float:right;
+	}
+	.mb-50{
+		margin-bottom: 50px;
+	}
+	.birthday{
+		color:green;
+	}
+</style>
+
+
 <h1>{$patient->fullName()}</h1>
 
-<table class="form">
-	<tr>
-		<th colspan="4">General Information</th>
-	</tr>
-	<tr>
-		<td class="text-strong">Admit Date:</td>
-		<td>{$schedule->datetime_admit|date_format: "%D"}</td>
-		<td class="text-strong">Birthdate:</td>
-		<td>{$patient->date_of_birth|date_format: "%D"}</td>
-	</tr>
-	<tr>
-		<td class="text-strong">Room #</td>
-		<td>{$schedule->number}</td>
-		<td class="text-strong">Age:</td>
-		<td>{$age}</td>
-	</tr>
-	<tr>
-		<th colspan="4">Diet Information</th>
-	</tr>
-	<tr>
-		<td class="text-strong">Texture:</td>
-		<td>{$diet->texture}</td>
-		<td class="text-strong">Orders:</td>
-		<td>{$diet->orders}</td>
-	</tr>
-	<tr>
-		<td class="text-strong">AM Snack</td>
-		<td>
-			<ul>
-			{foreach from=$am_snacks item=item}
-				<li>{$item->name|default: "None"}</li>
-			{/foreach}
-			</ul>
-		</td>
-		<td class="text-strong">Portion Size:</td>
-		<td>{$diet->portion_size}</td>
-	</tr>
-	<tr>
-		<td class="text-strong">PM Snack</td>
-		<td>
-			<ul>
-			{foreach from=$pm_snacks item=item}
-				<li>{$item->name|default: "None"}</li>
-			{/foreach}
-			</ul>			
-		</td>
+<div class="container">
+	{foreach from=$menuItems item=item}
+		<div class="col-md-4">
+			<div class="meal">
+				<h2>
+					{$patient->fullName()}
+				</h2>
+				{if ($birthday)}
+					<small class="birthday">
+						Birthday!
+					</small>
+				{/if}
 
-		<td class="text-strong">Bedtime Snack</td>
-		<td>
-			<ul>
-			{foreach from=$bedtime_snacks item=item}
-				<li>{$item->name|default: "None"}</li>
-			{/foreach}
-			</ul>			
-		</td>
-	</tr>
-	<tr>
-		<td class="text-strong">Allergies</td>
-		<td>
-			<ul>
-			{foreach from=$allergies item=item}
-				<li>{$item->name|default: "None"}</li>
-			{/foreach}
-			</ul>			
-		</td>
+				<h3>
+					{$item->meal}
+					<span class="fRight">{$smarty.now|date_format}</span>
+				</h3>
+				<label>Textures:</label>
+				<div>{$diet->texture}</div>
 
-		<td class="text-strong">Dislikes</td>
-		<td>
-			<ul>
-			{foreach from=$dislikes item=item}
-				<li>{$item->name|default: "None"}</li>
-			{/foreach}
-			</ul>			
-		</td>
-	</tr>
-	<tr>
-		<td class="text-strong">Special Requests:</td>
-		<td colspan="3">{$diet->special_requests}</td>
-	</tr>
-	<tr>
-		<td class="text-strong">Date:</td>
-		<td>{$smarty.now|date_format: "%D"}</td>
-		<td class="text-strong">Date Changed:</td>
-		<td>{if !empty($diet->datetime_modified)}{$diet->datetime_modified|date_format: "%D"}{else}{$diet->datetime_created|date_format: "%D"}{/if}</td>
-	</tr>
-</table>
+				<label>Orders:</label>
+				<div>{$diet->orders}</div>
+
+				<label>Portion Size:</label>
+				<div>{$diet->portion_size}</div>
+
+				<label class="danger">Allergies:</label>
+				<div class="danger">{$diet->portion_size}</div>
+
+				<div class="brdr-bot">
+					<label>Do Not Serve</label>
+				</div>
+				<div class="mb-50">dislikes</div>
+
+				<div class="brdr-bot">
+					<label>Meals</label>
+				</div>
+				<div>
+					{$item->content|unescape:"html"}
+				</div>
+			</div>
+		</div>
+	{/foreach}
+</div>
