@@ -250,7 +250,7 @@ class PatientInfoController extends DietaryController {
 	public function traycard_options() {
 
 
-		require_once "/home/aptitude/dev/protected/lib/contrib/Classes/PHPExcel.php";
+		require_once VENDORS_DIR . DS . "PHPExcel/Classes/PHPExcel.php";
 
 		$styleArray = array(
 			'font' => array(
@@ -259,18 +259,18 @@ class PatientInfoController extends DietaryController {
 		);
 
 		// Export to a PDF file
-		$objPHPExcel = PHPExcel_IOFactory::load("/home/aptitude/dev/public/templates/test_pdf.php");
+		$objPHPExcel = PHPExcel_IOFactory::load(APP_PUBLIC_DIR . DS . "templates/test_pdf.html");
 		$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
 		$rendererLibrary = 'mPDF5.3';
-		$rendererLibraryPath = "/home/aptitude/dev/protected/lib/contrib/Libraries/" . $rendererLibrary;
+		$rendererLibraryPath = VENDORS_DIR . DS . "Libraries" . DS . $rendererLibrary;
 		//$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
 
 		if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
-			die('NOTICE: Please set the $rendererName and $rendererLibraryPath values' . EOL . 'at the top of this script as appropriate for your directory structure');
+			die("NOTICE: Please set the $rendererName and $rendererLibraryPath values' . EOL . 'at the top of this script as appropriate for your directory structure");
 		}
 
 		// Include required files
-		require_once "/home/aptitude/dev/protected/lib/contrib/Classes/PHPExcel/IOFactory.php";
+		require_once VENDORS_DIR . DS . "PHPExcel/Classes//PHPExcel/IOFactory.php";
 		// If you want to output e.g. a PDF file, simply do:
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
 		// Output to PDF file
