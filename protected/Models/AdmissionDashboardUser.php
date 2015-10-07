@@ -1,7 +1,10 @@
 <?php
 
 class AdmissionDashboardUser extends AppModel {
+
+	protected $prefix = false;
 	protected $table = "site_user";
+	protected $dbname = 'admit_dev';
 
 	public function checkForExisting($public_id) {
 		$sql = "SELECT * FROM " . db()->dbname2 . ".site_user WHERE pubid = :public_id";
@@ -9,9 +12,9 @@ class AdmissionDashboardUser extends AppModel {
 		$result = $this->fetchOne($sql, $params);
 
 		if (!empty ($result)) {
-			return $result;
+			
 		} else {
-			return $this->fetchColumnNames();
+			return $this->fetchColumnNames(db()->dbname2);
 		}
 	}
 
