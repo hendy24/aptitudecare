@@ -72,7 +72,7 @@ class HomeHealthController extends MainPageController {
 		 *	Remove $adDischarges once the admission app has been re-built in the new framework.
 		 */
 		$adDischarges = $this->loadModel('AdmissionDashboard')->syncDischarges($_dateStart, $_dateEnd, $location->id, $areas);
-		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $areas);
+		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $areas);		
 
 		// split the admits up by date
 		$admitByDate = array();

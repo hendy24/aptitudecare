@@ -17,7 +17,7 @@ class ActivitiesController extends MainPageController {
 		// make sure the user has permission to access this page
 		if (!auth()->hasPermission('manage_activities')) {
 			session()->setFlash("You don't have permission to access that page.", 'error');
-			$this->redirect();
+			$this->redirect(array('module' => auth()->getRecord()->default_module));
 		}
 
 		// set the start and end dates for the week view
@@ -38,6 +38,11 @@ class ActivitiesController extends MainPageController {
 
 		smarty()->assignByRef('activitiesArray', $activities);
 		smarty()->assign('title', "Activities");
+
+		if (input()->is('post')) {
+
+		}
+
 		smarty()->assign('startDate', $start_date);
 		smarty()->assign('endDate', $end_date);
 	}
@@ -171,7 +176,6 @@ class ActivitiesController extends MainPageController {
 			session()->setFlash("Could not find the activity. Please try again.", 'error');
 			$this->redirect(input()->path);
 		}
-
 		smarty()->assign('activity', $activity);
 	}
 

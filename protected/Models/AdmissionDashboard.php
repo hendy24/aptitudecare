@@ -93,9 +93,6 @@ class AdmissionDashboard extends AppModel {
 				$hhSchedule->confirmed = false;
 			}
 
-			// Get the service disposition from the admission discharge
-			$hhSchedule->service_disposition = $r->service_disposition;
-
 			$patient->public_id = $r->patient_pubid;
 			$patient->first_name = $r->first_name;
 			$patient->last_name = $r->last_name;
@@ -150,7 +147,11 @@ class AdmissionDashboard extends AppModel {
 			$schedule->datetime_discharge = $r->datetime_discharge;
 			$schedule->discharge_to = $r->discharge_to;
 			$schedule->discharge_disposition = $r->discharge_disposition;
-			$schedule->service_disposition = $r->service_disposition;
+			if ($r->service_disposition == "Other Home Health" || $r->service_disposition == "AHC Home Health") {
+				$schedule->service_disposition = "Home Health";
+			} else {
+				$schedule->service_disposition = $r->service_disposition;			
+			}
 			$schedule->discharge_location_id = $r->discharge_location_id;
 			$schedule->home_health_id = $r->home_health_id;
 			$schedule->discharge_address = $r->discharge_address;
@@ -174,7 +175,6 @@ class AdmissionDashboard extends AppModel {
 			$schedule->status = $r->status;
 			$schedule->discharge_datetime_modified = $r->discharge_datetime_modified;
 			$schedule->discharge_user_modified = $r->discharge_site_user_modified;
-
 
 			if ($patient->save()) {
 				$hhSchedule->patient_id = $patient->id;
@@ -206,8 +206,6 @@ class AdmissionDashboard extends AppModel {
 				// 	}				
 				// }
 			}
-
-			
 			
 
 		}

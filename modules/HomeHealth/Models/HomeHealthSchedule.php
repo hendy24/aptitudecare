@@ -33,18 +33,26 @@ class HomeHealthSchedule extends HomeHealth {
 		$patient = $this->loadTable('Patient');
 		$location = $this->loadTable('Location');
 		$healthcare_facility = $this->loadTable('HealthcareFacility');
+		$schedule = $this->loadTable('Schedule');
 
 		$sql = "SELECT 
 			hhs.*, 
 			hhs.public_id AS hh_public_id, 
 			p.*, 
+			s.service_disposition,
+			s. discharge_location_id,
 			l.`name` AS location_name, 
-			hc_f.`name` AS healthcare_facility_name 
+			hc_f.`name` AS healthcare_facility_name,
+			dc_location.`name` AS dc_location,
+			hh_location.`name` AS hh_name
 
 			FROM {$this->tableName()} hhs
 			INNER JOIN {$patient->tableName()} AS p ON hhs.`patient_id` = p.`id` 
 			INNER JOIN {$location->tableName()} AS l ON l.`id` = hhs.`location_id` 
+			LEFT JOIN {$schedule->tableName()} AS s ON p.id = s.patient_id
 			INNER JOIN {$healthcare_facility->tableName()} AS hc_f ON hc_f.`id` = hhs.`admit_from_id` 
+			LEFT JOIN {$healthcare_facility->tableName()} AS dc_location ON dc_location.`id` = s.`discharge_location_id`
+			LEFT JOIN {$healthcare_facility->tableName()} AS hh_location ON hh_location.`id` = s.`home_health_id`
 
 			WHERE hhs.`referral_date` >= :datetime_start 
 			AND hhs.`referral_date` <= :datetime_end 
@@ -61,7 +69,7 @@ class HomeHealthSchedule extends HomeHealth {
 		$sql = trim($sql, ", ");
 
 		$sql .= ") AND (hhs.`status` = 'Approved' OR hhs.`status` = 'Pending' OR hhs.status = 'Under Consideration')";
-
+		
 		return $this->fetchAll($sql, $params, $this);
 	}
 
@@ -126,7 +134,7 @@ class HomeHealthSchedule extends HomeHealth {
 		}
 
 		if ($orderby == null) {
-			$orderby = 'datetime_discharge ASC';
+			$orderby = 'start_of_care ASC';
 		}
 
 
@@ -138,7 +146,7 @@ class HomeHealthSchedule extends HomeHealth {
 		);
 
 
-		$sql = "SELECT `{$this->tableName()}`.*, `{$this->tableName()}`.`public_id` AS schedule_pubid, `ac_patient`.`last_name`, `ac_patient`.`first_name` FROM `{$this->tableName()}` INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` WHERE {$this->tableName()}.`datetime_discharge` >= :datetime_start AND {$this->tableName()}.`datetime_discharge` <= :datetime_end";
+		$sql = "SELECT `{$this->tableName()}`.*, `{$this->tableName()}`.`public_id` AS schedule_pubid, `ac_patient`.`last_name`, `ac_patient`.`first_name` FROM `{$this->tableName()}` INNER JOIN `ac_patient` ON {$this->tableName()}.`patient_id` = `ac_patient`.`id` WHERE {$this->tableName()}.`start_of_care` >= :datetime_start AND {$this->tableName()}.`start_of_care` <= :datetime_end";
 
 		if (is_array($locations)) {
 			$locString = null;
