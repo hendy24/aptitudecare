@@ -4,10 +4,10 @@
 		var max_length = 25;
 		$message = $("#activity-description").val();
 		var messageLength = max_length - $message.length;
-		
+
 		// load in current characters when page loads
 		$("#counter").html(messageLength);
-		
+
 		// run listen when key press
 		whenkeydown(max_length);
 	});
@@ -19,19 +19,19 @@
 
 	whenkeydown = function(max_length) {
 		$("#activity-description").unbind().keypress(function() {
-			
+
 			// check if appropriate text area is being used
 			if (document.activeElement.id == "activity-description") {
-				
+
 				// get the data in the field
 				var text = $(this).val();
-				
+
 				//set number of characters
 				var numOfChars = text.length;
-				
+
 				// set the chars left
 				var charsLeft = max_length - numOfChars;
-				
+
 				// check if we are still within our max
 				if (numOfChars <= max_length) {
 					// set the length of text into the counter
@@ -46,6 +46,11 @@
 
 
 </script>
+<style type="text/css">
+	.ml-10{
+		margin-left: 10px;
+	}
+</style>
 
 <h1>{$headerTitle}</h1>
 
@@ -53,6 +58,7 @@
 	<input type="hidden" name="page" value="activities">
 	<input type="hidden" name="action" value="save_activity">
 	<input type="hidden" name="location" value="{$location->public_id}">
+	<input type="hidden" name="activity_id" value="{$activity->public_id}">
 	<input type="hidden" name="current_url" value="{$current_url}">
 	<table class="form">
 
@@ -71,17 +77,17 @@
 		{/if}
 
 		{if $activity->repeat_week != "" OR $activity->repeat_weekday != "" OR $activity->daily}
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="3"><input type="checkbox" name="change_all" value="1" id="change-all" checked> Change all future occurances of this activity</td>
-		</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="3"><input type="checkbox" name="change_all" value="1" id="change-all" checked> Change all future occurances of this activity</td>
+			</tr>
 		{/if}
 
 		<tr>
 			<td class="text-strong">Date:</td>
-			<td><input type="text" class="datepicker" name="date_start" value="{$activity->date_start|date_format: "%D"}" size="10"></td>
+			<td><input type="text" class="datepicker" name="date_start" value="{$activity->date_start|date_format: '%D'}" size="10"></td>
 			<td class="text-strong text-right">Time:</td>
-			<td><input type="text" class="timepicker" title="The time can be left blank to create an activity with no specified time." name="time_start" value="{$activity->time_start|date_format: "%H:%M"}" size="6"></td>
+			<td><input type="text" class="timepicker" title="The time can be left blank to create an activity with no specified time." name="time_start" value="{$activity->time_start|date_format: '%H:%M'}" size="6"></td>
 		</tr>
 		<tr>
 			<td class="text-strong">Activity:</td>
@@ -89,6 +95,16 @@
 		</tr>
 		<tr>
 			<td class="text-right text-grey" colspan="4">You have <span id="counter"></span> characters left.</td>
+		</tr>
+		<tr>
+			<td class="text-strong">All day?</td>
+			<td colspan="3">
+					{if $activity->all_day == 1}
+						<input type="checkbox" name="all_day" checked class="ml-10"/>
+					{else}
+						<input type="checkbox" name="all_day" class="ml-10"/>
+					{/if}
+			</td>
 		</tr>
 		<tr>
 			<td class="text-strong">Repeat</td>

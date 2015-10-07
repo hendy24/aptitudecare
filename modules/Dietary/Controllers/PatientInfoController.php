@@ -46,7 +46,7 @@ class PatientInfoController extends DietaryController {
 		smarty()->assign("dietOrder", $dietOrder);
 		smarty()->assign("texture", $texture);
 		smarty()->assign("portionSize", $portionSize);
-		smarty()->assign("orders", $orders);	
+		smarty()->assign("orders", $orders);
 	}
 
 
@@ -86,8 +86,8 @@ class PatientInfoController extends DietaryController {
 					$foodInfo->patient_id = $patient->id;
 					$foodInfo->food_id = $allergy->id;
 					$foodInfo->allergy = true;
-					$allergiesArray[] = $foodInfo;	
-				} 
+					$allergiesArray[] = $foodInfo;
+				}
 			}
 		}
 
@@ -102,8 +102,8 @@ class PatientInfoController extends DietaryController {
 					$foodInfo->patient_id = $patient->id;
 					$foodInfo->food_id = $dislike->id;
 					$foodInfo->allergy = false;
-					$dislikesArray[] = $foodInfo;	
-				} 
+					$dislikesArray[] = $foodInfo;
+				}
 			}
 		}
 
@@ -145,7 +145,7 @@ class PatientInfoController extends DietaryController {
 
 		if (input()->special_requests != "") {
 			$patientDiet->special_requests = input()->special_requests;
-		} 
+		}
 
 		$snackArray = array();
 
@@ -208,6 +208,21 @@ class PatientInfoController extends DietaryController {
 			$this->redirect();
 		}
 
+		$weekSeed = date('Y-m-d');
+		$week = Calendar::getWeek($weekSeed);
+
+		$_dateStart = date('Y-m-d', strtotime($week[0]));
+
+		$location = $this->getLocation();
+	  $menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
+		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
+		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+
+		$now = date('Y-m-d', strtotime('now'));
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
+		$menuItems[0]->meal = "Breakfast";
+		$menuItems[1]->meal = "Lunch";
+		$menuItems[2]->meal = "Dinner";
 		// need to get patient diet info
 		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
 		// get patient schedule info
@@ -234,9 +249,55 @@ class PatientInfoController extends DietaryController {
 		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
 
 		smarty()->assignByRef('schedule', $schedule);
+		smarty()->assignByRef('menuItems', $menuItems);
 		smarty()->assign('age', $age);
+		$birthday = false;
+		if(date('m-d') == substr($patient->date_of_birth,5,5)){
+			$birthday = true;
+		};
+		smarty()->assign('birthday', $birthday);
+
 	}
 
+	public function traycard_options() {
+
+
+		require_once "/home/aptitude/dev/protected/lib/contrib/Classes/PHPExcel.php";
+
+		$styleArray = array(
+			'font' => array(
+				'bold' => true,
+			)
+		);
+
+		// Export to a PDF file
+		$objPHPExcel = PHPExcel_IOFactory::load("/home/aptitude/dev/public/templates/test_pdf.php");
+		$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
+		$rendererLibrary = 'mPDF5.3';
+		$rendererLibraryPath = "/home/aptitude/dev/protected/lib/contrib/Libraries/" . $rendererLibrary;
+		//$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
+
+		if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
+			die('NOTICE: Please set the $rendererName and $rendererLibraryPath values' . EOL . 'at the top of this script as appropriate for your directory structure');
+		}
+
+		// Include required files
+		require_once "/home/aptitude/dev/protected/lib/contrib/Classes/PHPExcel/IOFactory.php";
+		// If you want to output e.g. a PDF file, simply do:
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+		// Output to PDF file
+		header('Pragma: ');
+		header("Content-type: application/pdf");
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		// Name the file
+		//header("Content-Disposition: attachment; filename=" . $facility->name . "_" . $_dateStart . ".pdf");
+
+		// Write file to the browser
+		$objWriter->save("php://output");
+		exit;
+
+
+	}
 
 
 	public function add_patient() {
@@ -357,8 +418,8 @@ class PatientInfoController extends DietaryController {
 				}
 			}
 			return false;
-		} 
-		
+		}
+
 		return false;
 	}
 

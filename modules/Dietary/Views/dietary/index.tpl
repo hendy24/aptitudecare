@@ -35,7 +35,7 @@
 						var row = item.children().next($(".public-id"));
 						var roomNumber = item.children().next($(".room-number"));
 						var id = row.val();
-							
+
 						$.ajax({
 							type: 'post',
 							url: SITE_URL,
