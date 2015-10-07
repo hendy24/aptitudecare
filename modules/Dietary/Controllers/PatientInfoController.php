@@ -258,12 +258,23 @@ class PatientInfoController extends DietaryController {
 			)
 		);
 
+
+		// Get the patient info from the URL
+		$patient = $this->loadModel('Patient', input()->patient);
+
 		// Export to a PDF file
-		$objPHPExcel = PHPExcel_IOFactory::load(APP_PUBLIC_DIR . DS . "templates/test_pdf.html");
+		// The traycard.xlsx file can by styled to display content properly (i.e. - display a border)
+		$objPHPExcel = PHPExcel_IOFactory::load(APP_PUBLIC_DIR . DS . "templates/traycard.xlsx");
 		$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
 		$rendererLibrary = 'mPDF5.3';
 		$rendererLibraryPath = VENDORS_DIR . DS . "Libraries" . DS . $rendererLibrary;
 		//$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
+
+
+		// Assign content to the template file
+		// This is where dynamic content is entered to be displayed on the template file
+		// PHPExcel has examples of what can be done at https://phpexcel.codeplex.com/wikipage?title=Examples&referringTitle=Home
+		$objPHPExcel->getActiveSheet()->setCellValue("A1", $patient->fullName());
 
 		if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
 			die("NOTICE: Please set the $rendererName and $rendererLibraryPath values' . EOL . 'at the top of this script as appropriate for your directory structure");
