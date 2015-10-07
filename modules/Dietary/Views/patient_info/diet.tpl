@@ -4,6 +4,8 @@
 		var snackTime = null;
 		var thisFieldName = null;
 
+		// $(".other-input").hide();
+
 		$("#allergies").tagit({
 			fieldName: "allergies[]",
 		    availableTags: fetchOptions("Allergy"),
@@ -163,17 +165,16 @@
 {/literal}
 
 
-<h1>Edit Diet</h1>
-<h2>for {$patient->fullName()}</h2>
+<h1>Edit Diet for {$patient->fullName()}</h1>
 
 <form action="{$SITE_URL}" method="post" id="edit-diet">
 	<input type="hidden" name="page" value="PatientInfo" />
 	<input type="hidden" name="action" value="saveDiet" />
 	<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}" />
-	<input type="hidden" name="currentUrl" value="{$currentUrl}" />
+	<input type="hidden" name="path" value="{$current_url}" />
 
 	<br>
-	<table class="form">
+	<table class="diet-form">
 		<tr>
 			<th colspan="3">Patient Info</th>
 		</tr>
@@ -227,66 +228,67 @@
 				</ul>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="3">&nbsp;</td>
-		</tr>
 
-
-		<tr>
+		<tr class="padding-top">
 			<td colspan="3"><strong>Diet Info:</strong></td>
 		</tr>
 		<tr>
 		{foreach from=$dietOrder item="diet" name="dietItem"}
-			<td><input type="checkbox" name="diet_info" value="{$diet}" {if $patientInfo->diet_info == $diet}checked{/if}>{$diet}</td>
+			<td {if $diet == "Other"}colspan="2"{/if}>
+				<input type="checkbox" name="diet_info[]" value="{$diet}" {if $patientInfo->diet_info == $diet}checked{/if}>{$diet}
+				{if $diet == "Other"}
+				<input type="text" name="other_diet_info" class="other-input" placeholder="Enter other diet info..." style="width: 500px">
+				{/if}
+			</td>
 		{if $smarty.foreach.dietItem.iteration is div by 3}
 		</tr>
 		<tr>
 		{/if}
 		{/foreach}
 		</tr>
-		<tr>
-			<td colspan="3">&nbsp;</td>
-		</tr>
 
 
-
-		<tr>
+		<tr class="padding-top">
 			<td colspan="3"><strong>Texture:</strong></td>
 		</tr>
 		<tr>
 			{foreach from=$texture item="diet" name="dietItem"}
-				<td><input type="checkbox" name="texture" value="{$diet}" {if $patientInfo->texture == $diet}checked{/if}>{$diet}</td>
+				<td {if $diet == "Other"}colspan="2"{/if}>
+					<input type="checkbox" name="texture[]" value="{$diet}" {if $patientInfo->texture == $diet}checked{/if}>{$diet}
+					{if $diet == "Other"}
+					<input type="text" name="other_texture_info" class="other-input" placeholder="Enter other texture info..." style="width: 500px">
+					{/if}
+				</td>
 			{if $smarty.foreach.dietItem.iteration is div by 3}
 			</tr>
 			<tr>
 			{/if}
 			{/foreach}
 		</tr>
-		<tr>
-			<td colspan="3">&nbsp;</td>
-		</tr>
 
 
-
-		<tr>
-			<td colspan="3"><strong>Orders:</strong></td>
+		<tr class="padding-top">
+			<td colspan="3" ><strong>Orders:</strong></td>
 		</tr>
 		<tr>
 			{foreach from=$orders item="diet" name="dietItem"}
-				<td><input type="checkbox" name="orders" value="{$diet}" {if $patientInfo->orders == $diet}checked{/if}>{$diet}</td>
+				<td {if $diet == "Other"}colspan="2"{/if}>
+					<input type="checkbox" name="orders[]" value="{$diet}" {if $patientInfo->orders == $diet}checked{/if}>{$diet}
+					{if $diet == "Other"}
+					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 500px">
+					{/if}
+
+				</td>
 			{if $smarty.foreach.dietItem.iteration is div by 3}
 			</tr>
 			<tr>
 			{/if}
 			{/foreach}
 		</tr>
-		<tr>
-			<td colspan="3">&nbsp;</td>
-		</tr>
 
 
 
-		<tr>
+		<tr class="padding-top">
 			<td colspan="3"><strong>Lunch &amp; Dinner Portion Size:</strong></td>
 		</tr>
 		<tr>
@@ -294,13 +296,9 @@
 				<td><input type="radio" name="portion_size" value="{$diet}" {if $patientInfo->portion_size == $diet}checked{/if}> {$diet}</td>
 			{/foreach}
 		</tr>
-		<tr>
+		<tr class="padding-top">
 			<td><strong>Special Requests:</strong></td>
 			<td colspan="3" class="text-right"><input type="text" name="special_requests" size="100" value="{$patientInfo->special_requests}"></td>
-		</tr>
-
-		<tr>
-			<td colspan="3">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -336,10 +334,6 @@
 					{/if}
 				</ul>
 			</td>
-		</tr>
-
-		<tr>
-			<td colspan="3">&nbsp;</td>
 		</tr>
 
 		<tr>

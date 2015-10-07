@@ -67,7 +67,7 @@
 </table>
 
 	{if isset ($pagination)}
-		{$url = "{$SITE_URL}?module=Dietary&page=dietary&action=facility_menus&menu={$currentMenu->id}"}
+		{$var = "{$SITE_URL}?module=Dietary&page=info&action=facility_menus&menu={$currentMenu->id}"}
 		{include file="elements/pagination.tpl"}	
 	{/if}
 

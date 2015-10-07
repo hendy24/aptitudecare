@@ -34,7 +34,7 @@ class PatientInfoController extends DietaryController {
 			"Clear Liquid", "Tube Feeding", "Nectar Thick Liquids", "Honey Thick Liquids",
 			"Pudding Thick Liquids", "Other");
 		$portionSize = array("Small", "Medium", "Large");
-		$orders = array("Isolation", "Fluid Restriction", "Clear Liquid", "Adaptive Equipment", "Other");
+		$orders = array("Isolation", "Fluid Restriction", "Adaptive Equipment", "Other");
 
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
@@ -104,6 +104,18 @@ class PatientInfoController extends DietaryController {
 					$foodInfo->allergy = false;
 					$dislikesArray[] = $foodInfo;	
 				} 
+			}
+		}
+
+
+		$dietInfoArray() = array();
+		if (!empty (input()->diet_info)) {
+			foreach (input()->diet_info as $item) {
+				$diet_info = $this->loadModel('DietInfo')->fetchByIdAndName($patient->id, $item);
+
+				if (!empty ($diet_info)) {
+					
+				}
 			}
 		}
 

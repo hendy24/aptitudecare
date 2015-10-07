@@ -64,6 +64,34 @@ div.multiple-page-form h2 {
 	font-weight: bold;
 }
 
+
+
+
+/***** Styles specific to the table on the edit diet page *****/
+
+table.diet-form {
+	border-spacing: 0;
+	margin: 0 auto;
+}
+
+table.diet-form th {
+	background-color: #f1f1f1;
+}
+
+table.diet-form td {
+	width: 28%;
+	padding: 2px 10px;
+}
+
+table.diet-form td input[type="text"] {
+	width: 95%;
+}
+
+tr.padding-top td {
+	padding-top: 15px;
+}
+
+
 table.form-multiple {
 	width: 90%;
 	margin: 20px auto;
