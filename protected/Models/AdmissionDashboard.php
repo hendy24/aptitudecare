@@ -5,6 +5,11 @@ class AdmissionDashboard extends AppModel {
 	protected $prefix = false;
 	protected $table = 'schedule';
 
+	public function __construct() {
+		$this->dbname = db()->dbname2;
+	}
+
+
 
 	public function syncDischarges($datetime_start, $datetime_end, $location_id, $areas) {
 

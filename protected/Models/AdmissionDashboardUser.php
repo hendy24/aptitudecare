@@ -4,7 +4,11 @@ class AdmissionDashboardUser extends AppModel {
 
 	protected $prefix = false;
 	protected $table = "site_user";
-	protected $dbname = 'admit_dev';
+
+
+	public function __construct() {
+		$this->dbname = db()->dbname2;
+	}
 
 	public function checkForExisting($public_id) {
 		$sql = "SELECT * FROM " . db()->dbname2 . ".site_user WHERE pubid = :public_id";
