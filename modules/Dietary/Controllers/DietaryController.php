@@ -28,7 +28,7 @@ class DietaryController extends MainPageController {
 		// check if the location is has the admission dashboard enabled
 		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
 
-		// if the facility is using the admission dashboard, then get a list of  
+		// if the facility is using the admission dashboard, then get a list of
 		// the current patients from the admission app for the current location.
 
 		// NOTE: if a location is using the admission dashboard they should
@@ -41,8 +41,8 @@ class DietaryController extends MainPageController {
 			// IMPORTANT: Remove this after admission app is re-built in new framework!!!
 			$scheduled = $this->loadModel('AdmissionDashboard')->syncCurrentPatients($location->id);
 		} else {
-			// if the locations is not using the admission dashboard then load the patients 
-			// from ac_patient and dietary_patient_info tables			
+			// if the locations is not using the admission dashboard then load the patients
+			// from ac_patient and dietary_patient_info tables
 			// fetch current patients
 			$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
 		}
@@ -92,7 +92,7 @@ class DietaryController extends MainPageController {
 
 
 		}
-		
+
 		smarty()->assign('count', 0);
 		smarty()->assign('menuWeek', $menuWeek);
 		smarty()->assignByRef('menuItems', $menuItems);

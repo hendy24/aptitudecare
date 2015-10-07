@@ -22,7 +22,13 @@
 		{if is_array($activities)}
 			{foreach from=$activities item="activity"}
 			<tr>
-				<td style="width: 95px">{$activity->time_start|date_format: "%r"}</td>
+				<td style="width: 95px">
+					{if $activity->all_day == 1}
+						{$activity->datetime_start|date_format}
+					{else}
+						{$activity->datetime_start|date_format:"%b, %e %I:%M %p"}
+					{/if}
+				</td>
 				<td>{$activity->description}</td>
 				<td class="text-right"><a href="{$SITE_URL}/?page=activities&amp;action=activity&amp;type=edit&amp;id={$activity->public_id}" class="button">Edit</a></td>
 			</tr>
@@ -38,6 +44,6 @@
 		<tr>
 			<td colspan="3" style="background-color:#ffffff">&nbsp;</td>
 		</tr>
-		{/foreach}		
+		{/foreach}
 	</table>
 </div>

@@ -4,14 +4,14 @@
  * undocumented class
  *
  * @package default
- * @author 
+ * @author
  **/
 class ActivitiesController extends MainPageController {
 
 
-	/* 
-	 * Activity home page 
-	 *	
+	/*
+	 * Activity home page
+	 *
 	 */
 	public function index() {
 		// make sure the user has permission to access this page
@@ -32,6 +32,9 @@ class ActivitiesController extends MainPageController {
 		// fetch activities for the selected location
 		$location = $this->getLocation();
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date);
+		/*pr($location);
+		pr($start_date);*/
+		//pr($activities); exit;
 
 		smarty()->assignByRef('activitiesArray', $activities);
 		smarty()->assign('title', "Activities");
@@ -43,19 +46,22 @@ class ActivitiesController extends MainPageController {
 
 
 
-	/* 
-	 * Add new activity 
-	 *	
+	/*
+	 * Add new activity
+	 *
 	 */
 	public function activity() {
 		// fetch activities for the selected location
 		$location = $this->getLocation();
-		
+
 
 		if (input()->type == "edit") {
 			smarty()->assign('headerTitle', "Edit Activity");
 			if (isset (input()->id) && input()->id != "") {
 				$activity = $this->loadModel('Activity', input()->id)->fetchSchedule();
+				//Split datetime to date AND time
+				$activity->date_start = $activity->datetime_start;
+				$activity->time_start = $activity->datetime_start;
 			}
 		} else {
 			smarty()->assign('headerTitle', "Add a New Activity");
@@ -80,8 +86,12 @@ class ActivitiesController extends MainPageController {
 
 
 	public function save_activity() {
-		$activity = $this->loadModel('Activity');
-		$activitySchedule = $this->loadModel('ActivitySchedule');
+
+		if (isset (input()->activity_id)) {
+			$activity = $this->loadModel('Activity', input()->activity_id);
+		} else {
+			$activity = $this->loadModel('Activity');
+		}
 		$feedback = array();
 
 
@@ -89,7 +99,7 @@ class ActivitiesController extends MainPageController {
 		if (input()->location == "") {
 			session()->setFlash("You must select a facility for this activity.", 'error');
 			$this->redirect(array("module" => $this->module));
-		} 
+		}
 
 		$location = $this->loadModel('Location', input()->location);
 		$activity->location_id = $location->id;
@@ -101,30 +111,40 @@ class ActivitiesController extends MainPageController {
 		}
 
 		if (input()->date_start != "") {
-			$activitySchedule->date_start = mysql_date(input()->date_start);
+			$activity->datetime_start = mysql_date(input()->date_start);
 		} else {
 			$feedback[] = "Enter a date for the activity";
 		}
 
 		if (input()->time_start != "") {
-			$activitySchedule->time_start = mysql_time(input()->time_start);
-		} 
+			$activity->datetime_start = mysql_datetime(input()->date_start . " " . input()->time_start);
+		}
 
 		if (input()->repeat_type != "") {
 			if (input()->repeat_type == "daily") {
-				$activitySchedule->daily = true;
+				$activity->daily = true;
 			}
 			if (input()->repeat_type == "weekly") {
-				$activitySchedule->daily = false;
+				$activity->daily = false;
 			}
 			if (input()->repeat_type == "monthly") {
-				$activitySchedule->repeat_week = ceil(date("j", strtotime(input()->date_start)));
-				$activitySchedule->daily = false;
+				$activity->repeat_week = ceil(date("j", strtotime(input()->date_start)));
+				$activity->daily = false;
 			}
 
-			$activitySchedule->repeat_weekday = date("w", strtotime(input()->date_start));
+			$activity->repeat_weekday = date("w", strtotime(input()->date_start));
 		}
-
+		else{
+			//daily field cannot be null
+			$activity->daily = false;
+		}
+		//Probably could refactor this to just have input()->allDay be the value
+		if(input()->all_day == "on"){
+			$activity->all_day = true;
+		}
+		else{
+			$activity->all_day = false;
+		}
 		// BREAKPOINT
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'error');
@@ -132,21 +152,28 @@ class ActivitiesController extends MainPageController {
 		}
 
 		if ($activity->save()) {
-			$activitySchedule->activity_id = $activity->id;
-			if ($activitySchedule->save()) {
 				session()->setFlash("The activity was saved", 'success');
 				$this->redirect();
-			}
+			//}
 		} else {
 			session()->setFlash("Could not save the activity. Please try again", 'error');
 			$this->redirect(input()->current_url);
 		}
 
-		
+
+	}
+
+	//edit_activity is currently not used
+	public function edit_activity() {
+		if (isset (input()->activity_id)) {
+			$activity = $this->loadModel('Activity', input()->activity_id);
+		} else {
+			session()->setFlash("Could not find the activity. Please try again.", 'error');
+			$this->redirect(input()->path);
+		}
+
+		smarty()->assign('activity', $activity);
 	}
 
 
-
-
-
-} // END classActivitiesController extends MainPageController 
+} // END classActivitiesController extends MainPageController
