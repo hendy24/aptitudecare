@@ -344,20 +344,21 @@ class UsersController extends MainPageController {
 				$siteUser->save($siteUser, db()->dbname2);
 
 				// Need to save additional locations for admissions
+				$admitLocation = new AdmissionDashboardLocation;
+				$admitLocation->site_user = $siteUser->id;
+				$admitLocation->facility = $user->default_location;
+				$admitLocation->save($admitLocation, db()->dbname2);
+
+
 				if (!empty (input()->additional_locations)) {
 					foreach (input()->additional_locations as $loc) {
-						$admit_locations = new AdmissionDashboardLocations;
+						$admit_locations = new AdmissionDashboardLocation;
 						$admit_locations->site_user = $siteUser->id;
 						$admit_locations->facility = $loc;	
 						$admit_locations->save($admit_locations, db()->dbname2);
 					}
 					
-				} else {
-					$admit_locations = new AdmissionDashboardLocations;
-					$admit_locations->site_user = $siteUser->id;
-					$admit_locations->facility = $user->default_location;
-					$admit_locations->save($admit_locations, db()->dbname2);
-				}
+				} 
 			}
 
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
