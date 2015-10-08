@@ -336,6 +336,8 @@ class UsersController extends MainPageController {
 
 				if ($i > 1) {
 					$siteUser->module_access = 1;
+				} else {
+					$siteUser->module_access = 0;
 				}
 
 				$siteUser->default_facility = $user->default_location;
