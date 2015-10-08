@@ -250,7 +250,7 @@ class UsersController extends MainPageController {
 			$userClinician->clinician_id = input()->clinician;
 		}
 		$success = false;
-
+		
 		//	If we've made it this far then save the new user data
 		//	If user id is not empty then we are editing an existing user
 		if ($user->save()) {
@@ -281,8 +281,6 @@ class UsersController extends MainPageController {
 			}
 
 
-			$admission_access = false;
-
 			// Delete all groups for the curent user so we can reset and save them again
 			$groups = $this->loadModel('UserGroup')->deleteCurrent($user->id);
 			// Save the users additional groups
@@ -301,12 +299,16 @@ class UsersController extends MainPageController {
 			// Save the users additional modules
 			$i = 0;
 			foreach (input()->additional_modules as $mod) {
+				if ($mod == 1) {
+					$admission_access = true;
+				}
 				$add_modules = $this->loadModel('UserModule');
 				$add_modules->user_id = $user->id;
 				$add_modules->module_id = $mod;
 				$add_modules->save();
 				$i++;
 			}
+			
 
 			// Save the user to the admission dashboard
 			if ($user->default_module == 1 || $admission_access) {
@@ -338,6 +340,7 @@ class UsersController extends MainPageController {
 
 				$siteUser->default_facility = $user->default_location;
 				$siteUser->timeout = 1;
+				
 				$siteUser->save($siteUser, db()->dbname2);
 
 				// Need to save additional locations for admissions
