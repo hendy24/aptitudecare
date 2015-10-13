@@ -185,7 +185,8 @@ class PatientInfoController extends DietaryController {
 
 	}
 
-	public function traycard() {
+//This action has all of the original (pre-pdf) traycard functions
+/*	public function traycard() {
 		smarty()->assign("title", "Print Traycard");
 		$this->template = "print";
 
@@ -239,23 +240,90 @@ class PatientInfoController extends DietaryController {
 		smarty()->assignByRef('schedule', $schedule);
 		smarty()->assignByRef('menuItems', $menuItems);
 		smarty()->assign('age', $age);
+		smarty()->assign('birthday', $birthday);
+
+	}*/
+
+	public function traycard() {
+		if (input()->patient != "") {
+			$patient = $this->loadModel("Patient", input()->patient);
+		} else {
+			session()->setFlash("Could not fine the selected patient, please try again.", 'error');
+			$this->redirect();
+		}
+
+		$weekSeed = date('Y-m-d');
+		$week = Calendar::getWeek($weekSeed);
+
+		$_dateStart = date('Y-m-d', strtotime($week[0]));
+
+		$location = $this->getLocation();
+	  $menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
+		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
+		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+
+		$now = date('Y-m-d', strtotime('now'));
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
+		$menuItems[0]->meal = "Breakfast";
+		$menuItems[1]->meal = "Lunch";
+		$menuItems[2]->meal = "Dinner";
+		// need to get patient diet info
+		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
+		// get patient schedule info
+		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
+
+		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
+		$dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
+
 		$birthday = false;
 		if(date('m-d') == substr($patient->date_of_birth,5,5)){
 			$birthday = true;
 		};
-		smarty()->assign('birthday', $birthday);
-
-	}
-
-	public function traycard_options() {
-
 
 		require_once VENDORS_DIR . DS . "PHPExcel/Classes/PHPExcel.php";
 
-		$styleArray = array(
+		$headerStyles = array(
 			'font' => array(
 				'bold' => true,
+				'size' => 23
+			),
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+		);
+
+		$bodyStyles = array(
+			'font' => array(
+				'bold' => false,
+				'size' => 15
+			),
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+		);
+		$underLine = array(
+			'borders' => array(
+        'bottom' => array(
+            'style' => PHPExcel_Style_Border::BORDER_THICK,
+            'color' => array('argb' => 'FFFF0000'),
+        )
 			)
+		);
+
+		$bold = array(
+			'font' => array(
+				'bold' => true,
+				'size' => 16
+			)
+		);
+
+		$labelAlignRight = array(
+			'font' => array(
+				'bold' => true
+			),
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
+        )
 		);
 
 
@@ -268,13 +336,87 @@ class PatientInfoController extends DietaryController {
 		$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
 		$rendererLibrary = 'mPDF5.3';
 		$rendererLibraryPath = VENDORS_DIR . DS . "Libraries" . DS . $rendererLibrary;
-		//$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
 
 
 		// Assign content to the template file
 		// This is where dynamic content is entered to be displayed on the template file
 		// PHPExcel has examples of what can be done at https://phpexcel.codeplex.com/wikipage?title=Examples&referringTitle=Home
+		$objPHPExcel->getActiveSheet()
+    ->getPageSetup()
+    ->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+
+    $objDrawingbackground = new PHPExcel_Worksheet_Drawing();
+		//$objDrawingbackground->setWorksheet($objPHPExcel->getActiveSheet());
+		$objDrawingbackground->setName('background');
+		$objDrawingbackground->setDescription('background');
+		$objDrawingbackground->setPath(APP_PUBLIC_DIR . DS . "img/outline_smaller.png");
+
+		$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($headerStyles);
+		$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($underLine);
+		$objPHPExcel->getActiveSheet()->getStyle('A2:F35')->applyFromArray($bodyStyles);
+		$objPHPExcel->getActiveSheet()->getStyle('A2:F35')->getAlignment()->setWrapText(true);
+
+
+		//Bold menu label
+		$objPHPExcel->getActiveSheet()->getStyle('A24')->applyFromArray($bold);
+		$objPHPExcel->getActiveSheet()->getStyle('C24')->applyFromArray($bold);
+		$objPHPExcel->getActiveSheet()->getStyle('E24')->applyFromArray($bold);
+
+
 		$objPHPExcel->getActiveSheet()->setCellValue("A1", $patient->fullName());
+		$objPHPExcel->getActiveSheet()->setCellValue("C1", $patient->fullName());
+		$objPHPExcel->getActiveSheet()->setCellValue("E1", $patient->fullName());
+
+		foreach ($menuItems as $key => $item){
+			if($key == 0){
+				$columnA = "A";
+				$columnB = "B";
+				$breakfastMenu = $item->content;
+			}
+			elseif ($key == 1){
+				$columnA = "C";
+				$columnB = "D";
+				$lunchMenu = $item->content;
+			}
+			elseif ($key == 2){
+				$columnA = "E";
+				$columnB = "F";
+				$dinnerMenu = $item->content;
+			}
+			$objPHPExcel->getActiveSheet()->getStyle($columnA . '2:' . $columnA .'15')->applyFromArray($labelAlignRight);
+
+			if ($birthday){
+				$objPHPExcel->getActiveSheet()->setCellValue($columnA . "3", "Birthday!");
+			}
+			else{
+				$objPHPExcel->getActiveSheet()->setCellValue($columnA . "3", "\n");
+			}
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."5", $menuItems[$key]->meal);
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."5", date("M d, Y"));
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."7", $diet->texture);
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."9", $diet->orders);
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."11", $diet->portion_size);
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."13", $allergies);
+
+			if($dislikes){
+				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."17", $dislikes);
+			}
+			else{
+				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."17", "\n\n\n\n");
+			}
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."26", str_replace('&amp;', '&', str_replace('</p>', "\n", str_replace('<p>', '', $item->content))));
+			$objPHPExcel->getActiveSheet()->getStyle($columnA ."26")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+			$objPHPExcel->getActiveSheet()->getStyle($columnA ."26")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
+
+		}
+
 
 		if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
 			die("NOTICE: Please set the $rendererName and $rendererLibraryPath values' . EOL . 'at the top of this script as appropriate for your directory structure");
@@ -295,8 +437,11 @@ class PatientInfoController extends DietaryController {
 		$objWriter->save("php://output");
 		exit;
 
-
 	}
+
+	/*public function traycard_options(){
+
+	}*/
 
 
 	public function add_patient() {
