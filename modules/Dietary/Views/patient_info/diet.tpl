@@ -3,9 +3,7 @@
 	$(document).ready(function() {
 		var snackTime = null;
 		var thisFieldName = null;
-
-		// $(".other-input").hide();
-
+		
 		$("#allergies").tagit({
 			fieldName: "allergies[]",
 		    availableTags: fetchOptions("Allergy"),
