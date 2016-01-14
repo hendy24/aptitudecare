@@ -3,7 +3,41 @@
 	$(document).ready(function() {
 		var snackTime = null;
 		var thisFieldName = null;
-		
+
+		// $(".other-input").hide();
+
+		startTag = function(category){
+			$("#" + category).tagit({
+				fieldName: category + "[]",
+				availableTags: fetchOptions(category),
+				autocomplete: {delay: 0, minLength: 2},
+				showAutocompleteOnFocus: false,
+				caseSensitive: false,
+				allowSpaces: true,
+				beforeTagRemoved: function(event, ui){
+					var patientId = $("patient-id").val();
+					var Name = ui.tagLabel;
+					$.post(SITE_URL, {
+						page: "PatientInfo",
+						action: "deleteItem",
+						patient: patientId,
+						name: name,
+						type: category
+						}, function (e) {
+							console.log(e);
+					}, "json");
+				}
+			});
+		}
+
+		var tagOptions = ["adaptEquip", "allergies", "dislikes"]
+/*		for (category of tagOptions){
+				startTag(category);
+		}*/
+
+		startTag("adaptEquip");
+
+
 		$("#allergies").tagit({
 			fieldName: "allergies[]",
 		    availableTags: fetchOptions("Allergy"),
@@ -27,7 +61,7 @@
 		        	}, "json"
 		        );
 		    }
-        });
+      });
 
         $("#dislikes").tagit({
         	fieldName: "dislikes[]",
@@ -130,7 +164,7 @@
 		        		console.log(e);
 		        	}, "json"
 		        );
-		    }        	
+		    }
         });
 
 
@@ -157,7 +191,7 @@
         }
 
 
-        
+
 	});
 </script>
 {/literal}
@@ -226,16 +260,28 @@
 				</ul>
 			</td>
 		</tr>
+		<tr>
+			<td><strong>Adaptative Equipment:</strong></td>
+			<td colspan="2" class="text-right">
+				<ul id="adaptEquip">
+					{if $adaptEquip}
+						{foreach from=$adaptEquip item=equip}
+						<li>{$equip->name}</li>
+						{/foreach}
+					{/if}
+				</ul>
+			</td>
+		</tr>
 
 		<tr class="padding-top">
 			<td colspan="3"><strong>Diet Info:</strong></td>
 		</tr>
 		<tr>
 		{foreach from=$dietOrder item="diet" name="dietItem"}
-			<td {if $diet == "Other"}colspan="2"{/if}>
-				<input type="checkbox" name="diet_info[]" value="{$diet}" {if $patientInfo->diet_info == $diet}checked{/if}>{$diet}
-				{if $diet == "Other"}
-				<input type="text" name="other_diet_info" class="other-input" placeholder="Enter other diet info..." style="width: 500px">
+			<td {if $diet->name == "Other"}colspan="2"{/if}>
+				<input type="checkbox" name="diet_info[]" value="{$diet->name}" {if $diet->patient_id}checked{/if}>{$diet->name}
+				{if $diet->name == "Other"}
+					<input type="text" name="other_diet_info" class="other-input" placeholder="Enter other diet info..." style="width: 500px" value="{$patientInfo->diet_info_other}">
 				{/if}
 			</td>
 		{if $smarty.foreach.dietItem.iteration is div by 3}
@@ -250,14 +296,14 @@
 			<td colspan="3"><strong>Texture:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$texture item="diet" name="dietItem"}
-				<td {if $diet == "Other"}colspan="2"{/if}>
-					<input type="checkbox" name="texture[]" value="{$diet}" {if $patientInfo->texture == $diet}checked{/if}>{$diet}
-					{if $diet == "Other"}
-					<input type="text" name="other_texture_info" class="other-input" placeholder="Enter other texture info..." style="width: 500px">
+			{foreach from=$textures item="texture" name="textureItem"}
+				<td {if $texture->name == "Other"}colspan="2"{/if}>
+					<input type="checkbox" name="texture[]" value="{$texture->name}" {if $texture->patient_id}checked{/if}>{$texture->name}
+					{if $texture->name == "Other"}
+					<input type="text" name="other_texture_info" class="other-input" placeholder="Enter other texture info..." style="width: 500px" value="{$patientInfo->texture_other}">
 					{/if}
 				</td>
-			{if $smarty.foreach.dietItem.iteration is div by 3}
+			{if $smarty.foreach.textureItem.iteration is div by 3}
 			</tr>
 			<tr>
 			{/if}
@@ -269,15 +315,15 @@
 			<td colspan="3" ><strong>Orders:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$orders item="diet" name="dietItem"}
-				<td {if $diet == "Other"}colspan="2"{/if}>
-					<input type="checkbox" name="orders[]" value="{$diet}" {if $patientInfo->orders == $diet}checked{/if}>{$diet}
-					{if $diet == "Other"}
-					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 500px">
+			{foreach from=$orders item="order" name="orderItem"}
+				<td {if $order->name == "Other"}colspan="2"{/if}>
+					<input type="checkbox" name="orders[]" value="{$order->name}" {if $order->patient_id}checked{/if}>{$order->name}
+					{if $order->name == "Other"}
+					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 500px" value="{$patientInfo->orders_other}">
 					{/if}
 
 				</td>
-			{if $smarty.foreach.dietItem.iteration is div by 3}
+			{if $smarty.foreach.orderItem.iteration is div by 3}
 			</tr>
 			<tr>
 			{/if}

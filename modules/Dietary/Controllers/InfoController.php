@@ -73,6 +73,10 @@ class InfoController extends DietaryController {
 		$this->normalizeMenuItems($menuItems);
 	}
 
+	public function create(){
+
+	}
+
 
 	public function corporate_menus() {
 		smarty()->assign('title', "Corporate Menus");

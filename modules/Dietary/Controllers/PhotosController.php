@@ -11,18 +11,18 @@
 class PhotosController extends DietaryController {
 
 
-	/* 
-	 * Upload Photos page 
-	 *	
+	/*
+	 * Upload Photos page
+	 *
 	 */
 	public function upload_photos() {
 		smarty()->assign('title', "Upload Photos");
 	}
 
 
-	/* 
-	 * Add photo info page 
-	 *	
+	/*
+	 * Add photo info page
+	 *
 	 */
 	public function photo_info() {
 		smarty()->assign('title', "Add Photo Info");
@@ -36,11 +36,12 @@ class PhotosController extends DietaryController {
 
 
 
-	/* 
-	 * Save the uploaded photo info 
-	 *	
+	/*
+	 * Save the uploaded photo info
+	 *
 	 */
 	public function save_photo_info() {
+		//pr(input()); exit;
 		if (input()->photo_id != "") {
 			$photo = $this->loadModel("Photo", input()->photo_id);
 		} else {
@@ -49,6 +50,7 @@ class PhotosController extends DietaryController {
 		$photo->name = input()->name;
 		$photo->description = input()->description;
 		$photo->info_added = true;
+		$photo->tags = input()->tags;
 
 		if ($photo->save()) {
 			// when photos are uploaded, send an email to dietary managers?
@@ -64,9 +66,9 @@ class PhotosController extends DietaryController {
 
 
 
-	/* 
-	 * View Photos page 
-	 *	
+	/*
+	 * View Photos page
+	 *
 	 */
 	public function view_photos() {
 		smarty()->assign('title', "View Photos");
@@ -74,11 +76,17 @@ class PhotosController extends DietaryController {
 		smarty()->assign('photos', $photos);
 	}
 
+	public function view_photos_json() {
+		$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
+		echo json_encode($photos);
+		exit;
+	}
 
 
-	/* 
-	 * Manage Photos page 
-	 *	
+
+	/*
+	 * Manage Photos page
+	 *
 	 */
 	public function manage_photos() {
 		if (!auth()->hasPermission('manage_dietary_photos')) {
@@ -105,12 +113,12 @@ class PhotosController extends DietaryController {
 
 
 
-	/* 
-	 * Submit and process uploaded photos 
-	 *	
+	/*
+	 * Submit and process uploaded photos
+	 *
 	 */
 	public function submit_upload() {
-		
+
 		if (isset (input()->location)) {
 			$location = $this->loadModel("Location", input()->location);
 		} else {
@@ -123,12 +131,12 @@ class PhotosController extends DietaryController {
 			$targetPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";;
 			$fileName = getRandomString() . "." . $fileType;
 			$targetFile = $targetPath . $fileName;
-			
+
 			if (move_uploaded_file($tempFile, $targetFile)) {
 				// success
 				// need to create a file name and save to photo table
 				$photo = $this->loadModel("Photo");
-				$photo->location_id = $location->id;				
+				$photo->location_id = $location->id;
 				$photo->filename = $fileName;
 				$photo->info_added = false;
 				if ($photo->save()) {
@@ -136,7 +144,7 @@ class PhotosController extends DietaryController {
 						json_return (array("filetype" => $fileType, "name" => $photo->filename));
 					}
 					json_return(false);
-					
+
 				} else {
 					json_return(false);
 				}
@@ -144,7 +152,7 @@ class PhotosController extends DietaryController {
 				// failure
 				json_return(false);
 			}
-			
+
 		} else {
 			// error message
 			json_return(false);
@@ -153,9 +161,9 @@ class PhotosController extends DietaryController {
 	}
 
 
-	/* 
-	 * Process approved photos 
-	 *	
+	/*
+	 * Process approved photos
+	 *
 	 */
 	public function approve_photos() {
 		$success = false;
@@ -190,14 +198,14 @@ class PhotosController extends DietaryController {
 
 
 
-	/* 
-	 * Create and save photo thumbnails 
-	 *	
+	/*
+	 * Create and save photo thumbnails
+	 *
 	 */
 	public function createThumbnail($filename) {
 		$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
 		$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
-		
+
 		if (preg_match('/[.](jpg)$/', $filename)) {
 			$image = imagecreatefromjpeg($targetImagePath . $filename);
 		} elseif (preg_match('/[.](gif)$/', $filename)) {
@@ -216,25 +224,25 @@ class PhotosController extends DietaryController {
 
 		imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
 		// imagecopyresized($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
-		
-		
+
+
 		// if there is no photos directory, create it
 		if (!file_exists($targetImagePath)) {
 			mkdir($targetImagePath, 0777, true);
 		}
-		
+
 		// if there is no thumbs directory, create it
 		if (!file_exists($targetThumbsPath)) {
 			mkdir($targetThumbsPath, 0777, false);
-		} 
-		
+		}
+
 
 		if (imagejpeg($new_image, $targetThumbsPath . $filename)) {
 			echo "hello";
 		} else {
 			echo "goodbye";
 		}
-		
+
 		exit;
 
 	}

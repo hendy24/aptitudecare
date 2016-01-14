@@ -11,7 +11,7 @@ class Room extends Admission {
 	}
 
 
-	public function mergeRooms($rooms, $scheduled) {
+	public function mergeRooms($rooms, $scheduled, $test = null) {
 		$temp = array();
 		$index = array();
 		foreach ($rooms as $k => $v) {
@@ -30,8 +30,10 @@ class Room extends Admission {
 			$which = $index[$number][0];
 			$idx = $index[$number][1];
 			$retval[] = ${$which}[$idx];
+		//	pr($index[$number][0]);
 		}
-
+		//pr($retval);
+		//exit;
 		return $retval;
 
 	}

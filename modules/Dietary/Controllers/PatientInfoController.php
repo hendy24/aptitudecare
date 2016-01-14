@@ -27,24 +27,29 @@ class PatientInfoController extends DietaryController {
 		$pm_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "pm");
 		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
 
+		$adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
+
 		// set arrays for checkboxes, dropdowns, etc.
-		$dietOrder = array("None/Regular", "AHA/Cardiac", "No Added Salt", "Renal",
-		"2 gram Na", "Fortified/High Calorie", "Other");
-		$texture = array("Regular", "Mechanical Soft", "Puree", "Full Liquid",
-			"Clear Liquid", "Tube Feeding", "Nectar Thick Liquids", "Honey Thick Liquids",
-			"Pudding Thick Liquids", "Other");
+		$dietOrder = $this->loadModel("PatientDietInfo")->fetchPatientDietInfo($patient->id);
+
+		$textures = $this->loadModel("PatientTexture")->fetchPatientTexture($patient->id);
+
 		$portionSize = array("Small", "Medium", "Large");
-		$orders = array("Isolation", "Fluid Restriction", "Clear Liquid", "Adaptive Equipment", "Other");
+
+		$orders = $this->loadModel("PatientOrder")->fetchPatientOrder($patient->id);
+
+//		$orders = array("Isolation", "Fluid Restriction", "Clear Liquid", "Adaptive Equipment", "Other");
 
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
 		smarty()->assignByRef('allergies', $allergies);
 		smarty()->assignByRef('dislikes', $dislikes);
+		smarty()->assignByRef('adaptEquip', $adapt_equip);
 		smarty()->assignByRef('am_snacks', $am_snacks);
 		smarty()->assignByRef('pm_snacks', $pm_snacks);
 		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
 		smarty()->assign("dietOrder", $dietOrder);
-		smarty()->assign("texture", $texture);
+		smarty()->assign("textures", $textures);
 		smarty()->assign("portionSize", $portionSize);
 		smarty()->assign("orders", $orders);
 	}
@@ -74,6 +79,19 @@ class PatientInfoController extends DietaryController {
 		if (input()->weight != "") {
 			$patientDiet->weight = input()->weight;
 		}
+
+		if(input()->other_diet_info){
+			$patientDiet->diet_info_other = input()->other_diet_info;
+		}
+
+		if(input()->other_texture_info){
+			$patientDiet->texture_other = input()->other_texture_info;
+		}
+
+		if(input()->other_orders_info){
+			$patientDiet->orders_other = input()->other_texture_info;
+		}
+
 
 		// set allergies array
 		$allergiesArray = array();
@@ -107,25 +125,71 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
-		if (input()->diet_info != "") {
-			$patientDiet->diet_info = input()->diet_info;
+		// set adaptive equipment array
+		$adaptEquipArray = array();
+		if (!empty (input()->adaptEquip)) {
+			foreach (input()->adaptEquip as $item) {
+				$adaptEquip = $this->loadModel("AdaptEquip")->fetchByName($item);
+				$patientAdaptEquip = $this->loadModel("PatientAdaptEquip")->fetchByPatientAndAdaptEquipId($patient->id, $adaptEquip->id);
+
+				if ($patientAdaptEquip->patient_id == "") {
+					$patientAdaptEquip->patient_id = $patient->id;
+					$patientAdaptEquip->adapt_equip_id = $adaptEquip->id;
+					$adaptEquipArray[] = $patientAdaptEquip;
+				}
+			}
+		}
+
+		// set diet_info array
+		$dietInfoArray = array();
+		if (!empty (input()->diet_info)) {
+			foreach (input()->diet_info as $item) {
+				$diet_info = $this->loadModel("DietInfo")->fetchByName($item);
+				$patientDietInfo = $this->loadModel("PatientDietInfo")->fetchByPatientAndDietInfoId($patient->id, $diet_info->id);
+
+				if ($patientDietInfo->patient_id == "") {
+					$patientDietInfo->patient_id = $patient->id;
+					$patientDietInfo->diet_info_id = $diet_info->id;
+					$patientDietInfoArray[] = $patientDietInfo;
+				}
+			}
 		} else {
 			$feedback[] = "Diet order has not been entered";
 		}
 
-		if (input()->texture != "") {
-			$patientDiet->texture = input()->texture;
+		// set texture array
+		if (!empty (input()->texture)) {
+			foreach (input()->texture as $item) {
+				$texture_item = $this->loadModel("Texture")->fetchByName($item);
+				$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
+
+				if ($patientTexture->patient_id == "") {
+					$patientTexture->patient_id = $patient->id;
+					$patientTexture->texture_id = $texture_item->id;
+					$patientTextureArray[] = $patientTexture;
+				}
+			}
 		} else {
 			$feedback[] = "Diet texture has not been entered";
 		}
 
-		if (input()->orders != "") {
-			$patientDiet->orders = input()->orders;
+		// set order array
+		if (!empty (input()->orders)) {
+			foreach (input()->orders as $item) {
+				$order_item = $this->loadModel("Order")->fetchByName($item);
+				$patientOrder = $this->loadModel("PatientOrder")->fetchByPatientAndOrderId($patient->id, $order_item->id);
+
+				if ($patientOrder->patient_id == "") {
+					$patientOrder->patient_id = $patient->id;
+					$patientOrder->order_id = $order_item->id;
+					$patientOrderArray[] = $patientOrder;
+				}
+			}
 		} else {
-			$feedback[] = "Orders have not been entered";
+			$feedback[] = "Diet texture has not been entered";
 		}
 
-		if (input()->portion_size != "") {
+		if (!empty(input()->portion_size)) {
 			$patientDiet->portion_size = input()->portion_size;
 		} else {
 			$feedback[] = "Portion size has not been entered";
@@ -163,11 +227,30 @@ class PatientInfoController extends DietaryController {
 				$item->save();
 			}
 
+			// save the patient's diet info
+			foreach ($patientDietInfoArray as $item) {
+				$item->save();
+			}
+
+			// save the patient's adapt equip info
+			foreach ($adaptEquipArray as $item) {
+				$item->save();
+			}
+
+			// save the patient's texture info
+			foreach ($patientTextureArray as $item) {
+				$item->save();
+			}
+
 			// save the patient's dislikes
 			foreach ($dislikesArray as $item) {
 				$item->save();
 			}
 
+			// save the patient's orders
+			foreach ($patientOrderArray as $item) {
+				$item->save();
+			}
 			// save the patient's snacks. Snacks are very important, especially late at night when you are really hungry.
 			foreach ($snackArray as $item) {
 				foreach ($item as $i) {
@@ -185,65 +268,6 @@ class PatientInfoController extends DietaryController {
 
 	}
 
-//This action has all of the original (pre-pdf) traycard functions
-/*	public function traycard() {
-		smarty()->assign("title", "Print Traycard");
-		$this->template = "print";
-
-		if (input()->patient != "") {
-			$patient = $this->loadModel("Patient", input()->patient);
-		} else {
-			session()->setFlash("Could not fine the selected patient, please try again.", 'error');
-			$this->redirect();
-		}
-
-		$weekSeed = date('Y-m-d');
-		$week = Calendar::getWeek($weekSeed);
-
-		$_dateStart = date('Y-m-d', strtotime($week[0]));
-
-		$location = $this->getLocation();
-	  $menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
-		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
-		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
-
-		$now = date('Y-m-d', strtotime('now'));
-		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
-		$menuItems[0]->meal = "Breakfast";
-		$menuItems[1]->meal = "Lunch";
-		$menuItems[2]->meal = "Dinner";
-		// need to get patient diet info
-		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
-		// get patient schedule info
-		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
-
-		// get allergies, food dislikes, and snacks
-		// fetch the allergies, dislikes and snacks
-		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
-		$dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
-		$am_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "am");
-		$pm_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "pm");
-		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
-
-		// calculate the patients age
-		$age = getAge(date('m/d/Y', strtotime($patient->date_of_birth)));
-
-		smarty()->assignByRef('patient', $patient);
-		smarty()->assignByRef('schedule', $schedule);
-		smarty()->assignByRef('diet', $diet);
-		smarty()->assignByRef('allergies', $allergies);
-		smarty()->assignByRef('dislikes', $dislikes);
-		smarty()->assignByRef('am_snacks', $am_snacks);
-		smarty()->assignByRef('pm_snacks', $pm_snacks);
-		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
-
-		smarty()->assignByRef('schedule', $schedule);
-		smarty()->assignByRef('menuItems', $menuItems);
-		smarty()->assign('age', $age);
-		smarty()->assign('birthday', $birthday);
-
-	}*/
-
 	public function traycard() {
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -252,9 +276,13 @@ class PatientInfoController extends DietaryController {
 			$this->redirect();
 		}
 
-		$weekSeed = date('Y-m-d');
+		if(input()->date){
+			$weekSeed = input()->date;
+		}
+		else{
+			$weekSeed = date('Y-m-d');
+		}
 		$week = Calendar::getWeek($weekSeed);
-
 		$_dateStart = date('Y-m-d', strtotime($week[0]));
 
 		$location = $this->getLocation();
@@ -262,11 +290,30 @@ class PatientInfoController extends DietaryController {
 		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
 		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
 
+
 		$now = date('Y-m-d', strtotime('now'));
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
-		$menuItems[0]->meal = "Breakfast";
-		$menuItems[1]->meal = "Lunch";
-		$menuItems[2]->meal = "Dinner";
+
+		//Are we looking for specific meal?
+		if(!input()->meal || input()->meal == "All"){
+			$menuItems[0]->meal = "Breakfast";
+			$menuItems[1]->meal = "Lunch";
+			$menuItems[2]->meal = "Dinner";
+		}
+		else{
+			if(input()->meal == "Breakfast"){
+				$menuItems[0]->meal = "Breakfast";
+				$menuItems = array($menuItems[0]);
+			}
+			elseif (input()->meal == "Lunch") {
+				$menuItems[1]->meal = "Lunch";
+				$menuItems = array($menuItems[1]);
+			}
+			elseif (input()->meal == "Dinner") {
+				$menuItems[2]->meal = "Dinner";
+				$menuItems = array($menuItems[2]);
+			}
+		}
 		// need to get patient diet info
 		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
 		// get patient schedule info
@@ -326,7 +373,6 @@ class PatientInfoController extends DietaryController {
         )
 		);
 
-
 		// Get the patient info from the URL
 		$patient = $this->loadModel('Patient', input()->patient);
 
@@ -358,14 +404,9 @@ class PatientInfoController extends DietaryController {
 
 
 		//Bold menu label
-		$objPHPExcel->getActiveSheet()->getStyle('A24')->applyFromArray($bold);
-		$objPHPExcel->getActiveSheet()->getStyle('C24')->applyFromArray($bold);
-		$objPHPExcel->getActiveSheet()->getStyle('E24')->applyFromArray($bold);
-
-
-		$objPHPExcel->getActiveSheet()->setCellValue("A1", $patient->fullName());
-		$objPHPExcel->getActiveSheet()->setCellValue("C1", $patient->fullName());
-		$objPHPExcel->getActiveSheet()->setCellValue("E1", $patient->fullName());
+		$objPHPExcel->getActiveSheet()->getStyle('A25')->applyFromArray($bold);
+		$objPHPExcel->getActiveSheet()->getStyle('C25')->applyFromArray($bold);
+		$objPHPExcel->getActiveSheet()->getStyle('E25')->applyFromArray($bold);
 
 		foreach ($menuItems as $key => $item){
 			if($key == 0){
@@ -385,6 +426,16 @@ class PatientInfoController extends DietaryController {
 			}
 			$objPHPExcel->getActiveSheet()->getStyle($columnA . '2:' . $columnA .'15')->applyFromArray($labelAlignRight);
 
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "1", $patient->fullName());
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "7", "Textures:");
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "9", "Orders:");
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "11", "Portion Size:");
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "13", "Allergies:");
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "15", "Do Not Serve");
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "25", "Meals");
+
 			if ($birthday){
 				$objPHPExcel->getActiveSheet()->setCellValue($columnA . "3", "Birthday!");
 			}
@@ -393,7 +444,7 @@ class PatientInfoController extends DietaryController {
 			}
 
 			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."5", $menuItems[$key]->meal);
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."5", date("M d, Y"));
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."5", $_dateStart);
 
 			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."7", $diet->texture);
 
@@ -401,20 +452,28 @@ class PatientInfoController extends DietaryController {
 
 			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."11", $diet->portion_size);
 
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."13", $allergies);
+			$allergy_names = array();
+
+			foreach($allergies as $allergy){
+				array_push($allergy_names, $allergy->name);
+			}
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."13", implode(', ', $allergy_names));
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."14", "Meal consumed:");
+
+			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."15", "Do Not Serve:");
 
 			if($dislikes){
-				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."17", $dislikes);
+				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."18", $dislikes);
 			}
 			else{
-				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."17", "\n\n\n\n");
+				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."18", "\n\n\n\n\n\n");
 			}
 
 			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."26", str_replace('&amp;', '&', str_replace('</p>', "\n", str_replace('<p>', '', $item->content))));
 			$objPHPExcel->getActiveSheet()->getStyle($columnA ."26")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
 			$objPHPExcel->getActiveSheet()->getStyle($columnA ."26")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-
-
 		}
 
 
@@ -439,9 +498,21 @@ class PatientInfoController extends DietaryController {
 
 	}
 
-	/*public function traycard_options(){
+	public function traycard_options(){
+		// get the location
+		$location = $this->getLocation();
 
-	}*/
+		// check if the user has permission to access this module
+		if ($location->location_type != 1) {
+			$this->redirect();
+		}
+		$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+
+		$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
+
+		smarty()->assign('currentPatients', $currentPatients);
+	}
 
 
 	public function add_patient() {
