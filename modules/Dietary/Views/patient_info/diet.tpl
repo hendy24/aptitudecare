@@ -38,7 +38,6 @@
 		startTag("adaptEquip");
 
 
-
 		$("#allergies").tagit({
 			fieldName: "allergies[]",
 		    availableTags: fetchOptions("Allergy"),
