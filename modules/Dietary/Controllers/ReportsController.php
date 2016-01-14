@@ -92,9 +92,8 @@ class ReportsController extends DietaryController {
 		// get the location
 
 		$rooms = $this->loadModel("Room")->fetchEmpty($this->getLocation()->id);
-		$patients_adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchByLocation($this->getLocation());
+		$currentPatients = $this->loadModel("PatientAdaptEquip")->fetchByLocation($this->getLocation());
 
-		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $patients_adapt_equip);
 
 // create new PDF document
 $pdf = new TCPDF("Landscape !", PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -160,18 +159,25 @@ $html = <<<EOD
 EOD;
 
 foreach($currentPatients as $patient){
-	//pr($patient->first_name); exit;
-if(property_exists($patient, 'first_name')){
+	//Build the array of adapt equipt for this patient
+	$adapt_equip_array = array();
+	foreach ($patient as $value) {
+		array_push($adapt_equip_array, $value->name);
+	}
+	$adapt_equip_array = implode(", ", $adapt_equip_array);
+
+if(property_exists($patient[0], 'first_name')){
 $html = $html .
 <<<EOD
 		<tr>
-			<td>{$patient->number}</td>
-			<td>{$patient->first_name} {$patient->last_name}</td>
-			<td>{$patient->name}</td>
+			<td>{$patient[0]->number}</td>
+			<td>{$patient[0]->first_name} {$patient[0]->last_name}</td>
+			<td>
+				{$adapt_equip_array}
+			</td>
 		</tr>
 EOD;
 
-	//	pr($patient); exit;
 }
 	}
 $html = $html . <<<EOD

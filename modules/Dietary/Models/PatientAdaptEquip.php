@@ -37,13 +37,19 @@ class PatientAdaptEquip extends Dietary {
     $sql =
 <<<EOD
 
-    Select p.last_name, p.first_name, p.id patient_id, r.number, f.id adapt_id, f.name
+
+
+
+
+    SELECT s.room_id number, p.id patient_id, s.id admit_schedule_id, p.last_name, p.first_name, s.location_id, f.id adapt_id, f.name
     FROM ac_patient AS p
     INNER JOIN admit_schedule s ON s.patient_id = p.id
-    INNER JOIN admit_room r ON r.id = s.room_id
     LEFT JOIN dietary_patient_adapt_equip e ON e.patient_id = p.id
     left join dietary_adapt_equip f on e.adapt_equip_id = f.id
-    WHERE s.status='Approved' AND s.location_id = {$location->id}
+    WHERE s.status='Approved'
+    AND s.location_id = {$location->id}
+    AND (s.datetime_discharge >= now() OR s.datetime_discharge IS NULL)
+    ORDER BY s.room_id ASC
 EOD;
 
     $compiled_patients  = array();
@@ -55,15 +61,9 @@ EOD;
 
 
     foreach ($patients as $key => $value) {
-      if(array_search($value, $compiled_patients)){
-        //$value->name = array()
-        array_push($duped_patients, $value, true);
-      }
-      else{
-        array_push($compiled_patients, $value, true);
-      }
+      $compiled_patients[$value->patient_id][] = $value;
     }
-    pr($duped_patients); exit;
+
 
     if (!empty ($compiled_patients)) {
       return $compiled_patients;
