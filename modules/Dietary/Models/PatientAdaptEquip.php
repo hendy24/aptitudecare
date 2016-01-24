@@ -34,18 +34,16 @@ class PatientAdaptEquip extends Dietary {
     $adapt_equip = $this->loadTable("AdaptEquip");
     $schedule = $this->loadTable("Schedule");
     $room = $this->loadTable("Room");
+
     $sql =
+
 <<<EOD
-
-
-
-
-
-    SELECT s.room_id number, p.id patient_id, s.id admit_schedule_id, p.last_name, p.first_name, s.location_id, f.id adapt_id, f.name
+    SELECT g.number, p.id patient_id, s.id admit_schedule_id, p.last_name, p.first_name, s.location_id, f.id adapt_id, f.name
     FROM ac_patient AS p
     INNER JOIN admit_schedule s ON s.patient_id = p.id
     LEFT JOIN dietary_patient_adapt_equip e ON e.patient_id = p.id
     left join dietary_adapt_equip f on e.adapt_equip_id = f.id
+    left join admit_room g on s.room_id = g.id
     WHERE s.status='Approved'
     AND s.location_id = {$location->id}
     AND (s.datetime_discharge >= now() OR s.datetime_discharge IS NULL)

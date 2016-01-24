@@ -539,6 +539,7 @@ class PatientInfoController extends DietaryController {
 
 
 	public function saveAddPatient() {
+
 		$feedback = array();
 		$patient = $this->loadModel("Patient");
 		if (input()->location != "") {
@@ -583,10 +584,12 @@ class PatientInfoController extends DietaryController {
 			$schedule->datetime_admit = mysql_date(input()->admit_date);
 			$schedule->status = "Approved";
 
+
 			// set dietary patient info
 			$dietaryInfo = $this->loadModel("PatientInfo");
 			$dietaryInfo->patient_id = $patient->id;
 			$dietaryInfo->location_id = $location->id;
+
 
 			if ($schedule->save() && $dietaryInfo->save()) {
 				session()->setFlash("Added {$patient->fullName()}", 'success');
