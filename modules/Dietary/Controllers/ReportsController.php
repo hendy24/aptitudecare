@@ -92,9 +92,9 @@ $html = <<<EOD
 <table>
 	<thead>
 		<tr>
-			<td>Room</td>
-			<td>Patient</td>
-			<td>Allergy</td>
+			<td><strong>Room</strong></td>
+			<td><strong>Patient</strong></td>
+			<td><strong>Allergy</strong></td>
 		</tr>
 	</thead>
 	<tbody>
@@ -139,9 +139,9 @@ $html = <<<EOD
 <table style="background-image:purple">
 	<thead>
 		<tr>
-			<td>Room</td>
-			<td>Patient</td>
-			<td>AdaptEquip</td>
+			<td><strong>Room</strong></td>
+			<td><strong>Patient</strong></td>
+			<td><strong>Adapt Equip</strong></td>
 		</tr>
 	</thead>
 	<tbody>

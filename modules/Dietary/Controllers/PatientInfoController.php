@@ -56,6 +56,8 @@ class PatientInfoController extends DietaryController {
 
 
 	public function saveDiet() {
+
+		pr(input()); exit;
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -139,6 +141,36 @@ class PatientInfoController extends DietaryController {
 				}
 			}
 		}
+
+		// set beverages array
+		$beveragesArray = array();
+		if (!empty (input()->beverages)) {
+			foreach (input()->beverages as $item) {
+				$beverage = $this->loadModel("Beverage")->fetchByName($item);
+				$patientBeverage = $this->loadModel("PatientBeverage")->fetchByPatientAndBeverageId($patient->id, $beverage->id);
+
+				if ($patientBeverage->patient_id == "") {
+					$patientBeverage->patient_id = $patient->id;
+					$patientBeverage->beverage_id = $beverage->id;
+					$beveragesArray[] = $patientAdaptEquip;
+				}
+			}
+		}
+
+		// set supplements array
+/*		$adaptEquipArray = array();
+		if (!empty (input()->adaptEquip)) {
+			foreach (input()->adaptEquip as $item) {
+				$adaptEquip = $this->loadModel("AdaptEquip")->fetchByName($item);
+				$patientAdaptEquip = $this->loadModel("PatientAdaptEquip")->fetchByPatientAndAdaptEquipId($patient->id, $adaptEquip->id);
+
+				if ($patientAdaptEquip->patient_id == "") {
+					$patientAdaptEquip->patient_id = $patient->id;
+					$patientAdaptEquip->adapt_equip_id = $adaptEquip->id;
+					$adaptEquipArray[] = $patientAdaptEquip;
+				}
+			}
+		}*/
 
 		// set diet_info array
 		$dietInfoArray = array();
@@ -268,235 +300,55 @@ class PatientInfoController extends DietaryController {
 
 	}
 
-	public function traycard() {
-		if (input()->patient != "") {
-			$patient = $this->loadModel("Patient", input()->patient);
-		} else {
-			session()->setFlash("Could not fine the selected patient, please try again.", 'error');
-			$this->redirect();
-		}
+  public function traycard() {
+  	ini_set('memory_limit','-1');
+    $location = $this->getLocation();
+		$html = "";
 
-		if(input()->date){
-			$weekSeed = input()->date;
-		}
-		else{
-			$weekSeed = date('Y-m-d');
-		}
-		$week = Calendar::getWeek($weekSeed);
-		$_dateStart = date('Y-m-d', strtotime($week[0]));
+    if(input()->patient == "all"){
+			// check if the location is has the admission dashboard enabled
+			$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
 
-		$location = $this->getLocation();
-	  $menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
-		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
-		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+			// if the facility is using the admission dashboard, then get a list of
+			// the current patients from the admission app for the current location.
 
-
-		$now = date('Y-m-d', strtotime('now'));
-		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
-
-		//Are we looking for specific meal?
-		if(!input()->meal || input()->meal == "All"){
-			$menuItems[0]->meal = "Breakfast";
-			$menuItems[1]->meal = "Lunch";
-			$menuItems[2]->meal = "Dinner";
-		}
-		else{
-			if(input()->meal == "Breakfast"){
-				$menuItems[0]->meal = "Breakfast";
-				$menuItems = array($menuItems[0]);
+			// NOTE: if a location is using the admission dashboard they should
+			// not have the ability to add or delete patients through the dietary
+			// app interface.
+			$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+			if ($modEnabled) {
+				// until the admission app is re-built and we move to a single database we need to fetch
+				// the data from the admission db and save to the master db
+				// IMPORTANT: Remove this after admission app is re-built in new framework!!!
+				$scheduled = $this->loadModel('AdmissionDashboard')->syncCurrentPatients($location->id);
+			} else {
+				// if the locations is not using the admission dashboard then load the patients
+				// from ac_patient and dietary_patient_info tables
+				// fetch current patients
+				$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
 			}
-			elseif (input()->meal == "Lunch") {
-				$menuItems[1]->meal = "Lunch";
-				$menuItems = array($menuItems[1]);
-			}
-			elseif (input()->meal == "Dinner") {
-				$menuItems[2]->meal = "Dinner";
-				$menuItems = array($menuItems[2]);
-			}
-		}
-		// need to get patient diet info
-		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
-		// get patient schedule info
-		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
+			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
-		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
-		$dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
+	    foreach($currentPatients as $key => $patient){
+	    	if(get_class($patient) == "Patient"){
+  				$html =  $this->createHtml($patient, $location, $html);
+	    	}
+	    }
+    }
+    else{
+	  	if (input()->patient != "") {
+	    	$patient = $this->loadModel("Patient", input()->patient);
+	    	$html = $html . $this->createHtml($patient, $location, $html);
+	  	}
+		  else {
+		    session()->setFlash("Could not fine the selected patient, please try again.", 'error');
+		    $this->redirect();
+		  }
+    }
 
-		$birthday = false;
-		if(date('m-d') == substr($patient->date_of_birth,5,5)){
-			$birthday = true;
-		};
+    $this->buildPDF('', $html, false, false);
 
-		require_once VENDORS_DIR . DS . "PHPExcel/Classes/PHPExcel.php";
-
-		$headerStyles = array(
-			'font' => array(
-				'bold' => true,
-				'size' => 23
-			),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        )
-		);
-
-		$bodyStyles = array(
-			'font' => array(
-				'bold' => false,
-				'size' => 15
-			),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        )
-		);
-		$underLine = array(
-			'borders' => array(
-        'bottom' => array(
-            'style' => PHPExcel_Style_Border::BORDER_THICK,
-            'color' => array('argb' => 'FFFF0000'),
-        )
-			)
-		);
-
-		$bold = array(
-			'font' => array(
-				'bold' => true,
-				'size' => 16
-			)
-		);
-
-		$labelAlignRight = array(
-			'font' => array(
-				'bold' => true
-			),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
-        )
-		);
-
-		// Get the patient info from the URL
-		$patient = $this->loadModel('Patient', input()->patient);
-
-		// Export to a PDF file
-		// The traycard.xlsx file can by styled to display content properly (i.e. - display a border)
-		$objPHPExcel = PHPExcel_IOFactory::load(APP_PUBLIC_DIR . DS . "templates/traycard.xlsx");
-		$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
-		$rendererLibrary = 'mPDF5.3';
-		$rendererLibraryPath = VENDORS_DIR . DS . "Libraries" . DS . $rendererLibrary;
-
-
-		// Assign content to the template file
-		// This is where dynamic content is entered to be displayed on the template file
-		// PHPExcel has examples of what can be done at https://phpexcel.codeplex.com/wikipage?title=Examples&referringTitle=Home
-		$objPHPExcel->getActiveSheet()
-    ->getPageSetup()
-    ->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
-
-    $objDrawingbackground = new PHPExcel_Worksheet_Drawing();
-		//$objDrawingbackground->setWorksheet($objPHPExcel->getActiveSheet());
-		$objDrawingbackground->setName('background');
-		$objDrawingbackground->setDescription('background');
-		$objDrawingbackground->setPath(APP_PUBLIC_DIR . DS . "img/outline_smaller.png");
-
-		$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($headerStyles);
-		$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($underLine);
-		$objPHPExcel->getActiveSheet()->getStyle('A2:F35')->applyFromArray($bodyStyles);
-		$objPHPExcel->getActiveSheet()->getStyle('A2:F35')->getAlignment()->setWrapText(true);
-
-
-		//Bold menu label
-		$objPHPExcel->getActiveSheet()->getStyle('A25')->applyFromArray($bold);
-		$objPHPExcel->getActiveSheet()->getStyle('C25')->applyFromArray($bold);
-		$objPHPExcel->getActiveSheet()->getStyle('E25')->applyFromArray($bold);
-
-		foreach ($menuItems as $key => $item){
-			if($key == 0){
-				$columnA = "A";
-				$columnB = "B";
-				$breakfastMenu = $item->content;
-			}
-			elseif ($key == 1){
-				$columnA = "C";
-				$columnB = "D";
-				$lunchMenu = $item->content;
-			}
-			elseif ($key == 2){
-				$columnA = "E";
-				$columnB = "F";
-				$dinnerMenu = $item->content;
-			}
-			$objPHPExcel->getActiveSheet()->getStyle($columnA . '2:' . $columnA .'15')->applyFromArray($labelAlignRight);
-
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "1", $patient->fullName());
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "7", "Textures:");
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "9", "Orders:");
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "11", "Portion Size:");
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "13", "Allergies:");
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "15", "Do Not Serve");
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA . "25", "Meals");
-
-			if ($birthday){
-				$objPHPExcel->getActiveSheet()->setCellValue($columnA . "3", "Birthday!");
-			}
-			else{
-				$objPHPExcel->getActiveSheet()->setCellValue($columnA . "3", "\n");
-			}
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."5", $menuItems[$key]->meal);
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."5", $_dateStart);
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."7", $diet->texture);
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."9", $diet->orders);
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."11", $diet->portion_size);
-
-			$allergy_names = array();
-
-			foreach($allergies as $allergy){
-				array_push($allergy_names, $allergy->name);
-			}
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnB ."13", implode(', ', $allergy_names));
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."14", "Meal consumed:");
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."15", "Do Not Serve:");
-
-			if($dislikes){
-				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."18", $dislikes);
-			}
-			else{
-				$objPHPExcel->getActiveSheet()->setCellValue($columnA ."18", "\n\n\n\n\n\n");
-			}
-
-			$objPHPExcel->getActiveSheet()->setCellValue($columnA ."26", str_replace('&amp;', '&', str_replace('</p>', "\n", str_replace('<p>', '', $item->content))));
-			$objPHPExcel->getActiveSheet()->getStyle($columnA ."26")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
-			$objPHPExcel->getActiveSheet()->getStyle($columnA ."26")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-		}
-
-
-		if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
-			die("NOTICE: Please set the $rendererName and $rendererLibraryPath values' . EOL . 'at the top of this script as appropriate for your directory structure");
-		}
-
-		// Include required files
-		require_once VENDORS_DIR . DS . "PHPExcel/Classes//PHPExcel/IOFactory.php";
-		// If you want to output e.g. a PDF file, simply do:
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
-		// Output to PDF file
-		header('Pragma: ');
-		header("Content-type: application/pdf");
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		// Name the file
-		//header("Content-Disposition: attachment; filename=" . $facility->name . "_" . $_dateStart . ".pdf");
-
-		// Write file to the browser
-		$objWriter->save("php://output");
-		exit;
-
-	}
+  }
 
 	public function traycard_options(){
 		// get the location
@@ -669,6 +521,263 @@ class PatientInfoController extends DietaryController {
 		return false;
 	}
 
+  private function createHtml($patient, $location, $html){
+
+  if(isset(input()->date)){
+    $weekSeed = input()->date;
+  }
+  else{
+    $weekSeed = date('Y-m-d');
+  }
+  $week = Calendar::getWeek($weekSeed);
+  $_dateStart = date('Y-m-d', strtotime($week[0]));
+
+  $menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
+  $numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
+  $startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+
+
+  $now = date('Y-m-d', strtotime('now'));
+  $menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
+
+  //Are we looking for specific meal?
+	if(!isset(input()->meal) || input()->meal == "All"){
+    $menuItems[0]->meal = "Breakfast";
+    $menuItems[1]->meal = "Lunch";
+    $menuItems[2]->meal = "Dinner";
+  }
+  else{
+    if(input()->meal == "Breakfast"){
+      $menuItems[0]->meal = "Breakfast";
+      $menuItems[1]->meal = "";
+      $menuItems[2]->meal = "";
+
+    }
+    elseif (input()->meal == "Lunch") {
+      $menuItems[0]->meal = "Lunch";
+      $menuItems[1]->meal = "";
+      $menuItems[2]->meal = "";
+    }
+    elseif (input()->meal == "Dinner") {
+      $menuItems[0]->meal = "Dinner";
+      $menuItems[1]->meal = "";
+      $menuItems[2]->meal = "";
+    }
+  }
+  // need to get patient diet info
+  $diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
+  // get patient schedule info
+  $schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
+
+  $allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
+  $dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
+  $textures = $this->loadModel("PatientTexture")->fetchPatientTexture($patient->id);
+  $orders = $this->loadModel("PatientOrder")->fetchPatientOrder($patient->id);
+  $patientInfo = $this->loadModel('PatientInfo')->fetchDietInfo($patient->id);
+
+  $birthday = false;
+  if(date('m-d') == substr($patient->date_of_birth,5,5)){
+    $birthday = true;
+  };
+
+  $allergy_names = array();
+
+  if($allergies){ //Does this patient have any allergies?
+	  foreach($allergies as $allergy){
+	    array_push($allergy_names, $allergy->name);
+	  }
+  }
+  else{
+  	array_push($allergy_names, "");
+  }
+  $allergy_names = implode(', ', $allergy_names);
+
+  $texture_names = array();
+
+  foreach($textures as $texture){
+    if($texture->patient_id && $texture->name != 'Other'){
+      array_push($texture_names, $texture->name);
+    }
+    if($texture->name == 'Other'){
+      array_push($texture_names, $patientInfo->texture_other);
+    }
+  }
+  $texture_names = implode(', ', $texture_names);
+
+  $order_names = array();
+
+  if($orders){
+	  foreach($orders as $order){
+	    if($order->patient_id && $order->name != 'Other'){
+	      array_push($order_names, $order->name);
+	    }
+	    if($order->name == 'Other'){
+	      array_push($order_names, $patientInfo->orders_other);
+	    }
+	  }
+  }
+  else{
+  	array_push($order_names, "");
+  }
+  $order_names = implode(', ', $order_names);
+
+  $dislike_names = array();
+
+  if($dislikes){
+	  foreach($dislikes as $dislike){
+	    array_push($dislike_names, $dislike->name);
+	  }
+	}
+	else{
+  	array_push($dislike_names, "");
+	}
+  $dislike_names = implode(', ', $dislike_names);
+
+  $_dateStart = date("F jS, Y", strtotime($_dateStart));
+
+//Here's where we make the rows modular so they can choose specific meals instead of always printing all of them
+$headerRow = <<<EOD
+<th colspan="2" align="center"><strong>{$menuItems[0]->meal}</strong></th>
+<th colspan="2" align="center"><strong>{$menuItems[1]->meal}</strong></th>
+<th colspan="2" align="center"><strong>{$menuItems[2]->meal}</strong></th>
+EOD;
+    $nameRow = "";
+    $consumedRow ="";
+    $birthdayRow = "";
+    $portionRow = "";
+    $allergyRow = "";
+    $textureRow = "";
+    $orderRow = "";
+    $dislikeRow = "";
+    $mealRow = "";
+    $contentRow = "";
+
+    foreach($menuItems as $item){
+if ($item->meal != ""){
+
+$nameRow = $nameRow . <<<EOD
+  <td>{$patient->first_name} {$patient->last_name}</td>
+  <td>{$_dateStart}</td>
+EOD;
+
+$consumedRow = $consumedRow . <<<EOD
+  <td>Meal Consumed: </td>
+  <td></td>
+EOD;
+
+$birthdayRow = $birthdayRow . <<<EOD
+  <td colspan="2" class="birthday">Happy Birthday!</td>
+
+EOD;
+
+$portionRow = $portionRow . <<<EOD
+  <td>Portion size: </td>
+  <td>{$patientInfo->portion_size}</td>
+EOD;
+
+
+$allergyRow = $allergyRow . <<<EOD
+  <td class="allergy">Allergies:</td>
+  <td class="allergy">{$allergy_names}</td>
+EOD;
+
+$textureRow = $textureRow . <<<EOD
+  <td >Textures:</td>
+  <td >{$texture_names}</td>
+EOD;
+
+$orderRow = $orderRow . <<<EOD
+  <td >Orders:</td>
+  <td >{$order_names}</td>
+EOD;
+
+$dislikeRow = $dislikeRow . <<<EOD
+  <td >Do Not Serve:</td>
+  <td >{$dislike_names}</td>
+EOD;
+
+$mealRow = $mealRow . <<<EOD
+  <td colspan="2" align="center" class="border_bottom">Meal</td>
+EOD;
+
+$contentRow = $contentRow . <<<EOD
+  <td colspan="2">{$item->content}</td>
+EOD;
+}
+
+    }
+
+$html = $html . <<<EOD
+  <style>
+    .birthday{
+      color:green;
+    }
+    .allergy{
+      color:red;
+      font-style:italic;
+
+    }
+    .border_bottom{
+    	border-bottom:1px solid black;
+    }
+  </style>
+  <table cellpadding="4">
+    <thead>
+      <tr>
+      	{$headerRow}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {$nameRow}
+      </tr>
+EOD;
+if($birthday){
+$html = $html . <<<EOD
+      <tr>
+      	{$birthdayRow}
+      </tr>
+EOD;
+
+  }
+
+$html = $html . <<<EOD
+      <tr>
+      	{$consumedRow}
+      </tr>
+      <tr>
+      	{$portionRow}
+      </tr>
+      <tr>
+      	{$allergyRow}
+      </tr>
+
+      <tr>
+        {$textureRow}
+      </tr>
+
+      <tr>
+      	{$orderRow}
+      </tr>
+
+      <tr>
+      	{$dislikeRow}
+      </tr>
+
+      <tr>
+      	{$mealRow}
+      </tr>
+      <tr>
+      	{$contentRow}
+      </tr>
+    </tbody>
+  </table>
+  <br pagebreak="true"/>
+EOD;
+		//
+
+		return $html;
+	}
 
 
 

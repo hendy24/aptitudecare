@@ -24,7 +24,7 @@ class PatientInfo extends Dietary {
     $sql =
 
 <<<EOD
-  SELECT g.number, p.id patient_id, s.id admit_schedule_id, p.last_name, p.first_name, s.location_id, f.id allergy_id, f.name
+  SELECT g.number, p.id patient_id, s.id admit_schedule_id, p.last_name, p.first_name, s.location_id, f.id allergy_id, f.name, p.id
 	FROM ac_patient AS p
 	INNER JOIN admit_schedule s ON s.patient_id = p.id
 	LEFT JOIN dietary_patient_food_info e ON e.patient_id = p.id
@@ -33,6 +33,7 @@ class PatientInfo extends Dietary {
 	WHERE s.status='Approved'
 	AND s.location_id = {$location->id}
 	AND (s.datetime_discharge >= now() OR s.datetime_discharge IS NULL)
+	group by g.number, p.id, s.id, p.last_name, p.first_name, s.location_id, f.id, f.name, p.id
 	ORDER BY s.room_id ASC
 EOD;
 

@@ -9,7 +9,7 @@
 		startTag = function(category){
 			$("#" + category).tagit({
 				fieldName: category + "[]",
-				availableTags: fetchOptions(category),
+				//availableTags: fetchOptions(category),
 				autocomplete: {delay: 0, minLength: 2},
 				showAutocompleteOnFocus: false,
 				caseSensitive: false,
@@ -30,64 +30,63 @@
 			});
 		}
 
-		var tagOptions = ["adaptEquip", "allergies", "dislikes"]
-/*		for (category of tagOptions){
+		var tagOptions = ["adaptEquip", "allergies", "dislikes", "beverages", "supplements"];
+		for (category of tagOptions){
 				startTag(category);
-		}*/
+		}
 
-		startTag("adaptEquip");
+		//startTag("adaptEquip");
 
 
-		$("#allergies").tagit({
+/*		$("#allergies").tagit({
 			fieldName: "allergies[]",
-		    availableTags: fetchOptions("Allergy"),
-		    autocomplete: {delay: 0, minLength: 2},
-            showAutocompleteOnFocus: false,
-            caseSensitive: false,
-            allowSpaces: true,
+	    availableTags: fetchOptions("Allergy"),
+	    autocomplete: {delay: 0, minLength: 2},
+        showAutocompleteOnFocus: false,
+        caseSensitive: false,
+        allowSpaces: true,
 
-            beforeTagRemoved: function(event, ui) {
-		        // if tag is removed, need to delete from the db
-		        var patientId = $("#patient-id").val();
-		        var allergyName = ui.tagLabel;
-		        $.post(SITE_URL, {
-		        	page: "PatientInfo",
-		        	action: "deleteItem",
-		        	patient: patientId,
-		        	name: allergyName,
-		        	type: "allergy"
-		        	}, function (e) {
-		        		console.log(e);
-		        	}, "json"
-		        );
-		    }
-      });
+        beforeTagRemoved: function(event, ui) {
+        // if tag is removed, need to delete from the db
+        var patientId = $("#patient-id").val();
+        var allergyName = ui.tagLabel;
+        $.post(SITE_URL, {
+        	page: "PatientInfo",
+        	action: "deleteItem",
+        	patient: patientId,
+        	name: allergyName,
+        	type: "allergy"
+        	}, function (e) {
+        		console.log(e);
+        	}, "json"
+        );
+	    }
+    });
 
-        $("#dislikes").tagit({
-        	fieldName: "dislikes[]",
-        	availableTags: fetchOptions("Dislike"),
-        	autocomplete: {delay:0, minLength: 2},
-        	showAutocompleteOnFocus: false,
-        	caseSensitive: false,
-        	allowSpaces: true,
+    $("#dislikes").tagit({
+    	fieldName: "dislikes[]",
+    	availableTags: fetchOptions("Dislike"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+      beforeTagRemoved: function(event, ui) {
+        // if tag is removed, need to delete from the db
+        var patientId = $("#patient-id").val();
+        var dislikeName = ui.tagLabel;
+        $.post(SITE_URL, {
+        	page: "PatientInfo",
+        	action: "deleteItem",
+        	patient: patientId,
+        	name: dislikeName,
+        	type: "dislike"
+        	}, function (e) {
+        		console.log(e);
+        	}, "json"
+        );
+	    }
 
-            beforeTagRemoved: function(event, ui) {
-		        // if tag is removed, need to delete from the db
-		        var patientId = $("#patient-id").val();
-		        var dislikeName = ui.tagLabel;
-		        $.post(SITE_URL, {
-		        	page: "PatientInfo",
-		        	action: "deleteItem",
-		        	patient: patientId,
-		        	name: dislikeName,
-		        	type: "dislike"
-		        	}, function (e) {
-		        		console.log(e);
-		        	}, "json"
-		        );
-		    }
-
-        });
+    });*/
 
         $("#snackAM").tagit({
         	fieldName: "am[]",
@@ -266,6 +265,30 @@
 			<td><strong>Adaptative Equipment:</strong></td>
 			<td colspan="3" class="text-right">
 				<ul id="adaptEquip">
+					{if $adaptEquip}
+						{foreach from=$adaptEquip item=equip}
+						<li>{$equip->name}</li>
+						{/foreach}
+					{/if}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Beverages:</strong></td>
+			<td colspan="3" class="text-right">
+				<ul id="beverages">
+					{if $adaptEquip}
+						{foreach from=$adaptEquip item=equip}
+						<li>{$equip->name}</li>
+						{/foreach}
+					{/if}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Supplements:</strong></td>
+			<td colspan="3" class="text-right">
+				<ul id="supplements">
 					{if $adaptEquip}
 						{foreach from=$adaptEquip item=equip}
 						<li>{$equip->name}</li>

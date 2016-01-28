@@ -47,6 +47,7 @@ class PatientAdaptEquip extends Dietary {
     WHERE s.status='Approved'
     AND s.location_id = {$location->id}
     AND (s.datetime_discharge >= now() OR s.datetime_discharge IS NULL)
+    group by g.number, p.id, s.id, p.last_name, p.first_name, s.location_id, f.id, f.name
     ORDER BY s.room_id ASC
 EOD;
 

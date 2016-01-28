@@ -101,7 +101,7 @@ class DietaryController extends MainPageController {
 	}
 
 
-	public function buildPDF($title, $html){
+	public function buildPDF($title, $html, $footer, $header){
 		// create new PDF document
 		$pdf = new TCPDF("Landscape !", PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -117,9 +117,17 @@ class DietaryController extends MainPageController {
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 		// set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetMargins(7, PDF_MARGIN_TOP, 7);
 		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		if($footer == false){
+			$pdf->SetPrintFooter(false);
+		}
+
+		if($header == false){
+			$pdf->SetPrintHeader(false);
+		}
 
 		// set auto page breaks
 		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
