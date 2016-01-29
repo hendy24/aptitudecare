@@ -277,9 +277,9 @@
 			<td><strong>Beverages:</strong></td>
 			<td colspan="3" class="text-right">
 				<ul id="beverages">
-					{if $adaptEquip}
-						{foreach from=$adaptEquip item=equip}
-						<li>{$equip->name}</li>
+					{if $beverages}
+						{foreach from=$beverages item=beverage}
+						<li>{$beverage->name}</li>
 						{/foreach}
 					{/if}
 				</ul>
@@ -289,9 +289,9 @@
 			<td><strong>Supplements:</strong></td>
 			<td colspan="3" class="text-right">
 				<ul id="supplements">
-					{if $adaptEquip}
-						{foreach from=$adaptEquip item=equip}
-						<li>{$equip->name}</li>
+					{if $supplements}
+						{foreach from=$supplements item=supplement}
+						<li>{$supplement->name}</li>
 						{/foreach}
 					{/if}
 				</ul>

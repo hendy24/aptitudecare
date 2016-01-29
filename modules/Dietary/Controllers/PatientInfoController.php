@@ -28,6 +28,9 @@ class PatientInfoController extends DietaryController {
 		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
 
 		$adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
+		$beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id);
+		$supplements = $this->loadModel("PatientSupplement")->fetchPatientSupplement($patient->id);
+
 
 		// set arrays for checkboxes, dropdowns, etc.
 		$dietOrder = $this->loadModel("PatientDietInfo")->fetchPatientDietInfo($patient->id);
@@ -38,13 +41,13 @@ class PatientInfoController extends DietaryController {
 
 		$orders = $this->loadModel("PatientOrder")->fetchPatientOrder($patient->id);
 
-//		$orders = array("Isolation", "Fluid Restriction", "Clear Liquid", "Adaptive Equipment", "Other");
-
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
 		smarty()->assignByRef('allergies', $allergies);
 		smarty()->assignByRef('dislikes', $dislikes);
 		smarty()->assignByRef('adaptEquip', $adapt_equip);
+		smarty()->assignByRef('beverages', $beverages);
+		smarty()->assignByRef('supplements', $supplements);
 		smarty()->assignByRef('am_snacks', $am_snacks);
 		smarty()->assignByRef('pm_snacks', $pm_snacks);
 		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
@@ -56,8 +59,6 @@ class PatientInfoController extends DietaryController {
 
 
 	public function saveDiet() {
-
-		pr(input()); exit;
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -74,13 +75,13 @@ class PatientInfoController extends DietaryController {
 		$patient->date_of_birth = mysql_date(input()->date_of_birth);
 
 		// if input fields are not empty then set the data
-		if (input()->height != "") {
+/*		if (input()->height != "") {
 			$patientDiet->height = input()->height;
 		}
 
 		if (input()->weight != "") {
 			$patientDiet->weight = input()->weight;
-		}
+		}*/
 
 		if(input()->other_diet_info){
 			$patientDiet->diet_info_other = input()->other_diet_info;
@@ -152,28 +153,28 @@ class PatientInfoController extends DietaryController {
 				if ($patientBeverage->patient_id == "") {
 					$patientBeverage->patient_id = $patient->id;
 					$patientBeverage->beverage_id = $beverage->id;
-					$beveragesArray[] = $patientAdaptEquip;
+					$beveragesArray[] = $patientBeverage;
 				}
 			}
 		}
 
 		// set supplements array
-/*		$adaptEquipArray = array();
-		if (!empty (input()->adaptEquip)) {
-			foreach (input()->adaptEquip as $item) {
-				$adaptEquip = $this->loadModel("AdaptEquip")->fetchByName($item);
-				$patientAdaptEquip = $this->loadModel("PatientAdaptEquip")->fetchByPatientAndAdaptEquipId($patient->id, $adaptEquip->id);
+		$supplementsArray = array();
+		if (!empty (input()->supplements)) {
+			foreach (input()->supplements as $item) {
+				$supplement = $this->loadModel("Supplement")->fetchByName($item);
+				$patientSupplement = $this->loadModel("PatientSupplement")->fetchByPatientAndSupplementId($patient->id, $supplement->id);
 
-				if ($patientAdaptEquip->patient_id == "") {
-					$patientAdaptEquip->patient_id = $patient->id;
-					$patientAdaptEquip->adapt_equip_id = $adaptEquip->id;
-					$adaptEquipArray[] = $patientAdaptEquip;
+				if ($patientSupplement->patient_id == "") {
+					$patientSupplement->patient_id = $patient->id;
+					$patientSupplement->supplement_id = $supplement->id;
+					$supplementsArray[] = $patientSupplement;
 				}
 			}
-		}*/
+		}
 
 		// set diet_info array
-		$dietInfoArray = array();
+		$patientdietInfoArray = array();
 		if (!empty (input()->diet_info)) {
 			foreach (input()->diet_info as $item) {
 				$diet_info = $this->loadModel("DietInfo")->fetchByName($item);
@@ -232,8 +233,6 @@ class PatientInfoController extends DietaryController {
 		}
 
 		$snackArray = array();
-
-
 		if (!empty(input()->am)) {
 			$snackArray[] = $this->saveFoodItems(input()->am, $patient->id, "am");
 		} else {
@@ -266,6 +265,17 @@ class PatientInfoController extends DietaryController {
 
 			// save the patient's adapt equip info
 			foreach ($adaptEquipArray as $item) {
+				$item->save();
+			}
+
+			// save the patient's beverage info
+			foreach ($beveragesArray as $item) {
+				$item->save();
+			}
+
+
+			// save the patient's beverage info
+			foreach ($supplementsArray as $item) {
 				$item->save();
 			}
 
