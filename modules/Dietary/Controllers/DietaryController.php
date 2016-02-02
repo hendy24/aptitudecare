@@ -1,6 +1,9 @@
 <?php
 // Include the main TCPDF library (search for installation path).
 require_once('../protected/Libs/Components/tcpdf/tcpdf.php');
+require_once('../protected/Libs/Components/tcpdf/class.label.php');
+require_once('../protected/Libs/Components/tcpdf/class.labelExemple.php');
+
 
 class DietaryController extends MainPageController {
 
@@ -101,73 +104,124 @@ class DietaryController extends MainPageController {
 	}
 
 
-	public function buildPDF($title, $html, $footer, $header){
-		// create new PDF document
-		$pdf = new TCPDF("Landscape !", PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+	public function buildPDFOptions($pdfDetails){
 
-		// set default header data
-		$pdf->SetHeaderData("", PDF_HEADER_LOGO_WIDTH, $title, "", array(0,64,255), array(0,64,128));
-		$pdf->setFooterData(array(0,64,0), array(0,64,128));
-
-		// set header and footer fonts
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-		// set default monospaced font
-		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-		// set margins
-		$pdf->SetMargins(7, PDF_MARGIN_TOP, 7);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-		if($footer == false){
-			$pdf->SetPrintFooter(false);
+		if (array_key_exists('orientation', $pdfDetails)) {
+    		$orientation = $pdfDetails["orientation"];	
+		} else{
+			$orientation = "Landscape";
 		}
-
-		if($header == false){
-			$pdf->SetPrintHeader(false);
+		if (array_key_exists('title', $pdfDetails)) {
+    		$title = $pdfDetails["title"];	
+		} else{
+			$title = "Report";
 		}
-
-		// set auto page breaks
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-		// set image scale factor
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-		// set some language-dependent strings (optional)
-		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-			require_once(dirname(__FILE__).'/lang/eng.php');
-			$pdf->setLanguageArray($l);
+		if (array_key_exists('html', $pdfDetails)) {
+    		$html = $pdfDetails["html"];	
+		} else{
+			$html = "<table></table>";
 		}
+		if (array_key_exists('header', $pdfDetails)) {
+    		$header = $pdfDetails["header"];	
+		} else{
+			$header = false;
+		}
+		if (array_key_exists('footer', $pdfDetails)) {
+    		$footer = $pdfDetails["footer"];	
+		} else{
+			$footer = false;
+		}
+		if (array_key_exists('label', $pdfDetails)) {
+			$pdf = new labelBook( 10 , $html , "../protected/Libs/Components/tcpdf/", "labels.xml", false);
 
-		// ---------------------------------------------------------
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor("AHC");
+			$pdf->SetTitle($title);
+			$pdf->SetSubject($title);
 
-		// set default font subsetting mode
-		$pdf->setFontSubsetting(true);
+			// remove default header/footer
+			$pdf->setPrintHeader(false);
+			$pdf->setPrintFooter(false);
 
-		// Set font
-		// dejavusans is a UTF-8 Unicode font, if you only need to
-		// print standard ASCII chars, you can use core fonts like
-		// helvetica or times to reduce file size.
-		$pdf->SetFont('dejavusans', '', 12, '', true);
+			// remove default margin
+			$pdf->SetHeaderMargin(0);
+			$pdf->SetFooterMargin(0);
 
-		// Add a page
-		// This method has several options, check the source code documentation for more information.
-		$pdf->AddPage();
+			$pdf->SetAutoPageBreak( true, 0);
 
-		// set text shadow effect
-		$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+			//set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
 
-		// Print text using writeHTMLCell()
-		$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+			$pdf->Addlabel();
 
-		// ---------------------------------------------------------
+		} else{
+			// create new PDF document
+			$pdf = new TCPDF($orientation . " !", PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
+
+			// set default header data
+			$pdf->SetHeaderData("", PDF_HEADER_LOGO_WIDTH, $title, "", array(0,64,255), array(0,64,128));
+			$pdf->setFooterData(array(0,64,0), array(0,64,128));
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+			// set margins
+			$pdf->SetMargins(7, PDF_MARGIN_TOP, 7);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			if($footer == false){
+				$pdf->SetPrintFooter(false);
+			}
+
+			if($header == false){
+				$pdf->SetPrintHeader(false);
+			}
+
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			// set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			// set some language-dependent strings (optional)
+			if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+				require_once(dirname(__FILE__).'/lang/eng.php');
+				$pdf->setLanguageArray($l);
+			}
+
+			// ---------------------------------------------------------
+
+			// set default font subsetting mode
+			$pdf->setFontSubsetting(true);
+
+			// Set font
+			// dejavusans is a UTF-8 Unicode font, if you only need to
+			// print standard ASCII chars, you can use core fonts like
+			// helvetica or times to reduce file size.
+			$pdf->SetFont('dejavusans', '', 12, '', true);
+
+			// Add a page
+			// This method has several options, check the source code documentation for more information.
+			$pdf->AddPage();
+
+			// set text shadow effect
+			$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+
+			// Print text using writeHTMLCell()
+			$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+			// ---------------------------------------------------------
+
+		}
 		// Close and output PDF document
 		// This method has several options, check the source code documentation for more information.
-		$pdf->Output('example_001asdf.pdf', 'I');
-
+		$pdf->Output($title . '.pdf', 'I');
 
 	}
 

@@ -81,6 +81,59 @@ class ReportsController extends DietaryController {
 		smarty()->assign("numDays", $days);
 	}
 
+	public function beverages() {
+		smarty()->assign('title', "Beverages Report");
+		$location = $this->getLocation();
+
+
+		smarty()->assign('location', $location);
+
+	}
+
+	public function beverages_pdf() {
+
+		$location = $this->getLocation();
+		$title = "Beverage report for " . $location->name . " on " . input()->date;
+		$date = date('Y-m-d', strtotime(input()->date));
+		$beverages = $this->loadModel("PatientBeverage")->fetchBeverageReport($location, $date);
+		if(!is_array($beverages)){
+			session()->setFlash("No beverages found for this time", "error");
+			$this->redirect();
+		}
+
+		$html = <<<EOD
+<table>
+	<thead>
+		<tr>
+			<th><strong>Beverage</strong></th>
+			<th><strong>Count</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+EOD;
+
+foreach($beverages as $beverage){
+	$html = $html . <<<EOD
+		<tr>
+			<td>{$beverage->name}</td>
+			<td>{$beverage->quantity}</td>
+		</tr>
+EOD;
+}
+
+$html = $html . <<<EOD
+		</tbody>
+	</table>
+
+EOD;
+
+
+		$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => false, "orientation" => "Portrait");
+
+		$this->buildPDFOptions($pdfDetails);
+
+	}
+
 	public function allergies_pdf() {
 		$location = $this->getLocation();
 
@@ -127,9 +180,52 @@ $html = $html . <<<EOD
 </table>
 EOD;
 
-		$this->buildPDF($title, $html);
+
+		$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => true, "orientation" => "Landscape");
+
+		$this->buildPDFOptions($pdfDetails);
 
 	}
+
+public function snack_report_pdf() {
+		$location = $this->getLocation();
+		$title = 'Snack Report for '. $location->name;
+		$snackList = $this->loadModel("PatientSnack")->fetchByLocation($location);
+//		$local = $location->sha512();
+	$rowcount = count($snackList);
+
+// Declaration of table $data
+$data = array();
+
+foreach ($snackList as $snack => $value) {
+$html = <<<EOD
+<table>
+	<tbody>
+		<tr>
+			<td>{$value->first_name} {$value->last_name}</td>
+		</tr>
+		<tr>
+			<td>{$value->name}</td>
+		</tr>
+		<tr>
+			<td>{$value->time}</td>
+		</tr>
+	</tbody>
+</table>
+EOD;
+
+array_push($data,$html);
+
+}
+
+
+	$pdfDetails = array("title" => $title, "html" => $html, "header" => false, "footer" => false, "orientation" => "Portrait", "label" => true);
+
+	$this->buildPDFOptions($pdfDetails);
+
+
+}
+
 
 	public function adaptive_equipment_pdf() {
 		$location = $this->getLocation();
@@ -176,7 +272,10 @@ EOD;
 
 	$title = 'Adaptive Equipment Report for ' . $location->name;
 
-	$this->buildPDF($title, $html);
+	$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => true, "orientation" => "Landscape");
+
+	$this->buildPDFOptions($pdfDetails);
+
 
 	/*
 	 * -------------------------------------------------------------------------
