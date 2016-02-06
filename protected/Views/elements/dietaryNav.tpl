@@ -16,7 +16,8 @@
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=adaptive_equipment_pdf&amp;location={$location->public_id}" target="_blank">Adaptive Equipment</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=allergies_pdf&amp;location={$location->public_id}" target="_blank">Allergies</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=beverages&amp;location={$location->public_id}">Beverages</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=snack_report_pdf&amp;location={$location->public_id}" target="_blank">Snack Labels</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=snack_label_pdf&amp;location={$location->public_id}" target="_blank">Snack Labels</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=snack_report_pdf&amp;location={$location->public_id}" target="_blank">Snack Report</a></li>
 	</ul>
 </li>
 <li>Photos

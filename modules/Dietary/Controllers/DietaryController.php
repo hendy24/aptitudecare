@@ -132,7 +132,7 @@ class DietaryController extends MainPageController {
 			$footer = false;
 		}
 		if (array_key_exists('label', $pdfDetails)) {
-			$pdf = new labelBook( 10 , $html , "../protected/Libs/Components/tcpdf/", "labels.xml", false);
+			$pdf = new labelExemple( 10 , $html , "../protected/Libs/Components/tcpdf/", "labels.xml", false);
 
 			$pdf->SetCreator(PDF_CREATOR);
 			$pdf->SetAuthor("AHC");
@@ -144,8 +144,8 @@ class DietaryController extends MainPageController {
 			$pdf->setPrintFooter(false);
 
 			// remove default margin
-			$pdf->SetHeaderMargin(0);
-			$pdf->SetFooterMargin(0);
+//			$pdf->SetHeaderMargin(0);
+//			$pdf->SetFooterMargin(0);
 
 			$pdf->SetAutoPageBreak( true, 0);
 
@@ -156,7 +156,7 @@ class DietaryController extends MainPageController {
 
 		} else{
 			// create new PDF document
-			$pdf = new TCPDF($orientation . " !", PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			$pdf = new TCPDF($orientation . " !", PDF_UNIT, 'LETTER', true, 'UTF-8', false);
 
 
 			// set default header data

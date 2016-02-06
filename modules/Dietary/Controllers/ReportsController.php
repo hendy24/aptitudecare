@@ -187,9 +187,9 @@ EOD;
 
 	}
 
-public function snack_report_pdf() {
+public function snack_label_pdf() {
 		$location = $this->getLocation();
-		$title = 'Snack Report for '. $location->name;
+		$title = 'Snack Labels for '. $location->name . " on ";
 		$snackList = $this->loadModel("PatientSnack")->fetchByLocation($location);
 //		$local = $location->sha512();
 	$rowcount = count($snackList);
@@ -219,12 +219,51 @@ array_push($data,$html);
 }
 
 
-	$pdfDetails = array("title" => $title, "html" => $html, "header" => false, "footer" => false, "orientation" => "Portrait", "label" => true);
+	$pdfDetails = array("title" => $title, "html" => $data, "header" => false, "footer" => false, "orientation" => "Portrait", "label" => true);
 
 	$this->buildPDFOptions($pdfDetails);
 
 
 }
+
+public function snack_report_pdf() {
+		$location = $this->getLocation();
+		$title = 'Snack Report for '. $location->name. " on ";
+		$snackList = $this->loadModel("PatientSnack")->fetchByLocationSnackReport($location);
+//		$local = $location->sha512();
+
+
+$html = <<<EOD
+<table>
+	<thead>
+		<tr>
+			<th><strong>Snack</strong></th>
+			<th><strong>Count</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+EOD;
+
+foreach ($snackList as $snack => $value) {
+$html = $html . <<<EOD
+<tr>
+	<td>{$value->name}</td>
+	<td>{$value->Count}</td>	
+</tr>
+EOD;
+}
+
+$html = $html . <<<EOD
+	</tbody>
+</table>
+EOD;
+
+	$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => false, "orientation" => "Portrait");
+
+	$this->buildPDFOptions($pdfDetails);
+
+}
+
 
 
 	public function adaptive_equipment_pdf() {

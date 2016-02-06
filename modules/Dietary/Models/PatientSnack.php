@@ -58,17 +58,11 @@ class PatientSnack extends Dietary {
     ORDER BY s.room_id ASC
 EOD;
 
-    $compiled_patients  = array();
-    $duped_patients = array();
 
 
     //$params[":location_id"] = 3;
     $snacks = $this->fetchAll($sql);
 
-
-    foreach ($snacks as $key => $value) {
-      $compiled_patients[$value->patient_id][] = $value;
-    }
 
 
     return $snacks;
@@ -77,6 +71,35 @@ EOD;
 //    } else {
 //      return $this->fetchColumnNames();
 //    }
+  }
+
+  public function fetchByLocationSnackReport($location) {
+//    $adapt_equip = $this->loadTable("AdaptEquip");
+//    $schedule = $this->loadTable("Schedule");
+//    $room = $this->loadTable("Room");
+
+    $sql =
+
+<<<EOD
+  SELECT f.name, Count(f.name) Count
+  FROM ac_dev.ac_patient AS p
+  INNER JOIN ac_dev.admit_schedule s ON s.patient_id = p.id
+  inner join ac_dev.dietary_patient_snack e ON e.patient_id = p.id
+  left join ac_dev.dietary_snack f on e.snack_id = f.id
+  left join ac_dev.admit_room g on s.room_id = g.id
+  WHERE s.status='Approved'
+  AND s.location_id = {$location->id}
+  AND (s.datetime_discharge >= now() OR s.datetime_discharge IS NULL)
+  group by f.name
+  Order BY e.time, COUNT(f.name) desc
+EOD;
+
+    //$params[":location_id"] = 3;
+    $snacks = $this->fetchAll($sql);
+
+
+
+    return $snacks;
   }
 
 
