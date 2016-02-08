@@ -51,14 +51,18 @@ class MainPageController extends MainController {
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
 
-
 		if (auth()->isLoggedIn()) {
 			if ($this->action == "admission_login") {
 				// this is a hack to allow switching between modules until the admission module is rebuilt.
 				$this->module = "HomeHealth";
+			} else {
+				$this->module = session()->default_module;
 			}
-			if (!$this->verifyModuleAccess($modules, $this->module)) {
-				$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
+
+			if ($this->action !== "user") {
+				if (!$this->verifyModuleAccess($modules, $this->module)) {
+					$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
+				}
 			}
 		} 
 

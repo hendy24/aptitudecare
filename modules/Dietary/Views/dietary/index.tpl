@@ -7,7 +7,7 @@
 			window.location.href = SITE_URL + "/?module=Dietary&location=" + location;
 		});
 
-		$(".add-patient").click(function (e) {
+		$(".add-patient").on("click", function (e) {
 			e.preventDefault();
 			var roomNumber = $(this).next().val();
 			var location = $("#location").val();
@@ -15,7 +15,7 @@
 		});
 
 		$(".delete-patient").on("change", function() {
-			$(".add-patient").click(function (e) {
+			$(".add-patient").on("click", function (e) {
 				e.preventDefault();
 				var roomNumber = $(this).next().val();
 				var location = $("#location").val();
@@ -23,7 +23,7 @@
 			});
 		});
 
-		$(".delete-patient").click(function(e) {
+		$(".delete-patient").on("click", function(e) {
 			e.preventDefault();
 			var deleteClass = $(this).children("img").attr("class");
 			var dataRow = $(this).parent().parent();
@@ -33,7 +33,7 @@
 				buttons: {
 					"Confirm": function() {
 						var row = item.children().next($(".public-id"));
-						var roomNumber = item.children().next($(".room-number"));
+						var roomNumber = item.find(".room-number").val();
 						var id = row.val();
 
 						$.ajax({
@@ -47,6 +47,13 @@
 							success: function() {
 								$("."+deleteClass).empty();
 								$("."+deleteClass).first().html('<input type="button" class="add-patient" value="Add Patient"><input type="hidden" class="room" value="' + roomNumber + '">');
+								//Have to rebind add-patient
+								$(".add-patient").on("click", function (e) {
+									e.preventDefault();
+									var roomNumber = $(this).next().val();
+									var location = $("#location").val();
+									window.location.href = SITE_URL + "/?module=Dietary&page=patient_info&action=add_patient&location=" + location + "&number=" + roomNumber;
+								});
 								// need to add back in the add patient option
 							}
 						});
@@ -72,7 +79,7 @@
 		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
-		<a href="" class="button">Tray Cards</a>
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard&amp;location={$location->public_id}&amp;patient=all" class="button">Tray Cards</a>
 		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}" class="button" target="_blank">Meal Order Forms</a>
 	</div>
 </div>

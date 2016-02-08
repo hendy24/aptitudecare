@@ -102,7 +102,7 @@
 		<tr>
 		{if $existing}
 			<td>&nbsp;</td>
-			<td><a href="{$SITE_URL}/?page=users&amp;action=reset_password&amp;id={$user->public_id}" class="button">Reset Password</a></td>
+			<td><a href="{$SITE_URL}/?page=users&amp;action=reset_password&amp;id={$user->public_id}&amp;existing=true" class="button">Reset Password</a></td>
 		{else}
 			<td><strong>Password:</strong></td>
 			<td colspan="2"><strong>Verify Password:</strong></td>
@@ -113,6 +113,9 @@
 		</tr>
 
 		{/if}
+
+
+		{if $auth->is_admin()}
 		<tr>
 			<td colspan="3">&nbsp;</td>
 		</tr>
@@ -210,6 +213,10 @@
 				{/foreach}
 			</td>
 		</tr>
+
+
+		{/if}
+
 
 		<tr>
 			<td colspan="2">&nbsp;</td>

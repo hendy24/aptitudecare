@@ -16,7 +16,7 @@ class HomeHealthController extends MainPageController {
 	 */
 
 	public function index() {
-
+		
 		$this->helper = 'PatientMenu';
 
 		if (isset (input()->isMicro)) {
