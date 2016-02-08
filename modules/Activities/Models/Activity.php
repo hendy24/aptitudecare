@@ -2,7 +2,7 @@
 
 /**
  * undocumented class
- *
+ **
  * @package default
  * @author
  **/

@@ -158,6 +158,10 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
+<<<<<<< Updated upstream
+=======
+			//pr(input()->supplements); exit;
+>>>>>>> Stashed changes
 		// set supplements array
 		$supplementsArray = array();
 		if (!empty (input()->supplements)) {
@@ -351,12 +355,22 @@ class PatientInfoController extends DietaryController {
 	    	$html = $html . $this->createHtml($patient, $location, $html);
 	  	}
 		  else {
+<<<<<<< Updated upstream
 		    session()->setFlash("Could not fine the selected patient, please try again.", 'error');
+=======
+		    session()->setFlash("Could not find the selected patient, please try again.", 'error');
+>>>>>>> Stashed changes
 		    $this->redirect();
 		  }
     }
 
+<<<<<<< Updated upstream
     $this->buildPDF('', $html, false, false);
+=======
+		$pdfDetails = array("title" => '', "html" => $html, "header" => false, "footer" => false, "orientation" => "Landscape");
+
+		$this->buildPDFOptions($pdfDetails);
+>>>>>>> Stashed changes
 
   }
 
