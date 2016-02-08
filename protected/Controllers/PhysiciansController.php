@@ -27,6 +27,12 @@ class PhysiciansController extends MainPageController {
 
 
 	public function manage() {
+		// prevent unauthorized access to this page...
+		if (!auth()->hasPermission("manage_physicians")) {
+			session()->setFlash("You do not have permission to access this page", 'error');
+			$this->redirect();
+		}
+
 		smarty()->assign('title', "Manage Physicians");
 		if (isset(input()->location)) {
 			$location = $this->loadModel('Location', input()->location);

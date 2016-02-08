@@ -112,6 +112,14 @@ class LoginController extends MainPageController {
 					} else {
 						$this->redirect(array('page' => 'login'));
 					}
+				// if the user is using a different email extension check login
+				} else {
+					if (auth()->login($user->email, $user->password)) {
+						$user = auth()->getRecord();
+						$this->redirect(array('module' => 'HomeHealth'));
+					} else {
+						$this->redirect(array('page' => 'login'));
+					}
 				}
 			}
 		} elseif ($_username = input()->username) {
