@@ -15,7 +15,7 @@ class ActivitiesController extends MainPageController {
 	 */
 	public function index() {
 		// make sure the user has permission to access this page
-		if (!auth()->hasPermission('manage_activities')) {
+		/*if (!auth()->hasPermission('manage_activities')) {
 			session()->setFlash("You don't have permission to access that page.", 'error');
 			$this->redirect(array('module' => auth()->getRecord()->default_module));
 		}
@@ -44,7 +44,7 @@ class ActivitiesController extends MainPageController {
 		}
 
 		smarty()->assign('startDate', $start_date);
-		smarty()->assign('endDate', $end_date);
+		smarty()->assign('endDate', $end_date);*/
 	}
 
 

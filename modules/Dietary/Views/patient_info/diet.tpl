@@ -6,56 +6,87 @@
 
 		// $(".other-input").hide();
 
-		$("#allergies").tagit({
+		startTag = function(category){
+			$("#" + category).tagit({
+				fieldName: category + "[]",
+				//availableTags: fetchOptions(category),
+				autocomplete: {delay: 0, minLength: 2},
+				showAutocompleteOnFocus: false,
+				caseSensitive: false,
+				allowSpaces: true,
+				beforeTagRemoved: function(event, ui){
+					var patientId = $("patient-id").val();
+					var Name = ui.tagLabel;
+					$.post(SITE_URL, {
+						page: "PatientInfo",
+						action: "deleteItem",
+						patient: patientId,
+						name: name,
+						type: category
+						}, function (e) {
+							console.log(e);
+					}, "json");
+				}
+			});
+		}
+
+		var tagOptions = ["adaptEquip", "allergies", "dislikes", "beverages", "supplements"];
+		for (category of tagOptions){
+				startTag(category);
+		}
+
+		//startTag("adaptEquip");
+
+
+/*		$("#allergies").tagit({
 			fieldName: "allergies[]",
-		    availableTags: fetchOptions("Allergy"),
-		    autocomplete: {delay: 0, minLength: 2},
-            showAutocompleteOnFocus: false,
-            caseSensitive: false,
-            allowSpaces: true,
+	    availableTags: fetchOptions("Allergy"),
+	    autocomplete: {delay: 0, minLength: 2},
+        showAutocompleteOnFocus: false,
+        caseSensitive: false,
+        allowSpaces: true,
 
-            beforeTagRemoved: function(event, ui) {
-		        // if tag is removed, need to delete from the db
-		        var patientId = $("#patient-id").val();
-		        var allergyName = ui.tagLabel;
-		        $.post(SITE_URL, {
-		        	page: "PatientInfo",
-		        	action: "deleteItem",
-		        	patient: patientId,
-		        	name: allergyName,
-		        	type: "allergy"
-		        	}, function (e) {
-		        		console.log(e);
-		        	}, "json"
-		        );
-		    }
-        });
+        beforeTagRemoved: function(event, ui) {
+        // if tag is removed, need to delete from the db
+        var patientId = $("#patient-id").val();
+        var allergyName = ui.tagLabel;
+        $.post(SITE_URL, {
+        	page: "PatientInfo",
+        	action: "deleteItem",
+        	patient: patientId,
+        	name: allergyName,
+        	type: "allergy"
+        	}, function (e) {
+        		console.log(e);
+        	}, "json"
+        );
+	    }
+    });
 
-        $("#dislikes").tagit({
-        	fieldName: "dislikes[]",
-        	availableTags: fetchOptions("Dislike"),
-        	autocomplete: {delay:0, minLength: 2},
-        	showAutocompleteOnFocus: false,
-        	caseSensitive: false,
-        	allowSpaces: true,
+    $("#dislikes").tagit({
+    	fieldName: "dislikes[]",
+    	availableTags: fetchOptions("Dislike"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+      beforeTagRemoved: function(event, ui) {
+        // if tag is removed, need to delete from the db
+        var patientId = $("#patient-id").val();
+        var dislikeName = ui.tagLabel;
+        $.post(SITE_URL, {
+        	page: "PatientInfo",
+        	action: "deleteItem",
+        	patient: patientId,
+        	name: dislikeName,
+        	type: "dislike"
+        	}, function (e) {
+        		console.log(e);
+        	}, "json"
+        );
+	    }
 
-            beforeTagRemoved: function(event, ui) {
-		        // if tag is removed, need to delete from the db
-		        var patientId = $("#patient-id").val();
-		        var dislikeName = ui.tagLabel;
-		        $.post(SITE_URL, {
-		        	page: "PatientInfo",
-		        	action: "deleteItem",
-		        	patient: patientId,
-		        	name: dislikeName,
-		        	type: "dislike"
-		        	}, function (e) {
-		        		console.log(e);
-		        	}, "json"
-		        );
-		    }
-
-        });
+    });*/
 
         $("#snackAM").tagit({
         	fieldName: "am[]",
@@ -132,7 +163,7 @@
 		        		console.log(e);
 		        	}, "json"
 		        );
-		    }        	
+		    }
         });
 
 
@@ -159,7 +190,7 @@
         }
 
 
-        
+
 	});
 </script>
 {/literal}
@@ -176,19 +207,21 @@
 	<br>
 	<table class="diet-form">
 		<tr>
-			<th colspan="3">Patient Info</th>
+			<th colspan="4">Patient Info</th>
 		</tr>
 		<tr>
 			<td><strong>First:</strong></td>
 			<td><strong>Middle:</strong></td>
 			<td><strong>Last:</strong></td>
+			<td><strong>Birthdate:</strong></td>
 		</tr>
 		<tr>
 			<td><input type="text" name="first_name" value="{$patient->first_name}"></td>
 			<td><input type="text" name="middle_name" value="{$patient->middle_name}"></td>
 			<td><input type="text" name="last_name" value="{$patient->last_name}" size="35"></td>
+			<td><input type="text" class="datepicker" name="date_of_birth" value="{display_date($patient->date_of_birth)}" /></td>
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td><strong>Birthdate:</strong></td>
 			<td><strong>Height:</strong></td>
 			<td><strong>Weight:</strong></td>
@@ -197,16 +230,16 @@
 			<td><input type="text" class="datepicker" name="date_of_birth" value="{display_date($patient->date_of_birth)}" /></td>
 			<td><input type="text" name="height" value="{$patientInfo->height}"  size="8"></td>
 			<td><input type="text" name="weight" value="{$patientInfo->weight}" size="8"></td>
+		</tr> -->
+		<tr>
+			<td colspan="4">&nbsp;</td>
 		</tr>
 		<tr>
-			<td colspan="3">&nbsp;</td>
-		</tr>
-		<tr>
-			<th colspan="3">Diet Info</th>
+			<th colspan="4">Diet Info</th>
 		</tr>
 		<tr>
 			<td><strong>Food Allergies:</strong></td>
-			<td colspan="2" class="text-right">
+			<td colspan="3" class="text-right">
 				<ul id="allergies">
 					{if $allergies}
 						{foreach from=$allergies item=allergy}
@@ -218,7 +251,7 @@
 		</tr>
 		<tr>
 			<td><strong>Food dislikes or intolerances:</strong></td>
-			<td colspan="2" class="text-right">
+			<td colspan="3" class="text-right">
 				<ul id="dislikes">
 					{if $dislikes}
 						{foreach from=$dislikes item=dislike}
@@ -228,19 +261,55 @@
 				</ul>
 			</td>
 		</tr>
+		<tr>
+			<td><strong>Adaptative Equipment:</strong></td>
+			<td colspan="3" class="text-right">
+				<ul id="adaptEquip">
+					{if $adaptEquip}
+						{foreach from=$adaptEquip item=equip}
+						<li>{$equip->name}</li>
+						{/foreach}
+					{/if}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Beverages:</strong></td>
+			<td colspan="3" class="text-right">
+				<ul id="beverages">
+					{if $beverages}
+						{foreach from=$beverages item=beverage}
+						<li>{$beverage->name}</li>
+						{/foreach}
+					{/if}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Supplements:</strong></td>
+			<td colspan="3" class="text-right">
+				<ul id="supplements">
+					{if $supplements}
+						{foreach from=$supplements item=supplement}
+						<li>{$supplement->name}</li>
+						{/foreach}
+					{/if}
+				</ul>
+			</td>
+		</tr>
 
 		<tr class="padding-top">
-			<td colspan="3"><strong>Diet Info:</strong></td>
+			<td colspan="4"><strong>Diet Info:</strong></td>
 		</tr>
 		<tr>
 		{foreach from=$dietOrder item="diet" name="dietItem"}
-			<td {if $diet == "Other"}colspan="2"{/if}>
-				<input type="checkbox" name="diet_info[]" value="{$diet}" {if $patientInfo->diet_info == $diet}checked{/if}>{$diet}
-				{if $diet == "Other"}
-				<input type="text" name="other_diet_info" class="other-input" placeholder="Enter other diet info..." style="width: 500px">
+			<td {if $diet->name == "Other"}colspan="3"{/if}>
+				<input type="checkbox" name="diet_info[]" value="{$diet->name}" {if $diet->patient_id}checked{/if}>{$diet->name}
+				{if $diet->name == "Other"}
+					<input type="text" name="other_diet_info" class="other-input" placeholder="Enter other diet info..." style="width: 500px" value="{$patientInfo->diet_info_other}">
 				{/if}
 			</td>
-		{if $smarty.foreach.dietItem.iteration is div by 3}
+		{if $smarty.foreach.dietItem.iteration is div by 4}
 		</tr>
 		<tr>
 		{/if}
@@ -249,17 +318,17 @@
 
 
 		<tr class="padding-top">
-			<td colspan="3"><strong>Texture:</strong></td>
+			<td colspan="4"><strong>Texture:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$texture item="diet" name="dietItem"}
-				<td {if $diet == "Other"}colspan="2"{/if}>
-					<input type="checkbox" name="texture[]" value="{$diet}" {if $patientInfo->texture == $diet}checked{/if}>{$diet}
-					{if $diet == "Other"}
-					<input type="text" name="other_texture_info" class="other-input" placeholder="Enter other texture info..." style="width: 500px">
+			{foreach from=$textures item="texture" name="textureItem"}
+				<td {if $texture->name == "Other"}colspan="3"{/if}>
+					<input type="checkbox" name="texture[]" value="{$texture->name}" {if $texture->patient_id}checked{/if}>{$texture->name}
+					{if $texture->name == "Other"}
+					<input type="text" name="other_texture_info" class="other-input" placeholder="Enter other texture info..." style="width: 500px" value="{$patientInfo->texture_other}">
 					{/if}
 				</td>
-			{if $smarty.foreach.dietItem.iteration is div by 3}
+			{if $smarty.foreach.textureItem.iteration is div by 4}
 			</tr>
 			<tr>
 			{/if}
@@ -268,18 +337,18 @@
 
 
 		<tr class="padding-top">
-			<td colspan="3" ><strong>Orders:</strong></td>
+			<td colspan="4" ><strong>Orders:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$orders item="diet" name="dietItem"}
-				<td {if $diet == "Other"}colspan="2"{/if}>
-					<input type="checkbox" name="orders[]" value="{$diet}" {if $patientInfo->orders == $diet}checked{/if}>{$diet}
-					{if $diet == "Other"}
-					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 500px">
+			{foreach from=$orders item="order" name="orderItem"}
+				<td {if $order->name == "Other"}colspan="3"{/if}>
+					<input type="checkbox" name="orders[]" value="{$order->name}" {if $order->patient_id}checked{/if}>{$order->name}
+					{if $order->name == "Other"}
+					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 500px" value="{$patientInfo->orders_other}">
 					{/if}
 
 				</td>
-			{if $smarty.foreach.dietItem.iteration is div by 3}
+			{if $smarty.foreach.orderItem.iteration is div by 4}
 			</tr>
 			<tr>
 			{/if}
@@ -289,7 +358,7 @@
 
 
 		<tr class="padding-top">
-			<td colspan="3"><strong>Lunch &amp; Dinner Portion Size:</strong></td>
+			<td colspan="4"><strong>Lunch &amp; Dinner Portion Size:</strong></td>
 		</tr>
 		<tr>
 			{foreach from=$portionSize item="diet" name="dietItem"}
@@ -298,7 +367,7 @@
 		</tr>
 		<tr class="padding-top">
 			<td><strong>Special Requests:</strong></td>
-			<td colspan="3" class="text-right"><input type="text" name="special_requests" size="100" value="{$patientInfo->special_requests}"></td>
+			<td colspan="4" class="text-right"><input type="text" name="special_requests" size="100" value="{$patientInfo->special_requests}"></td>
 		</tr>
 
 		<tr>
@@ -337,7 +406,7 @@
 		</tr>
 
 		<tr>
-			<td colspan="3" class="text-right"><input type="submit" value="Save"></td>
+			<td colspan="4" class="text-right"><input type="submit" value="Save"></td>
 		</tr>
 	</table>
 

@@ -4,6 +4,7 @@ class AdmissionDashboard extends AppModel {
 
 	protected $prefix = false;
 	protected $table = 'schedule';
+	protected $dbname = null;
 
 	public function __construct() {
 		$this->dbname = db()->dbname2;
@@ -381,7 +382,7 @@ class AdmissionDashboard extends AppModel {
 
 				$schedule->public_id = $r->schedule_pubid;
 				$schedule->location_id = $r->facility;
-				$schedule->room_id = $r->number;
+				$schedule->room_id = $r->id;
 				$schedule->datetime_admit = $r->datetime_admit;
 				$schedule->datetime_discharge = $r->datetime_discharge;
 				$schedule->discharge_to = $r->discharge_to;

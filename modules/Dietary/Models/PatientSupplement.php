@@ -31,4 +31,5 @@ class PatientSupplement extends Dietary {
       return $this->fetchColumnNames();
     }
   }
+
 }

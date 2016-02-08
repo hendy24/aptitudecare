@@ -18,7 +18,6 @@ class PatientFoodInfo extends Dietary {
 		return false;
 	}
 
-
 	public function fetchPatientDislikes($patient_id) {
 		$dislike = $this->loadTable("Dislike");
 		$sql = "SELECT d.* FROM {$this->tableName()} pfi INNER JOIN {$dislike->tableName()} AS d ON d.id = pfi.food_id WHERE patient_id = :patient_id AND allergy = 0";
@@ -32,7 +31,6 @@ class PatientFoodInfo extends Dietary {
 		return false;
 
 	}
-
 
 
 	public function deleteFoodInfoItem($patient_id, $name, $type = false) {
