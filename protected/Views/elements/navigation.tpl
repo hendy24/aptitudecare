@@ -1,15 +1,14 @@
 <nav>
 	<ul>
-		{if $this->getModule() == "HomeHealth"}
+		{if $session->getModule() == "HomeHealth"}
 			{$this->loadElement("homeHealthNav")}
-		{elseif $this->getModule() == "Dietary"}
+		{elseif $session->getModule() == "Dietary"}
 			{$this->loadElement("dietaryNav")}
-		{elseif $this->getModule() == "Activities"}
+		{elseif $session->getModule() == "Activities"}
 			{$this->loadElement("activitiesNav")}
-		{elseif $this->getModule() == "Admission"}
+		{elseif $session->getModule() == "Admission"}
 			{$this->loadElement("admissionsNav")}
 		{/if}
 		{$this->loadElement("dataTab")}
 	</ul>
 </nav>
-

@@ -56,7 +56,7 @@ class MainPageController extends MainController {
 				// this is a hack to allow switching between modules until the admission module is rebuilt.
 				$this->module = "HomeHealth";
 			} else {
-				$this->module = session()->default_module;
+				$this->module = session()->getModule();
 			}
 
 			if ($this->action !== "user") {

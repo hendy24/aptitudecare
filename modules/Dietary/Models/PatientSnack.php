@@ -37,11 +37,7 @@ class PatientSnack extends Dietary {
 		return false;
 	}
 
-<<<<<<< Updated upstream
-  public function fetchByLocation($location) {
-=======
   public function fetchByLocation($location, $date) {
->>>>>>> Stashed changes
 //    $adapt_equip = $this->loadTable("AdaptEquip");
 //    $schedule = $this->loadTable("Schedule");
 //    $room = $this->loadTable("Room");
