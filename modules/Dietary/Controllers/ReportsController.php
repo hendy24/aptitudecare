@@ -187,12 +187,6 @@ EOD;
 
 	}
 
-<<<<<<< Updated upstream
-public function snack_label_pdf() {
-		$location = $this->getLocation();
-		$title = 'Snack Labels for '. $location->name . " on ";
-		$snackList = $this->loadModel("PatientSnack")->fetchByLocation($location);
-=======
 	public function snack_labels() {
 		smarty()->assign('title', "Snack Labels");
 		$location = $this->getLocation();
@@ -210,14 +204,11 @@ public function snack_labels_pdf() {
 		$start_posit = (input()->start_posit)-1;
 
 		$snackList = $this->loadModel("PatientSnack")->fetchByLocation($location, $date);
->>>>>>> Stashed changes
 //		$local = $location->sha512();
 	$rowcount = count($snackList);
 
 // Declaration of table $data
 $data = array();
-<<<<<<< Updated upstream
-=======
 if($start_posit > 0){
 	for($i = 0; $i < $start_posit; $i++){
 $html = <<<EOD
@@ -240,7 +231,6 @@ array_push($data,$html);
 
 	}
 }
->>>>>>> Stashed changes
 
 foreach ($snackList as $snack => $value) {
 $html = <<<EOD
@@ -271,11 +261,6 @@ array_push($data,$html);
 
 }
 
-<<<<<<< Updated upstream
-public function snack_report_pdf() {
-		$location = $this->getLocation();
-		$title = 'Snack Report for '. $location->name. " on ";
-=======
 	public function snack_report() {
 		smarty()->assign('title', "Snack Report");
 		$location = $this->getLocation();
@@ -289,7 +274,6 @@ public function snack_report_pdf() {
 public function snack_report_pdf() {
 		$location = $this->getLocation();
 		$title = 'Snack Report for '. $location->name. " on " . input()->date;
->>>>>>> Stashed changes
 		$snackList = $this->loadModel("PatientSnack")->fetchByLocationSnackReport($location);
 //		$local = $location->sha512();
 

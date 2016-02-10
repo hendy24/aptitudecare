@@ -11,10 +11,10 @@
   }
 </style>
 <script type="text/javascript">
-  $('radio').change(function{
-    $(this).closest('.container').find('td').css('background-color', 'white');
-    $(this).closest('td').css('background-color', 'grey')
-  });
+//  $('radio').change(function{
+//    $(this).closest('.container').find('td').css('background-color', 'white');
+//    $(this).closest('td').css('background-color', 'grey')
+//  });
 </script>
 
 <div id="page-header">
@@ -36,7 +36,7 @@
     <tabel>Select Label Start Position</tabel>
     <table border="1" width="300">
       <tr>
-        <td style="background-color: grey;"><input type="radio" name="start_posit" value="1" checked="checked">1</td>
+        <td><input type="radio" name="start_posit" value="1" checked="checked">1</td>
         <td><input type="radio" name="start_posit" value="2">2</td>
         <td><input type="radio" name="start_posit" value="3">3</td>
       </tr>

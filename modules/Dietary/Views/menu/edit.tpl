@@ -35,7 +35,7 @@
 
 <form name="edit" id="edit" method="post" action="{$SITE_URL}">
 	<input type="hidden" name="page" value="menu" />
-	<input type="hidden" name="action" value="submitEdit" />
+	<input type="hidden" name="action" value="submit_edit" />
 	<input type="hidden" name="path" value="{$current_url}" />	
 	<input type="hidden" name="location" id="location" value="{$location->public_id}" />
 	<input type="hidden" name="menu_type" value="{$menuType}" />

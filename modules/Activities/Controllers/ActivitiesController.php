@@ -14,10 +14,11 @@ class ActivitiesController extends MainPageController {
 	 *
 	 */
 	public function index() {
-		// make sure the user has permission to access this page
-		/*if (!auth()->hasPermission('manage_activities')) {
+		// make sure the user has permission to access this page		
+		if (!auth()->hasPermission('manage_activities')) {
+			$module = $this->loadModel('Module', auth()->getRecord()->default_module);
 			session()->setFlash("You don't have permission to access that page.", 'error');
-			$this->redirect(array('module' => auth()->getRecord()->default_module));
+			$this->redirect(array('module' => $module->name));
 		}
 
 		// set the start and end dates for the week view
@@ -30,10 +31,10 @@ class ActivitiesController extends MainPageController {
 
 
 		// fetch activities for the selected location
+
 		$location = $this->getLocation();
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date);
-		/*pr($location);
-		pr($start_date);*/
+
 		//pr($activities); exit;
 
 		smarty()->assignByRef('activitiesArray', $activities);
@@ -44,7 +45,7 @@ class ActivitiesController extends MainPageController {
 		}
 
 		smarty()->assign('startDate', $start_date);
-		smarty()->assign('endDate', $end_date);*/
+		smarty()->assign('endDate', $end_date);
 	}
 
 
@@ -65,8 +66,8 @@ class ActivitiesController extends MainPageController {
 			if (isset (input()->id) && input()->id != "") {
 				$activity = $this->loadModel('Activity', input()->id)->fetchSchedule();
 				//Split datetime to date AND time
-				$activity->date_start = $activity->datetime_start;
-				$activity->time_start = $activity->datetime_start;
+				$activity->date_start = $activity->date_start;
+				$activity->time_start = $activity->date_start;
 			}
 		} else {
 			smarty()->assign('headerTitle', "Add a New Activity");
@@ -77,13 +78,15 @@ class ActivitiesController extends MainPageController {
 				$activity->date_start = mysql_date();
 			}
 
+			// if an empty object is loaded then set null values for the activity_schedule table that was not joined
 			$activity->time_start = null;
 			$activity->repeat_week = null;
 			$activity->repeat_weekday = null;
 			$activity->daily = null;
+			$activity->all_day = null;
 
 		}
-
+		
 		smarty()->assignByRef('activity', $activity);
 	}
 
@@ -91,14 +94,16 @@ class ActivitiesController extends MainPageController {
 
 
 	public function save_activity() {
-
-		if (isset (input()->activity_id)) {
+		
+		if (input()->activity_id != "") {
 			$activity = $this->loadModel('Activity', input()->activity_id);
+			$activity_schedule = $this->loadModel('ActivitySchedule')->fetchSchedule($activity->id);
 		} else {
 			$activity = $this->loadModel('Activity');
+			$activity_schedule = $this->loadModel('ActivitySchedule');
 		}
 		$feedback = array();
-
+		
 
 		// if there is no location we don't know where to create the activity
 		if (input()->location == "") {
@@ -116,49 +121,52 @@ class ActivitiesController extends MainPageController {
 		}
 
 		if (input()->date_start != "") {
-			$activity->datetime_start = mysql_date(input()->date_start);
+			$activity_schedule->date_start = mysql_date(input()->date_start);
 		} else {
 			$feedback[] = "Enter a date for the activity";
 		}
 
 		if (input()->time_start != "") {
-			$activity->datetime_start = mysql_datetime(input()->date_start . " " . input()->time_start);
+			$activity_schedule->time_start = date("H:i:s", strtotime(input()->time_start));
 		}
 
 		if (input()->repeat_type != "") {
 			if (input()->repeat_type == "daily") {
-				$activity->daily = true;
+				$activity_schedule->daily = true;
 			}
 			if (input()->repeat_type == "weekly") {
-				$activity->daily = false;
+				$activity_schedule->daily = false;
 			}
 			if (input()->repeat_type == "monthly") {
-				$activity->repeat_week = ceil(date("j", strtotime(input()->date_start)));
-				$activity->daily = false;
+				$activity_schedule->repeat_week = ceil(date("j", strtotime(input()->date_start)));
+				$activity_schedule->daily = false;
 			}
 
-			$activity->repeat_weekday = date("w", strtotime(input()->date_start));
+			$activity_schedule->repeat_weekday = date("w", strtotime(input()->date_start));
 		}
 		else{
 			//daily field cannot be null
-			$activity->daily = false;
+			$activity_schedule->daily = false;
 		}
 		//Probably could refactor this to just have input()->allDay be the value
-		if(input()->all_day == "on"){
-			$activity->all_day = true;
+		if(input()->all_day == "true"){
+			$activity_schedule->all_day = 1;
 		}
 		else{
-			$activity->all_day = false;
+			$activity_schedule->all_day = 0;
 		}
 		// BREAKPOINT
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'error');
 			$this->redirect(input()->current_url);
 		}
-
+		
 		if ($activity->save()) {
+			$activity_schedule->activity_id = $activity->id;
+			if ($activity_schedule->save()) {
 				session()->setFlash("The activity was saved", 'success');
-				$this->redirect();
+				$this->redirect();				
+			}
 			//}
 		} else {
 			session()->setFlash("Could not save the activity. Please try again", 'error');

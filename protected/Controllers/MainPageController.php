@@ -39,6 +39,7 @@ class MainPageController extends MainController {
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 			smarty()->assign('modules', $modules);
 		}
+		
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
@@ -56,7 +57,7 @@ class MainPageController extends MainController {
 				// this is a hack to allow switching between modules until the admission module is rebuilt.
 				$this->module = "HomeHealth";
 			} else {
-				$this->module = session()->default_module;
+				$this->module = session()->getModule();
 			}
 
 			if ($this->action !== "user") {

@@ -10,6 +10,51 @@
 
 		// run listen when key press
 		whenkeydown(max_length);
+		
+		if ($("input.all-day-box").is(":checked")) {
+			$("#time").hide();
+		} else {
+			$("#time").show();
+		}
+		
+		$("#all-day").change(function() {
+			if ($('input.all-day-box').is(':checked')) {
+				$("#time").hide()	
+			} else {
+				$("#time").show();
+			}
+		});	
+
+
+
+		$("#delete").click(function(e) {
+			e.preventDefault();
+			var activityId = $("#activity-id").val();
+
+			$("#dialog").dialog({
+				buttons: {
+					"Confirm": function() {
+						$.ajax({
+							type: 'post',
+							url: SITE_URL,
+							data: {
+								page: "activities",
+								action: 'deleteId',
+								id: activityId,
+							},
+							success: function() {
+								window.location = SITE_URL + "/?module=Activities&page=activities";
+							}
+						});
+						
+					},
+					"Cancel": function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		});
+
 	});
 
 	$(function() {
@@ -58,7 +103,7 @@
 	<input type="hidden" name="page" value="activities">
 	<input type="hidden" name="action" value="save_activity">
 	<input type="hidden" name="location" value="{$location->public_id}">
-	<input type="hidden" name="activity_id" value="{$activity->public_id}">
+	<input type="hidden" name="activity_id" id="activity-id" value="{$activity->public_id}">
 	<input type="hidden" name="current_url" value="{$current_url}">
 	<table class="form">
 
@@ -79,36 +124,31 @@
 		{if $activity->repeat_week != "" OR $activity->repeat_weekday != "" OR $activity->daily}
 			<tr>
 				<td>&nbsp;</td>
-				<td colspan="3"><input type="checkbox" name="change_all" value="1" id="change-all" checked> Change all future occurances of this activity</td>
+				<td><input type="checkbox" name="change_all" value="1" id="change-all" checked> Change all future occurances of this activity</td>
 			</tr>
 		{/if}
 
 		<tr>
-			<td class="text-strong">Date:</td>
-			<td><input type="text" class="datepicker" name="date_start" value="{$activity->date_start|date_format: '%D'}" size="10"></td>
-			<td class="text-strong text-right">Time:</td>
-			<td><input type="text" class="timepicker" title="The time can be left blank to create an activity with no specified time." name="time_start" value="{$activity->time_start|date_format: '%H:%M'}" size="6"></td>
+			<td class="text-strong">Date:<input type="text" class="datepicker" name="date_start" value="{$activity->date_start|date_format: '%D'}" size="10"></td>
+			<td class="text-strong" id="all-day">All day?
+				{if $activity->all_day == 1}
+					<input type="checkbox" name="all_day" value="true" checked class="all-day-box"/>
+				{else}
+					<input type="checkbox" name="all_day" value="true" class="all-day-box"/>
+				{/if}
+			</td>
+			<td class="text-strong text-right" id="time">Time:<input type="text" class="timepicker" name="time_start" value="{$activity->time_start|date_format: '%H:%M'}" size="6"></td>
 		</tr>
 		<tr>
 			<td class="text-strong">Activity:</td>
-			<td colspan="3"><input type="text" title=" The text counter for the activity is only a guide and will not actually prevent you from exceeding the 25 character limit.  Activities which exceed 25 characters will take more than one line on the TV. If there are multiple activities in a day it may prevent all the activities from appearing." name="description" value="{$activity->description}" id="activity-description" size="40"></td>
+			<td colspan="2"><input type="text"  name="description" value="{$activity->description}" id="activity-description" size="40"></td>
 		</tr>
 		<tr>
-			<td class="text-right text-grey" colspan="4">You have <span id="counter"></span> characters left.</td>
-		</tr>
-		<tr>
-			<td class="text-strong">All day?</td>
-			<td colspan="3">
-					{if $activity->all_day == 1}
-						<input type="checkbox" name="all_day" checked class="ml-10"/>
-					{else}
-						<input type="checkbox" name="all_day" class="ml-10"/>
-					{/if}
-			</td>
+			<td class="text-right text-grey" colspan="3">You have <span id="counter"></span> characters left.</td>
 		</tr>
 		<tr>
 			<td class="text-strong">Repeat</td>
-			<td colspan="3">
+			<td>
 				<select name="repeat_type" id="">
 					<option value="">None</option>
 					<option value="daily" {if $activity->daily} selected{/if}>Daily</option>
@@ -118,11 +158,21 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4">&nbsp;</td>
+			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td><input type="button" value="Cancel" onclick="history.go(-1)"></td>
-			<td colspan="3" class="text-right"><input type="submit" value="Submit"></td>
+			<td>
+				<input type="button" value="Cancel" onclick="history.go(-1)">
+				<input type="button" id="delete" class="delete" value="Delete">
+			</td>
+			<td colspan="2" class="text-right"><input type="submit" value="Submit"></td>
 		</tr>
 	</table>
 </form>
+
+
+
+<div id="dialog" title="Confirmation Required">
+	<p>Are you sure you want to delete this item? This cannot be undone.</p>
+</div>
+
