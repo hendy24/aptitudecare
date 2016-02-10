@@ -79,7 +79,7 @@
 		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard&amp;location={$location->public_id}&amp;patient=all" class="button">Tray Cards</a>
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard&amp;location={$location->public_id}&amp;patient=all" class="button" target="_blank">Tray Cards</a>
 		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}" class="button" target="_blank">Meal Order Forms</a>
 	</div>
 </div>

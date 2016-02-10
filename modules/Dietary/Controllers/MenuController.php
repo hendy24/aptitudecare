@@ -169,7 +169,7 @@ class MenuController extends DietaryController {
 
 
 	private function facilityInfo() {
-				// If this is already a menu mod load the current changes...
+		// If this is already a menu mod load the current changes...
 		if (input()->menu_type == "MenuMod") {
 			$menuItem = $this->loadModel('MenuMod', input()->public_id);
 		} else {

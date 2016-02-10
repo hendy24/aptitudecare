@@ -66,5 +66,20 @@ class PublicController extends DietaryController {
 		smarty()->assignByRef("alternates", $alternates);
 		smarty()->assignByRef('location', $location);
 		smarty()->assign('locationDetail', $locationDetail);
+
+
+		// Fetch the activities for the date range
+		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date, 4);
+		smarty()->assignByRef('weekActivities', $activities);
+
+		// foreach ($activities as $activity) {
+		// 	if (is_array ($activity)) {
+		// 		foreach ($activity as $a) {
+		// 			pr ($a);
+		// 		}
+		// 	}
+		// }
+
+		// exit;
 	}
 }

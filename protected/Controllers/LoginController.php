@@ -100,14 +100,14 @@ class LoginController extends MainPageController {
 		$string = explode('@', input()->username);
 		// Check for a global company email extension
 		$emailExt = $this->loadModel('Company')->getEmailExt();	
-
+		
 		if (!empty ($emailExt)) {
 			$username = array(input()->username, $string[0] . $emailExt->global_email_ext);
 			foreach ($username as $uname) {
 				if ($uname == $_username) {
 					if (auth()->login($user->email, $user->password)) {
 						$user = auth()->getRecord();
-						$this->redirect(array('module' => 'HomeHealth'));
+						$this->redirect(array('module' => input()->module));
 
 					} else {
 						$this->redirect(array('page' => 'login'));
@@ -116,7 +116,7 @@ class LoginController extends MainPageController {
 				} else {
 					if (auth()->login($user->email, $user->password)) {
 						$user = auth()->getRecord();
-						$this->redirect(array('module' => 'HomeHealth'));
+						$this->redirect(array('module' => input()->module));
 					} else {
 						$this->redirect(array('page' => 'login'));
 					}

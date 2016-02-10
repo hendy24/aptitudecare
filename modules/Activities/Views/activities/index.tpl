@@ -1,3 +1,19 @@
+<script>
+	$(function() {
+		$("#datepicker").datepicker({
+			showOn: "button",
+			buttonImage: "{$IMAGES}/calendar.png",
+			buttonImageOnly: true
+		});
+	});
+	
+	$(document).ready(function() {
+		$("#datepicker").change(function() {
+			window.location = SITE_URL + "/?module=Activities&date=" + $(this).val();
+		});
+	});
+</script>
+
 <div id="page-header">
 	<div id="action-left">
 		{$this->loadElement("module")}
@@ -11,7 +27,7 @@
 </div>
 
 <h1>Activities</h1>
-<h2>{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"}</h2><input type="hidden" id="calendar">
+<h2>{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"}<div style="margin: 15px"><input type="hidden" id="datepicker"></div></h2>
 
 <div id="activities">
 	<table class="activities">
@@ -22,11 +38,11 @@
 		{if is_array($activities)}
 			{foreach from=$activities item="activity"}
 			<tr>
-				<td style="width: 95px">
+				<td style="width: 125px">
 					{if $activity->all_day == 1}
-						{$activity->datetime_start|date_format}
+						All Day
 					{else}
-						{$activity->datetime_start|date_format:"%b, %e %I:%M %p"}
+						{$activity->date_start|date_format:"%b, %e"} {$activity->time_start|date_format: "%I:%M %p"}
 					{/if}
 				</td>
 				<td>{$activity->description}</td>

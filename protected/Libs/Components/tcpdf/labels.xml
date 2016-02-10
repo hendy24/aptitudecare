@@ -164,13 +164,13 @@
 		<brand>Avery - 5160</brand>
 		<supplier></supplier>
 		<width>68.6</width>
-		<height>25.4</height>
-		<margin>5</margin>
+		<height>20.4</height>
+		<margin>1</margin>
 		<sheet format="LETTER" orientation='P'>
 			<cols>3</cols>
 			<rows>10</rows>
 			<margins>
-				<topmargin>6</topmargin>
+				<topmargin>14</topmargin>
 				<leftmargin>4</leftmargin>
 			</margins>
 		</sheet>     

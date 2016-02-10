@@ -79,30 +79,30 @@
 				<div id="activitiesTitle">
 					<img src="{$IMAGES}/weekly_activities.png" alt="Weekly Activities">
 				</div>
-{* 				<?php foreach ($weekActivities as $k => $activity):  ?>
+				{foreach $weekActivities as $k => $activity}
 					<div class="activity">
-						<h2><?php echo strftime('%A', strtotime($k));  ?></h2>
-						<?php foreach ($activity as $a): ?>
+						<h2>{$k|date_format: "%A"}</h2>
+						{if is_array($activity)}
+						{foreach $activity as $a}
 							<p>
-								<?php if (isset ($a['ActivitySchedule'])): ?>
-									<strong><?php echo strftime('%l:%M %P', strtotime($a['ActivitySchedule']['datetime_start'])); ?></strong>
-								<?php endif; ?> 
-								<?php echo $a['Activity']['activity']; ?>
+ 								<strong>{$a->time_start|date_format: "%l:%M %P"|default:""}</strong>
+ 								{$a->description}
 							</p>
 							
-						<?php endforeach; ?>
+						{/foreach}
+						{/if}
 					</div>
-				<?php endforeach;  ?>
- *}
+				{/foreach}
+
 			</div>
 		</div>
 	</div>
 
 
 	<!-- Additional page -->
-	{if $additionalPage->active}
+{* 	{if $additionalPage->active}
 		<div id="panel-2" class="rotatingPage" style="display: none;">
 	
 		</div>
 	{/if}
-</div>
+ *}</div>

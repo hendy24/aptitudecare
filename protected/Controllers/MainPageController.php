@@ -39,6 +39,7 @@ class MainPageController extends MainController {
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 			smarty()->assign('modules', $modules);
 		}
+		
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
