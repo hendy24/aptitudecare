@@ -15,7 +15,7 @@
 		<tr>
 			<td>{$number}</td>
 			<td><input type="text" class="datepicker" name="admit_date" value="" required /></td>
-			<td><input type="text" class="datepicker" name="discharge_date" value="" required /></td>
+			<td><input type="text" class="datepicker" name="discharge_date" value="" /></td>
 		</tr>
 
 		<tr>
