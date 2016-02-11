@@ -1,5 +1,7 @@
 .DS_Store
 protected/Compile
+public/index.php
+protected/Configs/database.php
 protected/.DS_Store
 .dev
 public/files/

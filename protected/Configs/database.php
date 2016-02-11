@@ -2,13 +2,12 @@
 		
 
 	$db = new MySqlDb();
-	$db->dbname = 'ac_dev';
+	$db->dbname = 'ac_ahc';
 	$db->host = 'localhost';
-	$db->dbname2 = 'admit_dev';
+	$db->dbname2 = 'admit_ahc';
 	$db->host2 = 'localhost';
-	$db->username = 'aptitudecare';
-	$db->password = 'TbPKh46U';
-
+	$db->username = 'aptitudecare_ahc';
+	$db->password = 'PKt4jjU7Vn';
 	
 
 	$db->conn();
