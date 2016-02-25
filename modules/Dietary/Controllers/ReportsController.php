@@ -310,6 +310,19 @@ EOD;
 }
 
 
+	/* 
+	 * Adaptive Equipment report page 
+	 *	
+	 */
+
+	public function adaptive_equipment() {
+		$location = $this->getLocation();
+		$current_patients = $this->loadModel('PatientAdaptEquip')->fetchByLocation($location);
+
+		smarty()->assignByRef('patients', $current_patients);
+	}
+
+
 
 	public function adaptive_equipment_pdf() {
 		$location = $this->getLocation();

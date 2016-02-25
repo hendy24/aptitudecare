@@ -5,4 +5,4 @@ protected/Configs/database.php
 protected/.DS_Store
 .dev
 public/files/
-nossl-redir/
+nossl-redir/index.php

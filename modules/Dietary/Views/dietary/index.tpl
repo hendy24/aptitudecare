@@ -79,14 +79,14 @@
 		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard&amp;location={$location->public_id}&amp;patient=all" class="button" target="_blank">Tray Cards</a>
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}" class="button" target="_blank">Meal Order Forms</a>
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="button" target="_blank">Tray Cards</a>
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="button" target="_blank">Meal Order Forms</a>
 	</div>
 </div>
 
 <h1>Current Patients</h1>
 <input type="hidden" id="location" value="{$location->public_id}">
-<input type="hidden" name="currentUrl" value="{$currentUrl}">
+<input type="hidden" name="currentUrl" value="{$current_url}">
 <table id="patient-info">
 	<tr>
 		<th>Room</th>
@@ -105,7 +105,7 @@
 
 		{if get_class($patient) == "Patient"}
 		<td class="{$k}">{$patient->last_name}, {$patient->first_name}</td>
-		<td class="{$k}">{$dietaryMenu->menu($patient)}</td>
+		<td class="{$k}">{$dietaryMenu->menu($patient, $selectedLocation)}</td>
 		<td class="{$k}">
 			{if !$modEnabled}
 			<a href="#" class="delete-patient">

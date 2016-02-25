@@ -5,6 +5,7 @@ require_once('../protected/Libs/Components/tcpdf/class.label.php');
 require_once('../protected/Libs/Components/tcpdf/class.labelExemple.php');
 
 
+
 class DietaryController extends MainPageController {
 
 	// protected $template = "dietary";
@@ -131,6 +132,21 @@ class DietaryController extends MainPageController {
 		} else{
 			$footer = false;
 		}
+		if (array_key_exists('top_margin', $pdfDetails)){
+			$top_margin = $pdfDetails["top_margin"];
+		} else{
+			$top_margin = PDF_MARGIN_TOP;
+		}
+		if (array_key_exists('bottom_margin', $pdfDetails)){
+			$bottom_margin = $pdfDetails["bottom_margin"];
+		} else{
+			$bottom_margin = PDF_MARGIN_TOP;
+		}
+		if (array_key_exists('font_size', $pdfDetails)){
+			$font_size = $pdfDetails["font_size"];
+		} else{
+			$font_size = 12;
+		}
 		if (array_key_exists('label', $pdfDetails)) {
 			$pdf = new labelExemple( 10 , $html , "../protected/Libs/Components/tcpdf/", "labels.xml", false);
 
@@ -155,10 +171,10 @@ class DietaryController extends MainPageController {
 			$pdf->Addlabel();
 
 		} else{
+
 			// create new PDF document
 			$pdf = new TCPDF($orientation . " !", PDF_UNIT, 'LETTER', true, 'UTF-8', false);
-
-
+			
 			// set default header data
 			$pdf->SetHeaderData("", PDF_HEADER_LOGO_WIDTH, $title, "", array(0,64,255), array(0,64,128));
 			$pdf->setFooterData(array(0,64,0), array(0,64,128));
@@ -171,7 +187,7 @@ class DietaryController extends MainPageController {
 			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 			// set margins
-			$pdf->SetMargins(7, PDF_MARGIN_TOP, 7);
+			$pdf->SetMargins(2, $top_margin, 2);
 			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -184,7 +200,7 @@ class DietaryController extends MainPageController {
 			}
 
 			// set auto page breaks
-			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+			$pdf->SetAutoPageBreak(TRUE, 0);
 
 			// set image scale factor
 			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -204,7 +220,7 @@ class DietaryController extends MainPageController {
 			// dejavusans is a UTF-8 Unicode font, if you only need to
 			// print standard ASCII chars, you can use core fonts like
 			// helvetica or times to reduce file size.
-			$pdf->SetFont('dejavusans', '', 12, '', true);
+			$pdf->SetFont('dejavusans', '', $font_size, '', true);
 
 			// Add a page
 			// This method has several options, check the source code documentation for more information.
@@ -212,6 +228,14 @@ class DietaryController extends MainPageController {
 
 			// set text shadow effect
 			$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+
+
+			//For custom footer.  Need to remove the margin on the bottom
+			if(array_key_exists('custom_footer', $pdfDetails)){
+				
+				//$html = $pdfDetails["custom_footer"] . "<br><br>" . $html;// .  . $pdf->getPageHeight();
+        		//$pdf->writeHTMLCell($w=0, $h=0, $x=0, $y=200, $pdfDetails["custom_footer"], $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
+			}
 
 			// Print text using writeHTMLCell()
 			$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

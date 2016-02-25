@@ -1,0 +1,67 @@
+html {
+	margin: 0;
+	padding: 0;
+	background: #686868;
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body, td, th {
+	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+	font-size: 14px;
+	color: #050505;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-strong {
+	font-weight: bold;
+}
+
+h1 {
+	margin: 25px 0;
+}
+
+h2 {
+	margin-top: 5px;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+table {
+	max-width: 90%;
+	margin: 20px auto;
+}
+
+table th {
+	background: #c8c8c8;
+	padding: 5px;
+}
+
+table td {
+	padding: 5px 10px;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	line-height: 1.5em;
+}
+
+input[type="checkbox"] {
+	padding-right: 10px;
+}

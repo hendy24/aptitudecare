@@ -30,7 +30,6 @@ class LoginController extends MainPageController {
 		
 		smarty()->assign('title', 'Login');
 
-
 		 // LOGIN FORM HAS BEEN SUBMITTED
 		 //		 
 		 		 

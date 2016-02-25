@@ -72,6 +72,14 @@ class Patient extends AppData {
 		return $this->fetchAll($sql, $params);
 	}
 
+	public function fetchPatientById($patient_id) {
+		$schedule = $this->loadTable("Schedule");
+		$room = $this->loadTable("Room");
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE p.public_id = :patient_id";
+		$params[":patient_id"] = $patient_id;
+		return $this->fetchOne($sql, $params);
+	}
+
 
 
 	public function fetchPreviousPatients($last_name = null, $first_name = null, $middle_name = null) {

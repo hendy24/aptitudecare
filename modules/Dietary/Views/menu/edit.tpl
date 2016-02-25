@@ -26,7 +26,6 @@
 		});
 	});
 </script>
-
 {if $corporateEdit}
 	<h1>Edit Menu Item</h1>
 {else}
@@ -48,11 +47,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<textarea name="menu_content" id="menu-content" cols="50" rows="20">
-					{foreach $menuItem->content as $menu}
-						{$menu}
-					{/foreach}
-				</textarea>
+				<textarea name="menu_content" id="menu-content" cols="50" rows="20">{foreach $menuItem->content as $menu}{$menu}{/foreach}</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -85,7 +80,6 @@
 						{/foreach}
 						</tr>
 					</table>
-
 			{else}
 			<tr>
 				<td colspan="2"><strong>Reason for menu change:</strong></td>

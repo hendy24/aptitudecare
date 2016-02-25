@@ -45,7 +45,6 @@ class MenuController extends DietaryController {
 			$menuItem = $this->loadModel("MenuItem", input()->id);
 		}
 
-
 		// remove tags from the menu
 		// if (strstr($menuItem->content, "<p>")) {
 		// 	$menuItem->content = explode("<p>", $menuItem->content);
@@ -54,6 +53,8 @@ class MenuController extends DietaryController {
 		// 	$menuItem->content = explode("<br />", $menuItem->content);
 		// }
 
+//			pr(input());
+//			exit;
 
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
@@ -69,13 +70,11 @@ class MenuController extends DietaryController {
 			$location = false;
 		}
 
-
 		if ($corpEdit) {
 			$allLocations = $this->loadModel('Location')->fetchFacilities();
 		} else {
 			$allLocations = false;
 		}
-		
 
 		smarty()->assign('location', $location);
 		smarty()->assign('allLocations', $allLocations);
@@ -91,24 +90,26 @@ class MenuController extends DietaryController {
 		// check if this is being submitted from a facility or corporate edit page
 		// corporate edit pages are the facility menus page as well as the corporate
 		// menus page, access to these page should be limited by user group
-
-		if (input()->date == null) {
-			// if the date is null then it is a corporate page
-			$this->corporateInfo();
-		} else {
-			// if there is a date set then it is a facility page
-			$this->facilityInfo();
+		if(input()->edit_type = "corp_menu"){
+			if (input()->date == null) {
+				// if the date is null then it is a corporate page
+				$this->corporateInfo();
+			} else {
+				// if there is a date set then it is a facility page
+				$this->facilityInfo();
+			}
+		}else{
+			
 		}
 
 	}
 
 
-	public function meal_order_form() {
-		$this->template = "blank";
-		smarty()->assign('title', "Meal Order Form");
+	public function meal_order_form() {  
 
-		// // get location
-		// $location = $this->loadModel("Location", input()->location);
+		$this->template = "pdf";
+		
+		smarty()->assign('title', "Meal Order Form");
 
 		if (isset (input()->start_date)) {
 			$start_date = date("Y-m-d", strtotime(input()->start_date));
@@ -122,9 +123,7 @@ class MenuController extends DietaryController {
 			$end_date = date("Y-m-d", strtotime("now"));
 		}
 
-
 		smarty()->assign('startDate', $start_date);
-
 
 		$urlDate = date('m/d/Y', strtotime($start_date));
 		$printDate = date("l, F j, Y", strtotime($start_date));
@@ -132,7 +131,12 @@ class MenuController extends DietaryController {
 
 
 		// Get the selected facility. If no facility has been selected return the users' default location
-		$location = $this->getLocation();
+
+		if (isset (input()->location)) {
+			$location = $this->loadModel("Location", input()->location);
+		} else {
+			$location = $this->getLocation();
+		}
 
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $start_date);
@@ -147,14 +151,14 @@ class MenuController extends DietaryController {
 		$this->normalizeMenuItems($menuItems);
 
 		smarty()->assignByRef('menuItems', $menuItems);
+		smarty()->assign('location', $location);
 
 		// get alternates
 		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
 
 		// put alternates in an array to display similar to the meal menu
-		$alternatesArray = explode("; ", $alternates->content);
-		smarty()->assignByRef("alternates", $alternatesArray);
-
+		$alternatesArray = explode(", ", $alternates->content);
+		smarty()->assignByRef("alternates", $alternatesArray);		
 	}
 
 
@@ -246,6 +250,8 @@ class MenuController extends DietaryController {
 
 	private function corporateInfo() {
 
+		pr(input());
+		exit;
 		$menuItem = $this->loadModel('MenuItem', input()->public_id);
 		
 		// determine if this edit is for all locations or only those selected

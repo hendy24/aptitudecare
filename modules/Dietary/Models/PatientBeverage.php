@@ -4,10 +4,11 @@ class PatientBeverage extends Dietary {
 
   protected $table = "patient_beverage";
 
-  public function fetchPatientBeverage($patient_id) {
+  public function fetchPatientBeverage($patient_id, $meal) {
     $beverage = $this->loadTable("Beverage");
-    $sql = "SELECT * FROM {$this->tableName()} po inner JOIN {$beverage->tableName()} AS d ON d.id = po.beverage_id and po.patient_id = :patient_id";
+    $sql = "SELECT * FROM {$this->tableName()} po inner JOIN {$beverage->tableName()} AS d ON d.id = po.beverage_id and po.patient_id = :patient_id AND meal = :meal";
     $params[":patient_id"] = $patient_id;
+    $params[":meal"] = $meal;
     $result = $this->fetchAll($sql, $params);
 
     if (!empty ($result)) {

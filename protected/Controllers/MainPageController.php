@@ -8,6 +8,11 @@ class MainPageController extends MainController {
 	protected $areas;
 	protected $area;
 
+
+	public function allow_access() {
+		return array("meal_order_form", "index");
+	}
+
 	public function index() {
 		// Check if user is logged in, if not redirect to login page
 		if (!auth()->isLoggedIn()) {
@@ -38,8 +43,7 @@ class MainPageController extends MainController {
 		if (auth()->isLoggedIn()) {
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 			smarty()->assign('modules', $modules);
-		}
-		
+		} 
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
@@ -51,6 +55,7 @@ class MainPageController extends MainController {
 
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
+		
 
 		if (auth()->isLoggedIn()) {
 			if ($this->action == "admission_login") {
@@ -66,7 +71,6 @@ class MainPageController extends MainController {
 				}
 			}
 		} 
-
 		smarty()->assign('module', $this->module);
 	}
 
@@ -74,7 +78,6 @@ class MainPageController extends MainController {
 	private function setContent() {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
-
 		if ($this->module != "") {
 			if (file_exists(MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
 				smarty()->assign('content', MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . '/' . $this->action . '.tpl');

@@ -1,22 +1,17 @@
 <!-- modules/Dietary/Views/menu/meal_order_form.tpl -->
-<style type="text/css" media="print">
-    @page 
-    {
-        size: auto;   /* auto is the initial value */
-        margin: 0mm;  /* this affects the margin in the printer settings */
-    }
-</style>
+
 
 <div class="text-center" style="margin-top:30px">
 	<img src="{$IMAGES}/logos_black_reduced/{$location->logo}" alt="">
 </div>
+<br>
 <h2>Daily Patient Meal Order</h2>
-
-<table class="form">
+<br>
+<table>
 	<tr>
-		<td class="text-strong; width: 30px;">Room:</td>
+		<td>Room:</td>
 		<td style="border-bottom: 1px solid black; width: 200px;">&nbsp;</td>
-		<td class="text-strong text-right">Date:</td>
+		<td class="text-right">Date:</td>
 		<td>{$startDate|date_format}</td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
@@ -31,7 +26,13 @@
 			{/foreach}
 		</td>
 		<td colspan="2">
-			
+			<br>
+			<input type="checkbox"> Special Egg: ______________________________________ <br>
+			<input type="checkbox"> Bacon <br>
+			<input type="checkbox"> Sausage <br>
+			<input type="checkbox"> Hot Cereal <br>
+			<input type="checkbox"> Cold Cereal <br>
+			<input type="checkbox"> Special Toast: ____________________________________ <br>
 		</td>
 	</tr>
 
@@ -39,7 +40,7 @@
 		<td></td>
 	</tr>
 
-
+	<tr><td colspan="4">&nbsp;</td></tr>
 	<tr>
 		<th colspan="2">Lunch</th>
 		<th colspan="2">Lunch Alternate</th>
@@ -51,8 +52,9 @@
 			{/foreach}
 		</td>
 		<td colspan="2">
+			<br>
 			{foreach from=$alternates item=alternate}
-			<input type="checkbox">{$alternate}</input><br>
+			<input type="checkbox"> {$alternate}</input><br>
 			{/foreach}
 		</td>		
 	</tr>
@@ -60,20 +62,22 @@
 	<tr>
 		<td></td>
 	</tr>
-
+	<tr><td colspan="4">&nbsp;</td></tr>
 	<tr>
 		<th colspan="2">Dinner</th>
 		<th colspan="2">Dinner Alternate</th>
 	</tr>
 	<tr>
 		<td colspan="2">
+			<br>
 			{foreach from=$menuItems[2]->content item=menu}
 			<ul>{$menu}</ul>
 			{/foreach}
 		</td>
 		<td colspan="2">
+			<br>
 			{foreach from=$alternates item=alternate}
-			<input type="checkbox">{$alternate}</input><br>
+			<input type="checkbox"> {$alternate}</input><br>
 			{/foreach}
 		</td>		
 	</tr>
