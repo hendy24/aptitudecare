@@ -6,20 +6,25 @@
     <h1>Adaptive Equipment Report</h1>
   </div>
   <div id="action-right">
+  	{if $auth->isLoggedIn()}
+  	<a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=adaptive_equipment&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+  		<img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
+  	</a>
+  	{/if}
   </div>
 </div>
-
+<br>
 <table class="form">
 	<tr>
-		<th>Room</th>	
-		<th>Patient</th>
-		<th>Adaptive Equipment</th>
+		<th width="75">Room</th>	
+		<th width="250">Patient</th>
+		<th width="500">Adaptive Equipment</th>
 	</tr>
+	{foreach from=$patients item=patient}
 	<tr>
-		{foreach from=$patients item=patient}
 		<td>{$patient->number}</td>
 		<td>{$patient->fullName()}</td>
-		<td></td>
-		{/foreach}
+		<td>{$patient->ae_name}</td>
 	</tr>
+	{/foreach}
 </table>

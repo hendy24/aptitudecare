@@ -10,7 +10,7 @@ class MainPageController extends MainController {
 
 
 	public function allow_access() {
-		return array("meal_order_form", "index");
+		return array("meal_order_form", "adaptive_equipment");
 	}
 
 	public function index() {

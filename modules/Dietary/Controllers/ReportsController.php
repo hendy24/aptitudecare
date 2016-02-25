@@ -316,70 +316,79 @@ EOD;
 	 */
 
 	public function adaptive_equipment() {
-		$location = $this->getLocation();
+		if (!auth()->isLoggedIn()) {
+			$this->template = "pdf";
+		}
+		
+		if (isset (input()->location)) {
+			$location = $this->loadModel("Location", input()->location);
+		} else {
+			$location = $this->getLocation();
+		}
+
 		$current_patients = $this->loadModel('PatientAdaptEquip')->fetchByLocation($location);
-
 		smarty()->assignByRef('patients', $current_patients);
+
 	}
 
 
 
-	public function adaptive_equipment_pdf() {
-		$location = $this->getLocation();
+// 	public function adaptive_equipment_pdf() {
+// 		$location = $this->getLocation();
 
-		$currentPatients = $this->loadModel("PatientAdaptEquip")->fetchByLocation($location);
-$html = <<<EOD
-<table style="background-image:purple">
-	<thead>
-		<tr>
-			<td><strong>Room</strong></td>
-			<td><strong>Patient</strong></td>
-			<td><strong>Adapt Equip</strong></td>
-		</tr>
-	</thead>
-	<tbody>
-EOD;
+// 		$currentPatients = $this->loadModel("PatientAdaptEquip")->fetchByLocation($location);
+// $html = <<<EOD
+// <table style="background-image:purple">
+// 	<thead>
+// 		<tr>
+// 			<td><strong>Room</strong></td>
+// 			<td><strong>Patient</strong></td>
+// 			<td><strong>Adapt Equip</strong></td>
+// 		</tr>
+// 	</thead>
+// 	<tbody>
+// EOD;
 
-foreach($currentPatients as $patient){
-	//Build the array of adapt equipt for this patient
-	$adapt_equip_array = array();
-	foreach ($patient as $value) {
-		array_push($adapt_equip_array, $value->name);
-	}
-	$adapt_equip_array = implode(", ", $adapt_equip_array);
+// foreach($currentPatients as $patient){
+// 	//Build the array of adapt equipt for this patient
+// 	$adapt_equip_array = array();
+// 	foreach ($patient as $value) {
+// 		array_push($adapt_equip_array, $value->name);
+// 	}
+// 	$adapt_equip_array = implode(", ", $adapt_equip_array);
 
-if(property_exists($patient[0], 'first_name')){
-$html = $html .
-<<<EOD
-		<tr>
-			<td>{$patient[0]->number}</td>
-			<td>{$patient[0]->first_name} {$patient[0]->last_name}</td>
-			<td>
-				{$adapt_equip_array}
-			</td>
-		</tr>
-EOD;
+// if(property_exists($patient[0], 'first_name')){
+// $html = $html .
+// <<<EOD
+// 		<tr>
+// 			<td>{$patient[0]->number}</td>
+// 			<td>{$patient[0]->first_name} {$patient[0]->last_name}</td>
+// 			<td>
+// 				{$adapt_equip_array}
+// 			</td>
+// 		</tr>
+// EOD;
 
-}
-	}
-$html = $html . <<<EOD
-	</tbody>
-</table>
-EOD;
+// }
+// 	}
+// $html = $html . <<<EOD
+// 	</tbody>
+// </table>
+// EOD;
 
-	$title = 'Adaptive Equipment Report for ' . $location->name;
+// 	$title = 'Adaptive Equipment Report for ' . $location->name;
 
-	$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => true, "orientation" => "Landscape");
+// 	$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => true, "orientation" => "Landscape");
 
-	$this->buildPDFOptions($pdfDetails);
+// 	$this->buildPDFOptions($pdfDetails);
 
 
-	/*
-	 * -------------------------------------------------------------------------
-	 *  Common functions for report pages
-	 * -------------------------------------------------------------------------
-	 */
-}
+// 	/*
+// 	 * -------------------------------------------------------------------------
+// 	 *  Common functions for report pages
+// 	 * -------------------------------------------------------------------------
+// 	 */
+// }
 
 
 	private function reportDays() {
