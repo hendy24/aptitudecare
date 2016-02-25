@@ -13,7 +13,7 @@
   	{/if}
   </div>
 </div>
-<br>
+
 <table class="form">
 	<tr>
 		<th width="75">Room</th>	

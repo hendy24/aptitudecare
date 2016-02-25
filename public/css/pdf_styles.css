@@ -9,6 +9,7 @@ body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	width: 100%;
 }
 
 body, td, th {
@@ -27,6 +28,14 @@ body, td, th {
 
 .text-strong {
 	font-weight: bold;
+}
+
+.text-red {
+	color: red;
+}
+
+.text-green {
+	color: green;
 }
 
 h1 {
@@ -53,6 +62,7 @@ table th {
 
 table td {
 	padding: 5px 10px;
+	vertical-align: top;
 }
 
 ul {
@@ -64,4 +74,10 @@ ul {
 
 input[type="checkbox"] {
 	padding-right: 10px;
+}
+
+.traycard-column {
+	width: 33%;
+	float: left;
+	display: inline-block;
 }

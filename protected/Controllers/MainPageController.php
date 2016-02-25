@@ -10,7 +10,7 @@ class MainPageController extends MainController {
 
 
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "single_traycard");
 	}
 
 	public function index() {
@@ -199,7 +199,12 @@ class MainPageController extends MainController {
 	}
 
 	public function getLocation() {
-		return $this->location;
+		if (isset (input()->location)) {
+			return $this->loadModel('Location', input()->location);
+		} else {
+			return $this->location;
+		}
+		
 	}
 
 	public function getArea() {

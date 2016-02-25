@@ -82,57 +82,89 @@ class ReportsController extends DietaryController {
 	}
 
 	public function beverages() {
+		if (!auth()->isLoggedIn()) {
+			$this->template = "pdf";
+		}
+
 		smarty()->assign('title', "Beverages Report");
 		$location = $this->getLocation();
+		if (isset (input()->date)) {
+			$date = date('Y-m-d', strtotime(input()->date));
+		} else {
+			$date = mysql_date();
+		}
 
+		// get beverages
+		$beverages = $this->loadModel("PatientBeverage")->fetchBeverageReport($location, $date);
 
+		smarty()->assign('beverages', $beverages);
 		smarty()->assign('location', $location);
 
 	}
 
-	public function beverages_pdf() {
+// 	public function beverages_pdf() {
 
-		$location = $this->getLocation();
-		$title = "Beverage report for " . $location->name . " on " . input()->date;
-		$date = date('Y-m-d', strtotime(input()->date));
-		$beverages = $this->loadModel("PatientBeverage")->fetchBeverageReport($location, $date);
-		if(!is_array($beverages)){
-			session()->setFlash("No beverages found for this time", "error");
-			$this->redirect();
+// 		$location = $this->getLocation();
+// 		$title = "Beverage report for " . $location->name . " on " . input()->date;		
+// 		$beverages = $this->loadModel("PatientBeverage")->fetchBeverageReport($location, $date);
+// 		if(!is_array($beverages)){
+// 			session()->setFlash("No beverages found for this time", "error");
+// 			$this->redirect();
+// 		}
+
+// 		$html = <<<EOD
+// <table>
+// 	<thead>
+// 		<tr>
+// 			<th><strong>Beverage</strong></th>
+// 			<th><strong>Count</strong></th>
+// 		</tr>
+// 	</thead>
+// 	<tbody>
+// EOD;
+
+// foreach($beverages as $beverage){
+// 	$html = $html . <<<EOD
+// 		<tr>
+// 			<td>{$beverage->name}</td>
+// 			<td>{$beverage->quantity}</td>
+// 		</tr>
+// EOD;
+// }
+
+// $html = $html . <<<EOD
+// 		</tbody>
+// 	</table>
+
+// EOD;
+
+
+// 		$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => false, "orientation" => "Portrait");
+
+// 		$this->buildPDFOptions($pdfDetails);
+
+// 	}
+
+
+
+/*
+ * -------------------------------------------------------------------------
+ * Allergies report page
+ * -------------------------------------------------------------------------
+ */
+
+	public function allergies() {
+		if (!auth()->isLoggedIn()) {
+			$this->template = "pdf";
 		}
 
-		$html = <<<EOD
-<table>
-	<thead>
-		<tr>
-			<th><strong>Beverage</strong></th>
-			<th><strong>Count</strong></th>
-		</tr>
-	</thead>
-	<tbody>
-EOD;
-
-foreach($beverages as $beverage){
-	$html = $html . <<<EOD
-		<tr>
-			<td>{$beverage->name}</td>
-			<td>{$beverage->quantity}</td>
-		</tr>
-EOD;
-}
-
-$html = $html . <<<EOD
-		</tbody>
-	</table>
-
-EOD;
-
-
-		$pdfDetails = array("title" => $title, "html" => $html, "header" => true, "footer" => false, "orientation" => "Portrait");
-
-		$this->buildPDFOptions($pdfDetails);
-
+		smarty()->assign('title', "Allergy Report");
+		$location = $this->getLocation();
+		$currentPatients = $this->loadModel('PatientInfo')->fetchByLocation_allergy($location);
+		smarty()->assignByRef('patients', $currentPatients);
 	}
+
+
 
 	public function allergies_pdf() {
 		$location = $this->getLocation();
