@@ -32,10 +32,6 @@ class PatientInfoController extends DietaryController {
 		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Lunch");
 		$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Dinner");
 
-		$breakfast_spec_requests = $this->loadModel("PatientSpecialReq")->fetchPatientSpecialReq($patient->id, "Breakfast");
-		$lunch_spec_requests = $this->loadModel("PatientSpecialReq")->fetchPatientSpecialReq($patient->id, "Lunch");
-		$dinner_spec_requests = $this->loadModel("PatientSpecialReq")->fetchPatientSpecialReq($patient->id, "Dinner");
-
 		$adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
 		$supplements = $this->loadModel("PatientSupplement")->fetchPatientSupplement($patient->id);
 
@@ -57,9 +53,6 @@ class PatientInfoController extends DietaryController {
 		smarty()->assignByRef('breakfast_beverages', $breakfast_beverages);
 		smarty()->assignByRef('lunch_beverages', $lunch_beverages);
 		smarty()->assignByRef('dinner_beverages', $dinner_beverages);
-		smarty()->assignByRef('breakfast_spec_requests', $breakfast_spec_requests);
-		smarty()->assignByRef('lunch_spec_requests', $lunch_spec_requests);
-		smarty()->assignByRef('dinner_spec_requests', $dinner_spec_requests);
 		smarty()->assignByRef('supplements', $supplements);
 		smarty()->assignByRef('am_snacks', $am_snacks);
 		smarty()->assignByRef('pm_snacks', $pm_snacks);
@@ -202,52 +195,6 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
-		// set special requests array
-		$specialrequestArray = array();
-		if (!empty (input()->breakfast_specialrequest)) {
-			foreach (input()->breakfast_specialrequest as $item) {
-				$specialrequest = $this->loadModel("SpecialReq")->fetchByName($item);
-				$patientSpecialReq = $this->loadModel("PatientSpecialReq")->fetchByPatientAndSpecialReqId($patient->id, $specialrequest->id);
-
-				if ($patientSpecialReq->patient_id == "") {
-					$patientSpecialReq->patient_id = $patient->id;
-					$patientSpecialReq->special_req_id = $specialrequest->id;
-					$patientSpecialReq->meal = "Breakfast";
-					$specialrequestArray[] = $patientSpecialReq;
-				}
-			}
-		}
-
-		// set special requests array
-		if (!empty (input()->lunch_specialrequest)) {
-			foreach (input()->lunch_specialrequest as $item) {
-				$specialrequest = $this->loadModel("SpecialReq")->fetchByName($item);
-				$patientSpecialReq = $this->loadModel("PatientSpecialReq")->fetchByPatientAndSpecialReqId($patient->id, $specialrequest->id);
-
-				if ($patientSpecialReq->patient_id == "") {
-					$patientSpecialReq->patient_id = $patient->id;
-					$patientSpecialReq->special_req_id = $specialrequest->id;
-					$patientSpecialReq->meal = "Lunch";
-					$specialrequestArray[] = $patientSpecialReq;
-				}
-			}
-		}
-
-		// set special requests array
-		if (!empty (input()->dinner_specialrequest)) {
-			foreach (input()->dinner_specialrequest as $item) {
-				$specialrequest = $this->loadModel("SpecialReq")->fetchByName($item);
-				$patientSpecialReq = $this->loadModel("PatientSpecialReq")->fetchByPatientAndSpecialReqId($patient->id, $specialrequest->id);
-
-				if ($patientSpecialReq->patient_id == "") {
-					$patientSpecialReq->patient_id = $patient->id;
-					$patientSpecialReq->special_req_id = $specialrequest->id;
-					$patientSpecialReq->meal = "Dinner";
-					$specialrequestArray[] = $patientSpecialReq;
-				}
-			}
-		}
-
 		// set supplements array
 		$supplementsArray = array();
 		if (!empty (input()->supplements)) {
@@ -318,9 +265,9 @@ class PatientInfoController extends DietaryController {
 			$feedback[] = "Portion size has not been entered";
 		}
 
-//		if (input()->special_requests != "") {
-//			$patientDiet->special_requests = input()->special_requests;
-//		}
+		if (input()->special_requests != "") {
+			$patientDiet->special_requests = input()->special_requests;
+		}
 
 		$snackArray = array();
 		if (!empty(input()->am)) {
@@ -343,23 +290,8 @@ class PatientInfoController extends DietaryController {
 
 		// save the patient diet info
 		if ($patientDiet->save() && $patient->save()) {
-
-//			$saveArrays = [$allergiesArray, $patientDietInfoArray, $adaptEquipArray, $beveragesArray, $supplementsArray, $patientTextureArray, $dislikesArray, $patientOrderArray, $snackArray, $specialrequestArray];
-
-//			foreach ($saveArrays as $key => $arrayname) {
-//				foreach ($arrayname as $item) {
-//					$item->save();
-//				}
-//			}
-
-
 			// save the patient's allergies
 			foreach ($allergiesArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's allergies
-			foreach ($specialrequestArray as $item) {
 				$item->save();
 			}
 
@@ -415,81 +347,146 @@ class PatientInfoController extends DietaryController {
 
 	}
 
-  public function traycard() {
-
-  	ini_set('memory_limit','-1');
-    $location = $this->getLocation();
-	$html = "";
-
-    if(input()->patient == "all"){
-			// check if the location is has the admission dashboard enabled
-			$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
-
-			// if the facility is using the admission dashboard, then get a list of
-			// the current patients from the admission app for the current location.
-
-			// NOTE: if a location is using the admission dashboard they should
-			// not have the ability to add or delete patients through the dietary
-			// app interface.
-			$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
-			if ($modEnabled) {
-				// until the admission app is re-built and we move to a single database we need to fetch
-				// the data from the admission db and save to the master db
-				// IMPORTANT: Remove this after admission app is re-built in new framework!!!
-				$scheduled = $this->loadModel('AdmissionDashboard')->syncCurrentPatients($location->id);
-			} else {
-				// if the locations is not using the admission dashboard then load the patients
-				// from ac_patient and dietary_patient_info tables
-				// fetch current patients
-				$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
-			}
-			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 
-	    foreach($currentPatients as $key => $patient){
-	    	if(get_class($patient) == "Patient"){
-	    		$htmlArray = $this->createHtml($patient, $location, $html, false);
-  				$html = $htmlArray["html"];
-	    	}
-	    }
-    }
-    else{
-	  	if (input()->patient != "") {
-	    	//$patient = $this->loadModel("Patient", input()->patient);
+/*
+ * -------------------------------------------------------------------------
+ *  TRAYCARD FOR SINGLE PATIENT
+ * -------------------------------------------------------------------------
+ */
 
-	    	// created query to get the room number with the patient info - 2016-02-24 by kwh
-	    	$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
-	    	$htmlArray = $this->createHtml($patient, $location, $html, true);
-	    	$html = $html . $htmlArray["html"];
-	  	}
-		  else {
-		    session()->setFlash("Could not find the selected patient, please try again.", 'error');
-		    $this->redirect();
-		  }
-    }
-
-
-		$pdfDetails = array("title" => '', "html" => $htmlArray["html"], "header" => false, "footer" => false, "orientation" => "Landscape", "top_margin" => 0, "font_size" => 10, "custom_footer" => false);
-
-		$this->buildPDFOptions($pdfDetails);
-
-  }
-
-	public function traycard_options(){
-		// get the location
+	public function single_traycard() {
+		$this->template = 'pdf';
+		$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
 		$location = $this->getLocation();
 
-		// check if the user has permission to access this module
-		if ($location->location_type != 1) {
-			$this->redirect();
+		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
+		// get patient schedule info
+		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
+
+		$allergies = $this->loadModel("PatientFoodInfo")->fetchAllergiesByPatient($patient->id);
+		$dislikes = $this->loadModel("PatientFoodInfo")->fetchDislikesByPatient($patient->id);
+		$texture = $this->loadModel("PatientTexture")->fetchTexturesByPatient($patient->id);
+		$orders = $this->loadModel("PatientOrder")->fetchPatientOrder($patient->id);
+		$patientDietInfo = $this->loadModel('PatientDietInfo')->fetchPatientDietInfo($patient->id);
+
+		if(isset(input()->date)){
+		$weekSeed = input()->date;
 		}
-		$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+		else{
+		$weekSeed = date('Y-m-d');
+		}
+		$week = Calendar::getWeek($weekSeed);
+		$_dateStart = date('Y-m-d', strtotime($week[0]));
 
-		$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
-		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
+		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
+		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
 
-		smarty()->assign('currentPatients', $currentPatients);
+		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+
+
+		$now = date('Y-m-d', strtotime('now'));
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
+
+		if (strtotime($patient->date_of_birth) ==strtotime(date('Y-m-d', strtotime('now')))) {
+			$birthday = true;
+		} else {
+			$birthday = false;
+		}
+
+		$menuItems[0]->meal_name = "Breakfast";
+		$menuItems[1]->meal_name = "Lunch";
+		$menuItems[2]->meal_name = "Dinner";
+
+
+		smarty()->assign('menuItems', $menuItems);
+		smarty()->assign('patient', $patient);
+		smarty()->assign('birthday', $birthday);
+		smarty()->assign('diet', $diet);
+		smarty()->assign('schedule', $schedule);
+		smarty()->assign('allergies', $allergies);
+		smarty()->assign('dislikes', $dislikes);
+		smarty()->assign('texture', $texture);
+		smarty()->assign('orders', $orders);
+		smarty()->assign('patientDietInfo', $patientDietInfo);
 	}
+
+
+ //  public function traycard() {
+ //  	explode(delimiter, string)
+ //  	ini_set('memory_limit','-1');
+ //    $location = $this->getLocation();
+	// $html = "";
+
+ //    if(input()->patient == "all"){
+	// 		// check if the location is has the admission dashboard enabled
+	// 		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
+
+	// 		// if the facility is using the admission dashboard, then get a list of
+	// 		// the current patients from the admission app for the current location.
+
+	// 		// NOTE: if a location is using the admission dashboard they should
+	// 		// not have the ability to add or delete patients through the dietary
+	// 		// app interface.
+	// 		$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+	// 		if ($modEnabled) {
+	// 			// until the admission app is re-built and we move to a single database we need to fetch
+	// 			// the data from the admission db and save to the master db
+	// 			// IMPORTANT: Remove this after admission app is re-built in new framework!!!
+	// 			$scheduled = $this->loadModel('AdmissionDashboard')->syncCurrentPatients($location->id);
+	// 		} else {
+	// 			// if the locations is not using the admission dashboard then load the patients
+	// 			// from ac_patient and dietary_patient_info tables
+	// 			// fetch current patients
+	// 			$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+	// 		}
+	// 		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
+
+
+	//     foreach($currentPatients as $key => $patient){
+	//     	if(get_class($patient) == "Patient"){
+	//     		$htmlArray = $this->createHtml($patient, $location, $html, false);
+ //  				$html = $htmlArray["html"];
+	//     	}
+	//     }
+ //    }
+ //    else{
+	//   	if (input()->patient != "") {
+	//     	//$patient = $this->loadModel("Patient", input()->patient);
+
+	//     	// created query to get the room number with the patient info - 2016-02-24 by kwh
+	//     	$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
+	//     	$htmlArray = $this->createHtml($patient, $location, $html, true);
+	//     	$html = $html . $htmlArray["html"];
+	//   	}
+	// 	  else {
+	// 	    session()->setFlash("Could not find the selected patient, please try again.", 'error');
+	// 	    $this->redirect();
+	// 	  }
+ //    }
+
+
+	// 	$pdfDetails = array("title" => '', "html" => $htmlArray["html"], "header" => false, "footer" => false, "orientation" => "Landscape", "top_margin" => 0, "font_size" => 10, "custom_footer" => false);
+
+	// 	$this->buildPDFOptions($pdfDetails);
+
+ //  }
+
+	// public function traycard_options(){
+	// 	// get the location
+	// 	$location = $this->getLocation();
+
+	// 	// check if the user has permission to access this module
+	// 	if ($location->location_type != 1) {
+	// 		$this->redirect();
+	// 	}
+	// 	$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+
+	// 	$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+	// 	$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
+
+	// 	smarty()->assign('currentPatients', $currentPatients);
+	// }
 
 
 	public function add_patient() {
@@ -686,20 +683,12 @@ EOD;
 		$breakfast_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Breakfast");
 		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Lunch");
 		$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Dinner");
-
-		$breakfast_spec_requests = $this->loadModel("PatientSpecialReq")->fetchPatientSpecialReq($patient->id, "Breakfast");
-		$lunch_spec_requests = $this->loadModel("PatientSpecialReq")->fetchPatientSpecialReq($patient->id, "Lunch");
-		$dinner_spec_requests = $this->loadModel("PatientSpecialReq")->fetchPatientSpecialReq($patient->id, "Dinner");
-
     $menuItems[0]->meal = "Breakfast";
     $menuItems[0]->beverages = $breakfast_beverages;
-    $menuItems[0]->spec_requests = $breakfast_spec_requests;
     $menuItems[1]->meal = "Lunch";
     $menuItems[1]->beverages = $lunch_beverages;
-    $menuItems[1]->spec_requests = $lunch_spec_requests;
     $menuItems[2]->meal = "Dinner";
     $menuItems[2]->beverages = $dinner_beverages;
-    $menuItems[2]->spec_requests = $dinner_spec_requests;
 
 	  	    	$footer_html = <<<EOD
 	    	<table cellpadding="4">
@@ -728,17 +717,15 @@ EOD;
 
       $menuItems[0]->meal = "Breakfast";
     	$menuItems[0]->beverages = $breakfast_beverages;
-    	$menuItems[0]->spec_requests = $breakfast_spec_requests;
       $menuItems[1]->meal = "";
       $menuItems[2]->meal = "";
-    	$footer_html = $single_meal_footer_html;
+	  	    	$footer_html = $single_meal_footer_html;
 
     }
     elseif (input()->meal == "Lunch") {
 			$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Lunch");
       $menuItems[0]->meal = "Lunch";
     	$menuItems[0]->beverages = $lunch_beverages;
-    	$menuItems[0]->spec_requests = $lunch_spec_requests;
       $menuItems[1]->meal = "";
       $menuItems[2]->meal = "";
 	  	    	$footer_html = $single_meal_footer_html;
@@ -747,10 +734,9 @@ EOD;
 			$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Dinner");
       $menuItems[0]->meal = "Dinner";
     	$menuItems[0]->beverages = $dinner_beverages;
-    	$menuItems[0]->spec_requests = $dinner_spec_requests;
       $menuItems[1]->meal = "";
       $menuItems[2]->meal = "";
-    	$footer_html = $single_meal_footer_html;
+	  	    	$footer_html = $single_meal_footer_html;
     }
   }
   // need to get patient diet info
@@ -855,7 +841,6 @@ EOD;
     $contentRow = "";
     $consumedAmountRow = "";
     $beverageRow = "";
-    $specRequestRow = "";
     $dietOrderRow = "";
 
     foreach($menuItems as $item){
@@ -901,22 +886,6 @@ EOD;
 $beverageRow = $beverageRow . <<<EOD
   <td>Beverages: </td>
   <td>{$beverages}</td>
-EOD;
-
-	$spec_requests = array();
-  if($item->spec_requests){
-	  foreach($item->spec_requests as $soec_request){
-	    array_push($spec_requests, $soec_request->name);
-	  }
-	}
-	else{
-  	array_push($spec_requests, "");
-	}
-  $spec_requests = implode(', ', $spec_requests);
-
-$specRequestRow = $specRequestRow . <<<EOD
-  <td>Special Requests: </td>
-  <td>{$spec_requests}</td>
 EOD;
 
 $portionRow = $portionRow . <<<EOD
@@ -1011,9 +980,6 @@ $html = $html . <<<EOD
 
       <tr>
       	{$orderRow}
-      </tr>
-      <tr>
-      	{$specRequestRow}
       </tr>
       <tr>
       	{$beverageRow}
