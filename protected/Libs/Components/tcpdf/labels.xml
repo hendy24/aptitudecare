@@ -165,7 +165,7 @@
 		<supplier></supplier>
 		<width>68.6</width>
 		<height>20.4</height>
-		<margin>3</margin>
+		<margin>1</margin>
 		<sheet format="LETTER" orientation='P'>
 			<cols>3</cols>
 			<rows>10</rows>

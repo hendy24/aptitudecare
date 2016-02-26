@@ -18,11 +18,41 @@ class PatientFoodInfo extends Dietary {
 		return false;
 	}
 
+
+	public function fetchAllergiesByPatient($patient_id) {
+		$allergy = $this->loadTable("Allergy");
+		$sql = "SELECT GROUP_CONCAT(a.name separator ', ') AS list FROM {$this->tableName()} pfi INNER JOIN {$allergy->tableName()} AS a ON a.id = pfi.food_id WHERE patient_id = :patient_id AND allergy = 1";
+		$params[":patient_id"] = $patient_id;
+		$result = $this->fetchOne($sql, $params);
+
+		if (!empty ($result)) {
+			return $result;
+		}
+
+		return false;
+	}
+
 	public function fetchPatientDislikes($patient_id) {
 		$dislike = $this->loadTable("Dislike");
 		$sql = "SELECT d.* FROM {$this->tableName()} pfi INNER JOIN {$dislike->tableName()} AS d ON d.id = pfi.food_id WHERE patient_id = :patient_id AND allergy = 0";
 		$params[":patient_id"] = $patient_id;
 		$result = $this->fetchAll($sql, $params);
+
+		if (!empty ($result)) {
+			return $result;
+		}
+
+		return false;
+
+	}
+
+
+
+	public function fetchDislikesByPatient($patient_id) {
+		$dislike = $this->loadTable("Dislike");
+		$sql = "SELECT GROUP_CONCAT(d.name separator ', ') AS list FROM {$this->tableName()} pfi INNER JOIN {$dislike->tableName()} AS d ON d.id = pfi.food_id WHERE patient_id = :patient_id AND allergy = 0";
+		$params[":patient_id"] = $patient_id;
+		$result = $this->fetchOne($sql, $params);
 
 		if (!empty ($result)) {
 			return $result;

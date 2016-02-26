@@ -1,29 +1,29 @@
-<style>
-  .container{
-    width: 75%;
-    margin: 20px auto;
-    text-align: left;
-    font-weight: normal;
-    border-collapse: collapse;
-  }
-</style>
-
 <div id="page-header">
   <div id="action-left">
-    {$this->loadElement("module")}
+    &nbsp;
   </div>
   <div id="center-title">
-    {$this->loadElement("selectLocation")}
+    <h1>Beverage Report</h1>
+  </div>
+  <div id="action-right">
+    {if $auth->isLoggedIn()}
+    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=beverages&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+      <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
+    </a>
+    {/if}
   </div>
 </div>
 
-<div class="container">
-  <form action="?module=Dietary&page=reports&action=beverages_pdf&location={$location->public_id}" method="POST">
-    <label>Choose Day:</label>
-    <input class="datepicker" name="date" />
-    <br>
-    <br>
-    <input type="submit" value="Submit" />
 
-  </form>
-</div>
+<table class="form">
+  <tr>
+    <th width="200">Beverage</th>
+    <th width="50">Count</th>
+  </tr>
+  {foreach from=$beverages item=beverage}
+  <tr>
+    <td>{$beverage->name}</td>
+    <td>{$beverage->quantity}</td>
+  </tr>
+  {/foreach}
+</table>

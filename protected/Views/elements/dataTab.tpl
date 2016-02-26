@@ -13,8 +13,5 @@
 		{if $auth->hasPermission("manage_users")}
 			<li><a href="{$SITE_URL}/?page=users&amp;action=manage">Users</a></li>
 		{/if}
-		{if $auth->isLoggedIn()}
-			<li><a href="{$SITE_URL}/?page=users&amp;action=my_info">My Account</a></li>
-		{/if}
 	</ul>
 </li>

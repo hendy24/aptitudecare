@@ -1,8 +1,7 @@
-
-<link href="{$CSS}/plugins/bootstrap_mod.css" rel="stylesheet" />
 {literal}
 
-
+<link href="{$CSS}/plugins/bootstrap_columns.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
 
 <style>
@@ -316,9 +315,9 @@
 					        </div>
 					        <div class="col-md-3">			
 								<ul id="breakfast_specialrequest">
-									{if $breakfast_spec_requests}
-										{foreach from=$breakfast_spec_requests item=spec_request}
-										<li>{$spec_request->name}</li>
+									{if $breakfast_beverages}
+										{foreach from=$breakfast_beverages item=beverage}
+										<li>{$beverage->name}</li>
 										{/foreach}
 									{/if}
 								</ul>					        	
@@ -328,9 +327,9 @@
 					        </div>
 					        <div class="col-md-3">				
 								<ul id="lunch_specialrequest">
-									{if $lunch_spec_requests}
-										{foreach from=$lunch_spec_requests item=spec_request}
-										<li>{$spec_request->name}</li>
+									{if $lunch_beverages}
+										{foreach from=$lunch_beverages item=beverage}
+										<li>{$beverage->name}</li>
 										{/foreach}
 									{/if}
 								</ul>					        
@@ -340,9 +339,9 @@
 					        </div>
 					        <div class="col-md-3">	
 								<ul id="dinner_specialrequest">
-									{if $dinner_spec_requests}
-										{foreach from=$dinner_spec_requests item=spec_request}
-										<li>{$spec_request->name}</li>
+									{if $dinner_beverages}
+										{foreach from=$dinner_beverages item=beverage}
+										<li>{$beverage->name}</li>
 										{/foreach}
 									{/if}
 								</ul>
@@ -518,7 +517,10 @@
 				<td><input type="radio" name="portion_size" value="{$diet}" {if $patientInfo->portion_size == $diet}checked{/if}>&nbsp; {$diet}</td>
 			{/foreach}
 		</tr>
-	
+		<tr class="padding-top">
+			<td><strong>Special Requests:</strong></td>
+			<td colspan="4" class="text-right"><input type="text" name="special_requests" size="100" value="{$patientInfo->special_requests}"></td>
+		</tr>
 		<tr>
 			<td colspan="4">&nbsp;</td>
 		</tr>

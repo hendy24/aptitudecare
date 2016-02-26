@@ -74,42 +74,9 @@ class InfoController extends DietaryController {
 	}
 
 	public function create(){
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$menuName = input()->newmenu;
-			$numberofdays = input()->numberofdays;
-			$location = $this->getLocation();
 
-			$newmenu = $this->loadModel("Menu");
-			$newmenu->name=input()->newmenu;
-			$dateSeed = date('Y-m-d');
-
-//			$menuName = $this->loadModel("Menu", $this->getLocation()); 
-			if ($newmenu->save()) {
-				session()->setFlash($menuName." menu created!", "success");
-				for($i = 1; $i <= $numberofdays; $i++){
-					for($j = 1; $j < 4; $j++){
-						$newmenuitem = $this->loadModel("MenuItem");
-						$newmenuitem->menu_id = $newmenu->id;
-						$newmenuitem->meal_id = $j;
-						$newmenuitem->day = $i;
-						$newmenuitem->content = "";
-						$newmenuitem->datetime_created = $dateSeed;
-						$newmenuitem->datetime_modified = $dateSeed;
-//						pr($newmenuitem);
-						$newmenuitem->save();
-					}
-				}
-//				pr($newmenuitem);
-//				exit;
-
-				$this->redirect(input()->currentUrl);
-//
-			} else{
-				session()->setFlash($menuName." menu did not save.", "error");
-				$this->redirect(input()->currentUrl);
-			}		
-		}
 	}
+
 
 	public function corporate_menus() {
 		smarty()->assign('title', "Corporate Menus");

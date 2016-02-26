@@ -105,8 +105,6 @@ class Location extends AppData {
 
 
 	public function fetchHomeHealthLocation() {
-//		pr($this);
-//		exit;
 		$sql = "SELECT * FROM {$this->tableName()} WHERE {$this->tableName()}.id = (SELECT home_health_id FROM home_health_facility_link WHERE home_health_facility_link.facility_id = :facility_id)";
 		$params[":facility_id"] = $this->id;
 		

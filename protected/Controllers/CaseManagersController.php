@@ -4,12 +4,6 @@ class CaseManagersController extends MainPageController {
 
 
 	public function manage() {
-		// prevent unauthorized access to this page...
-		if (!auth()->hasPermission("manage_case_managers")) {
-			session()->setFlash("You do not have permission to access this page", 'error');
-			$this->redirect();
-		}
-
 		if (isset (input()->location)) {
 			$loc_id = input()->location;
 		} else {
@@ -49,13 +43,6 @@ class CaseManagersController extends MainPageController {
 
 
 	public function case_manager() {
-		// prevent unauthorized access to this page...
-		if (!auth()->hasPermission("manage_case_managers")) {
-			session()->setFlash("You do not have permission to access this page", 'error');
-			$this->redirect();
-		}
-
-		
 		smarty()->assignByRef('location', $this->loadModel('Location', input()->location));
 		
 		if (isset (input()->isMicro)) {

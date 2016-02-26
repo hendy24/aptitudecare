@@ -16,7 +16,7 @@ class AdmissionDashboardUser extends AppModel {
 		$result = $this->fetchOne($sql, $params);
 
 		if (!empty ($result)) {
-			return $result;
+			
 		} else {
 			return $this->fetchColumnNames(db()->dbname2);
 		}
