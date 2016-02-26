@@ -18,25 +18,21 @@ body, td, th {
 	color: #050505;
 }
 
-.text-center {
-	text-align: center;
-}
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-strong { font-weight: bold; }
+.text-italics { font-style: italic; }
+.text-red { color: red; }
+.text-green { color: green; }
+.bottom { vertical-align: baseline; }
 
-.text-right {
-	text-align: right;
-}
+.text-10 { font-size: 10px; }
+.text-12 { font-size: 12px; }
+.text-14 { font-size: 14px; }
+.text-16 { font-size: 16px; }
+.text-18 { font-size: 18px; }
+.text-20 { font-size: 20px; }
 
-.text-strong {
-	font-weight: bold;
-}
-
-.text-red {
-	color: red;
-}
-
-.text-green {
-	color: green;
-}
 
 h1 {
 	margin: 25px 0;
@@ -53,6 +49,8 @@ h1, h2 {
 table {
 	max-width: 90%;
 	margin: 20px auto;
+	padding: 20px;
+	border-right: 1px dashed #000;
 }
 
 table th {
@@ -61,7 +59,7 @@ table th {
 }
 
 table td {
-	padding: 5px 10px;
+	padding: 6px 0;
 	vertical-align: top;
 }
 

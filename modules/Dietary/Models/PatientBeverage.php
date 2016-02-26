@@ -19,6 +19,21 @@ class PatientBeverage extends Dietary {
 
   }
 
+  public function fetchBeverageByPatient($patient_id) {
+    $beverage = $this->loadTable("Beverage");
+    $sql = "SELECT GROUP_CONCAT(b.name separator ', ') AS list, po.meal FROM {$this->tableName()} po inner JOIN {$beverage->tableName()} AS b ON b.id = po.beverage_id and po.patient_id = :patient_id GROUP BY po.id";
+    $params[":patient_id"] = $patient_id;
+    $result = $this->fetchAll($sql, $params);
+
+    if (!empty ($result)) {
+      return $result;
+    }
+
+    return false;
+
+  }
+
+
   public function fetchByPatientAndBeverageId($patient_id, $beverage_id) {
     $sql = "SELECT * FROM {$this->tableName()} where patient_id = :patient_id AND beverage_id = :beverage_id";
     $params = array(":patient_id" => $patient_id, ":beverage_id" => $beverage_id);

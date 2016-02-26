@@ -43,7 +43,15 @@
       </tr>
       <tr>
         <td width="150">Percent Consumed:</td>
-        <td class="text-center text-10 bottom">0-25 &nbsp;&nbsp; 26-50 &nbsp;&nbsp; 51-75 &nbsp;&nbsp; 76-100</td>
+        <td class="text-center">0-25 26-50 51-75 76-100</td>
+      </tr>
+      <tr>
+        <th colspan="2">Meal</th>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          {$item->content}
+        </td>
       </tr>
       <tr>
         <td colspan="2">&nbsp;</td>
