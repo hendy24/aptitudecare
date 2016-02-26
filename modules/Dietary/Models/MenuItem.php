@@ -15,7 +15,7 @@ class MenuItem extends Dietary {
 	}
 
 
-	public function fetchMenuItems($location_id, $start_date, $end_date, $start_day, $end_day, $menu_id) {
+	public function fetchMenuItems($location_id, $start_date, $end_date, $start_day, $end_day, $menu_id, $meal_id = false) {
 
 		$params = array(
 			":location_id" => $location_id,
@@ -46,7 +46,15 @@ class MenuItem extends Dietary {
 				LEFT JOIN {$menuMod->tableName()} ON ({$menuMod->tableName()}.menu_item_id = {$this->tableName()}.id AND {$menuMod->tableName()}.location_id = :location_id AND {$menuMod->tableName()}.date BETWEEN :start_date AND :end_date) 
 				LEFT JOIN {$menuChange->tableName()} ON ({$menuChange->tableName()}.menu_item_id = dietary_menu_item.id AND {$menuChange->tableName()}.location_id = :location_id) 
 	
-				WHERE (({$this->tableName()}.day BETWEEN :start_day AND :end_day) AND ({$this->tableName()}.menu_id = :menu_id)) ORDER BY {$this->tableName()}.id ASC";
+				WHERE (({$this->tableName()}.day BETWEEN :start_day AND :end_day) AND ({$this->tableName()}.menu_id = :menu_id))";
+		if ($meal_id) {
+			if ($meal_id != "") {
+				$sql .= " AND {$this->tableName()}.meal_id = :meal_id";
+				$params[":meal_id"] = $meal_id;
+			}
+		}
+
+		$sql .= " ORDER BY {$this->tableName()}.id ASC";
 		
 		// return the results
 		return $this->fetchCustom($sql, $params);

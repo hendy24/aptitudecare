@@ -357,14 +357,16 @@ class PatientInfoController extends DietaryController {
 
 	public function single_traycard() {
 
-		// if this is a post then we are trying to get a traycard for a specific day and/or meal
+		// this page will always create a PDF
 		$this->template = 'pdf';
+
+		// fetch data
 		$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
 		$location = $this->getLocation();
 
 		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
 		// get patient schedule info
-		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
+		// $schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
 		$allergies = $this->loadModel("PatientFoodInfo")->fetchAllergiesByPatient($patient->id);
 		$dislikes = $this->loadModel("PatientFoodInfo")->fetchDislikesByPatient($patient->id);
 		$texture = $this->loadModel("PatientTexture")->fetchTexturesByPatient($patient->id);
@@ -373,16 +375,24 @@ class PatientInfoController extends DietaryController {
 		$beverages = $this->loadModel('PatientBeverage')->fetchBeverageByPatient($patient->id);
 		$spec_req = $this->loadModel('PatientSpecialReq')->fetchSpecialRequestsByPatient($patient->id);
 
+		// get date from the url
 		if(isset(input()->date)){
 			$_dateStart = date('Y-m-d', strtotime(input()->date));
 		} else{
 			$_dateStart = date('Y-m-d', strtotime('now'));
-		}		
+		}	
+
+		// get the meal id from the url
+		if (isset (input()->meal_id)) {
+			$meal_id = input()->meal_id;
+		} else {
+			$meal_id = "all";
+		}
 
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
 		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
 		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
-		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id, $meal_id);
 
 		if (strtotime($patient->date_of_birth) ==strtotime(date('Y-m-d', strtotime('now')))) {
 			$birthday = true;
@@ -391,103 +401,66 @@ class PatientInfoController extends DietaryController {
 		}
 
 		// set meal names and meal specific beverages
-		$menuItems[0]->meal_name = "Breakfast";
-		$menuItems[0]->beverages = $beverages[0]->list;
-		if (!empty ($spec_req)) {
-			$menuItems[0]->spec_req = $spec_req[0]->list;
-		}
-		$menuItems[1]->meal_name = "Lunch";
-		$menuItems[1]->beverages = $beverages[1]->list;
-		if (!empty ($spec_req)) {
-			$menuItems[1]->spec_req = $spec_req[1]->list;
-		}
-		$menuItems[2]->meal_name = "Dinner";
-		$menuItems[2]->beverages = $beverages[2]->list;
-		if (!empty ($spec_req)) {
-			$menuItems[2]->spec_req = $spec_req[2]->list;
-		}
+		// $menuItems[0]->meal_name = "Breakfast";
+		// $menuItems[0]->beverages = $beverages[0]->list;
+		// if (!empty ($spec_req)) {
+		// 	$menuItems[0]->spec_req = $spec_req[0]->list;
+		// }
+		// $menuItems[1]->meal_name = "Lunch";
+		// $menuItems[1]->beverages = $beverages[1]->list;
+		// if (!empty ($spec_req)) {
+		// 	$menuItems[1]->spec_req = $spec_req[1]->list;
+		// }
+		// $menuItems[2]->meal_name = "Dinner";
+		// $menuItems[2]->beverages = $beverages[2]->list;
+		// if (!empty ($spec_req)) {
+		// 	$menuItems[2]->spec_req = $spec_req[2]->list;
+		// }
 
-		smarty()->assign('menuItems', $menuItems);
-		smarty()->assign('patient', $patient);
-		smarty()->assign('birthday', $birthday);
-		smarty()->assign('diet', $diet);
-		smarty()->assign('schedule', $schedule);
-		smarty()->assign('allergies', $allergies);
-		smarty()->assign('dislikes', $dislikes);
-		smarty()->assign('texture', $texture);
-		smarty()->assign('orders', $orders);
-		smarty()->assign('patientDietInfo', $patientDietInfo);
-		smarty()->assign('selectedDate', $_dateStart);
-	}
-
-	public function specific_traycard() {
-
-		// if this is a post then we are trying to get a traycard for a specific day and/or meal
-		$this->template = 'pdf';
-		$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
-		$location = $this->getLocation();
-
-		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
-		// get patient schedule info
-		$schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
-		$allergies = $this->loadModel("PatientFoodInfo")->fetchAllergiesByPatient($patient->id);
-		$dislikes = $this->loadModel("PatientFoodInfo")->fetchDislikesByPatient($patient->id);
-		$texture = $this->loadModel("PatientTexture")->fetchTexturesByPatient($patient->id);
-		$orders = $this->loadModel("PatientOrder")->fetchOrderByPatient($patient->id);
-		$patientDietInfo = $this->loadModel('PatientDietInfo')->fetchDietInfoByPatient($patient->id);
-		$beverages = $this->loadModel('PatientBeverage')->fetchBeverageByPatient($patient->id);
-		$spec_req = $this->loadModel('PatientSpecialReq')->fetchSpecialRequestsByPatient($patient->id);
-
-		if(isset(input()->date)){
-			$_dateStart = date('Y-m-d', strtotime(input()->date));
-		} else{
-			$_dateStart = date('Y-m-d', strtotime('now'));
-		}	
-
-		if (!auth()->isLoggedIn()) {
-			echo $_dateStart; exit;
-		}
-
-		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
-		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
-		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
-		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id);
-
-		if (strtotime($patient->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
-			$birthday = true;
+		$meal_names = array(0 => "Breakfast", 1 => "Lunch", 2 => "Dinner");
+		
+		
+		if ($meal_id != "all") {
+			$i = $meal_id -1;
+			$traycard_cols[$i] = new stdClass();
+			$traycard_cols[$i]->meal_name = $meal_names[$i];
+			$traycard_cols[$i]->diet_order = $patientDietInfo->list;
+			$traycard_cols[$i]->textures = $texture->names;
+			$traycard_cols[$i]->portion_size = $diet->portion_size;
+			$traycard_cols[$i]->allergies = $allergies->list;
+			$traycard_cols[$i]->orders = $orders->list;
+			if (!empty ($spec_req)) {
+				$traycard_cols[$i]->special_reqs = $spec_req[$i]->list;
+			} else {
+				$traycard_cols[$i]->special_reqs = null;
+			}
+			$traycard_cols[$i]->beverages = $beverages[$i]->list;
+			$traycard_cols[$i]->dislikes = $dislikes->list;
 		} else {
-			$birthday = false;
+			for ($i=0;$i<3;$i++) {
+				$traycard_cols[$i] = new stdClass();
+				$traycard_cols[$i]->meal_name = $meal_names[$i];
+				$traycard_cols[$i]->diet_order = $patientDietInfo->list;
+				$traycard_cols[$i]->textures = $texture->names;
+				$traycard_cols[$i]->portion_size = $diet->portion_size;
+				$traycard_cols[$i]->allergies = $allergies->list;
+				$traycard_cols[$i]->orders = $orders->list;
+				if (!empty ($spec_req)) {
+					$traycard_cols[$i]->special_reqs = $spec_req[$i]->list;
+				} else {
+					$traycard_cols[$i]->special_reqs = null;
+				}
+				$traycard_cols[$i]->beverages = $beverages[$i]->list;
+				$traycard_cols[$i]->dislikes = $dislikes->list;
+			}
 		}
 
-		// set meal names and meal specific beverages
-		$menuItems[0]->meal_name = "Breakfast";
-		$menuItems[0]->beverages = $beverages[0]->list;
-		if (!empty ($spec_req)) {
-			$menuItems[0]->spec_req = $spec_req[0]->list;
-		}
-		$menuItems[1]->meal_name = "Lunch";
-		$menuItems[1]->beverages = $beverages[1]->list;
-		if (!empty ($spec_req)) {
-			$menuItems[1]->spec_req = $spec_req[1]->list;
-		}
-		$menuItems[2]->meal_name = "Dinner";
-		$menuItems[2]->beverages = $beverages[2]->list;
-		if (!empty ($spec_req)) {
-			$menuItems[2]->spec_req = $spec_req[2]->list;
-		}
-
-		smarty()->assign('menuItems', $menuItems);
+		smarty()->assign('traycardCols', $traycard_cols);
 		smarty()->assign('patient', $patient);
 		smarty()->assign('birthday', $birthday);
-		smarty()->assign('diet', $diet);
-		smarty()->assign('schedule', $schedule);
-		smarty()->assign('allergies', $allergies);
-		smarty()->assign('dislikes', $dislikes);
-		smarty()->assign('texture', $texture);
-		smarty()->assign('orders', $orders);
-		smarty()->assign('patientDietInfo', $patientDietInfo);
 		smarty()->assign('selectedDate', $_dateStart);
 	}
+
 
 
  //  public function traycard() {
