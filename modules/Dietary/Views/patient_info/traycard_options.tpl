@@ -13,7 +13,7 @@
     $("#traycard").submit(function(e) {
       e.preventDefault();
       var date = $("#selectedDate").val();
-      window.location = SITE_URL + "/?module=Dietary&page=patient_info&action=specific_traycard&patient={$patient->public_id}&location={$location->public_id}&date=" + date + "&pdf=true";
+      window.location = SITE_URL + "/?module=Dietary&page=patient_info&action=single_traycard&patient={$patient->public_id}&location={$location->public_id}&date=" + date + "&meal_id=" + $("#meal-id option:selected").val() + "&pdf=true";
     });
   });
 </script>
@@ -28,12 +28,7 @@
 </div>
 
 
-<form action="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=specific_traycard&amp;patient={$patient->public_id}&amp;location={$location->public_id}&amp;pdf=true" id="traycard" method="POST">
-  <input type="hidden" name="page" value="patient_info" />
-  <input type="hidden" name="action" value="specific_traycard" />
-  <input type="hidden" name="patient" value="{$patient->public_id}" />
-  <input type="hidden" name="location" value="{$location->public_id}" />
-  <input type="hidden" name="pdf" value="true" />
+<form id="traycard">
   <table class="form">
     <tr>
       <td>Patient:</td>
@@ -54,11 +49,11 @@
     <tr>
       <td>Meal:</td>
       <td>
-          <select name="meal">
-            <option selected="selected">All</option>
-            <option>Breakfast</option>
-            <option>Lunch</option>
-            <option>Dinner</option>
+          <select id="meal-id" name="meal">
+            <option selected="selected" value="all">All</option>
+            <option value="1">Breakfast</option>
+            <option value="2">Lunch</option>
+            <option value="3">Dinner</option>
           </select>
       </td>
     </tr>
