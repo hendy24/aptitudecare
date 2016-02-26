@@ -9,9 +9,34 @@ class MainPageController extends MainController {
 	protected $area;
 
 
+/* 
+ *  These are PDF pages to which access is allowed for PDF creation. When trying to generage a PDF from an HTML
+ *  page mPDF does not keep the current session login connection, so this has be be overridden allow access to 
+ *  these pages even when not logged in.
+ *
+ * 	NOTE: Need to check security on these pages as users who are not logged in could actually access these pages.
+ *	
+ */
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "single_traycard");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "single_traycard", "specific_traycard");
 	}
+
+
+/* 
+ *  An array of PDF pages which need to be printed in landscape mode. This array is searched from the framework's
+ *  MainController.php page in the createPDF() method.
+ *	
+ */
+	public function landscape_array($action) {
+		$landscape_actions = array("single_traycard");
+		if (in_array($action, $landscape_actions)) {
+			return true;
+		}
+		return false;
+	}
+
+
+
 
 	public function index() {
 		// Check if user is logged in, if not redirect to login page

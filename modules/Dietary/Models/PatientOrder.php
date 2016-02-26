@@ -18,6 +18,15 @@ class PatientOrder extends Dietary {
 
   }
 
+
+  public function fetchOrderByPatient($patient_id) {
+    $order = $this->loadTable("Order");
+    $sql = "SELECT GROUP_CONCAT(d.name separator ', ') AS list FROM {$this->tableName()} po right JOIN {$order->tableName()} AS d ON d.id = po.order_id WHERE po.patient_id = :patient_id";
+    $params[":patient_id"] = $patient_id;
+    return $this->fetchOne($sql, $params);
+  }
+
+
   public function fetchByPatientAndOrderId($patient_id, $order_id) {
     $sql = "SELECT * FROM {$this->tableName()} where patient_id = :patient_id AND order_id = :order_id";
     $params = array(":patient_id" => $patient_id, ":order_id" => $order_id);
