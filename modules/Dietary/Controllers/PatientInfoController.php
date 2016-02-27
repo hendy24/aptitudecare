@@ -355,7 +355,7 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 
-	public function single_traycard() {
+	public function meal_traycard() {
 
 		// this page will always create a PDF
 		$this->template = 'pdf';

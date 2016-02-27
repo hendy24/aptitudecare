@@ -13,7 +13,7 @@
     $("#traycard").submit(function(e) {
       e.preventDefault();
       var date = $("#selectedDate").val();
-      window.location = SITE_URL + "/?module=Dietary&page=patient_info&action=single_traycard&patient={$patient->public_id}&location={$location->public_id}&date=" + date + "&meal_id=" + $("#meal-id option:selected").val() + "&pdf=true";
+      window.location = SITE_URL + "/?module=Dietary&page=patient_info&action=meal_traycard&patient={$patient->public_id}&location={$location->public_id}&date=" + date + "&meal_id=" + $("#meal-id option:selected").val() + "&pdf=true";
     });
   });
 </script>
