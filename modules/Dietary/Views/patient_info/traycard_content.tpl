@@ -1,17 +1,16 @@
-{foreach from=$traycardCols key=k item=item name=count}
   <div class="traycard-column">
     <table class="traycard {if $k == 2} last-table{/if}">
       <tr>
         <td colspan="2" class="text-strong text-18 text-center">{$item->meal_name}</td>
       </tr>
-      {if $birthday}
+      {if $item->birthday}
       <tr>
         <td colspan="2" class="text-green text-center text-18">Happy Birthday!</td>
       </tr>
       {/if}
       <tr>
         <td class="text-strong">Diet Order:</td>
-        <td>{$item->diet_order}</td>
+        <td>{$item->diet_orders}</td>
       </tr>
       <tr>
         <td class="text-strong">Textures:</td>
@@ -31,11 +30,11 @@
       </tr>
       <tr>
         <td class="text-strong">Special Requests:</td>
-        <td>{$item->spec_req|default:"None"}</td>
+        <td>{$item->spec_reqs|default:"None"}</td>
       </tr>
       <tr>
         <td class="text-strong">Beverages:</td>
-        <td>{$item->beverages}</td>
+        <td>{$item->beverages|default:"None"}</td>
       </tr>
       <tr>
         <td class="text-strong">Do Not Serve:</td>
@@ -52,7 +51,7 @@
         <td colspan="2" class="text-center text-18">{$selectedDate|date_format}</td>
       </tr>
       <tr>
-        <td colspan="2" class="text-center text-20 text-strong">{$patient->number} &mdash; {$patient->last_name}, {$patient->first_name}</td>
+        <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
       </tr>
       <tr>
         <td colspan="2">&nbsp;</td>
@@ -64,5 +63,3 @@
 
     </table>
   </div>
-  {/foreach}
-

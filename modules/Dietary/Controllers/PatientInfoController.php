@@ -351,29 +351,67 @@ class PatientInfoController extends DietaryController {
 
 /*
  * -------------------------------------------------------------------------
- *  TRAYCARD FOR SINGLE PATIENT
+ *  TRAYCARD PDF PAGE
  * -------------------------------------------------------------------------
+ *
+ * This method will create a traycard for:
+ * 1) all patients in the facility (via the "Tray Cards" button on the Dietary module home page)
+ * 2) the current day's traycard for a specific patient
+ * 3) the selected day traycard for the selected patient
+ * 4) the selected day traycard and the selected meal for the selected patient
+ *
+ * This method uses the HTML from meal_traycard.tpl and the css from pdf_styles.css to create a
+ * PDF page.
+ *
  */
 
-	public function meal_traycard() {
+	public function meal_tray_card() {
 
 		// this page will always create a PDF
 		$this->template = 'pdf';
-
-		// fetch data
-		$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
+		// fetch the location
 		$location = $this->getLocation();
 
-		$diet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
-		// get patient schedule info
-		// $schedule = $this->loadModel("Schedule")->fetchByPatientId($patient->id);
-		$allergies = $this->loadModel("PatientFoodInfo")->fetchAllergiesByPatient($patient->id);
-		$dislikes = $this->loadModel("PatientFoodInfo")->fetchDislikesByPatient($patient->id);
-		$texture = $this->loadModel("PatientTexture")->fetchTexturesByPatient($patient->id);
-		$orders = $this->loadModel("PatientOrder")->fetchOrderByPatient($patient->id);
-		$patientDietInfo = $this->loadModel('PatientDietInfo')->fetchDietInfoByPatient($patient->id);
-		$beverages = $this->loadModel('PatientBeverage')->fetchBeverageByPatient($patient->id);
-		$spec_req = $this->loadModel('PatientSpecialReq')->fetchSpecialRequestsByPatient($patient->id);
+		// fetch data
+		if (input()->patient == "all") {
+			// need to fetch info for every patient in the building
+			// check if the location is has the admission dashboard enabled
+			$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
+
+			// if the facility is using the admission dashboard, then get a list of
+			// the current patients from the admission app for the current location.
+
+			// NOTE: if a location is using the admission dashboard they should
+			// not have the ability to add or delete patients through the dietary
+			// app interface.
+			$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+			if ($modEnabled) {
+				// until the admission app is re-built and we move to a single database we need to fetch
+				// the data from the admission db and save to the master db
+				// IMPORTANT: Remove this after admission app is re-built in new framework!!!
+				$scheduled = $this->loadModel('AdmissionDashboard')->syncCurrentPatients($location->id);
+			} else {
+				// if the locations is not using the admission dashboard then load the patients
+				// from ac_patient and dietary_patient_info tables
+				// fetch current patients
+				$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+			}
+			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
+
+			$tray_card_info = array();
+		    foreach($currentPatients as $key => $patient){
+		    	if (get_class($patient) == "Patient") {
+		    		// fetch the traycard info for this patient
+		    		$tray_card_info[] = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);
+		    	}
+		    }
+
+		} else {
+			// fetch the selected patient info
+			$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
+			// fetch the patient's tray card info
+			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);			
+		}
 
 		// get date from the url
 		if(isset(input()->date)){
@@ -394,71 +432,104 @@ class PatientInfoController extends DietaryController {
 		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id, $meal_id);
 
-		if (strtotime($patient->date_of_birth) ==strtotime(date('Y-m-d', strtotime('now')))) {
-			$birthday = true;
-		} else {
-			$birthday = false;
-		}
-
-		// set meal names and meal specific beverages
-		// $menuItems[0]->meal_name = "Breakfast";
-		// $menuItems[0]->beverages = $beverages[0]->list;
-		// if (!empty ($spec_req)) {
-		// 	$menuItems[0]->spec_req = $spec_req[0]->list;
-		// }
-		// $menuItems[1]->meal_name = "Lunch";
-		// $menuItems[1]->beverages = $beverages[1]->list;
-		// if (!empty ($spec_req)) {
-		// 	$menuItems[1]->spec_req = $spec_req[1]->list;
-		// }
-		// $menuItems[2]->meal_name = "Dinner";
-		// $menuItems[2]->beverages = $beverages[2]->list;
-		// if (!empty ($spec_req)) {
-		// 	$menuItems[2]->spec_req = $spec_req[2]->list;
-		// }
 
 		$meal_names = array(0 => "Breakfast", 1 => "Lunch", 2 => "Dinner");
 		
-		
-		if ($meal_id != "all") {
-			$i = $meal_id -1;
-			$traycard_cols[$i] = new stdClass();
-			$traycard_cols[$i]->meal_name = $meal_names[$i];
-			$traycard_cols[$i]->diet_order = $patientDietInfo->list;
-			$traycard_cols[$i]->textures = $texture->names;
-			$traycard_cols[$i]->portion_size = $diet->portion_size;
-			$traycard_cols[$i]->allergies = $allergies->list;
-			$traycard_cols[$i]->orders = $orders->list;
-			if (!empty ($spec_req)) {
-				$traycard_cols[$i]->special_reqs = $spec_req[$i]->list;
-			} else {
-				$traycard_cols[$i]->special_reqs = null;
-			}
-			$traycard_cols[$i]->beverages = $beverages[$i]->list;
-			$traycard_cols[$i]->dislikes = $dislikes->list;
-		} else {
-			for ($i=0;$i<3;$i++) {
-				$traycard_cols[$i] = new stdClass();
-				$traycard_cols[$i]->meal_name = $meal_names[$i];
-				$traycard_cols[$i]->diet_order = $patientDietInfo->list;
-				$traycard_cols[$i]->textures = $texture->names;
-				$traycard_cols[$i]->portion_size = $diet->portion_size;
-				$traycard_cols[$i]->allergies = $allergies->list;
-				$traycard_cols[$i]->orders = $orders->list;
-				if (!empty ($spec_req)) {
-					$traycard_cols[$i]->special_reqs = $spec_req[$i]->list;
-				} else {
-					$traycard_cols[$i]->special_reqs = null;
+
+		if (input()->patient == 'all') {
+			foreach ($tray_card_info as $key => $tci) {
+				for ($i=0;$i<3;$i++) {
+				
+					$tray_card_cols[$key][$i] = new stdClass();
+					$tray_card_cols[$key][$i]->meal_name = $meal_names[$i];
+					foreach ($tci['main_data'] as $k => $d) {
+						$tray_card_cols[$key][$i]->$k = $d;
+					}
+					$tray_card_cols[$key][$i]->beverages = "";
+					foreach ($tci['items_by_meal']['beverages'] as $k => $b) {			
+						if ($b->meal == $tray_card_cols[$key][$i]->meal_name) {
+							$tray_card_cols[$key][$i]->beverages .= $b->name . ", ";
+						}
+					}
+					$tray_card_cols[$key][$i]->special_reqs = "";
+					foreach ($tci['items_by_meal']['special_reqs'] as $k => $sr) {	
+						if ($sr->meal == $tray_card_cols[$key][$i]->meal_name) {
+							$tray_card_cols[$key][$i]->special_reqs .= $sr->name . ", ";
+						}
+					}
+					if (strtotime($tci['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+						$tray_card_cols[$key][$i]->birthday = true;
+					} else {
+						$tray_card_cols[$key][$i]->birthday = false;
+					}
 				}
-				$traycard_cols[$i]->beverages = $beverages[$i]->list;
-				$traycard_cols[$i]->dislikes = $dislikes->list;
 			}
+			$all_tray_cards = true;
+		} else {
+			if ($meal_id != "all") {
+				$i = $meal_id -1;
+				$tray_card_cols[$i] = new stdClass();
+				$tray_card_cols[$i]->meal_name = $meal_names[$i];
+				foreach ($tray_card_info['main_data'] as $k => $d) {
+					$tray_card_cols[$i]->$k = $d;
+				}
+				$tray_card_cols[$i]->beverages = "";
+				foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {			
+					if ($b->meal == $tray_card_cols[$i]->meal_name) {
+						$tray_card_cols[$i]->beverages .= $b->name . ", ";
+					}
+				}
+				$tray_card_cols[$i]->special_reqs = "";
+				foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {	
+					if ($sr->meal == $tray_card_cols[$i]->meal_name) {
+						$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
+					}
+				}
+				if (strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+					$tray_card_cols[$i]->birthday = true;
+				} else {
+					$tray_card_cols[$i]->birthday = false;
+				}
+			} else {
+				for ($i=0;$i<3;$i++) {
+					$tray_card_cols[$i] = new stdClass();
+					$tray_card_cols[$i]->meal_name = $meal_names[$i];
+					foreach ($tray_card_info['main_data'] as $k => $d) {
+						$tray_card_cols[$i]->$k = $d;
+					}
+					$tray_card_cols[$i]->beverages = "";
+					foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {			
+						if ($b->meal == $tray_card_cols[$i]->meal_name) {
+							$tray_card_cols[$i]->beverages .= $b->name . ", ";
+						}
+					}
+					$tray_card_cols[$i]->special_reqs = "";
+					foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {	
+						if ($sr->meal == $tray_card_cols[$i]->meal_name) {
+							$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
+						}
+					}
+					if (strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+						$tray_card_cols[$i]->birthday = true;
+					} else {
+						$tray_card_cols[$i]->birthday = false;
+					}
+					if (isset ($tray_card_cols[$i]->beverages)) {
+						$tray_card_cols[$i]->beverages = rtrim($tray_card_cols[$i]->beverages, ",");
+					}
+					if (isset ($tray_card_cols[$i]->special_reqs)) {
+						$tray_card_cols[$i]->special_reqs = rtrim($tray_card_cols[$i]->special_reqs, ",");						
+					}
+				}
+			}
+			$all_tray_cards = false;
 		}
 
-		smarty()->assign('traycardCols', $traycard_cols);
-		smarty()->assign('patient', $patient);
-		smarty()->assign('birthday', $birthday);
+
+		smarty()->assign('trayCardCols', $tray_card_cols);
+		// smarty()->assign('patient', $patient);
 		smarty()->assign('selectedDate', $_dateStart);
+		smarty()->assign('allTrayCards', $all_tray_cards);
 	}
 
 

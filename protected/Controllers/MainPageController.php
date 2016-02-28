@@ -18,7 +18,7 @@ class MainPageController extends MainController {
  *	
  */
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_traycard");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card");
 	}
 
 
@@ -28,7 +28,7 @@ class MainPageController extends MainController {
  *	
  */
 	public function landscape_array($action) {
-		$landscape_actions = array("single_traycard");
+		$landscape_actions = array("meal_tray_card");
 		if (in_array($action, $landscape_actions)) {
 			return true;
 		}
