@@ -52,7 +52,7 @@ class PatientInfo extends Dietary {
 					pi.portion_size,
 					(SELECT GROUP_CONCAT(a.name separator ', ') FROM {$allergy->tableName()} AS a INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = a.id WHERE pfi.patient_id = :patient_id) AS allergies,
 					(SELECT GROUP_CONCAT(o.name separator ', ') FROM {$order->tableName()} AS o INNER JOIN {$patient_order->tableName()} po ON po.order_id = o.id WHERE po.patient_id = :patient_id) AS orders,
-					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0) AS dislikes
+					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = :patient_id) AS dislikes
 				FROM {$this->tableName()} AS pi
 					INNER JOIN {$patient->tableName()} 				p ON p.id = pi.patient_id
 					INNER JOIN {$schedule->tableName()} 			s ON s.patient_id = pi.patient_id

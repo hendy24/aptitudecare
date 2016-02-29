@@ -2,7 +2,7 @@ html {
 	margin: 0;
 	padding: 0;
 	background: #686868;
-	min-height: 100%;
+	height: 100%;
 }
 
 body {
@@ -86,4 +86,18 @@ input[type="checkbox"] {
 	width: 33%;
 	float: left;
 	display: inline-block;
+}
+
+
+.logo-footer {
+	position: fixed;
+	margin-top: 50px;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.page-break {
+	display: block;
+	page-break-before: always;
 }

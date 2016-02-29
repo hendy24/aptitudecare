@@ -53,13 +53,9 @@
       <tr>
         <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
       </tr>
-      <tr>
-        <td colspan="2">&nbsp;</td>
-      </tr>
-
-      <tr>
-        <td class="text-center" colspan="2"><img src="{$IMAGES}/ahc_logo.png" width="200px" alt=""></td>
-      </tr>
-
     </table>
+
+    <div class="logo-footer">
+      <img src="{$IMAGES}/ahc_logo.png" width="200px" alt="">
+    </div>
   </div>

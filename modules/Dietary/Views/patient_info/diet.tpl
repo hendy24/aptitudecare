@@ -496,7 +496,7 @@
 				<td {if $order->name == "Other"}colspan="3"{/if}>
 					<input type="checkbox" name="orders[]" value="{$order->name}" {if $order->patient_id}checked{/if}>&nbsp; {$order->name}
 					{if $order->name == "Other"}
-					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 500px" value="{$patientInfo->orders_other}">
+					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 300px" value="{$patientInfo->orders_other}">
 					{/if}
 
 				</td>

@@ -98,7 +98,7 @@ class PatientInfoController extends DietaryController {
 		}
 
 		if(input()->other_orders_info){
-			$patientDiet->orders_other = input()->other_texture_info;
+			$patientDiet->orders_other = input()->other_orders_info;
 		}
 
 
