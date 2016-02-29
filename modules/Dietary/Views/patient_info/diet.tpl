@@ -455,12 +455,16 @@
 		</tr>
 		<tr>
 		{foreach from=$dietOrder item="diet" name="dietItem"}
-			<td {if $diet->name == "Other"}colspan="2"{/if}>
-				<input type="checkbox" name="diet_info[]" value="{$diet->name}" {if $diet->patient_id}checked{/if}>&nbsp; {$diet->name}
-				{if $diet->name == "Other"}
-					<input type="text" name="other_diet_info" class="other-input" placeholder="Enter other diet info..." style="width: 350px" value="{$patientInfo->diet_info_other}">
+			{if !$diet->is_other}
+				<td {if $diet->name == "Other"} colspan="2"{/if}>
+					<input type="checkbox" name="diet_info[]" value="{$diet->name}" {if $diet->patient_id}checked{/if}>&nbsp; {$diet->name}
+				{if $diet->name != "Other"}
+				</td>
 				{/if}
-			</td>
+			{else}
+					<input type="text" name="diet_info[]" class="other-input" placeholder="Enter other diet info..." style="width: 350px" value="{$diet->name}">
+				</td>
+			{/if}
 		{if $smarty.foreach.dietItem.iteration is div by 4}
 		</tr>
 		<tr>

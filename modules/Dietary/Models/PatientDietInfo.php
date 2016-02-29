@@ -7,10 +7,10 @@ class PatientDietInfo extends Dietary {
 
   public function fetchPatientDietInfo($patient_id) {
     $diet_info = $this->loadTable("DietInfo");
-    $sql = "SELECT * FROM {$this->tableName()} pdi right JOIN {$diet_info->tableName()} AS d ON d.id = pdi.diet_info_id and pdi.patient_id = :patient_id";
+    $sql = "SELECT * FROM {$this->tableName()} pdi RIGHT JOIN {$diet_info->tableName()} AS d ON d.id = pdi.diet_info_id AND pdi.patient_id = :patient_id";
     $params[":patient_id"] = $patient_id;
     $result = $this->fetchAll($sql, $params);
-
+    
     if (!empty ($result)) {
       return $result;
     }

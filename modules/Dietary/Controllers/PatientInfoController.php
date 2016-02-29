@@ -89,9 +89,6 @@ class PatientInfoController extends DietaryController {
 			$patientDiet->weight = input()->weight;
 		}*/
 
-		if(input()->other_diet_info){
-			$patientDiet->diet_info_other = input()->other_diet_info;
-		}
 
 		if(input()->other_texture_info){
 			$patientDiet->texture_other = input()->other_texture_info;
@@ -210,11 +207,13 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
+
+
 		// set diet_info array
 		$patientdietInfoArray = array();
 		if (!empty (input()->diet_info)) {
 			foreach (input()->diet_info as $item) {
-				$diet_info = $this->loadModel("DietInfo")->fetchByName($item);
+				$diet_info = $this->loadModel("DietInfo")->fetchByName($item, true);
 				$patientDietInfo = $this->loadModel("PatientDietInfo")->fetchByPatientAndDietInfoId($patient->id, $diet_info->id);
 
 				if ($patientDietInfo->patient_id == "") {
