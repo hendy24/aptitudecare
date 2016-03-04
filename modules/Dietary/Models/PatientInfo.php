@@ -29,14 +29,14 @@ class PatientInfo extends Dietary {
 		$patient = $this->loadTable('Patient');
 		$schedule = $this->loadTable('Schedule');
 		$room = $this->loadTable('Room');
-		$patient_diet_info = $this->loadTable('PatientDietInfo');
-		$diet_info = $this->loadTable('DietInfo');
+		$patient_diet_order = $this->loadTable('PatientDietOrder');
+		$diet_order = $this->loadTable('DietOrder');
 		$patient_texture = $this->loadTable('PatientTexture');
 		$texture = $this->loadTable('Texture');
 		$patient_food_info = $this->loadTable('PatientFoodInfo');
 		$allergy = $this->loadTable('Allergy');
-		$patient_order = $this->loadTable('PatientOrder');
-		$order = $this->loadTable('Order');
+		$patient_other = $this->loadTable('PatientOrder');
+		$other = $this->loadTable('Other');
 		$dislike = $this->loadTable('Dislike');
 
 		// set params for the query
@@ -47,12 +47,12 @@ class PatientInfo extends Dietary {
 					r.number,
 					CONCAT (p.last_name, ', ', p.first_name) as patient_name,
 					p.date_of_birth,
-					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_info->tableName()} AS di INNER JOIN {$patient_diet_info->tableName()} dpi ON dpi.diet_info_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
+					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_info->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
 					(SELECT GROUP_CONCAT(t.name separator ', ') FROM {$texture->tableName()} AS t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = :patient_id) AS textures,
 					pi.portion_size,
 					pi.special_requests,
 					(SELECT GROUP_CONCAT(a.name separator ', ') FROM {$allergy->tableName()} AS a INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = a.id WHERE pfi.patient_id = :patient_id) AS allergies,
-					(SELECT GROUP_CONCAT(o.name separator ', ') FROM {$order->tableName()} AS o INNER JOIN {$patient_order->tableName()} po ON po.order_id = o.id WHERE po.patient_id = :patient_id) AS orders,
+					(SELECT GROUP_CONCAT(o.name separator ', ') FROM {$other->tableName()} AS o INNER JOIN {$patient_other->tableName()} po ON po.other_id = o.id WHERE po.patient_id = :patient_id) AS orders,
 					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = :patient_id) AS dislikes
 				FROM {$this->tableName()} AS pi
 					INNER JOIN {$patient->tableName()} 				p ON p.id = pi.patient_id

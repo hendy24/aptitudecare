@@ -572,3 +572,13 @@ table#patient-info a:hover {
 #activities img {
 	margin-top: 15px;
 }
+
+table.checkbox-table {
+	margin-left: 50px;
+	min-width: 80%;
+}
+
+tr.input-checkboxes td {
+	width: 25%;
+	padding: 2px;
+}

@@ -6,7 +6,7 @@ class PatientTexture extends Dietary {
 
   public function fetchPatientTexture($patient_id) {
     $texture = $this->loadTable("Texture");
-    $sql = "SELECT * FROM {$this->tableName()} pt RIGHT JOIN {$texture->tableName()} AS d ON d.id = pt.texture_id and pt.patient_id = :patient_id";
+    $sql = "SELECT t.id, t.name,t.is_other FROM {$this->tableName()} AS pt INNER JOIN {$texture->tableName()} t ON t.id = pt.texture_id WHERE pt.patient_id = :patient_id";
     $params[":patient_id"] = $patient_id;
     $result = $this->fetchAll($sql, $params);
 
@@ -43,6 +43,19 @@ class PatientTexture extends Dietary {
     } else {
       return $this->fetchColumnNames();
     }
+  }
+
+    public function removeOtherItems($patient_id) {
+      $texture = $this->loadTable('Texture');
+      $sql = "DELETE FROM {$this->tableName()} pt INNER JOIN {$texture->tableName()} t ON t.id = pt.texture_id WHERE pt.patient_id = :patient_id";
+
+      $params[":patient_id"] = $patient_id;
+
+      if ($this->deleteQuery($sql, $params)) {
+        return true;
+      }
+
+      return false;
   }
 
 }

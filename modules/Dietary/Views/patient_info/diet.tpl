@@ -454,22 +454,21 @@
 			<td colspan="4"><strong>Diet Order:</strong></td>
 		</tr>
 		<tr>
-		{foreach from=$dietOrder item="diet" name="dietItem"}
-			{if !$diet->is_other}
-				<td {if $diet->name == "Other"} colspan="2"{/if}>
-					<input type="checkbox" name="diet_info[]" value="{$diet->name}" {if $diet->patient_id}checked{/if}>&nbsp; {$diet->name}
-				{if $diet->name != "Other"}
-				</td>
-				{/if}
-			{else}
-					<input type="text" name="diet_info[]" class="other-input" placeholder="Enter other diet info..." style="width: 350px" value="{$diet->name}">
-				</td>
-			{/if}
-		{if $smarty.foreach.dietItem.iteration is div by 4}
-		</tr>
-		<tr>
-		{/if}
-		{/foreach}
+			<td colspan="4">
+				<table class="checkbox-table">
+					<tr class="input-checkboxes">
+						<td><input type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}> &nbsp;Regular</td>
+						<td><input type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}> &nbsp;AHA/Cardiac</td>
+						<td><input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}> &nbsp;No Added Salt</td>
+						<td><input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}> &nbsp;Renal</td>
+					</tr>
+					<tr class="input-checkboxes">
+						<td><input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}> &nbsp;2 gram Na</td>
+						<td><input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}> &nbsp;Fortified/High Calorie</td>
+						<td colspan="2"><input type="text" name="diet_order[]" class="other-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}"></td>
+					</tr>
+				</table>
+			</td>
 		</tr>
 
 
@@ -477,50 +476,58 @@
 			<td colspan="4"><strong>Texture:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$textures item="texture" name="textureItem"}
-				<td {if $texture->name == "Other"}colspan="3"{/if}>
-					<input type="checkbox" name="texture[]" value="{$texture->name}" {if $texture->patient_id}checked{/if}>&nbsp; {$texture->name}
-					{if $texture->name == "Other"}
-					<input type="text" name="other_texture_info" class="other-input" placeholder="Enter other texture info..." style="width: 500px" value="{$patientInfo->texture_other}">
-					{/if}
-				</td>
-			{if $smarty.foreach.textureItem.iteration is div by 4}
-			</tr>
-			<tr>
-			{/if}
-			{/foreach}
-		</tr>
+			<td colspan="4">	
+				<table class="checkbox-table">
+					<tr class="input-checkboxes">
+						<td><input type="checkbox" name="texture[]" value="Regular" {if in_array('Regular', $textures['standard'])} checked{/if}> &nbsp;Regular</td>
+						<td><input type="checkbox" name="texture[]" value="Mechanical Soft" {if in_array('Mechanical Soft', $textures['standard'])} checked{/if}> &nbsp;Mechanical Soft</td>
+						<td><input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}> &nbsp;Puree</td>
+						<td><input type="checkbox" name="texture[]" value="Tube Feeding" {if in_array('Tube Feeding', $textures['standard'])} checked{/if}> &nbsp;Tube Feeding</td>
+					</tr>
+					<tr class="input-checkboxes">
+						<td>
+							Liquid:
+							<select name="texture[]" id="">
+								<option value="">Select Liquid Type...</option>
+								<option value="Nectar Thick Liquids" {if in_array("Nectar Thick Liquids", $textures['standard'])} selected{/if}>Nectar Liquid</option>
+								<option value="Honey Thick Liquids" {if in_array("Honey Thick Liquids", $textures['standard'])} selected{/if}>Honey Liquid</option>
+								<option value="Pudding Thick Liquids" {if in_array("Pudding Thick Liquids", $textures['standard'])} selected{/if}>Pudding Liquid</option>
+								<option value="Clear Liquid" {if in_array("Clear Liquid", $textures['standard'])} selected{/if}>Clear Liquid</option>
+								<option value="Full Liquid" {if in_array("Full Liquid", $textures['standard'])} selected{/if}>Full Liquid</option>
+							</select>
+						</td>
 
+						<td colspan="3">
+							<input type="text" name="texture[]" class="other-input" placeholder="Enter other texture info..." value="{$textures['other']}">
+						</td>
+					</tr>
+					</tr>
+				</table>
+			</td>
+		</tr>
 
 		<tr class="padding-top">
 			<td colspan="4" ><strong>Other:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$orders item="order" name="orderItem"}
-				<td {if $order->name == "Other"}colspan="3"{/if}>
-					<input type="checkbox" name="orders[]" value="{$order->name}" {if $order->patient_id}checked{/if}>&nbsp; {$order->name}
-					{if $order->name == "Other"}
-					<input type="text" name="other_orders_info" class="other-input" placeholder="Enter other order info..." style="width: 300px" value="{$patientInfo->orders_other}">
-					{/if}
-
-				</td>
-			{if $smarty.foreach.orderItem.iteration is div by 4}
-			</tr>
-			<tr>
-			{/if}
-			{/foreach}
+			<td><input type="checkbox" name="other[]" value="Isolation" {if in_array("Isolation", $other['standard'])} checked{/if}> &nbsp;Isolation</td>
+			<td><input type="checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}> &nbsp;Fluid Restriction</td>
+			<td><input type="text" name="other[]" class="other-input" placeholder="Enter other order info..." value="{$other['other']}"></td>
 		</tr>
-
+		
+		
 
 
 		<tr class="padding-top">
 			<td colspan="4"><strong>Lunch &amp; Dinner Portion Size:</strong></td>
 		</tr>
 		<tr>
-			{foreach from=$portionSize item="diet" name="dietItem"}
-				<td><input type="radio" name="portion_size" value="{$diet}" {if $patientInfo->portion_size == $diet}checked{/if}>&nbsp; {$diet}</td>
-			{/foreach}
+			<td><input type="radio" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}> &nbsp;Small</td>
+			<td><input type="radio" name="portion_size" value="Medium" {if $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}> &nbsp;Medium</td>
+			<td><input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}> &nbsp;Large</td>
 		</tr>
+	
+
 		<tr class="padding-top">
 			<td><strong>Special Requests:</strong></td>
 			<td colspan="4" class="text-right"><input type="text" name="special_requests" size="100" value="{$patientInfo->special_requests}"></td>

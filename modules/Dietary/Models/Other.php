@@ -6,9 +6,9 @@
  * @package default
  * @author 
  **/
-class Order extends Dietary {
+class Other extends Dietary {
 
-	protected $table = "order";
+	protected $table = "other";
 	
 
 } // END class Order extends Dietary
