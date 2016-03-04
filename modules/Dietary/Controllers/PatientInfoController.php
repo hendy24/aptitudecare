@@ -83,7 +83,7 @@ class PatientInfoController extends DietaryController {
 		// Patient's other items
 		$patient_other = $this->loadModel("PatientOther")->fetchPatientOther($patient->id);
 		$other_array = array();
-		$other_array["standard"] = "";
+		$other_array["standard"] = array();
 		$other_array["other"] = "";
 
 		if (!empty ($patient_other)) {
