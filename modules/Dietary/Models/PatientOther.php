@@ -27,9 +27,9 @@ class PatientOther extends Dietary {
   }
 
 
-  public function fetchByPatientAndOrderId($patient_id, $order_id) {
-    $sql = "SELECT * FROM {$this->tableName()} WHERE patient_id = :patient_id AND order_id = :order_id";
-    $params = array(":patient_id" => $patient_id, ":order_id" => $order_id);
+  public function fetchByPatientAndOtherId($patient_id, $other_id) {
+    $sql = "SELECT * FROM {$this->tableName()} WHERE patient_id = :patient_id AND other_id = :other_id";
+    $params = array(":patient_id" => $patient_id, ":other_id" => $other_id);
     $result = $this->fetchOne($sql, $params);
     //pr($result); exit;
 
@@ -39,4 +39,6 @@ class PatientOther extends Dietary {
       return $this->fetchColumnNames();
     }
   }
+
+
 }

@@ -264,26 +264,28 @@ class PatientInfoController extends DietaryController {
 		if (!empty (input()->diet_order)) {
 			// check if the patient already has an "other" item saved. 
 			// if there is something... delete it.
-			$patient_other_item = $this->loadModel("PatientDietOrder")->removeOtherItems($patient->id);
+			$patient_other_item = $this->loadModel("PatientDietOrder")->removeOtherItems($patient->id, 'DietOrder');
 			foreach (input()->diet_order as $item) {
 				$diet_order = $this->loadModel("DietOrder")->fetchByName($item, true);
-				$patientDietOrder = $this->loadModel("PatientDietOrder")->fetchByPatientAndDietInfoId($patient->id, $diet_order->id);
+				if (!empty ($diet_order)) {
+					$patientDietOrder = $this->loadModel("PatientDietOrder")->fetchByPatientAndDietOrderId($patient->id, $diet_order->id);
 
-				if ($patientDietOrder->patient_id == "") {
-					$patientDietOrder->patient_id = $patient->id;
-					$patientDietOrder->diet_order_id = $diet_info->id;
-					$patientDietOrderArray[] = $patientDietOrder;
+					if ($patientDietOrder->patient_id == "") {
+						$patientDietOrder->patient_id = $patient->id;
+						$patientDietOrder->diet_order_id = $diet_order->id;
+						$patientDietOrderArray[] = $patientDietOrder;
+					}
 				}
 			}
 		} else {
 			$feedback[] = "Diet order has not been entered";
 		}
-
+		
 		// set texture array
 		if (!empty (input()->texture)) {
 			// check if the patient already has an "other" item saved. 
 			// if there is something... delete it.
-			$patient_other_item = $this->loadModel("PatientTexture")->removeOtherItems($patient->id);
+			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
 
 			foreach (input()->texture as $item) {
 				$texture_item = $this->loadModel("Texture")->fetchByName($item, true);
@@ -302,9 +304,10 @@ class PatientInfoController extends DietaryController {
 		// set other array
 		$patient_other_array = array();
 		if (!empty (input()->other)) {
+			$this->loadModel("PatientOther")->removeOtherItems($patient->id, 'Other');
 			foreach (input()->other as $item) {
 				$other_item = $this->loadModel("Other")->fetchByName($item, true);
-				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOrderId($patient->id, $other_item->id);
+				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOtherId($patient->id, $other_item->id);
 
 				if ($patientOther->patient_id == "") {
 					$patientOther->patient_id = $patient->id;
@@ -322,7 +325,7 @@ class PatientInfoController extends DietaryController {
 			$feedback[] = "Portion size has not been entered";
 		}
 
-		if (input()->special_requests != "") {
+		if (isset (input()->special_requests)) {
 			$patientDiet->special_requests = input()->special_requests;
 		}
 
@@ -384,7 +387,7 @@ class PatientInfoController extends DietaryController {
 			}
 
 			// save the patient's orders
-			foreach ($patientOrderArray as $item) {
+			foreach ($patient_other_array as $item) {
 				$item->save();
 			}
 			// save the patient's snacks. Snacks are very important, especially late at night when you are really hungry.

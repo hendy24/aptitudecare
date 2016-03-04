@@ -33,7 +33,7 @@ class PatientDietOrder extends Dietary {
 
   }
 
-  public function fetchByPatientAndDietInfoId($patient_id, $diet_order_id) {
+  public function fetchByPatientAndDietOrderId($patient_id, $diet_order_id) {
     $sql = "SELECT * FROM {$this->tableName()} where patient_id = :patient_id AND diet_order_id = :diet_order_id";
     $params = array(":patient_id" => $patient_id, ":diet_order_id" => $diet_order_id);
     $result = $this->fetchOne($sql, $params);
@@ -43,20 +43,6 @@ class PatientDietOrder extends Dietary {
     } else {
       return $this->fetchColumnNames();
     }
-  }
-
-
-  public function removeOtherItems($patient_id) {
-      $diet_order = $this->loadTable('DietOrder');
-      $sql = "DELETE FROM {$this->tableName()} pdo INNER JOIN {$diet_order->tableName()} do ON do.id = pdo.diet_order_id WHERE pdo.patient_id = :patient_id";
-
-      $params[":patient_id"] = $patient_id;
-
-      if ($this->deleteQuery($sql, $params)) {
-        return true;
-      }
-
-      return false;
   }
 
 }

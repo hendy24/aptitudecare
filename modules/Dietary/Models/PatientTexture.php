@@ -45,17 +45,4 @@ class PatientTexture extends Dietary {
     }
   }
 
-    public function removeOtherItems($patient_id) {
-      $texture = $this->loadTable('Texture');
-      $sql = "DELETE FROM {$this->tableName()} pt INNER JOIN {$texture->tableName()} t ON t.id = pt.texture_id WHERE pt.patient_id = :patient_id";
-
-      $params[":patient_id"] = $patient_id;
-
-      if ($this->deleteQuery($sql, $params)) {
-        return true;
-      }
-
-      return false;
-  }
-
 }

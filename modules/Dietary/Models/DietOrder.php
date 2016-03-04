@@ -9,6 +9,7 @@
 class DietOrder extends Dietary {
 
 	protected $table = "diet_order";
+	protected $join = "diet_order_id";
 
 	public function fetchDietInfo($patient_id) {
 		$patient_diet_info = $this->loadTable('PatientDietInfo');

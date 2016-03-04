@@ -9,6 +9,7 @@
 class Texture extends Dietary {
 
 	protected $table = "texture";
+	protected $join = "texture_id";
 
 
 	public function fetchTextures($patient_id) {
