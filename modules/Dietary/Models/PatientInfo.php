@@ -35,9 +35,10 @@ class PatientInfo extends Dietary {
 		$texture = $this->loadTable('Texture');
 		$patient_food_info = $this->loadTable('PatientFoodInfo');
 		$allergy = $this->loadTable('Allergy');
-		$patient_other = $this->loadTable('PatientOrder');
+		$patient_other = $this->loadTable('PatientOther');
 		$other = $this->loadTable('Other');
 		$dislike = $this->loadTable('Dislike');
+
 
 		// set params for the query
 		$params[":patient_id"] = $patient_id;
@@ -47,7 +48,7 @@ class PatientInfo extends Dietary {
 					r.number,
 					CONCAT (p.last_name, ', ', p.first_name) as patient_name,
 					p.date_of_birth,
-					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_info->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
+					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_order->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
 					(SELECT GROUP_CONCAT(t.name separator ', ') FROM {$texture->tableName()} AS t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = :patient_id) AS textures,
 					pi.portion_size,
 					pi.special_requests,
