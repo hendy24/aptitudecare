@@ -17,14 +17,24 @@
   </div>
 </div>
 
+<h1>Snack Report</h1>
 <div class="container">
-  <form action="?module=Dietary&page=reports&action=snack_report_pdf&location={$location->public_id}" method="POST">
-  <div>Snack Report</div>
-    <label>Choose Day:</label>
-    <input class="datepicker" name="date" />
-    <br>
-    <br>
-    <input type="submit" value="Submit" />
-
+  <form action="{$SITE_URL}" method="POST">
+    <input type="hidden" name="module" value="Dietary">
+    <input type="hidden" name="page" value="reports">
+    <input type="hidden" name="action" value="snack_report">
+    <input type="hidden" name="location" value="{$location->public_id}">
+    <table class="form">
+      <tr>
+        <td>Choose Day:</td>
+        <td> <input class="datepicker" name="date" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-right"> <input type="submit" value="Submit" /></td>
+      </tr>
+    </table>
   </form>
 </div>

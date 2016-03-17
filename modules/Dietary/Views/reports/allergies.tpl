@@ -4,6 +4,9 @@
   </div>
   <div id="center-title">
     <h1>Allergies Report</h1>
+    {if $isPDF}
+      <h2>{$smarty.now|date_format}</h2>
+    {/if}
   </div>
   <div id="action-right">
   	{if $auth->isLoggedIn()}
@@ -24,7 +27,7 @@
   <tr>
     <td>{$patient->number}</td>
     <td>{$patient->last_name}, {$patient->first_name}</td>
-    <td>{$patient->allergy_name}</td>
+    <td>{$patient->allergy_name|default:"None"}</td>
   </tr>
   {/foreach}
 </table>

@@ -1,6 +1,5 @@
-{literal}
 
-<link href="{$CSS}/plugins/bootstrap_columns.css" rel="stylesheet" />
+<link href="{$CSS}/plugins/bootstrap_columns.css" rel="stylesheet" type="text/css" />
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
 
@@ -11,17 +10,20 @@
 	}	
 
 </style>
+{literal}
+
 <script>
 	$(document).ready(function() {
 		var snackTime = null;
 		var thisFieldName = null;
 
-		// $(".other-input").hide();
+		$(".other-input").hide();
 
 		startTag = function(category){
+			
 			$("#" + category).tagit({
 				fieldName: category + "[]",
-				//availableTags: fetchOptions(category),
+				//availableTags: fetchOptions(fetchOption),
 				autocomplete: {delay: 0, minLength: 2},
 				showAutocompleteOnFocus: false,
 				caseSensitive: false,
@@ -50,8 +52,8 @@
 		//startTag("adaptEquip");
 
 
-/*		$("#allergies").tagit({
-			fieldName: "allergies[]",
+	$("#allergies").tagit({
+		fieldName: "allergies[]",
 	    availableTags: fetchOptions("Allergy"),
 	    autocomplete: {delay: 0, minLength: 2},
         showAutocompleteOnFocus: false,
@@ -82,23 +84,227 @@
     	showAutocompleteOnFocus: false,
     	caseSensitive: false,
     	allowSpaces: true,
-      beforeTagRemoved: function(event, ui) {
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    });
+
+	$("#adaptEquip").tagit({
+		fieldName: "adaptEquip[]",
+	    availableTags: fetchOptions("AdaptEquip"),
+	    autocomplete: {delay: 0, minLength: 2},
+        showAutocompleteOnFocus: false,
+        caseSensitive: false,
+        allowSpaces: true,
+
+        beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
-        var dislikeName = ui.tagLabel;
+        var allergyName = ui.tagLabel;
         $.post(SITE_URL, {
         	page: "PatientInfo",
         	action: "deleteItem",
         	patient: patientId,
-        	name: dislikeName,
-        	type: "dislike"
+        	name: allergyName,
+        	type: "allergy"
         	}, function (e) {
         		console.log(e);
         	}, "json"
         );
 	    }
+    });
 
-    });*/
+
+	$("#supplements").tagit({
+		fieldName: "supplements[]",
+	    availableTags: fetchOptions("Supplement"),
+	    autocomplete: {delay: 0, minLength: 2},
+        showAutocompleteOnFocus: false,
+        caseSensitive: false,
+        allowSpaces: true,
+
+        beforeTagRemoved: function(event, ui) {
+        // if tag is removed, need to delete from the db
+        var patientId = $("#patient-id").val();
+        var allergyName = ui.tagLabel;
+        $.post(SITE_URL, {
+        	page: "PatientInfo",
+        	action: "deleteItem",
+        	patient: patientId,
+        	name: allergyName,
+        	type: "allergy"
+        	}, function (e) {
+        		console.log(e);
+        	}, "json"
+        );
+	    }
+    });
+
+
+    $("#breakfast_specialrequest").tagit({
+    	fieldName: "breakfast_specialrequest[]",
+    	availableTags: fetchOptions("SpecialReq"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    });
+
+    $("#lunch_specialrequest").tagit({
+    	fieldName: "lunch_specialrequest[]",
+    	availableTags: fetchOptions("SpecialReq"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    });
+
+    $("#dinner_specialrequest").tagit({
+    	fieldName: "dinner_specialrequest[]",
+    	availableTags: fetchOptions("SpecialReq"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    }); 
+
+
+    $("#breakfast_beverages").tagit({
+    	fieldName: "breakfast_beverages[]",
+    	availableTags: fetchOptions("Beverage"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    });
+
+    $("#lunch_beverages").tagit({
+    	fieldName: "lunch_beverages[]",
+    	availableTags: fetchOptions("Beverage"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    });
+
+
+    $("#dinner_beverages").tagit({
+    	fieldName: "dinner_beverages[]",
+    	availableTags: fetchOptions("Beverage"),
+    	autocomplete: {delay:0, minLength: 2},
+    	showAutocompleteOnFocus: false,
+    	caseSensitive: false,
+    	allowSpaces: true,
+	    beforeTagRemoved: function(event, ui) {
+	        // if tag is removed, need to delete from the db
+	        var patientId = $("#patient-id").val();
+	        var dislikeName = ui.tagLabel;
+	        $.post(SITE_URL, {
+	        	page: "PatientInfo",
+	        	action: "deleteItem",
+	        	patient: patientId,
+	        	name: dislikeName,
+	        	type: "dislike"
+	        	}, function (e) {
+	        		console.log(e);
+	        	}, "json"
+	        );
+	    }
+
+    });       
 
         $("#snackAM").tagit({
         	fieldName: "am[]",

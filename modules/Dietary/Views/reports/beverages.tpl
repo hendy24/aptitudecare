@@ -4,6 +4,9 @@
   </div>
   <div id="center-title">
     <h1>Beverage Report</h1>
+    {if $isPDF}
+      <h2>{$smarty.now|date_format}</h2>
+    {/if}
   </div>
   <div id="action-right">
     {if $auth->isLoggedIn()}

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>{$title} &nbsp;|&nbsp; AptitudeCare</title>
+	<title>{$title} &nbsp;|&nbsp; {$this->module}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
@@ -17,7 +16,9 @@
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+	{if $this->module == "HomeHealth"}
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
+	{/if}
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/datepicker.js"></script>
