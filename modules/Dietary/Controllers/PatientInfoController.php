@@ -37,6 +37,12 @@ class PatientInfoController extends DietaryController {
 		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
 
 
+		// fetch special requests
+		$breakfast_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, "Breakfast");
+		$lunch_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, "Lunch");
+		$dinner_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, "Dinner");
+
+
 		// Fetch beverages for each meal
 		$breakfast_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Breakfast");
 		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Lunch");
@@ -95,12 +101,14 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
-
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);	
 		smarty()->assignByRef('allergies', $allergies);
 		smarty()->assignByRef('dislikes', $dislikes);
 		smarty()->assignByRef('adaptEquip', $adapt_equip);
+		smarty()->assignByRef('breakfast_spec_req', $breakfast_spec_req);
+		smarty()->assignByRef('lunch_spec_req', $lunch_spec_req);
+		smarty()->assignByRef('dinner_spec_req', $dinner_spec_req);
 		smarty()->assignByRef('breakfast_beverages', $breakfast_beverages);
 		smarty()->assignByRef('lunch_beverages', $lunch_beverages);
 		smarty()->assignByRef('dinner_beverages', $dinner_beverages);
@@ -196,6 +204,53 @@ class PatientInfoController extends DietaryController {
 				}
 			}
 		}
+
+		$spec_reqs_array = array();
+		if (!empty (input()->breakfast_specialrequest)) {
+			foreach (input()->breakfast_specialrequest as $item) {
+				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
+				$patient_spec_req = $this->loadModel("PatientSpecialReq")->fetchByPatientAndSpecialReqId($patient->id, $spec_req->id);
+
+				if ($patient_spec_req->patient_id == "") {
+					$patient_spec_req->patient_id = $patient->id;
+					$patient_spec_req->special_req_id = $spec_req->id;
+					$patient_spec_req->meal = "Breakfast";
+					$spec_reqs_array[] = $patient_spec_req;
+				}
+
+			}
+		}
+
+		if (!empty (input()->lunch_specialrequest)) {
+			foreach (input()->lunch_specialrequest as $item) {
+				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
+				$patient_spec_req = $this->loadModel("PatientSpecialReq")->fetchByPatientAndSpecialReqId($patient->id, $spec_req->id);
+
+				if ($patient_spec_req->patient_id == "") {
+					$patient_spec_req->patient_id = $patient->id;
+					$patient_spec_req->special_req_id = $spec_req->id;
+					$patient_spec_req->meal = "Lunch";
+					$spec_reqs_array[] = $patient_spec_req;
+				}
+
+			}
+		}
+
+		if (!empty (input()->dinner_specialrequest)) {
+			foreach (input()->dinner_specialrequest as $item) {
+				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
+				$patient_spec_req = $this->loadModel("PatientSpecialReq")->fetchByPatientAndSpecialReqId($patient->id, $spec_req->id);
+
+				if ($patient_spec_req->patient_id == "") {
+					$patient_spec_req->patient_id = $patient->id;
+					$patient_spec_req->special_req_id = $spec_req->id;
+					$patient_spec_req->meal = "Dinner";
+					$spec_reqs_array[] = $patient_spec_req;
+				}
+
+			}
+		}
+
 
 		// set beverages array
 		$beveragesArray = array();
@@ -367,6 +422,12 @@ class PatientInfoController extends DietaryController {
 
 			// save the patient's beverage info
 			foreach ($beveragesArray as $item) {
+				$item->save();
+			}
+
+
+			// save the patient's special requests
+			foreach ($spec_reqs_array as $item) {
 				$item->save();
 			}
 
@@ -761,17 +822,77 @@ class PatientInfoController extends DietaryController {
 			return false;
 		}
 
-		if (input()->name != "") {
-			// delete the patient food info item
-			if (input()->type != "snack") {
-				if ($this->loadModel("PatientFoodInfo")->deleteFoodInfoItem($patient->id, input()->name, input()->type)) {
-					return true;
-				}
-			} else {
-				if ($this->loadModel("PatientSnack")->deleteSnack($patient->id, input()->name, input()->time)) {
-					return true;
-				}
+		if (input()->name != "") {			
+			switch (input()->type) {
+				case "allergy":
+					if ($this->loadModel("PatientFoodInfo")->deleteFoodInfoItem($patient->id, input()->name, input()->type)) {
+						return true;
+					}	
+					break;
+
+				case "dislike":
+					if ($this->loadModel("PatientFoodInfo")->deleteFoodInfoItem($patient->id, input()->name, input()->type)) {
+						return true;
+					}	
+					break;
+
+				case "snack":
+					if ($this->loadModel("PatientSnack")->deleteSnack($patient->id, input()->name, input()->time)) {
+						return true;
+					}
+					break;
+
+				case "adapt_equip":
+					if ($this->loadModel("PatientAdaptEquip")->deleteAdaptEquip($patient->id, input()->name)) {
+						return true;
+					}
+					break;
+
+				case "supplement":
+					if ($this->loadModel("PatientSupplement")->deleteSupplement($patient->id, input()->name)) {
+						return true;
+					}
+					break;
+
+				case "special_request":
+					if ($this->loadModel("PatientSpecialReq")->deleteSpecialReq($patient->id, input()->name, input()->meal)) {
+						return true;
+					}
+					break;
+
+				case "beverage":
+					if ($this->loadModel("PatientBeverage")->deleteBeverage($patient->id, input()->name, input()->meal)) {
+						return true;
+					}
+					break;
+
 			}
+
+
+
+			// if (input()->type == "allergy") {
+			// 	if ($this->loadModel("PatientFoodInfo")->deleteFoodInfoItem($patient->id, input()->name, input()->type)) {
+			// 		return true;
+			// 	}
+			// } elseif (input()->type == "snack") {
+			// 	if ($this->loadModel("PatientSnack")->deleteSnack($patient->id, input()->name, input()->time)) {
+			// 		return true;
+			// 	}
+			// } elseif (input()->type == "adapt_equip") {
+			// 	if ($this->loadModel("PatientAdaptEquip")->deleteAdaptEquip($patient->id, input()->name)) {
+			// 		return true;
+			// 	}
+			// } elseif (input()->type == "supplement") {
+			// 	if ($this->loadModel("PatientSupplement")->deleteSupplement($patient->id, input()->name)) {
+			// 		return true;
+			// 	}
+			// } elseif (input()->type == "special_request") {
+			// 	if ($this->loadModel("PatientSpecialReq")->deleteSpecialReq($patient->id, input()->name, input()->meal)) {
+			// 		return true;
+			// 	}
+			// }
+
+
 			return false;
 		}
 

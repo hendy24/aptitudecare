@@ -98,4 +98,21 @@ class PatientBeverage extends Dietary {
 
   }
 
+
+    public function deleteBeverage($patient_id, $bev_name, $meal) {
+        $bev = $this->loadTable("Beverage");
+        $sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND beverage_id = (SELECT id FROM {$bev->tableName()} WHERE name = :bev_name)  AND meal = :meal";
+        $params = array(
+            ":patient_id" => $patient_id,
+            ":bev_name" => $bev_name,
+            ":meal" => $meal
+        );
+
+        if ($this->deleteQuery($sql, $params)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

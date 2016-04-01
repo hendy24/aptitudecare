@@ -95,6 +95,20 @@ class PatientAdaptEquip extends Dietary {
   }
 
 
+    public function deleteAdaptEquip($patient_id, $adapt_equip_name) {
+        $adapt_equip = $this->loadTable("AdaptEquip");
+        $sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND adapt_equip_id = (SELECT id FROM {$adapt_equip->tableName()} WHERE name = :adapt_equip_name)";
+        $params = array(
+            ":patient_id" => $patient_id,
+            ":adapt_equip_name" => $adapt_equip_name
+        );
+
+        if ($this->deleteQuery($sql, $params)) {
+            return true;
+        }
+
+        return false;
+    }
 
 
 }

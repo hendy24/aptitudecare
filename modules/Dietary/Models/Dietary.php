@@ -50,6 +50,8 @@ class Dietary extends AppModel {
 
       $params[":patient_id"] = $patient_id;
 
+      debug ($sql, $params);
+
       $result = $this->fetchOne($sql, $params);
 
       if (!empty ($result)) {
@@ -63,7 +65,6 @@ class Dietary extends AppModel {
 
       return false;
   }
-
 
 
 

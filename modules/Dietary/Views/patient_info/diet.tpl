@@ -113,13 +113,13 @@
         beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
-        var allergyName = ui.tagLabel;
+        var adaptEquipName = ui.tagLabel;
         $.post(SITE_URL, {
         	page: "PatientInfo",
         	action: "deleteItem",
         	patient: patientId,
-        	name: allergyName,
-        	type: "allergy"
+        	name: adaptEquipName,
+        	type: "adapt_equip"
         	}, function (e) {
         		console.log(e);
         	}, "json"
@@ -139,13 +139,14 @@
         beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
-        var allergyName = ui.tagLabel;
+        var supplementName = ui.tagLabel;
+        console.log(patientId);
         $.post(SITE_URL, {
         	page: "PatientInfo",
         	action: "deleteItem",
         	patient: patientId,
-        	name: allergyName,
-        	type: "allergy"
+        	name: supplementName,
+        	type: "supplement"
         	}, function (e) {
         		console.log(e);
         	}, "json"
@@ -164,13 +165,14 @@
 	    beforeTagRemoved: function(event, ui) {
 	        // if tag is removed, need to delete from the db
 	        var patientId = $("#patient-id").val();
-	        var dislikeName = ui.tagLabel;
+	        var specialRequestName = ui.tagLabel;
 	        $.post(SITE_URL, {
 	        	page: "PatientInfo",
 	        	action: "deleteItem",
 	        	patient: patientId,
-	        	name: dislikeName,
-	        	type: "dislike"
+	        	name: specialRequestName,
+	        	meal: "Breakfast",
+	        	type: "special_request"
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -189,13 +191,14 @@
 	    beforeTagRemoved: function(event, ui) {
 	        // if tag is removed, need to delete from the db
 	        var patientId = $("#patient-id").val();
-	        var dislikeName = ui.tagLabel;
+	        var specialRequestName = ui.tagLabel;
 	        $.post(SITE_URL, {
 	        	page: "PatientInfo",
 	        	action: "deleteItem",
 	        	patient: patientId,
-	        	name: dislikeName,
-	        	type: "dislike"
+	        	name: specialRequestName,
+	        	meal: "Lunch",
+	        	type: "special_request"
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -214,13 +217,14 @@
 	    beforeTagRemoved: function(event, ui) {
 	        // if tag is removed, need to delete from the db
 	        var patientId = $("#patient-id").val();
-	        var dislikeName = ui.tagLabel;
+	        var specialRequestName = ui.tagLabel;
 	        $.post(SITE_URL, {
 	        	page: "PatientInfo",
 	        	action: "deleteItem",
 	        	patient: patientId,
-	        	name: dislikeName,
-	        	type: "dislike"
+	        	name: specialRequestName,
+	        	meal: "Dinner",
+	        	type: "special_request"
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -240,13 +244,14 @@
 	    beforeTagRemoved: function(event, ui) {
 	        // if tag is removed, need to delete from the db
 	        var patientId = $("#patient-id").val();
-	        var dislikeName = ui.tagLabel;
+	        var beverageName = ui.tagLabel;
 	        $.post(SITE_URL, {
 	        	page: "PatientInfo",
 	        	action: "deleteItem",
 	        	patient: patientId,
-	        	name: dislikeName,
-	        	type: "dislike"
+	        	name: beverageName,
+	        	type: "beverage",
+	        	meal: "Breakfast"
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -265,13 +270,14 @@
 	    beforeTagRemoved: function(event, ui) {
 	        // if tag is removed, need to delete from the db
 	        var patientId = $("#patient-id").val();
-	        var dislikeName = ui.tagLabel;
+	        var beverageName = ui.tagLabel;
 	        $.post(SITE_URL, {
 	        	page: "PatientInfo",
 	        	action: "deleteItem",
 	        	patient: patientId,
-	        	name: dislikeName,
-	        	type: "dislike"
+	        	name: beverageName,
+	        	type: "beverage",
+	        	meal: "Lunch"
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -291,13 +297,14 @@
 	    beforeTagRemoved: function(event, ui) {
 	        // if tag is removed, need to delete from the db
 	        var patientId = $("#patient-id").val();
-	        var dislikeName = ui.tagLabel;
+	        var beverageName = ui.tagLabel;
 	        $.post(SITE_URL, {
 	        	page: "PatientInfo",
 	        	action: "deleteItem",
 	        	patient: patientId,
-	        	name: dislikeName,
-	        	type: "dislike"
+	        	name: beverageName,
+	        	type: "beverage",
+	        	meal: "Dinner"
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -472,14 +479,14 @@
 				<ul id="dislikes">
 					{if $dislikes}
 						{foreach from=$dislikes item=dislike}
-						<li>{$dislike->name}</li>
+						<li value="{$dislike->id}">{$dislike->name}</li>
 						{/foreach}
 					{/if}
 				</ul>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">Adaptative Equipment:</td>
+			<td colspan="2">Adaptive Equipment:</td>
 			<td colspan="2">Supplements:</td>
 		</tr>
 		<tr>
@@ -487,7 +494,7 @@
 				<ul id="adaptEquip">
 					{if $adaptEquip}
 						{foreach from=$adaptEquip item=equip}
-						<li>{$equip->name}</li>
+						<li value="{$equip->id}">{$equip->name}</li>
 						{/foreach}
 					{/if}
 				</ul>
@@ -496,7 +503,7 @@
 				<ul id="supplements">
 					{if $supplements}
 						{foreach from=$supplements item=supplement}
-						<li>{$supplement->name}</li>
+						<li value="{$supplement->id}">{$supplement->name}</li>
 						{/foreach}
 					{/if}
 				</ul>
@@ -521,9 +528,9 @@
 					        </div>
 					        <div class="col-md-3">			
 								<ul id="breakfast_specialrequest">
-									{if $breakfast_beverages}
-										{foreach from=$breakfast_beverages item=beverage}
-										<li>{$beverage->name}</li>
+									{if $breakfast_spec_req}
+										{foreach from=$breakfast_spec_req item=req}
+										<li value="{$req->id}">{$req->name}</li>
 										{/foreach}
 									{/if}
 								</ul>					        	
@@ -533,9 +540,9 @@
 					        </div>
 					        <div class="col-md-3">				
 								<ul id="lunch_specialrequest">
-									{if $lunch_beverages}
-										{foreach from=$lunch_beverages item=beverage}
-										<li>{$beverage->name}</li>
+									{if $lunch_spec_req}
+										{foreach from=$lunch_spec_req item=req}
+										<li value="{$req->id}">{$req->name}</li>
 										{/foreach}
 									{/if}
 								</ul>					        
@@ -545,9 +552,9 @@
 					        </div>
 					        <div class="col-md-3">	
 								<ul id="dinner_specialrequest">
-									{if $dinner_beverages}
-										{foreach from=$dinner_beverages item=beverage}
-										<li>{$beverage->name}</li>
+									{if $dinner_spec_req}
+										{foreach from=$dinner_spec_req item=req}
+										<li value="{$req->id}">{$req->name}</li>
 										{/foreach}
 									{/if}
 								</ul>
@@ -733,11 +740,6 @@
 			<td><input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}> &nbsp;Large</td>
 		</tr>
 	
-
-		<tr class="padding-top">
-			<td><strong>Special Requests:</strong></td>
-			<td colspan="4" class="text-right"><input type="text" name="special_requests" size="100" value="{$patientInfo->special_requests}"></td>
-		</tr>
 		<tr>
 			<td colspan="4">&nbsp;</td>
 		</tr>

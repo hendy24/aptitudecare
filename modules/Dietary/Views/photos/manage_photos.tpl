@@ -17,7 +17,7 @@
 	<table class="form">
 		{foreach from=$photos item=photo name=count}
 		<tr>
-			<td rowspan="3">
+			<td rowspan="2">
 				<a class="fancybox" rel="fancybox-thumb" href="{$SITE_URL}/files/dietary_photos/{$photo->filename}" title="{$photo->name}: {$photo->description}">
 					<img src="{$SITE_URL}/files/dietary_photos/thumbnails/{$photo->filename}" style="width:100px" alt=""></td>
 				</a>
@@ -41,6 +41,10 @@
 			</td>
 		</tr>
 		<tr>
+			<td colspan="3">Tags: <input type="text" class="tags" name="tags" style="width:300px"></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>
 				<input type="radio" name="photo[{$photo->public_id}]" value="1">Approve<br>

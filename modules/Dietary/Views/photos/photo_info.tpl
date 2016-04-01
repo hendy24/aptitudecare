@@ -24,6 +24,34 @@
 			);
 		});
 		$('.tags').tagsInput();
+
+
+	    $("#photo-tag").tagit({
+	    	fieldName: "photo_tag[]",
+	    	availableTags: fetchOptions("PhotoTag"),
+	    	autocomplete: {delay:0, minLength: 2},
+	    	showAutocompleteOnFocus: false,
+	    	caseSensitive: false,
+	    	allowSpaces: true,
+		    beforeTagRemoved: function(event, ui) {
+		        // if tag is removed, need to delete from the db
+		        var patientId = $("#patient-id").val();
+		        var dislikeName = ui.tagLabel;
+		        $.post(SITE_URL, {
+		        	page: "PatientInfo",
+		        	action: "deleteItem",
+		        	patient: patientId,
+		        	name: dislikeName,
+		        	type: "dislike"
+		        	}, function (e) {
+		        		console.log(e);
+		        	}, "json"
+		        );
+		    }
+
+	    });       
+
+
 	});
 </script>
 <style>
@@ -54,7 +82,7 @@
 			<td><img src="{$SITE_URL}/files/dietary_photos/thumbnails/{$photo->filename}" style="width:100px" alt=""></td>
 			<td>
 				<input type="text" class="name" name="name" placeholder="Photo name">
-				<input type="text" class="tags" name="tags" placeholder="Tags"/>
+				<input type="text" id="photo-tag" class="tags" name="tags" placeholder="Tags"/>
 			</td>
 			<td><textarea name="description" class="description" placeholder="Photo description" cols="30" rows="4"></textarea></td>
 			<td>

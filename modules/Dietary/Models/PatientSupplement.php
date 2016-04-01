@@ -32,4 +32,22 @@ class PatientSupplement extends Dietary {
     }
   }
 
+
+
+  public function deleteSupplement($patient_id, $supplement_name) {
+        $supplement = $this->loadTable("Supplement");
+        $sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND supplement_id = (SELECT id FROM {$supplement->tableName()} WHERE name = :supplement_name)";
+        $params = array(
+            ":patient_id" => $patient_id,
+            ":supplement_name" => $supplement_name
+        );
+
+        if ($this->deleteQuery($sql, $params)) {
+            return true;
+        }
+
+        return false;
+
+  }
+
 }
