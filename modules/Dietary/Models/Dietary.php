@@ -50,8 +50,6 @@ class Dietary extends AppModel {
 
       $params[":patient_id"] = $patient_id;
 
-      debug ($sql, $params);
-
       $result = $this->fetchOne($sql, $params);
 
       if (!empty ($result)) {
@@ -62,6 +60,20 @@ class Dietary extends AppModel {
         	return true;
         }
       }
+
+      return false;
+  }
+
+	public function removePatientDietItems($patient_id) {
+
+      $params[":patient_id"] = $patient_id;
+
+        // delete from the data table
+       $sql = "DELETE FROM {$this->tableName()}  WHERE patient_id = :patient_id";
+
+       if ($this->deleteQuery($sql, $params)) {
+       		return true;
+       }
 
       return false;
   }

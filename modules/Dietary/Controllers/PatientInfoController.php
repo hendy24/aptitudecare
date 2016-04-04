@@ -101,6 +101,7 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
+
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);	
 		smarty()->assignByRef('allergies', $allergies);
@@ -319,7 +320,9 @@ class PatientInfoController extends DietaryController {
 		if (!empty (input()->diet_order)) {
 			// check if the patient already has an "other" item saved. 
 			// if there is something... delete it.
-			$patient_other_item = $this->loadModel("PatientDietOrder")->removeOtherItems($patient->id, 'DietOrder');
+			$this->loadModel("PatientDietOrder")->removeOtherItems($patient->id, 'DietOrder');
+			$this->loadModel("PatientDietOrder")->removePatientDietItems($patient->id);
+
 			foreach (input()->diet_order as $item) {
 				$diet_order = $this->loadModel("DietOrder")->fetchByName($item, true);
 				if (!empty ($diet_order)) {
@@ -335,12 +338,14 @@ class PatientInfoController extends DietaryController {
 		} else {
 			$feedback[] = "Diet order has not been entered";
 		}
-		
+
+
 		// set texture array
 		if (!empty (input()->texture)) {
 			// check if the patient already has an "other" item saved. 
 			// if there is something... delete it.
 			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
+			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
 
 			foreach (input()->texture as $item) {
 				$texture_item = $this->loadModel("Texture")->fetchByName($item, true);
@@ -360,6 +365,7 @@ class PatientInfoController extends DietaryController {
 		$patient_other_array = array();
 		if (!empty (input()->other)) {
 			$this->loadModel("PatientOther")->removeOtherItems($patient->id, 'Other');
+			$this->loadModel("PatientOther")->removePatientDietItems($patient->id);
 			foreach (input()->other as $item) {
 				$other_item = $this->loadModel("Other")->fetchByName($item, true);
 				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOtherId($patient->id, $other_item->id);

@@ -17,8 +17,6 @@
 		var snackTime = null;
 		var thisFieldName = null;
 
-		$(".other-input").hide();
-
 		startTag = function(category){
 			
 			$("#" + category).tagit({
