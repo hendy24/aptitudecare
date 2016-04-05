@@ -34,6 +34,86 @@ class UsersController extends MainPageController {
 
 
 
+	public function my_info() {
+		// prevent unauthorized access to this page...
+		if (!auth()->hasPermission("manage_users")) {
+			session()->setFlash("You do not have permission to access this page", 'error');
+			$this->redirect();
+		}
+		smarty()->assign('title', 'Edit User');
+		smarty()->assign('page_header', "Edit My Account");
+		smarty()->assign('existing', true);
+
+		$user = $this->loadModel('User', auth()->getRecord()->id);
+
+		smarty()->assign('user', $user);
+
+	}
+
+	public function save_my_info() {
+
+		$user = $this->loadModel('User', auth()->getRecord()->public_id);
+
+		//	Validate form fields
+		if (input()->first_name != '') {
+			$user->first_name = input()->first_name;
+		} else {
+			$error_messages[] = "Enter the users first name";
+		}
+
+		if (input()->last_name != '') {
+			$user->last_name = input()->last_name;
+		} else {
+			$error_messages[] = "Enter the users last name";
+		}
+
+		if (input()->email != '') {
+			$user->email = input()->email;
+		} else {
+			$error_messages[] = "Enter the users email address";
+		}
+
+		if (isset (input()->password)) {
+			if (isset (input()->verify_password)) {
+				if (input()->password == input()->verify_password) {
+					$user->password = auth()->encrypt_password(input()->password);
+				} else {
+					$error_messages[] = "The passwords do not match";
+				}
+			} elseif (input()->password == '') {
+				$error_messages[] = "Enter a password";
+			}		
+		} 
+
+		if (isset (input()->temp_password)) {
+			$user->temp_password = true;
+		} else {
+			$user->temp_password = false;
+		}
+
+		if (input()->phone != '') {
+			$user->phone = input()->phone;
+		}
+		
+		if (!empty ($error_messages)) {
+			session()->setFlash($error_messages, 'error');
+			$this->redirect(input()->path);			
+		}	
+
+		if ($user->save()) {
+			if (session()->default_module !== "Admission") {
+				session()->setFlash("Your account info has been saved", 'success');
+				$this->redirect();
+			} else {
+				session()->setFlash("Could not save your account info", 'error');
+				$this->redirect(input()->current_url);
+			}
+		}
+
+	}
+
+
+
 	/* 
 	 * Add a new user page 
 	 *	
@@ -105,10 +185,12 @@ class UsersController extends MainPageController {
 			}
 		}
 
-		if (input()->location != "") {
-			smarty()->assign('current_location', input()->location);
-		} else {
-			smarty()->assign('current_location', "");
+		if (isset (input()->location)) {
+			if (input()->location != "") {
+				smarty()->assign('current_location', input()->location);
+			} else {
+				smarty()->assign('current_location', "");
+			}		
 		}
 		
 
