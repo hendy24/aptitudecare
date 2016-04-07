@@ -75,21 +75,79 @@ class MenuController extends DietaryController {
 
 
 	public function submit_edit() {
-		pr (input()); exit;
-		// check if this is being submitted from a facility or corporate edit page
-		// corporate edit pages are the facility menus page as well as the corporate
-		// menus page, access to these page should be limited by user group
-		if(input()->edit_type = "corp_menu"){
-			if (input()->date == null) {
-				// if the date is null then it is a corporate page
-				$this->corporateInfo();
-			} else {
-				// if there is a date set then it is a facility page
-				$this->facilityInfo();
-			}
-		} else{
-			
+		// If this is already a menu mod load the current changes...
+		if (input()->menu_type == "MenuMod") {
+			$menuItem = $this->loadModel('MenuMod', input()->public_id);
+		} else {
+			$menuItem = $this->loadModel('MenuMod');
 		}
+
+
+		// get the location
+		if (input()->location == "") {
+			session()->setFlash("No facility menu was selected. Please try again.", 'error');
+			$this->redirect();
+		} else {
+			$location = $this->loadModel('Location', input()->location);
+		}
+
+		// if reset is not empty then delete the menu mod item
+		if (isset (input()->reset)) {
+			if ($menuItem->delete()) {
+				session()->setFlash("The menu changes have been deleted and the menu has been reset to the original menu items.", 'success');
+				$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
+			} else {
+				session()->setFlash("Could not reset the menu changes. Please try again", 'error');
+				$this->redirect(input()->path);
+			}
+		}
+
+
+		// get the original menu item
+		if (input()->menu_type == "MenuChange") {
+			$menuChange = true;
+			$origMenuItem = $this->loadModel('MenuChange', input()->public_id);
+		} else {
+			$menuChange = false;
+			$origMenuItem = $this->loadModel('MenuItem', input()->public_id);
+		}
+		
+		
+		// if there was no reason for a menu change entered throw an error
+		if (input()->reason == "") {
+			session()->setFlash("You must enter the reason for the menu change.", 'error');
+			$this->redirect(input()->path);
+		} else {
+			$menuItem->reason = input()->reason;
+		}
+
+		// set the menu item id
+		if ($menuChange) {
+			$menuItem->menu_item_id = $origMenuItem->menu_item_id;
+		} else {
+			$menuItem->menu_item_id = $origMenuItem->id;
+		}
+
+		// set the location
+		$menuItem->location_id = $location->id;
+
+		// set the date
+		$menuItem->date = input()->date;
+
+		// set the menu content to be saved...
+		$menuItem->content = input()->menu_content;
+
+		// set the user info who made the change
+		$menuItem->user_id = auth()->getRecord()->id;
+
+		if ($menuItem->save()) {
+			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'success');
+			$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
+		} else {
+			session()->setFlash("Could not save the menu information. Please try again.", 'error');
+			$this->redirect(input()->path);
+		}
+		
 
 	}
 
@@ -279,89 +337,6 @@ class MenuController extends DietaryController {
 
 
 
-
-	/*
-	 * -------------------------------------------------------------------------
-	 *  Validate info submitted from menu edit pages
-	 * -------------------------------------------------------------------------
-	 */
-
-
-	private function facilityInfo() {
-		// If this is already a menu mod load the current changes...
-		if (input()->menu_type == "MenuMod") {
-			$menuItem = $this->loadModel('MenuMod', input()->public_id);
-		} else {
-			$menuItem = $this->loadModel('MenuMod');
-		}
-
-
-		// get the location
-		if (input()->location == "") {
-			session()->setFlash("No facility menu was selected. Please try again.", 'error');
-			$this->redirect();
-		} else {
-			$location = $this->loadModel('Location', input()->location);
-		}
-
-		// if reset is not empty then delete the menu mod item
-		if (isset (input()->reset)) {
-			if ($menuItem->delete()) {
-				session()->setFlash("The menu changes have been deleted and the menu has been reset to the original menu items.", 'success');
-				$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
-			} else {
-				session()->setFlash("Could not reset the menu changes. Please try again", 'error');
-				$this->redirect(input()->path);
-			}
-		}
-
-
-		// get the original menu item
-		if (input()->menu_type == "MenuChange") {
-			$menuChange = true;
-			$origMenuItem = $this->loadModel('MenuChange', input()->public_id);
-		} else {
-			$menuChange = false;
-			$origMenuItem = $this->loadModel('MenuItem', input()->public_id);
-		}
-		
-		
-		// if there was no reason for a menu change entered throw an error
-		if (input()->reason == "") {
-			session()->setFlash("You must enter the reason for the menu change.", 'error');
-			$this->redirect(input()->path);
-		} else {
-			$menuItem->reason = input()->reason;
-		}
-
-		// set the menu item id
-		if ($menuChange) {
-			$menuItem->menu_item_id = $origMenuItem->menu_item_id;
-		} else {
-			$menuItem->menu_item_id = $origMenuItem->id;
-		}
-
-		// set the location
-		$menuItem->location_id = $location->id;
-
-		// set the date
-		$menuItem->date = input()->date;
-
-		// set the menu content to be saved...
-		$menuItem->content = input()->menu_content;
-
-		// set the user info who made the change
-		$menuItem->user_id = auth()->getRecord()->id;
-
-		if ($menuItem->save()) {
-			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'success');
-			$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
-		} else {
-			session()->setFlash("Could not save the menu information. Please try again.", 'error');
-			$this->redirect(input()->path);
-		}
-
-	}
 
 
 	/*
