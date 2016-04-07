@@ -77,6 +77,134 @@ class InfoController extends DietaryController {
 
 	}
 
+	public function save_create() {
+
+		if (input()->menu_name != "") {
+			$new_menu = $this->loadModel('Menu');
+			$new_menu->name = input()->menu_name;
+		} else {
+			$error_messages[] = "Enter a name for the new menu";
+			
+		}
+
+		if (input()->num_weeks != "") {
+			$num_days = input()->num_weeks * 7;
+		} else {
+			$error_messages[] = "Enter the number of weeks in the menu";
+		}
+
+		// break point
+		if (!empty ($error_messages)) {
+			session()->setFlash($error_messages, 'error');
+			$this->redirect(input()->current_url);
+		}
+
+		if ($new_menu->save()) {
+			$success = false;
+			for ($day = 1; $day <= $num_days; $day++) {
+				while ($meal_id <= 3) {
+					$menu_item = $this->loadModel('MenuItem');
+					$menu_item->menu_id = $new_menu->id;
+					$menu_item->meal_id = $meal_id;
+					$menu_item->day = $day;
+					$menu_item->content = "No menu content has been entered.";
+					$menu_item->save();
+					$meal_id++;
+				}
+				$meal_id = 1;
+				$success = true;
+			}
+
+			if ($success) {
+				session()->setFlash("The new menu was created", 'success');
+				$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $new_menu->public_id));
+			} else {
+				session()->setFlash("Could not create the new menu. Please try again.", 'error');
+				$this->redirect(input()->current_url);
+			}
+		}
+
+	}
+
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  Manage the corporate menus
+	 * -------------------------------------------------------------------------
+	 *
+	 * Access to this page is restricted to corporate admins
+	 *
+	 */
+	public function manage() {
+		// if the user does not have permission then throw error and redirect
+		if (!auth()->hasPermission('create_menu')) {
+			session()->setFlash("You do not have permission to access that page.", 'error');
+			$this->redirect(array('module' => $this->getModule()));
+		}
+
+		// fetch all the menus
+		$menus = $this->loadModel('Menu')->fetchAll();
+
+		smarty()->assign('menus', $menus);
+
+	}
+
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  DELETE USERS
+	 * -------------------------------------------------------------------------
+	 */
+	public function delete_menu() {
+		//	If the id var is filled then delete the item with that id
+		if (input()->menu != '') {
+			$menu = $this->loadModel('Menu', input()->menu);
+
+
+			// delete all entries in menu_item
+			if ($this->loadModel('MenuItem')->deleteMenuItems($menu->id)) {
+				if ($menu->delete()) {
+					return true;
+				}
+
+				return false;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  EDIT MENU
+	 * -------------------------------------------------------------------------
+	 *
+	 * Functionality to change the menu name only right now. May need to add 
+	 * addtional functionality in the future...
+	 *
+	 */
+	public function edit_menu() {
+		$menu = $this->loadModel('Menu', input()->menu);
+		smarty()->assign('menu', $menu);
+
+		// if this is a post then we are trying to save
+		if (input()->is('post')) {
+			$menu->name = input()->name;
+
+			if ($menu->save()) {
+				session()->setFlash("The name of the menu has been changed.", 'success');
+				$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "manage"));
+			} else {
+				session()->setFlash("Could not change the name of the menu. Please try again.", 'error');
+				$this->redirect(input()->current_url);
+			}
+		}
+	}
+
+
 
 	public function corporate_menus() {
 		smarty()->assign('title', "Corporate Menus");

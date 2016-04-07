@@ -27,7 +27,8 @@
 
 <div id="page-header">
 	<div id="action-left">
-		&nbsp;
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=info&amp;action=create" class="button">Create Menu</a>
+		<a href="{$SITE_URL}/?module={$this->getModule()}&amp;page=info&amp;action=manage" class="button">Manage Menus</a>
 	</div>
 	<div id="center-title">
 		<h1>{$selectedMenu->name} Menu</h1>

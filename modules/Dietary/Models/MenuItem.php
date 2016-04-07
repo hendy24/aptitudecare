@@ -96,4 +96,22 @@ class MenuItem extends Dietary {
 		return $pagination->paginate($sql, $params, $this, $page, 21);
 	}
 
+
+
+	/*
+	 * -------------------------------------------------------------------------
+	 * Delete all items from this table
+	 * -------------------------------------------------------------------------
+	 */
+	public function deleteMenuItems($menu_id) {
+		$sql = "DELETE FROM {$this->tableName()} WHERE menu_id = :menu_id";
+		$params[":menu_id"] = $menu_id;
+
+		if ($this->deleteQuery($sql, $params)) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

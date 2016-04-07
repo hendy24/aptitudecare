@@ -468,7 +468,7 @@
 				<ul id="allergies">
 					{if $allergies}
 						{foreach from=$allergies item=allergy}
-						<li value="{$allergy->id}">{$allergy->name}</li>
+						<li>{$allergy->name}</li>
 						{/foreach}
 					{/if}
 				</ul>
