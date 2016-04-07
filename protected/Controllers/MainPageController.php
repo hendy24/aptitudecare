@@ -61,7 +61,9 @@ class MainPageController extends MainController {
 		// If the user is logged in get the locations and area to which the user has access
 		if (auth()->valid()) {
 			$this->fetchLocations();
-			$this->fetchArea();
+			if ($this->module == "HomeHealth") {
+				$this->fetchArea();
+			}
 		} 
 
 		// Fetch the modules to which the user has access
