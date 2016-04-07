@@ -106,6 +106,7 @@ class MenuController extends DietaryController {
 	public function edit_corporate_menu() {
 		smarty()->assign('title', "Edit Menu");
 		$menuMod = false;
+		$menuChange = false;
 
 		if (input()->id == "") {
 			session()->setFlash("Could not find the menu item you were looking for.", 'error');
@@ -121,18 +122,27 @@ class MenuController extends DietaryController {
 		} elseif (input()->type == "MenuChange") {
 			// fetch the changed menu
 			$menuItem = $this->loadModel("MenuChange", input()->id);
+			$menuChange = true;
 		} else {
 			// fetch the menu item
 			$menuItem = $this->loadModel("MenuItem", input()->id);
 		}
 
+		if (isset (input()->location)) {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			$location = false;
+		}
+
+
 		$allLocations = $this->loadModel('Location')->fetchFacilities();
 
 		smarty()->assign('allLocations', $allLocations);
+		smarty()->assign('location', $location);
 		smarty()->assign('menuItem', $menuItem);
+		smarty()->assign('menuChange', $menuChange);
 		smarty()->assign('menuType', input()->type);
 		smarty()->assign('menuMod', $menuMod);
-
 
 		if (input()->is('post')) {
 			
@@ -351,6 +361,27 @@ class MenuController extends DietaryController {
 			$this->redirect(input()->path);
 		}
 
+	}
+
+
+	/*
+	 * -------------------------------------------------------------------------
+	 *  DELETE MENU CHANGES
+	 * -------------------------------------------------------------------------
+	 *
+	 * We are going to delete any menu modifications or changes and revert back
+	 * to the original menu item
+	 *
+	 */
+	public function delete_item() {
+		if (input()->id != "") {
+			$changed_menu_item = $this->loadModel(input()->type, input()->id);
+			if ($changed_menu_item->delete()) {
+				$this->corpPageRedirect();
+			}
+		}
+
+		$this->redirect();
 	}
 
 

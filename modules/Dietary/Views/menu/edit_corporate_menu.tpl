@@ -6,8 +6,9 @@
 			e.preventDefault();
 			$.post(SITE_URL, { 
 				module: "Dietary",
-				page: "MenuMod",
+				page: "Menu",
 				action: "deleteId",
+				type: "MenuMod",
 				id: $("#public-id").val(),
 				}, function (response) {
 					window.location.href = SITE_URL + "/?module=Dietary&page=dietary&action=current&location=" + $("#location").val();
@@ -15,7 +16,9 @@
 			);
 		});
 
-		$(".facilities-list").hide();
+		{if !$location}
+			$(".facilities-list").hide();
+		{/if}
 
 		$('input:radio[name="edit_type"]').change(function() {
 			if ($(this).is(':checked') && $(this).val() == 'select_locations') {
@@ -35,6 +38,7 @@
 	<input type="hidden" name="path" value="{$current_url}" />	
 	<input type="hidden" name="type" value="{$menuType}" />
 	<input type="hidden" name="id" id="public-id" value="{$menuItem->public_id}" />
+	<input type="hidden" name="location" value="{$location->public_id}">
 
 	<table class="form">
 		<tr>
@@ -56,7 +60,7 @@
 		</tr>
 		<tr id="change-type">
 			<td><input type="radio" name="edit_type" value="corp_menu">Corporate Menu</td>
-			<td colspan="2"><input type="radio" name="edit_type" id="individualLocations" value="select_locations">Individual Locations <span class="text-10">(recurring only for the selected locations)</span></td>
+			<td colspan="2"><input type="radio" name="edit_type" id="individualLocations" value="select_locations"{if $location} checked="checked"{/if}>Individual Locations <span class="text-10">(recurring only for the selected locations)</span></td>
 		</tr>
 			<tr>
 				<td colspan="3">&nbsp;</td>
@@ -66,7 +70,7 @@
 					<table>
 						<tr>
 						{foreach from=$allLocations item=facility key=key name=facilities}
-							<td><input type="checkbox" name="facility{$key}" value="{$facility->public_id}">{$facility->name}</td>
+							<td><input type="checkbox" name="facility{$key}" value="{$facility->public_id}" {if $location->public_id == $facility->public_id} checked="checked"{/if}>{$facility->name}</td>
 						{if $smarty.foreach.facilities.iteration is div by 2}
 						</tr>
 						<tr class="facilities-list">
@@ -83,8 +87,8 @@
 			<td><input type="button" value="Cancel" onclick="history.go(-1)"> </td>
 			<td>&nbsp;</td>
 			<td style="text-align: right">
-				{if $menuMod}
-					<input type="submit" name="reset" value="Reset to Original Item">
+				{if $menuChange}
+					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=delete_item&amp;type={$menuType}&amp;id={$menuItem->public_id}" class="button">Reset to Original Item</a>
 				{/if}
 				<input type="submit" value="Change Menu"></td>
 		</tr>
