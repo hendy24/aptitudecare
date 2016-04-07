@@ -26,11 +26,8 @@
 		});
 	});
 </script>
-{if $corporateEdit}
-	<h1>Edit Menu Item</h1>
-{else}
-	<h1>Edit the Menu for {$date|date_format:"%A, %B %e, %Y"}</h1>
-{/if}
+
+<h1>Edit the Menu for {$date|date_format:"%A, %B %e, %Y"}</h1>
 
 <form name="edit" id="edit" method="post" action="{$SITE_URL}">
 	<input type="hidden" name="page" value="menu" />

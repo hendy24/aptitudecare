@@ -581,3 +581,8 @@ table.checkbox-table {
 tr.input-checkboxes td {
 	padding: 2px;
 }
+
+
+li.permission-access a {
+	color: #c2c2c2;
+}
