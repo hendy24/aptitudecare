@@ -12,9 +12,34 @@ class Photo extends Dietary {
 	}
 
 
+	/*
+	 * -------------------------------------------------------------------------
+	 *  PAGINATE & FETCH APPROVED PHOTOS
+	 * -------------------------------------------------------------------------
+	 */
+	public function paginateApprovedPhotos($current_page = false) {
+		$sql = "SELECT count(id) AS items FROM {$this->tableName()} WHERE {$this->tableName()}.approved = 1";
+		$count = $this->fetchOne($sql);
+		$params = null;
+
+		$sql = "SELECT * FROM {$this->tableName()} WHERE {$this->tableName()}.approved = 1";
+
+		$pagination = new Paginator();
+		$pagination->default_ipp = 25;
+		$pagination->items_total = $count->items;
+		if ($current_page) {
+			$pagination->current_page = $current_page;
+		}
+
+		return $pagination->paginate($sql, $params, $this);
+	}
+
+
 	public function fetchPhotosForApproval() {
 		$location = $this->loadTable("Location");
 		$user = $this->loadTable("User");
+		$photo_link_tag = $this->loadTable('PhotoLinkTag');
+		$photo_tag = $this->loadTable('PhotoTag');
 
 		$sql = "SELECT p.*, l.name AS location_name, CONCAT(u.first_name, \" \", u.last_name) AS username FROM {$this->tableName()} p INNER JOIN {$location->tableName()} l ON l.id = p.location_id INNER JOIN {$user->tableName()} u ON u.id = p.user_created WHERE approved IS NULL ORDER BY datetime_created ASC";
 		return $this->fetchAll($sql);

@@ -1,32 +1,27 @@
 <!-- /modules/Dietary/Views/photos/photo_info.tpl -->
 <script src="{$JS}/plugins/jquery.tagsinput.js" type="text/javascript"></script>
 <script>
-	$(document).ready(function() {
-		$(".save").click(function() {
-			var tableRow = $(this).parent().parent();
-			var photoId = $(this).attr("data-photo-id");
-			var name = tableRow.find(".name").val();
-			var description = tableRow.find(".description").val();
-			var currentUrl = $("#current-url").val();
-			var tags = $(".tags").val();
+	var table = null;
+	var key = null;
+	
 
-			$.post(SITE_URL, {
-					page: "photos",
-					action: "save_photo_info",
-					photo_id: photoId,
-					name: name,
-					description: description,
-					current_url: currentUrl,
-					tags: tags
-				}, function(e) {
-					tableRow.fadeOut("slow");
-				}
-			);
-		});
-		$('.tags').tagsInput();
+	
 
+	$(document).ready(function() {	
+		var formCount = $("table.form").length;
+		if (formCount === 0) {
+			window.location = SITE_URL + "/?module=Dietary&page=photos&action=view_photos";
+		}
 
-	    $("#photo-tag").tagit({
+		{literal}
+	    $(".photo-tag").tagit({
+	    	// the photo-key is not being loaded because the field name is being set when the dom
+	    	// loads, not when a tag is entered.
+	    	//fieldName: "photo[" + $(this).next("input.photo-key").val() + "][photo_tag][]",
+	    	beforeTagAdded: function() {
+	    	},
+	    	afterTagAdded: function() {
+	    	},
 	    	fieldName: "photo_tag[]",
 	    	availableTags: fetchOptions("PhotoTag"),
 	    	autocomplete: {delay:0, minLength: 2},
@@ -34,25 +29,72 @@
 	    	caseSensitive: false,
 	    	allowSpaces: true,
 		    beforeTagRemoved: function(event, ui) {
-		        // if tag is removed, need to delete from the db
+		        // if tag is removed, need to delete from the dbg6znqf2r
 		        var patientId = $("#patient-id").val();
 		        var dislikeName = ui.tagLabel;
 		        $.post(SITE_URL, {
-		        	page: "PatientInfo",
-		        	action: "deleteItem",
-		        	patient: patientId,
-		        	name: dislikeName,
-		        	type: "dislike"
+		        	page: "",
+		        	action: "",
 		        	}, function (e) {
-		        		console.log(e);
+		        		
 		        	}, "json"
 		        );
 		    }
 
-	    });       
+	    }); 
 
+
+	    function fetchOptions(type){
+        	var choices = "";
+        	var array = [];
+        	var runLog = function() {
+        		array.push(choices);
+        	};
+
+        	var options = $.get(SITE_URL, {
+        		page: "Photos",
+        		action: "fetchTags",
+        		type: type
+        		}, function(data) {
+        			$.each(data, function(key, value) {
+        				choices = value.name;
+        				runLog();
+        			});
+        		}, "json"
+        	);
+
+        	return array;
+        }
+      
+		{/literal}
+
+
+		// Save the photo
+		$("input#save-photo").on("click", function(e) {
+			e.preventDefault();
+			table = $(this).parent().parent().parent();
+			key = table.parent().children("input:hidden:first").val();
+			data = $("#photo-info-" + key).serialize();
+
+			$.ajax({
+				type: 'post',
+				url: SITE_URL + "/?page=photos&action=save_photo_info",
+				data: data,
+				success: function() {
+					table.parent().parent().fadeOut('slow');
+					formCount = formCount - 1;
+
+					if (formCount === 0) {
+						window.location = SITE_URL + "/?module=Dietary&page=photos&action=view_photos";
+					} 
+
+				}
+			});
+		
+		});
 
 	});
+
 </script>
 <style>
 	td textarea.description{
@@ -69,32 +111,33 @@
 <link href="{$CSS}/plugins/jquery.tagsinput.css" rel="stylesheet" type="text/css">
 
 <h1>Add Photo Info</h1>
-<input type="hidden" id="current-url" name="current_url" value="{$current_url}">
-
-<table class="form">
-	{foreach from=$photos item=photo}
-	<form method="post" action="{$SITE_URL}">
-		<input type="hidden" name="page" value="photos">
-		<input type="hidden" name="action" value="save_photo_info">
-		<input type="hidden" name="photo_id" value="{$photo->public_id}">
-		<input type="hidden" name="current_url" value="{$current_url}">
-		<tr>
-			<td><img src="{$SITE_URL}/files/dietary_photos/thumbnails/{$photo->filename}" style="width:100px" alt=""></td>
-			<td>
-				<input type="text" class="name" name="name" placeholder="Photo name">
-				<input type="text" id="photo-tag" class="tags" name="tags" placeholder="Tags"/>
-			</td>
-			<td><textarea name="description" class="description" placeholder="Photo description" cols="30" rows="4"></textarea></td>
-			<td>
-{* 				<input type="submit" value="Submit"> *}
-				<input type="button" data-photo-id="{$photo->public_id}" class="save" value="Save">
- 			</td>
-		</tr>
-	</form>
+<input type="hidden" name="current_url" value="{$current_url}">
+	{foreach from=$photos item=photo key=key}
+		<form id="photo-info-{$key}" method="post" action="{$SITE_URL}">
+			<input type="hidden" name="photo_id" value="{$photo->public_id}">
+			<table class="form">
+				<input type="hidden" class="photo-key" value="{$key}">
+				<tr>
+					<td>
+						<img src="{$SITE_URL}/files/dietary_photos/thumbnails/{$photo->filename}" style="width:100px" alt="">
+					</td>
+					<td>
+					<input type="text" class="name" name="name" placeholder="Photo name">
+					<ul class="photo-tag">
+						<li></li>
+					</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td ><textarea name="description" class="description" placeholder="Photo description" cols="80"></textarea></td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-right"><input type="submit" id="save-photo" value="Save"></td>
+				</tr>
+				<tr>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+			</table>
+		</form>
 	{/foreach}
-	<tr>
-		<td colspan="4" class="text-right">
-			<a href="{$SITE_URL}/?module=Dietary" class="button">Done</a>
-		</td>
-	</tr>
-</table>

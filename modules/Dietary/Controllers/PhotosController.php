@@ -21,6 +21,24 @@ class PhotosController extends DietaryController {
 
 
 	/*
+	 * -------------------------------------------------------------------------
+	 * AJAX call to delete tag from photo
+	 * -------------------------------------------------------------------------
+	 */
+	public function delete_tag() {
+		// Get the id for the tag by name
+		$tag = $this->loadModel('PhotoTag')->fetchByName(input()->tag_name);
+
+		// Delete the linked photo tag
+		if ($this->loadModel('PhotoLinkTag')->deleteLinkedTag(input()->photo_id, $tag->id)) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/*
 	 * Add photo info page
 	 *
 	 */
@@ -37,30 +55,84 @@ class PhotosController extends DietaryController {
 
 
 	/*
+	 * -------------------------------------------------------------------------
+	 *  Fetch the available photo tags
+	 * -------------------------------------------------------------------------
+	 */
+	public function fetchTags() {
+		$options = $this->loadModel('PhotoTag')->fetchAll();
+		json_return($options);
+
+	}
+
+
+
+	/*
 	 * Save the uploaded photo info
 	 *
 	 */
 	public function save_photo_info() {
-		//pr(input()); exit;
+		$success = false;
+
 		if (input()->photo_id != "") {
 			$photo = $this->loadModel("Photo", input()->photo_id);
 		} else {
 			$this->redirect(input()->current_url);
 		}
-		$photo->name = input()->name;
-		$photo->description = input()->description;
-		$photo->info_added = true;
-		$photo->tags = input()->tags;
 
-		if ($photo->save()) {
-			// when photos are uploaded, send an email to dietary managers?
-			//return true;
-			session()->setFlash("The photo info was successfully saved.", 'success');
-			$this->redirect(input()->current_url);
-		} else {
-			session()->setFlash("Could not save photo info.", 'error');
-			$this->redirect(input()->current_url);
+		// add the photo name
+		if (input()->name != "") {
+			$photo->name = input()->name;
 		}
+
+		// add description
+		if (input()->description != "") {
+			$photo->description = input()->description;
+		}
+
+		// we have added the info now
+		$photo->info_added = true;
+
+		if (isset (input()->approved)) {
+			$photo->approved = input()->approved;
+		}
+
+		// save the photo info
+		if ($photo->save()) {
+			// save the tags
+			foreach (input()->photo_tag as $tag) {
+				// create an empty object for the photo tag link
+				$photo_link_tag = $this->loadModel('PhotoLinkTag');
+
+				// set the photo id for the linked tag
+				$photo_link_tag->photo_id = $photo->id;
+
+				// check for pre-existing tags with the same name
+				$photo_tag = $this->loadModel('PhotoTag')->find_existing($tag);
+
+				// if an existing tag is found set the id equal to the existing tag
+				if (!empty ($photo_tag)) {
+					$photo_link_tag->tag_id = $photo_tag->id;
+				} else {
+					// if no tag is found we need to create it first
+					$new_photo_tag = $this->loadModel('PhotoTag');
+					$new_photo_tag->name = $tag;
+					$new_photo_tag->save();
+
+					// now we can set the id
+					$photo_link_tag->tag_id = $new_photo_tag->id;
+				}
+
+				$photo_link_tag->save();
+				$success = true;
+			}
+
+			if ($success) {
+				return true;
+			}
+			return false;
+		} 
+		return false;
 	}
 
 
@@ -72,7 +144,14 @@ class PhotosController extends DietaryController {
 	 */
 	public function view_photos() {
 		smarty()->assign('title', "View Photos");
-		$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
+
+		if (isset (input()->current_page)) {
+			$current_page = input()->current_page;
+		} else {
+			$current_page = false;
+		}
+
+		$photos = $this->loadModel("Photo")->paginateApprovedPhotos($current_page);
 		smarty()->assign('photos', $photos);
 	}
 
@@ -96,6 +175,11 @@ class PhotosController extends DietaryController {
 
 		smarty()->assign('title', "Manage Photos");
 		$photos = $this->loadModel("Photo")->fetchPhotosForApproval();
+
+		// fetch tags
+		foreach ($photos as $k => $p) {
+			$photos[$k]->tag = $this->loadModel('PhotoTag')->fetchTags($p->id); 
+		}
 		smarty()->assign('photos', $photos);
 	}
 
