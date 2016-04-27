@@ -94,7 +94,6 @@ class ActivitiesController extends MainPageController {
 
 
 	public function save_activity() {
-		
 		if (input()->activity_id != "") {
 			$activity = $this->loadModel('Activity', input()->activity_id);
 			$activity_schedule = $this->loadModel('ActivitySchedule')->fetchSchedule($activity->id);
@@ -104,7 +103,6 @@ class ActivitiesController extends MainPageController {
 		}
 		$feedback = array();
 		
-
 		// if there is no location we don't know where to create the activity
 		if (input()->location == "") {
 			session()->setFlash("You must select a facility for this activity.", 'error');
@@ -149,23 +147,27 @@ class ActivitiesController extends MainPageController {
 			$activity_schedule->daily = false;
 		}
 		//Probably could refactor this to just have input()->allDay be the value
-		if(input()->all_day == "true"){
-			$activity_schedule->all_day = 1;
-		}
-		else{
-			$activity_schedule->all_day = 0;
+		if (isset (input()->all_day)) {
+			if(input()->all_day == "true"){
+				$activity_schedule->all_day = 1;
+			}
+			else{
+				$activity_schedule->all_day = 0;
+			}	
 		}
 		// BREAKPOINT
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'error');
 			$this->redirect(input()->current_url);
 		}
+
+		$activity->user_id = auth()->getRecord()->id;
 		
 		if ($activity->save()) {
 			$activity_schedule->activity_id = $activity->id;
 			if ($activity_schedule->save()) {
 				session()->setFlash("The activity was saved", 'success');
-				$this->redirect();				
+				$this->redirect(array("module" => $this->module));				
 			}
 			//}
 		} else {
