@@ -104,7 +104,11 @@ class MenuItem extends Dietary {
 	 * -------------------------------------------------------------------------
 	 */
 	public function deleteMenuItems($menu_id) {
-		$sql = "DELETE FROM {$this->tableName()} WHERE menu_id = :menu_id";
+		$menu = $this->loadTable('Menu');
+		$menu_mod = $this->loadTable('MenuMod');
+		$menu_change = $this->loadTable('MenuChange');
+
+		$sql = "DELETE m, mi, mm, mc FROM {$menu->tableName()} m INNER JOIN {$this->tableName()} mi ON mi.menu_id = m.id LEFT JOIN {$menu_mod->tableName()} mm ON mm.menu_item_id = mi.id LEFT JOIN {$menu_change->tableName()} mc ON mc.menu_item_id = mi.id WHERE m.id = :menu_id";
 		$params[":menu_id"] = $menu_id;
 
 		if ($this->deleteQuery($sql, $params)) {

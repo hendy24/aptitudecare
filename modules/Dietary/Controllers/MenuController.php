@@ -111,8 +111,8 @@ class MenuController extends DietaryController {
 			$menuChange = false;
 			$origMenuItem = $this->loadModel('MenuItem', input()->public_id);
 		}
-		
-		
+
+
 		// if there was no reason for a menu change entered throw an error
 		if (input()->reason == "") {
 			session()->setFlash("You must enter the reason for the menu change.", 'error');
@@ -147,7 +147,7 @@ class MenuController extends DietaryController {
 			session()->setFlash("Could not save the menu information. Please try again.", 'error');
 			$this->redirect(input()->path);
 		}
-		
+
 
 	}
 
@@ -157,7 +157,7 @@ class MenuController extends DietaryController {
 	 *  EDIT MENU FROM THE CORPORATE MENU PAGE
 	 * -------------------------------------------------------------------------
 	 *
-	 * This will allow editing of the corporate menu for all facilities or for 
+	 * This will allow editing of the corporate menu for all facilities or for
 	 * selected locations.
 	 *
 	 */
@@ -189,9 +189,8 @@ class MenuController extends DietaryController {
 		if (isset (input()->location)) {
 			$location = $this->loadModel('Location', input()->location);
 		} else {
-			$location = false;
+			$location = $this->loadModel('Location');
 		}
-
 
 		$allLocations = $this->loadModel('Location')->fetchFacilities();
 
@@ -203,11 +202,11 @@ class MenuController extends DietaryController {
 		smarty()->assign('menuMod', $menuMod);
 
 		if (input()->is('post')) {
-			
+
 			// determine if this edit is for all locations or only those selected
 			if (input()->edit_type == "corp_menu") {
 				// this edit is for all locations
-				// set the menu item variables	
+				// set the menu item variables
 				$menuItem->content = $this->validateMenuContent();
 
 				if ($menuItem->save()) {
@@ -235,7 +234,7 @@ class MenuController extends DietaryController {
 				if (empty ($location)) {
 					session()->setFlash("You must select the location(s) for which you want to make the change", 'error');
 					$this->redirect(input()->path);
-				} 
+				}
 
 
 				$flash_message = array();
@@ -267,16 +266,16 @@ class MenuController extends DietaryController {
 
 				$this->corpPageRedirect();
 
-			}			
+			}
 		}
 
 	}
 
 
-	public function meal_order_form() {  
+	public function meal_order_form() {
 
 		$this->template = "pdf";
-		
+
 		smarty()->assign('title', "Meal Order Form");
 
 		if (isset (input()->start_date)) {
@@ -330,8 +329,8 @@ class MenuController extends DietaryController {
 		} else {
 			$alternatesArray = explode("; ", $alternates->content);
 		}
-		
-		smarty()->assignByRef("alternates", $alternatesArray);		
+
+		smarty()->assignByRef("alternates", $alternatesArray);
 	}
 
 

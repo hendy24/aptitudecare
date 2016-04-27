@@ -53,4 +53,13 @@ class Photo extends Dietary {
 	}
 
 
+	/*
+	 * -------------------------------------------------------------------------
+	 *  FETCH PHOTOS USING SEARCH KEYWORDS
+	 * -------------------------------------------------------------------------
+	 */
+	public function fetchPhotosBySearch($term) {
+
+	}
+
 }

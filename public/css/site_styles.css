@@ -539,6 +539,7 @@ table#patient-info a:hover {
 #image-container {
 	width: 80%;
 	margin: auto;
+	text-align: center;
 }
 
 .photo-image {

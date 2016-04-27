@@ -6,7 +6,7 @@
 	<input type="hidden" name="menu" value="{$menu->public_id}">
 	<input type="hidden" name="current_url" value="{$current_url}">
 
-	<table class="form">
+	<table class="center">
 		<tr>
 			<td>Menu Name:</td>
 			<td><input type="text" name="name" value="{$menu->name}"></td>

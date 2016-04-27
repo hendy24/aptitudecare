@@ -25,5 +25,15 @@ class PhotoTag extends Dietary {
 		$params[":tag_name"] = $tag_name;
 		return $this->fetchOne($sql, $params);
 	}
+
+
+	public function fetchBySearch($term) {
+		$dietary_photo = $this->loadTable('Photo');
+
+		// $sql = "(SELECT pt.name FROM {$this->tableName()} pt WHERE pt.name LIKE :term) UNION (SELECT p.name FROM {$dietary_photo->tableName()} p WHERE p.name LIKE :term) UNION (SELECT p.description FROM {$dietary_photo->tableName()} p WHERE description LIKE :term)";
+		$sql = "SELECT DISTINCT p.filename, p.name, p.description FROM dietary_photo p LEFT JOIN dietary_photo_link_tag plt ON plt.photo_id = p.id LEFT JOIN dietary_photo_tag pt ON pt.id = plt.tag_id WHERE p.name LIKE :term OR pt.name LIKE :term";
+		$params[":term"] = "%" . $term . "%";
+		return $this->fetchAll($sql, $params);
+	}
 		
 }

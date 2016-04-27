@@ -55,19 +55,6 @@ class PhotosController extends DietaryController {
 
 
 	/*
-	 * -------------------------------------------------------------------------
-	 *  Fetch the available photo tags
-	 * -------------------------------------------------------------------------
-	 */
-	public function fetchTags() {
-		$options = $this->loadModel('PhotoTag')->fetchAll();
-		json_return($options);
-
-	}
-
-
-
-	/*
 	 * Save the uploaded photo info
 	 *
 	 */
@@ -159,6 +146,16 @@ class PhotosController extends DietaryController {
 		$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
 		echo json_encode($photos);
 		exit;
+	}
+
+
+	public function search_photos() {
+		if (input()->term != "") {
+			$tags = $this->loadModel('PhotoTag')->fetchBySearch(input()->term);
+			json_return($tags);
+		}
+		
+		return false;
 	}
 
 
