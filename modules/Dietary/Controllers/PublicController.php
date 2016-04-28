@@ -7,7 +7,6 @@ class PublicController extends DietaryController {
 	public function index() {
 		// need to allow access to this page when user is not logged it.
 		$user = auth()->getRecord();
-
 		// get the location
 		if (isset (input()->location)) {
 			$location = $this->loadModel("Location", input()->location);
