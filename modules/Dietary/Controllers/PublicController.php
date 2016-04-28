@@ -3,7 +3,21 @@
 class PublicController extends DietaryController {
 
 	public $template = "public";
+	public $allow_access = array('index', 'no_access');
 
+
+
+
+/*
+ * -----------------------------------------------------------------------------
+ * PUBLIC PAGE MAIN page
+ * -----------------------------------------------------------------------------
+ * This page displays the menu and activities indended to be accessed from an
+ * internet connected TV in the faciliity dining room. Access to this page is
+ * restricted to logged in users or by IP address. The IP addresses for
+ * facilities are located in the ac_ip_address db table.
+ *
+ */
 	public function index() {
 		// need to allow access to this page when user is not logged it.
 		$user = auth()->getRecord();
@@ -15,8 +29,15 @@ class PublicController extends DietaryController {
 			$location = $this->loadModel("Location", $user->default_location);
 		} else {
 			// check access to the page based on the IP address
-		}
+			$current_ip = $_SERVER['REMOTE_ADDR'];
+			$ip_address = $this->loadModel('IpAddress')->fetchByIp($current_ip);
+			if (empty($ip_address)) {
+				$this->redirect(array("module" => "Dietary", "page" => "public", "action" => "no_access"));
+			} else {
+				$location = $this->loadModel("Location", $ip_address->location_id);
+			}
 
+		}
 
 		// get the correct time for the selected location
 		date_default_timezone_set($location->timezone);
@@ -26,21 +47,18 @@ class PublicController extends DietaryController {
 		} else {
 			$start_date = date("Y-m-d", strtotime("now"));
 		}
-		
+
 		if (isset (input()->end_date)) {
 			$end_date = date("Y-m-d", strtotime(input()->end_date));
 		} else {
 			$end_date = date("Y-m-d", strtotime("now"));
 		}
 
-
 		smarty()->assign('startDate', $start_date);
-
 
 		$urlDate = date('m/d/Y', strtotime($start_date));
 		$printDate = date("l, F j, Y", strtotime($start_date));
 		smarty()->assign('urlDate', $urlDate);
-
 
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel("Menu")->fetchMenu($location->id, $start_date);
@@ -58,7 +76,6 @@ class PublicController extends DietaryController {
 		$menuItems = $this->loadModel("MenuItem")->fetchMenuItems($location->id, $start_date, $end_date, $startDay, $startDay, $menu->menu_id);
 		$this->normalizeMenuItems($menuItems);
 
-
 		// get alternates
 		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
 
@@ -73,14 +90,21 @@ class PublicController extends DietaryController {
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date, 4);
 		smarty()->assignByRef('weekActivities', $activities);
 
-		// foreach ($activities as $activity) {
-		// 	if (is_array ($activity)) {
-		// 		foreach ($activity as $a) {
-		// 			pr ($a);
-		// 		}
-		// 	}
-		// }
-
-		// exit;
 	}
+
+
+
+/*
+ * -----------------------------------------------------------------------------
+ * NO ACCESS ERROR PAGE
+ * -----------------------------------------------------------------------------
+ * Unless a user trying to access the menu page is logged in or is accessing the
+ * page from within a facility they will be re-directed to this error page.
+ *
+ */
+	public function no_access() {
+
+	}
+
+
 }
