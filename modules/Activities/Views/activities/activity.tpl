@@ -105,7 +105,7 @@
 	<input type="hidden" name="location" value="{$location->public_id}">
 	<input type="hidden" name="activity_id" id="activity-id" value="{$activity->public_id}">
 	<input type="hidden" name="current_url" value="{$current_url}">
-	<table class="form">
+	<table class="center">
 
 		{if $activity->repeat_week != ""}
 		<tr>
@@ -153,7 +153,7 @@
 					<option value="">None</option>
 					<option value="daily" {if $activity->daily} selected{/if}>Daily</option>
 					<option value="weekly" {if $activity->repeat_weekday != ""} selected{/if}>Weekly</option>
-					<option value="monthly" {if $activity->repeat_week != ""} selected{/if}>Monthly</option>
+					{* <option value="monthly" {if $activity->repeat_week != ""} selected{/if}>Monthly</option> *}
 				</select>
 			</td>
 		</tr>

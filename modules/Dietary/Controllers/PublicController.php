@@ -7,7 +7,6 @@ class PublicController extends DietaryController {
 	public function index() {
 		// need to allow access to this page when user is not logged it.
 		$user = auth()->getRecord();
-
 		// get the location
 		if (isset (input()->location)) {
 			$location = $this->loadModel("Location", input()->location);
@@ -19,12 +18,15 @@ class PublicController extends DietaryController {
 		}
 
 
+		// get the correct time for the selected location
+		date_default_timezone_set($location->timezone);
+
 		if (isset (input()->start_date)) {
 			$start_date = date("Y-m-d", strtotime(input()->start_date));
 		} else {
 			$start_date = date("Y-m-d", strtotime("now"));
 		}
-
+		
 		if (isset (input()->end_date)) {
 			$end_date = date("Y-m-d", strtotime(input()->end_date));
 		} else {
@@ -66,7 +68,6 @@ class PublicController extends DietaryController {
 		smarty()->assignByRef("alternates", $alternates);
 		smarty()->assignByRef('location', $location);
 		smarty()->assign('locationDetail', $locationDetail);
-
 
 		// Fetch the activities for the date range
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date, 4);

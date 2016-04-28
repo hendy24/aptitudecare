@@ -1,3 +1,16 @@
+<style>
+	h2, input {
+		display: inline;
+	}
+	.cal-icon {
+		margin-top: 10px;
+		position: absolute;
+	}
+	div.date-header {
+		text-align: center;
+		margin: auto;
+	}
+</style>
 <script>
 	$(function() {
 		$("#datepicker").datepicker({
@@ -27,7 +40,10 @@
 </div>
 
 <h1>Activities</h1>
-<h2>{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"}<div style="margin: 15px"><input type="hidden" id="datepicker"></div></h2>
+<div class="date-header">
+	<h2>{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"} &nbsp;<input type="hidden" id="datepicker"></h2>
+</div>
+<div class="text-center"><a href="{$SITE_URL}/?module=Activities&amp;date={$previousWeek}">&laquo; Previous Week</a> &nbsp;&nbsp; <a href="{$SITE_URL}/?module=Activities&amp;date={$nextWeek}">Next Week &raquo;</a></div>
 
 <div id="activities">
 	<table class="activities">

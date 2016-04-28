@@ -20,7 +20,21 @@ class Activity extends Info {
 		
 		$act_s = $this->loadTable('ActivitySchedule');
 
-		$sql = "SELECT a.*, act_s.* FROM {$this->tableName()} a INNER JOIN {$act_s->tableName()} AS act_s ON act_s.activity_id = a.id WHERE a.location_id = :location_id AND act_s.date_start >= :start_date AND act_s.date_start <= :end_date OR act_s.repeat_week = :repeat_week AND act_s.repeat_weekday = :repeat_weekday AND act_s.date_start <= :start_date AND a.location_id = :location_id OR act_s.repeat_weekday = :repeat_weekday AND act_s.date_start <= :start_date AND a.location_id = :location_id ORDER BY act_s.date_start ASC limit 7";
+		$sql = "SELECT a.*, act_s.* 
+					FROM {$this->tableName()} a 
+					INNER JOIN {$act_s->tableName()} AS act_s ON act_s.activity_id = a.id 
+					WHERE a.location_id = :location_id 
+					AND 
+					(
+						act_s.date_start >= :start_date AND act_s.date_start <= :end_date
+						OR 
+						act_s.repeat_week = :repeat_week AND act_s.repeat_weekday = :repeat_weekday AND act_s.date_start <= :start_date
+						OR 
+						act_s.repeat_week IS NULL AND act_s.repeat_weekday = :repeat_weekday AND act_s.date_start <= :start_date 
+						OR
+						act_s.daily = 1
+					)
+					ORDER BY act_s.date_start";
 
 
 		for ($i=0; $i < $num_days; $i++) {
@@ -31,7 +45,6 @@ class Activity extends Info {
 				":repeat_week"			=>		ceil (date("j", strtotime("{$start_date} + {$i} days"))/7),
 				":repeat_weekday"		=> 		date("w", strtotime("{$start_date} + {$i} days"))
 			);
-
 			$result = $this->fetchAll($sql, $params);
 
 			if (empty ($result)) {
