@@ -24,10 +24,19 @@ class ActivitiesController extends MainPageController {
 		// set the start and end dates for the week view
 		if (isset (input()->date)) {
 			$start_date = date("Y-m-d", strtotime(input()->date));
+			// check if the day is a Sunday, if not find date for the previous Sunday
+			if (date("l", strtotime($start_date)) != "Sunday") {
+				$start_date = date("Y-m-d", strtotime($start_date . " previous Sunday"));
+			}
 		} else {
 			$start_date = date("Y-m-d", strtotime("previous Sunday"));
 		}
 		$end_date = date("Y-m-d", strtotime("{$start_date} + 6 days"));
+
+		// assign dates for last and next week
+		$previous_week = date("m/d/Y", strtotime($start_date . "- 7 days"));
+		$next_week = date("m/d/Y", strtotime($start_date . "+ 7 days"));
+
 
 
 		// fetch activities for the selected location
@@ -46,6 +55,9 @@ class ActivitiesController extends MainPageController {
 
 		smarty()->assign('startDate', $start_date);
 		smarty()->assign('endDate', $end_date);
+		smarty()->assign('previousWeek', $previous_week);
+		smarty()->assign('nextWeek', $next_week);
+
 	}
 
 
@@ -136,7 +148,8 @@ class ActivitiesController extends MainPageController {
 				$activity_schedule->daily = false;
 			}
 			if (input()->repeat_type == "monthly") {
-				$activity_schedule->repeat_week = ceil(date("j", strtotime(input()->date_start)));
+				//$activity_schedule->repeat_week = ceil(date("j", strtotime(input()->date_start)));
+				$activity_schedule->repeat_week = ceil(date("j", strtotime(input()->date_start))/7);
 				$activity_schedule->daily = false;
 			}
 
@@ -155,6 +168,7 @@ class ActivitiesController extends MainPageController {
 				$activity_schedule->all_day = 0;
 			}	
 		}
+		pr ($activity_schedule); exit;
 		// BREAKPOINT
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'error');
@@ -174,8 +188,30 @@ class ActivitiesController extends MainPageController {
 			session()->setFlash("Could not save the activity. Please try again", 'error');
 			$this->redirect(input()->current_url);
 		}
+	}
 
 
+	public function getWeek($date, $rollover = false) {
+		$cut = substr($date, 0, 8);
+		$daylen = 86400;
+
+		$timestamp = strtotime($date);
+		$first = strtotime($cut . "00");
+		$elapsed = ($timestamp - $first) / $daylen;
+
+		$weeks = 1;
+
+		for ($i=1; $i<=$elapsed; $i++) {
+			$dayfind = $cut . (strlen($i) < 2 ? '0' . $i : $i);
+			$dattimestamp = strtotime($dayfind);
+
+			$day = strtolower(date("l", $dattimestamp));
+
+			if ($day == strtolower($rollover)) {
+				$weeks++;
+			}
+		}
+		return $weeks;
 	}
 
 	//edit_activity is currently not used

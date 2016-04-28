@@ -153,7 +153,7 @@
 					<option value="">None</option>
 					<option value="daily" {if $activity->daily} selected{/if}>Daily</option>
 					<option value="weekly" {if $activity->repeat_weekday != ""} selected{/if}>Weekly</option>
-					<option value="monthly" {if $activity->repeat_week != ""} selected{/if}>Monthly</option>
+					{* <option value="monthly" {if $activity->repeat_week != ""} selected{/if}>Monthly</option> *}
 				</select>
 			</td>
 		</tr>
