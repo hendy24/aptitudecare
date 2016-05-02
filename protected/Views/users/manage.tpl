@@ -107,6 +107,32 @@
 </table>
 
 
+{if isset ($pagination)}
+	<div id="pagination">
+		{if $pagination->current_page != 1}
+			<a href="{$SITE_URL}?page=users&amp;action=manage&amp;location={$location_id}&amp;page_count={$pagination->current_page - 1}">&laquo;&nbsp; Previous</a>
+		{/if}
+		{for $i=max($pagination->current_page-5, 1); $i<=max(1, min($pagination->num_pages,$pagination->current_page+5)); $i++}
+			{if $i == $pagination->current_page}
+				<strong><a href="{$SITE_URL}?page=users&amp;action=manage&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a></strong>
+			{else}
+				<a href="{$SITE_URL}?page=users&amp;action=manage&amp;location={$location_id}&amp;page_count={$i}" class="page-numbers">{$i}</a>
+			{/if}
+		{/for}
+		{if $pagination->current_page != $pagination->num_pages}
+			<a href="{$SITE_URL}?page=users&amp;action=manage&amp;location={$location_id}&amp;page_count={$pagination->current_page + 1}">Next &nbsp;&raquo;</a>
+		{/if}
+	</div>
+	{if $pagination->num_pages > 20}
+	<div id="beginning-end">
+		<a href="{$SITE_URL}?page=users&amp;action=manage&amp;location={$location_id}&amp;page_count=1" class="page-numbers">First Page</a>
+		<a href="{$SITE_URL}?page=users&amp;action=manage&amp;location={$location_id}&amp;page_count={floor($pagination->num_pages)}" class="page-numbers">Last Page</a>
+	</div>
+	{/if}
+{/if}
+
+
+
 <div id="dialog" title="Confirmation Required">
 	<p>Are you sure you want to delete this item? This cannot be undone.</p>
 </div>

@@ -24,7 +24,6 @@
 					$("#page-links").empty();
 					$.each(data, function(key, value) {
 						$container.append('<a class="fancybox image-item" rel="fancybox-thumb" href="' + SITE_URL + '/files/dietary_photos/' + value.filename + '" title="' + value.name + '": "' + value.description + '"> <img src="' + SITE_URL + '/files/dietary_photos/thumbnails/' + value.filename + '" class="photo-image" alt=""></a>');
-						console.log(value.filename);
 					});
 				},
 				dataType: "json"
@@ -34,6 +33,7 @@
 		$("#search-pictures").keyup(function() {
 			clearTimeout(timeoutID);
 			var $target = $(this);
+			console.log($target.val());
 			timeoutID = setTimeout(function() { findPhotos($target.val()); }, 500);
 		});
 

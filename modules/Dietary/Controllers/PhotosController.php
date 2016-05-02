@@ -153,6 +153,9 @@ class PhotosController extends DietaryController {
 		if (input()->term != "") {
 			$tags = $this->loadModel('PhotoTag')->fetchBySearch(input()->term);
 			json_return($tags);
+		} else {
+			$ags = $this->loadModel('PhotoTag')->fetchAll();
+			json_return($tags);
 		}
 		
 		return false;
