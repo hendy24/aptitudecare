@@ -38,6 +38,8 @@ class PatientInfo extends Dietary {
 		$patient_other = $this->loadTable('PatientOther');
 		$other = $this->loadTable('Other');
 		$dislike = $this->loadTable('Dislike');
+		$adapt_equip = $this->loadTable('AdaptEquip');
+		$patient_adapt_equip = $this->loadTable('PatientAdaptEquip');
 
 
 		// set params for the query
@@ -54,7 +56,8 @@ class PatientInfo extends Dietary {
 					pi.special_requests,
 					(SELECT GROUP_CONCAT(a.name separator ', ') FROM {$allergy->tableName()} AS a INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = a.id WHERE pfi.patient_id = :patient_id) AS allergies,
 					(SELECT GROUP_CONCAT(o.name separator ', ') FROM {$other->tableName()} AS o INNER JOIN {$patient_other->tableName()} po ON po.other_id = o.id WHERE po.patient_id = :patient_id) AS orders,
-					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = :patient_id) AS dislikes
+					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = :patient_id) AS dislikes,
+					(SELECT GROUP_CONCAT(ae.name separator ', ') FROM {$adapt_equip->tableName()} AS ae INNER JOIN {$patient_adapt_equip->tableName()} pae ON pae.adapt_equip_id = ae.id WHERE pae.patient_id = :patient_id) AS adapt_equip
 				FROM {$this->tableName()} AS pi
 					INNER JOIN {$patient->tableName()} 				p ON p.id = pi.patient_id
 					INNER JOIN {$schedule->tableName()} 			s ON s.patient_id = pi.patient_id

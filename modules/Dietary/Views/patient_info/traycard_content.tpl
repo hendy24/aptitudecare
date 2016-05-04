@@ -17,6 +17,14 @@
         <td>{$item->textures}</td>
       </tr>
       <tr>
+        <td class="text-strong">Adaptive Equipment:</td>
+        <td>{$item->adapt_equip}</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Special Requests:</td>
+        <td>{$item->special_reqs}</td>
+      </tr>
+      <tr>
         <td class="text-strong">Portion Size:</td>
         <td>{$item->portion_size}</td>
       </tr>
@@ -41,10 +49,6 @@
         <td>{$item->dislikes}</td>
       </tr>
       <tr>
-        <td class="text-strong" width="150">Percent Consumed:</td>
-        <td class="text-center text-10" style="padding-top:9px;">0-25 &nbsp;&nbsp; 26-50 &nbsp;&nbsp; 51-75 &nbsp;&nbsp; 76-100</td>
-      </tr>
-      <tr>
         <td colspan="2">&nbsp;</td>
       </tr>
       <tr>
@@ -53,9 +57,21 @@
       <tr>
         <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
       </tr>
-    </table>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center"><img src="{$IMAGES}/ahc_logo.png" width="200px" alt=""></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <div class="logo-footer">
-      <img src="{$IMAGES}/ahc_logo.png" width="200px" alt="">
-    </div>
+      <tr>
+        <td class="text-strong" width="150">Percent Consumed:</td>
+        <td class="text-center text-10" style="padding-top:9px;">0-25 &nbsp;&nbsp; 26-50 &nbsp;&nbsp; 51-75 &nbsp;&nbsp; 76-100</td>
+      </tr>
+    </table>
   </div>

@@ -339,7 +339,6 @@ class PatientInfoController extends DietaryController {
 			$feedback[] = "Diet order has not been entered";
 		}
 
-
 		// set texture array
 		if (!empty (input()->texture)) {
 			// check if the patient already has an "other" item saved. 
@@ -348,8 +347,10 @@ class PatientInfoController extends DietaryController {
 			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
 
 			foreach (input()->texture as $item) {
-				$texture_item = $this->loadModel("Texture")->fetchByName($item, true);
-				$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
+				if ($item != "") {
+					$texture_item = $this->loadModel("Texture")->fetchByName($item, true);
+					$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
+				}
 
 				if ($patientTexture->patient_id == "") {
 					$patientTexture->patient_id = $patient->id;
@@ -562,7 +563,6 @@ class PatientInfoController extends DietaryController {
 
 		$meal_names = array(0 => "Breakfast", 1 => "Lunch", 2 => "Dinner");
 		
-
 		if (input()->patient == 'all') {
 			foreach ($tray_card_info as $key => $tci) {
 				for ($i=0;$i<3;$i++) {
@@ -651,7 +651,6 @@ class PatientInfoController extends DietaryController {
 			}
 			$all_tray_cards = false;
 		}
-
 
 		smarty()->assign('trayCardCols', $tray_card_cols);
 		// smarty()->assign('patient', $patient);

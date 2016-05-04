@@ -37,7 +37,7 @@ class PatientTexture extends Dietary {
     $sql = "SELECT * FROM {$this->tableName()} where patient_id = :patient_id AND texture_id = :texture_id";
     $params = array(":patient_id" => $patient_id, ":texture_id" => $texture_id);
     $result = $this->fetchOne($sql, $params);
-
+    
     if (!empty ($result)) {
       return $result;
     } else {
