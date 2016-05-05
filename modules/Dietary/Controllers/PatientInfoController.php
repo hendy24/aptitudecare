@@ -217,11 +217,10 @@ class PatientInfoController extends DietaryController {
 					$patient_spec_req->special_req_id = $spec_req->id;
 					$patient_spec_req->meal = "Breakfast";
 					$spec_reqs_array[] = $patient_spec_req;
-				}
+				} 
 
 			}
 		}
-
 		if (!empty (input()->lunch_specialrequest)) {
 			foreach (input()->lunch_specialrequest as $item) {
 				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
@@ -350,6 +349,8 @@ class PatientInfoController extends DietaryController {
 				if ($item != "") {
 					$texture_item = $this->loadModel("Texture")->fetchByName($item, true);
 					$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
+				} else {
+					$feedback[] = "Diet texture has not been entered";
 				}
 
 				if ($patientTexture->patient_id == "") {

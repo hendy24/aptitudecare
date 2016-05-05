@@ -35,6 +35,8 @@ class PatientSpecialReq extends Dietary {
 		$sql = "SELECT * FROM {$this->tableName()} WHERE patient_id = :patient_id AND special_req_id = :special_req_id";
 		$params = array(":patient_id" => $patient_id, ":special_req_id" => $special_req_id);
 
+		$result = $this->fetchOne($sql, $params);
+
 		if (!empty ($result)) {
 			return $result;
 		} else {
