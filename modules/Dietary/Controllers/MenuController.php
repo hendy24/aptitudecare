@@ -278,6 +278,18 @@ class MenuController extends DietaryController {
 
 		smarty()->assign('title', "Meal Order Form");
 
+		// Get the selected facility. If no facility has been selected return the users' default location
+
+		if (isset (input()->location)) {
+			$location = $this->loadModel("Location", input()->location);
+		} else {
+			$location = $this->getLocation();
+		}
+
+		// get the correct time for the selected location
+		date_default_timezone_set($location->timezone);
+
+
 		if (isset (input()->start_date)) {
 			$start_date = date("Y-m-d", strtotime(input()->start_date));
 		} else {
@@ -296,14 +308,6 @@ class MenuController extends DietaryController {
 		$printDate = date("l, F j, Y", strtotime($start_date));
 		smarty()->assign('urlDate', $urlDate);
 
-
-		// Get the selected facility. If no facility has been selected return the users' default location
-
-		if (isset (input()->location)) {
-			$location = $this->loadModel("Location", input()->location);
-		} else {
-			$location = $this->getLocation();
-		}
 
 		// Get the menu id the facility is currently using
 		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $start_date);

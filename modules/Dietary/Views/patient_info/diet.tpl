@@ -672,11 +672,13 @@
 						<td><input type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}> &nbsp;AHA/Cardiac</td>
 						<td><input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}> &nbsp;No Added Salt</td>
 						<td><input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}> &nbsp;Renal</td>
+
 					</tr>
 					<tr class="input-checkboxes">
 						<td><input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}> &nbsp;2 gram Na</td>
 						<td><input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}> &nbsp;Fortified/High Calorie</td>
-						<td colspan="2"><input type="text" name="diet_order[]" class="other-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}"></td>
+						<td><input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}> &nbsp;RCS</td>
+						<td colspan="4"><input type="text" name="diet_order[]" class="other-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}"></td>
 					</tr>
 				</table>
 			</td>
