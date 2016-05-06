@@ -148,7 +148,26 @@ class ReportsController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function diet_census() {
+		// get the location
+		if (input()->location != "") {
+			$location = $this->loadModel('Location', input()->location);
+		} else {
+			session()->setFlash("Could not get the diet census for the selected location", 'error');
+			$this->redirect(array('module' => $this->module));
+		}
 		
+		if (!auth()->isLoggedIn()) {
+			$this->template = "pdf";
+			$is_pdf = true;
+		} else {
+			$is_pdf = false;
+		}
+
+		// need to get patients room number and name with the diet order, texture and liquid
+		$diet_census = $this->loadModel('PatientDietOrder')->fetchPatientCensus($location->id);
+		smarty()->assign('dietCensus', $diet_census);
+		smarty()->assign('isPDF', $is_pdf);
+
 	}
 
 /*
