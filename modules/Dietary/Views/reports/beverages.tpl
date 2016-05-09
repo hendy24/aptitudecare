@@ -19,14 +19,15 @@
 
 
 <table class="form">
+  {foreach from=$beverages item=beverage key=meal}
   <tr>
-    <th width="200">Beverage</th>
-    <th width="50">Count</th>
+    <th colspan="2" width="50%">{$meal}</th>
   </tr>
-  {foreach from=$beverages item=beverage}
+  {foreach from=$beverage item=bev} 
   <tr>
-    <td>{$beverage->name}</td>
-    <td>{$beverage->quantity}</td>
+    <td>{$bev["name"]}</td>
+    <td class="text-right">{$bev["num"]}</td>
   </tr>
+  {/foreach}
   {/foreach}
 </table>

@@ -133,9 +133,14 @@ class ReportsController extends DietaryController {
 		}
 
 		// get beverages
-		$beverages = $this->loadModel("PatientBeverage")->fetchBeverageReport($location, $date);
+		$beverages = $this->loadModel("Beverage")->fetchBeverageReport($location, $date);
 
-		smarty()->assign('beverages', $beverages);
+		$bev_array = array();
+		foreach ($beverages as $bev) {
+			$bev_array[$bev->meal][] = array("num" => $bev->num, "name" => $bev->name);
+		}
+
+		smarty()->assign('beverages', $bev_array);
 		smarty()->assign('location', $location);
 		smarty()->assign('isPDF', $is_pdf);
 	}
