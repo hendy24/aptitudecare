@@ -1,3 +1,15 @@
+<script>
+	$(document).ready(function() {
+		$(".order").click(function(e) {
+			e.preventDefault();
+			var id = $(this).attr("id");
+			var url = SITE_URL + "/?module=Dietary&page=reports&action=diet_census&location=" + $("#location").val() + "&orderby=" + id;
+			window.location = url;
+		}); 
+	});
+</script>
+
+
 <div id="page-header">
 	<div id="action-left">&nbsp;</div>
 	<div id="center-title">
@@ -8,20 +20,22 @@
 	</div>
   <div id="action-right">
   	{if $auth->isLoggedIn()}
-  	<a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=diet_census&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+  	<a href="{$pageUrl}&amp;pdf=true" target="_blank">
   		<img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
   	</a>
   	{/if}
   </div>
 </div>
 
+<input type="hidden" id="location" name="location" value="{$location->public_id}">
+<input type="hidden" id="current-url" name="current_url" value="{$current_url}">
 <table class="form">
 	<tr>
-		<th>Room</th>
-		<th>Patient Name</th>
-		<th>Diet Order</th>
-		<th>Texture</th>
-		<th>Liquid Consistency</th>
+		<th><a href="" id="room" class="order">Room</a></th>
+		<th><a href="" id="patient_name" class="order">Patient Name</a></th>
+		<th><a href="" id="diet_order" class="order">Diet Order</a></th>
+		<th><a href="" id="texture" class="order">Texture</a></th>
+		<th><a href="" id="liquid_consistency" class="order">Liquid Consistency</a></th>
 	</tr>
 	{foreach from=$dietCensus item=diet}
 	<tr>

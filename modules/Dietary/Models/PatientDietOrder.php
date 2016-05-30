@@ -45,7 +45,7 @@ class PatientDietOrder extends Dietary {
     }
   }
 
-  public function fetchPatientCensus($location_id) {
+  public function fetchPatientCensus($location_id, $order_by = false) {
     $patient = $this->loadTable('Patient');
     $patient_info = $this->loadTable('PatientInfo');
     $schedule = $this->loadTable('Schedule');
@@ -69,10 +69,10 @@ class PatientDietOrder extends Dietary {
               LEFT JOIN {$diet_order->tableName()} do ON do.id = pdo.diet_order_id
               LEFT JOIN {$patient_texture->tableName()} pt ON p.id 
               LEFT JOIN {$texture->tableName()} t ON t.id = pt.texture_id 
-            WHERE pi.location_id = :location_id GROUP BY p.id ORDER BY r.number";
+            WHERE pi.location_id = :location_id GROUP BY p.id ORDER BY {$order_by} ASC";
+
 
     $params[":location_id"] = $location_id;
-
     return $this->fetchAll($sql, $params);
   }
 

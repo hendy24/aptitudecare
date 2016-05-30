@@ -168,9 +168,16 @@ class ReportsController extends DietaryController {
 			$is_pdf = false;
 		}
 
+		if (isset (input()->orderby)) {
+			$order_by = input()->orderby;
+		} else {
+			$order_by = "room";
+		}
+
 		// need to get patients room number and name with the diet order, texture and liquid
-		$diet_census = $this->loadModel('PatientDietOrder')->fetchPatientCensus($location->id);
+		$diet_census = $this->loadModel('PatientDietOrder')->fetchPatientCensus($location->id, $order_by);
 		smarty()->assign('dietCensus', $diet_census);
+		smarty()->assign('pageUrl', $this->getUrl());
 		smarty()->assign('isPDF', $is_pdf);
 
 	}
