@@ -44,9 +44,9 @@ class PatientInfoController extends DietaryController {
 
 
 		// Fetch beverages for each meal
-		$breakfast_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Breakfast");
-		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Lunch");
-		$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, "Dinner");
+		$breakfast_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 1);
+		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 2);
+		$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 3);
 
 		$adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
 		$supplements = $this->loadModel("PatientSupplement")->fetchPatientSupplement($patient->id);
@@ -262,7 +262,7 @@ class PatientInfoController extends DietaryController {
 				if ($patientBeverage->patient_id == "") {
 					$patientBeverage->patient_id = $patient->id;
 					$patientBeverage->beverage_id = $beverage->id;
-					$patientBeverage->meal = "Breakfast";
+					$patientBeverage->meal = 1;
 					$beveragesArray[] = $patientBeverage;
 				}
 			}
@@ -277,7 +277,7 @@ class PatientInfoController extends DietaryController {
 				if ($patientBeverage->patient_id == "") {
 					$patientBeverage->patient_id = $patient->id;
 					$patientBeverage->beverage_id = $beverage->id;
-					$patientBeverage->meal = "Lunch";
+					$patientBeverage->meal = 2;
 					$beveragesArray[] = $patientBeverage;
 				}
 			}
@@ -292,7 +292,7 @@ class PatientInfoController extends DietaryController {
 				if ($patientBeverage->patient_id == "") {
 					$patientBeverage->patient_id = $patient->id;
 					$patientBeverage->beverage_id = $beverage->id;
-					$patientBeverage->meal = "Dinner";
+					$patientBeverage->meal = 3;
 					$beveragesArray[] = $patientBeverage;
 				}
 			}

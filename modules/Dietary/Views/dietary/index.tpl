@@ -27,7 +27,6 @@
 			e.preventDefault();
 			var deleteClass = $(this).children("img").attr("class");
 			var dataRow = $(this).parent().parent();
-			console.log(dataRow);
 			var item = $(this);
 			$("#dialog").dialog({
 				buttons: {
@@ -40,8 +39,8 @@
 							type: 'post',
 							url: SITE_URL,
 							data: {
-								page: "Patients",
-								action: 'deleteId',
+								page: "Schedules",
+								action: 'dischargePatient',
 								id: id,
 							},
 							success: function() {

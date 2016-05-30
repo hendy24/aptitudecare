@@ -2,9 +2,6 @@
 
 class PatientsController extends MainPageController {
 
-	public $module = 'HomeHealth';
-
-
 
 	/*
 	 * --------------------------------------------------------
@@ -862,7 +859,6 @@ class PatientsController extends MainPageController {
 		}
 	}
 
-
 	private function getFilePath($name) {
 		if (file_exists(SITE_DIR . DS . ".dev")) {
 			$dir = dirname(ROOT) . DS . "aptitudecare" . DS . "sites" . DS . "ahc" . DS . "protected" . DS . "assets";
@@ -886,6 +882,7 @@ class PatientsController extends MainPageController {
 
 		return false;
 	}
+
 
 
 }
