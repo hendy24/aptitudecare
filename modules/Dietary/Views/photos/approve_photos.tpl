@@ -7,6 +7,9 @@
 		var form = null;
 		var data = null;
 		var formCount = $("table.form").length;
+		if (formCount === 0) {
+			window.location = SITE_URL + "/?module=Dietary&page=photos&action=view_photos";
+		}
 
 		$(".fancybox").fancybox();
 
@@ -81,6 +84,12 @@
 				url: SITE_URL + "/?page=photos&action=save_photo_info&photo_id=" + photoId,
 				data: data,
 				success: function() {
+					table.parent().parent().fadeOut('slow');
+					formCount = formCount - 1;
+
+					if (formCount === 0) {
+						window.location = SITE_URL + "/?module=Dietary&page=photos&action=view_photos";
+					} 
 
 				}
 			});
@@ -88,48 +97,9 @@
 		});
 
 
-		var timeoutID = null;
-
-		function findPhotos(str) {
-			$.ajax({
-				type: 'post',
-				url: SITE_URL,
-				data: {
-					page: "photos",
-					action: "search_photos",
-					facility: $("#selected-facility").val(),
-					term: str
-				},
-				success: function(data) {
-					var $container = $("#image-container");
-					$container.empty();
-					$("#page-links").empty();
-					$.each(data, function(key, value) {
-						$container.append('<a class="fancybox image-item" rel="fancybox-thumb" href="' + SITE_URL + '/files/dietary_photos/' + value.filename + '" title="' + value.name + '": "' + value.description + '"> <img src="' + SITE_URL + '/files/dietary_photos/thumbnails/' + value.filename + '" class="photo-image" alt=""></a>');
-					});
-				},
-				dataType: "json"
-			});
-		}
-
-		$("#search-pictures").keyup(function() {
-			clearTimeout(timeoutID);
-			var $target = $(this);
-			console.log($target.val());
-			timeoutID = setTimeout(function() { findPhotos($target.val()); }, 500);
-		});
-
-
 
 	});
 </script>
-<div id="page-header">
-	<div id="action-left">&nbsp;</div>
-	<div id="center-title">
-		{$this->loadElement("selectLocation")}
-	</div>
-	<div id="action-right">{* Search: <input type="text" id="search-pictures" size="30"> *}</div>
-</div>
 
 <h1>Manage Photos</h1>
 
@@ -196,15 +166,8 @@
 		</form>
 	{/foreach}
 
-	<div class="clear"></div>
-	<div id="page-links">
-		{$var = "{$SITE_URL}?module=Dietary&page=photos&action=manage_photos&facility={$facility->public_id}"}
-		{include file="elements/pagination.tpl"}	
-	</div>
-
-
 {else}
-	<h2>The selected location has not yet uploaded any photos.</h2>
+	<h2>No photos to approve at this time.</h2>
 {/if}
 
 <div id="dialog">Are you sure you want to reject these photos? The photos will be deleted and will not be recoverable.</div>

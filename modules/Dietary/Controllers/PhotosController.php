@@ -130,7 +130,6 @@ class PhotosController extends DietaryController {
 	 *
 	 */
 	public function view_photos() {
-		smarty()->assign('title', "View Photos");
 
 		if (isset (input()->current_page)) {
 			$current_page = input()->current_page;
@@ -138,9 +137,23 @@ class PhotosController extends DietaryController {
 			$current_page = false;
 		}
 
-		$photos = $this->loadModel("Photo")->paginateApprovedPhotos($current_page);
+		$facilities = $this->loadModel('Location')->fetchFacilities();
+
+		if (isset (input()->facility) && input()->facility != "all") {
+			$sel_facility = $this->loadModel('Location', input()->facility); 
+		} else {
+			$sel_facility = $this->loadModel('Location');
+		}
+
+		smarty()->assign('facilities', $facilities);
+		smarty()->assign('selectedFacility', $sel_facility);
+
+		$photos = $this->loadModel("Photo")->paginateApprovedPhotos($current_page, $sel_facility->id);
 		smarty()->assign('photos', $photos);
 	}
+
+
+
 
 	public function view_photos_json() {
 		$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
@@ -150,11 +163,18 @@ class PhotosController extends DietaryController {
 
 
 	public function search_photos() {
+
+		if (input()->facility != "all" && input()->facility != "") {
+			$location = $this->loadModel('Location', input()->facility);
+		} else {
+			$location = $this->loadModel('Location');
+		}
+		
 		if (input()->term != "") {
-			$tags = $this->loadModel('PhotoTag')->fetchBySearch(input()->term);
+			$tags = $this->loadModel('Photo')->fetchBySearch(input()->term, $location->id);
 			json_return($tags);
 		} else {
-			$ags = $this->loadModel('PhotoTag')->fetchAll();
+			$tags = $this->loadModel('PhotoTag')->fetchAll();
 			json_return($tags);
 		}
 		
@@ -167,13 +187,12 @@ class PhotosController extends DietaryController {
 	 * Manage Photos page
 	 *
 	 */
-	public function manage_photos() {
+	public function approve_photos() {
 		if (!auth()->hasPermission('manage_dietary_photos')) {
 			session()->setFlash("You do not have permission to access this page.", 'error');
 			$this->redirect();
 		}
 
-		smarty()->assign('title', "Manage Photos");
 		$photos = $this->loadModel("Photo")->fetchPhotosForApproval();
 
 		// fetch tags
@@ -181,6 +200,33 @@ class PhotosController extends DietaryController {
 			$photos[$k]->tag = $this->loadModel('PhotoTag')->fetchTags($p->id); 
 		}
 		smarty()->assign('photos', $photos);
+	}
+
+
+
+	public function manage_photos() {
+		if (!auth()->hasPermission('manage_dietary_photos')) {
+			session()->setFlash("You do not have permission to access this page.", 'error');
+			$this->redirect();
+		}
+
+		if (isset (input()->facility) && input()->facility != "") {
+			$facility = $this->loadModel('Location', input()->facility);
+		} elseif (isset(input()->location) && input()->location != "") {
+			$facility = $this->loadModel('Location', input()->location);
+		} else {
+			$facility = $this->loadModel('Location');
+		}
+
+		$photos = $this->loadModel("Photo")->fetchAllPhotos($facility->id);
+
+		// fetch tags
+		foreach ($photos as $k => $p) {
+			$photos[$k]->tag = $this->loadModel('PhotoTag')->fetchTags($p->id); 
+		}
+		smarty()->assign('photos', $photos);
+		smarty()->assign('facility', $facility);
+
 	}
 
 
@@ -249,35 +295,35 @@ class PhotosController extends DietaryController {
 	 * Process approved photos
 	 *
 	 */
-	public function approve_photos() {
-		$success = false;
-		if (!empty (input()->photo)) {
-			foreach (input()->photo as $id => $approved) {
-				$photo = $this->loadModel("Photo", $id);
-				$photo->approved = $approved;
-				$photo->user_approved = auth()->getRecord()->id;
-				if ($photo->save()) {
-					if ($approved == false) {
-						// delete the file image and thumbnail
-						$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
-						$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
-						unlink($targetImagePath . $photo->filename);
-						unlink($targetThumbsPath . $photo->filename);
-					}
-					$success = true;
-				}
-			}
-			if ($success) {
-				session()->setFlash("The photos were approved.", 'success');
-				$this->redirect(array("module" => "Dietary"));
-			} else {
-				session()->setFlash("Could not save the photos. Please try again.", 'error');
-				$this->redirect(input()->current_url);
-			}
-		}
+	// public function approve_photos() {
+	// 	$success = false;
+	// 	if (!empty (input()->photo)) {
+	// 		foreach (input()->photo as $id => $approved) {
+	// 			$photo = $this->loadModel("Photo", $id);
+	// 			$photo->approved = $approved;
+	// 			$photo->user_approved = auth()->getRecord()->id;
+	// 			if ($photo->save()) {
+	// 				if ($approved == false) {
+	// 					// delete the file image and thumbnail
+	// 					$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
+	// 					$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
+	// 					unlink($targetImagePath . $photo->filename);
+	// 					unlink($targetThumbsPath . $photo->filename);
+	// 				}
+	// 				$success = true;
+	// 			}
+	// 		}
+	// 		if ($success) {
+	// 			session()->setFlash("The photos were approved.", 'success');
+	// 			$this->redirect(array("module" => "Dietary"));
+	// 		} else {
+	// 			session()->setFlash("Could not save the photos. Please try again.", 'error');
+	// 			$this->redirect(input()->current_url);
+	// 		}
+	// 	}
 
 
-	}
+	// }
 
 
 

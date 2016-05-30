@@ -18,7 +18,7 @@
 </div>
 
 
-<table class="form">
+<table class="form bev-table">
   {foreach from=$beverages item=beverage key=meal}
   <tr>
     <th colspan="2" width="50%">{$meal}</th>

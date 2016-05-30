@@ -6,6 +6,11 @@
 			closeEffect: "none"
 		});
 
+		$("#select-location").change(function() {
+			window.location.href = SITE_URL + "/?module={$this->getModule()}&page={$this->page}&action={$this->action}&facility=" + $("option:selected", this).val();
+		});
+
+
 
 		var timeoutID = null;
 
@@ -16,6 +21,7 @@
 				data: {
 					page: "photos",
 					action: "search_photos",
+					facility: $("#selected-facility").val(),
 					term: str
 				},
 				success: function(data) {
@@ -40,14 +46,22 @@
 	});
 </script>
 <div id="page-header">
-	<div id="action-left"></div>
-	<div id="center-title">
-		<h1>View Photos</h1>
+	<div id="action-left">
+		Location:
+		<select name="location" id="select-location">
+			<option value="all">All</option>
+			{foreach from=$facilities item=facility}
+			<option value="{$facility->public_id}" {if $facility->public_id == $selectedFacility->public_id} selected{/if}>{$facility->name}</option>
+			{/foreach} 
+		</select>
 	</div>
+	<div id="center-title"></div>
 	<div id="action-right">
 		Search: <input type="text" id="search-pictures" size="30">
 	</div>
 </div>
+
+<input type="hidden" name="facility" value="{$selectedFacility->public_id}" id="selected-facility">
 <div id="image-container">
 	{foreach from=$photos item=photo}
 		<a class="fancybox image-item" rel="fancybox-thumb" href="{$SITE_URL}/files/dietary_photos/{$photo->filename}" title="{$photo->name}: {$photo->description}">

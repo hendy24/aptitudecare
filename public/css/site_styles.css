@@ -26,6 +26,13 @@ ul {
 	height: 100px;
 }
 
+table.bev-table {
+	width: 50%;
+}
+
+table.bev-table td {
+	border-bottom: 1px dotted #c8c8c8;
+}
 
 table#menu-table {
 	width: 90%;
