@@ -228,10 +228,34 @@ class ReportsController extends DietaryController {
  */
 	public function snack_report() {
 		smarty()->assign('title', "Snack Report");
+		if (!auth()->isLoggedIn()) {
+			$this->template = "pdf";
+			$is_pdf = true;
+		} else {
+			$is_pdf = false;
+		}
+
 		$location = $this->getLocation();
 
-
 		smarty()->assign('location', $location);
+		if (isset (input()->date)) {
+			$date = date('Y-m-d', strtotime(input()->date));
+		} else {
+			$date = mysql_date();
+		}
+
+		// get snacks
+		$snacks = $this->loadModel("Snack")->fetchSnackReport($location->id, $date);
+
+		$snack_array = array();
+		foreach ($snacks as $snack) {
+			$snack_array[$snack->time][] = array("num" => $snack->num, "name" => $snack->name);
+		}
+
+		smarty()->assign('snacks', $snack_array);
+		smarty()->assign('location', $location);
+		smarty()->assign('isPDF', $is_pdf);
+
 
 	}
 

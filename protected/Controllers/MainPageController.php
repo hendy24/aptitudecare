@@ -18,7 +18,7 @@ class MainPageController extends MainController {
  *	
  */
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report");
 	}
 
 

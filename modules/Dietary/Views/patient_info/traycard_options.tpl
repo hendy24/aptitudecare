@@ -29,10 +29,10 @@
 
 
 <form id="traycard">
-  <table class="form">
+  <table class="center">
     <tr>
       <td>Patient:</td>
-      <td>
+      <td class="text-right">
         <select name="patient">
           {foreach from=$currentPatients key=k item=patients name=count}
             {if !empty ($patients->last_name)}
@@ -44,11 +44,11 @@
     </tr>
     <tr>
       <td>Date:</td>
-      <td><input class="datepicker" name="date" id="selectedDate" /></td>
+      <td class="text-right"><input class="datepicker" name="date" id="selectedDate" /></td>
     </tr>
     <tr>
       <td>Meal:</td>
-      <td>
+      <td class="text-right">
           <select id="meal-id" name="meal">
             <option selected="selected" value="all">All</option>
             <option value="1">Breakfast</option>

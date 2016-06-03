@@ -20,7 +20,6 @@ class PatientSnack extends Dietary {
 	}
 
 
-
 	public function deleteSnack($patient_id, $snack_name, $snack_time) {
 		$snack = $this->loadTable("Snack");
 		$sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND snack_id = (SELECT id FROM {$snack->tableName()} WHERE name = :snack_name) AND time = :snack_time";

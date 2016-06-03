@@ -15,6 +15,14 @@
   <div id="center-title">
     {$this->loadElement("selectLocation")}
   </div>
+  <div id="action-right">
+    {if $auth->isLoggedIn()}
+    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+      <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
+    </a>
+    {/if}
+  </div>
+
 </div>
 
 <h1>Snack Report</h1>
@@ -25,16 +33,17 @@
     <input type="hidden" name="action" value="snack_report">
     <input type="hidden" name="location" value="{$location->public_id}">
     <table class="form">
+      {foreach from=$snacks item=snack key=time}
       <tr>
-        <td>Choose Day:</td>
-        <td> <input class="datepicker" name="date" /></td>
+        <th colspan="2" width="50%">{strtoupper($time)}</th>
       </tr>
+      {foreach from=$snack item=s} 
       <tr>
-        <td colspan="2">&nbsp;</td>
+        <td>{$s["name"]}</td>
+        <td class="text-right">{$s["num"]}</td>
       </tr>
-      <tr>
-        <td colspan="2" class="text-right"> <input type="submit" value="Submit" /></td>
-      </tr>
+      {/foreach}
+      {/foreach}
     </table>
   </form>
 </div>

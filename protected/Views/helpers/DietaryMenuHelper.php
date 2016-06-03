@@ -9,7 +9,7 @@ class DietaryMenuHelper {
 		$options = '';
 		$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=diet&amp;patient={$patient->public_id}\">Edit Diet</a></li>";
 		$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}&amp;pdf=true\" target=\"_blank\">Current Tray Card</a></li>";
-		$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}\" target=\"blank\">Selected Tray Card</a></li>";
+		$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}\">Selected Tray Card</a></li>";
 		// $options .= "<li><a href=\"/?module=HomeHealth&amp;page=dietary&amp;action=delete&amp;patient={$patient->public_id}\">Delete</a></li>";
 
 		//	If everything is ready show the approve link
