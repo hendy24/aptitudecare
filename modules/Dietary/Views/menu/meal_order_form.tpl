@@ -15,6 +15,7 @@
 		<tr><td>&nbsp;</td></tr>
 		<tr>
 			<th colspan="2">Breakfast</th>
+			<td>&nbsp;</td>
 			<th colspan="2">Breakfast Alternate</th>
 		</tr>
 		<tr>
@@ -23,6 +24,7 @@
 					<p>{$menu}</p>
 				{/foreach}
 			</td>
+			<td width="10" class="text-center" style="vertical-align:middle;">OR</td>
 			<td colspan="2">
 				&nbsp;
 				<input type="checkbox"> Special Egg: ______________________________________ <br>
@@ -46,7 +48,8 @@
 		<tr><td colspan="4">&nbsp;</td></tr>
 		<tr>
 			<th colspan="2">Lunch</th>
-			<th colspan="2">Lunch Alternate</th>
+			<td>&nbsp;</td>
+			<th colspan="2">Lunch Alternate (Please select one)</th>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -54,6 +57,7 @@
 					<p>{$menu}</p>
 				{/foreach}
 			</td>
+			<td class="text-center" style="vertical-align:middle">OR</td>
 			<td colspan="2">
 				&nbsp;
 				{foreach from=$alternates item=alternate}
@@ -69,14 +73,16 @@
 		<tr><td colspan="4">&nbsp;</td></tr>
 		<tr>
 			<th colspan="2">Dinner</th>
-			<th colspan="2">Dinner Alternate</th>
+			<td>&nbsp;</td>
+			<th colspan="2">Dinner Alternate (Please select one)</th>
 		</tr>
 		<tr>
 			<td colspan="2">
 				{foreach from=$menuItems[2]->content item=menu}
 					<p>{$menu}</p>
 				{/foreach}
-				</ul>
+			</td>
+			<td class="text-center" style="vertical-align:middle">OR</td>
 			<td colspan="2">
 				&nbsp;
 				{foreach from=$alternates item=alternate}
@@ -86,10 +92,10 @@
 			</td>		
 		</tr>
 
-		<tr><td colspan="4">&nbsp;</td></tr>
-		<tr><td colspan="4">&nbsp;</td></tr>
+		<tr><td colspan="5">&nbsp;</td></tr>
+		<tr><td colspan="5">&nbsp;</td></tr>
 		<tr>
-			<td colspan="4" class="text-center text-strong">Please fill out your choices &amp; your completed form will be collected today.<br />Food choices may be changed to meet dietary restrictions.</td>
+			<td colspan="5" class="text-center text-strong">Please fill out your choices &amp; your completed form will be collected today.<br />Food choices may be changed to meet dietary restrictions.</td>
 		</tr>
 
 	</table>

@@ -160,6 +160,11 @@ class ReportsController extends DietaryController {
 			session()->setFlash("Could not get the diet census for the selected location", 'error');
 			$this->redirect(array('module' => $this->module));
 		}
+
+		// check if the location is has the admission dashboard enabled
+		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
+		smarty()->assign('modEnabled', $modEnabled);
+
 		
 		if (!auth()->isLoggedIn()) {
 			$this->template = "pdf";
@@ -211,6 +216,13 @@ class ReportsController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function snack_labels() {
+		if (!auth()->isLoggedIn()) {
+			$this->template = "pdf";
+			$is_pdf = true;
+		} else {
+			$is_pdf = false;
+		}
+
 		smarty()->assign('title', "Snack Labels");
 		$location = $this->getLocation();
 
@@ -245,14 +257,9 @@ class ReportsController extends DietaryController {
 		}
 
 		// get snacks
-		$snacks = $this->loadModel("Snack")->fetchSnackReport($location->id, $date);
+		$snacks = $this->loadModel("Snack")->fetchSnackReport($location->id);
 
-		$snack_array = array();
-		foreach ($snacks as $snack) {
-			$snack_array[$snack->time][] = array("num" => $snack->num, "name" => $snack->name);
-		}
-
-		smarty()->assign('snacks', $snack_array);
+		smarty()->assign('snacks', $snacks);
 		smarty()->assign('location', $location);
 		smarty()->assign('isPDF', $is_pdf);
 

@@ -66,9 +66,9 @@ class LoginController extends MainPageController {
 			
 			// If the username and password are correctly entered, validate the user
 			if (auth()->login($username, $password)) {
-
 				// redirect to users' default home page
 				//$this->redirect(array('module' => session()->getSessionRecord('default_module')));
+
 				$user = auth()->getRecord();
 				if ($user->temp_password) {
 					$this->redirect(array('page' => 'users', 'action' => 'reset_password', 'id' => $user->public_id));

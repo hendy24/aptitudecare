@@ -26,6 +26,10 @@ ul {
 	height: 100px;
 }
 
+table {
+	border-collapse: collapse;
+}
+
 table.bev-table {
 	width: 50%;
 }
@@ -612,4 +616,12 @@ tr.input-checkboxes td {
 
 li.permission-access a {
 	color: #c2c2c2;
+}
+
+.rowalt {
+	background-color: #f2f2f2;
+}
+
+#tray-card-dialog {
+	display: none;
 }

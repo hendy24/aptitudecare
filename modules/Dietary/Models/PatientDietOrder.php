@@ -56,6 +56,7 @@ class PatientDietOrder extends Dietary {
 
     $sql = "SELECT 
               p.id, 
+              p.public_id,
               r.number AS room, 
               CONCAT(p.last_name, ', ', p.first_name) AS patient_name,
               (SELECT GROUP_CONCAT(do.name separator ', ') as diet_order FROM {$diet_order->tableName()} do INNER JOIN {$this->tableName()} pdo ON pdo.diet_order_id = do.id WHERE pdo.patient_id = p.id GROUP BY pdo.patient_id) AS diet_order,
@@ -69,7 +70,9 @@ class PatientDietOrder extends Dietary {
               LEFT JOIN {$diet_order->tableName()} do ON do.id = pdo.diet_order_id
               LEFT JOIN {$patient_texture->tableName()} pt ON p.id 
               LEFT JOIN {$texture->tableName()} t ON t.id = pt.texture_id 
-            WHERE pi.location_id = :location_id GROUP BY p.id ORDER BY {$order_by} ASC";
+            WHERE pi.location_id = :location_id 
+              AND s.status = 'Approved'
+            GROUP BY p.id ORDER BY {$order_by} ASC";
 
 
     $params[":location_id"] = $location_id;

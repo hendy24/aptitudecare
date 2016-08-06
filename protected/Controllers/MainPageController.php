@@ -18,7 +18,7 @@ class MainPageController extends MainController {
  *	
  */
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels");
 	}
 
 
@@ -57,6 +57,7 @@ class MainPageController extends MainController {
 			$logo = FRAMEWORK_IMAGES . '/aptitudecare.png';
 		}
 		smarty()->assign('logo', $logo);
+
 
 		// If the user is logged in get the locations and area to which the user has access
 		if (auth()->valid()) {

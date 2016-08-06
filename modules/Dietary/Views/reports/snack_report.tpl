@@ -32,17 +32,24 @@
     <input type="hidden" name="page" value="reports">
     <input type="hidden" name="action" value="snack_report">
     <input type="hidden" name="location" value="{$location->public_id}">
-    <table class="form">
+    <table class="center">
+      <tr>
+        <th>Room</th>
+        <th>Patient Name</th>
+        <th>Diet</th>
+        <th>Allergies</th>
+        <th>Snack</th>
+        <th>Time</th>
+      </tr>
       {foreach from=$snacks item=snack key=time}
-      <tr>
-        <th colspan="2" width="50%">{strtoupper($time)}</th>
+      <tr class="{cycle values="row,rowalt"}">
+        <td>{$snack->number}</td>
+        <td>{$snack->patient_name}</td>
+        <td>{$snack->diet}</td>
+        <td>{$snack->allergy}</td>
+        <td>{$snack->snack}</td>
+        <td>{$snack->time}</td>
       </tr>
-      {foreach from=$snack item=s} 
-      <tr>
-        <td>{$s["name"]}</td>
-        <td class="text-right">{$s["num"]}</td>
-      </tr>
-      {/foreach}
       {/foreach}
     </table>
   </form>
