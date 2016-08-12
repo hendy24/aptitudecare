@@ -21,7 +21,6 @@ class Beverage extends Dietary {
 
     $params[":location_id"] = $location->id;
     $params[":date"] = $date;
-
     return $this->fetchAll($sql, $params);
 
   }

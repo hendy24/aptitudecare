@@ -38,9 +38,9 @@ class PatientInfoController extends DietaryController {
 
 
 		// fetch special requests
-		$breakfast_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, "Breakfast");
-		$lunch_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, "Lunch");
-		$dinner_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, "Dinner");
+		$breakfast_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 1);
+		$lunch_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 2);
+		$dinner_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 3);
 
 
 		// Fetch beverages for each meal
@@ -215,7 +215,7 @@ class PatientInfoController extends DietaryController {
 				if ($patient_spec_req->patient_id == "") {
 					$patient_spec_req->patient_id = $patient->id;
 					$patient_spec_req->special_req_id = $spec_req->id;
-					$patient_spec_req->meal = "Breakfast";
+					$patient_spec_req->meal = 1;
 					$spec_reqs_array[] = $patient_spec_req;
 				} 
 
@@ -229,7 +229,7 @@ class PatientInfoController extends DietaryController {
 				if ($patient_spec_req->patient_id == "") {
 					$patient_spec_req->patient_id = $patient->id;
 					$patient_spec_req->special_req_id = $spec_req->id;
-					$patient_spec_req->meal = "Lunch";
+					$patient_spec_req->meal = 2;
 					$spec_reqs_array[] = $patient_spec_req;
 				}
 
@@ -244,7 +244,7 @@ class PatientInfoController extends DietaryController {
 				if ($patient_spec_req->patient_id == "") {
 					$patient_spec_req->patient_id = $patient->id;
 					$patient_spec_req->special_req_id = $spec_req->id;
-					$patient_spec_req->meal = "Dinner";
+					$patient_spec_req->meal = 3;
 					$spec_reqs_array[] = $patient_spec_req;
 				}
 
@@ -563,7 +563,7 @@ class PatientInfoController extends DietaryController {
 
 
 		$meal_names = array(0 => "Breakfast", 1 => "Lunch", 2 => "Dinner");
-		
+		$meals = array(1,2,3);
 		if (input()->patient == 'all') {
 			foreach ($tray_card_info as $key => $tci) {
 				for ($i=0;$i<3;$i++) {
@@ -575,13 +575,13 @@ class PatientInfoController extends DietaryController {
 					}
 					$tray_card_cols[$key][$i]->beverages = "";
 					foreach ($tci['items_by_meal']['beverages'] as $k => $b) {			
-						if ($b->meal == $tray_card_cols[$key][$i]->meal_name) {
+						if ($b->meal == $meals[$i]) {
 							$tray_card_cols[$key][$i]->beverages .= $b->name . ", ";
 						}
 					}
 					$tray_card_cols[$key][$i]->special_reqs = "";
 					foreach ($tci['items_by_meal']['special_reqs'] as $k => $sr) {	
-						if ($sr->meal == $tray_card_cols[$key][$i]->meal_name) {
+						if ($sr->meal == $meals[$i]) {
 							$tray_card_cols[$key][$i]->special_reqs .= $sr->name . ", ";
 						}
 					}
@@ -603,13 +603,13 @@ class PatientInfoController extends DietaryController {
 				}
 				$tray_card_cols[$i]->beverages = "";
 				foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {			
-					if ($b->meal == $tray_card_cols[$i]->meal_name) {
+					if ($b->meal == $meals[$i]) {
 						$tray_card_cols[$i]->beverages .= $b->name . ", ";
 					}
 				}
 				$tray_card_cols[$i]->special_reqs = "";
-				foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {	
-					if ($sr->meal == $tray_card_cols[$i]->meal_name) {
+				foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {
+					if ($sr->meal == $meals[$i]) {
 						$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
 					}
 				}
@@ -626,14 +626,14 @@ class PatientInfoController extends DietaryController {
 						$tray_card_cols[$i]->$k = $d;
 					}
 					$tray_card_cols[$i]->beverages = "";
-					foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {			
-						if ($b->meal == $tray_card_cols[$i]->meal_name) {
+					foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {
+						if ($b->meal == $meals[$i]) {
 							$tray_card_cols[$i]->beverages .= $b->name . ", ";
 						}
 					}
 					$tray_card_cols[$i]->special_reqs = "";
 					foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {	
-						if ($sr->meal == $tray_card_cols[$i]->meal_name) {
+						if ($sr->meal == $meals[$i]) {
 							$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
 						}
 					}

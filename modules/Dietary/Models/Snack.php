@@ -41,11 +41,11 @@ class Snack extends Dietary {
     			ON allergy.id = patient_allergy.food_id
     		WHERE 
     			sch.location_id = :location_id
+                AND sch.status='Approved'
     		GROUP BY patient.id, snack.id
     		ORDER BY room.number, patient_snack.time";
 
     	$params[":location_id"] = $location_id;
-
     	return $this->fetchAll($sql, $params);
   	}
 

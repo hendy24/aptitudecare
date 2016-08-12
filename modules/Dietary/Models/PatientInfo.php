@@ -69,7 +69,6 @@ class PatientInfo extends Dietary {
 		$tray_card_info = array();
 		$tray_card_info['main_data'] = $this->fetchOne($sql, $params);
 		$tray_card_info['items_by_meal'] = $this->fetchItemsByMeal($patient_id);
-
 		return $tray_card_info;
 	}	
 
@@ -88,7 +87,6 @@ class PatientInfo extends Dietary {
 		$info_array = array();
 		$info_array['beverages'] = $this->fetchAll($bev_sql, $params);
 		$info_array['special_reqs'] = $this->fetchAll($spec_req_sql, $params);
-
 		return $info_array;
 
 	}
