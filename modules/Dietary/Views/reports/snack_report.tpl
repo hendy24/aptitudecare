@@ -47,7 +47,7 @@
         <td>{$snack->patient_name}</td>
         <td>{$snack->diet}</td>
         <td>{$snack->allergy}</td>
-        <td>{$snack->snack}</td>
+        <td>{$snack->name}</td>
         <td>{$snack->time}</td>
       </tr>
       {/foreach}
