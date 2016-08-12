@@ -14,8 +14,9 @@ class Schedule extends Admission {
 
 
 	public function discharge($patient_id) {
-		$sql = "UPDATE {$this->tableName()} SET status = 'Discharged' WHERE patient_id = :patient_id";
+		$sql = "UPDATE {$this->tableName()} SET datetime_discharge = :now, status = 'Discharged' WHERE patient_id = :patient_id";
 		$params[":patient_id"] = $patient_id;
+		$params[":now"] = mysql_date("now");
 		if ($this->update($sql, $params)) {
 			return true;
 		}

@@ -15,35 +15,18 @@ class Snack extends Dietary {
 		$patient_diet_order = $this->loadTable('PatientDietOrder');
 		$allergy = $this->loadTable('Allergy');
 		$patient_allergy = $this->loadTable('PatientFoodInfo');
-    	$sql = "SELECT 
-    			room.number,
-    			CONCAT(patient.last_name, ', ', patient.first_name) AS patient_name,
-    			diet_order.name AS diet,
-    			allergy.name AS allergy,
-    			snack.name AS snack,
-    			patient_snack.time
-    		FROM {$this->tableName()} AS snack
-    		INNER JOIN {$patient_snack->tableName()} patient_snack
-    			ON patient_snack.snack_id = snack.id
-    		INNER JOIN {$patient->tableName()} patient 
-    			ON patient.id = patient_snack.patient_id
- 			INNER JOIN {$schedule->tableName()} sch
- 				ON sch.patient_id = patient.id
-    		INNER JOIN {$room->tableName()} room 
-    			ON room.id = sch.room_id
-    		INNER JOIN {$patient_diet_order->tableName()} patient_diet_order
-    			ON patient_diet_order.patient_id = patient.id
-    		INNER JOIN {$diet_order->tableName()} diet_order
-    			ON diet_order.id = patient_diet_order.diet_order_id
-    		LEFT JOIN {$patient_allergy->tableName()} patient_allergy
-    			ON patient_allergy.patient_id = patient.id
-    		LEFT JOIN {$allergy->tableName()} allergy	
-    			ON allergy.id = patient_allergy.food_id
-    		WHERE 
-    			sch.location_id = :location_id
-                AND sch.status='Approved'
-    		GROUP BY patient.id, snack.id
-    		ORDER BY room.number, patient_snack.time";
+    	$sql = "SELECT room.number, 
+    CONCAT(patient.last_name, ', ', patient.first_name) AS patient_name, 
+    diet_order.name AS diet, snack.name AS snack,
+    (SELECT allergy.name FROM dietary_patient_food_info AS patient_allergy INNER JOIN dietary_allergy allergy ON allergy.id=patient_allergy.food_id WHERE patient_allergy.patient_id=patient.id) AS allergy, 
+    patient_snack.time 
+FROM dietary_snack AS snack 
+    INNER JOIN dietary_patient_snack patient_snack ON patient_snack.snack_id = snack.id 
+    INNER JOIN ac_patient patient ON patient.id = patient_snack.patient_id INNER JOIN admit_schedule sch ON sch.patient_id = patient.id 
+    INNER JOIN admit_room room ON room.id = sch.room_id 
+    INNER JOIN dietary_patient_diet_order patient_diet_order ON patient_diet_order.patient_id = patient.id 
+    INNER JOIN dietary_diet_order diet_order ON diet_order.id = patient_diet_order.diet_order_id 
+WHERE sch.location_id = :location_id AND sch.status='Approved' ORDER BY room.number, patient_snack.time";
 
     	$params[":location_id"] = $location_id;
     	return $this->fetchAll($sql, $params);

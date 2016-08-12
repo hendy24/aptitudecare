@@ -258,7 +258,6 @@ class ReportsController extends DietaryController {
 
 		// get snacks
 		$snacks = $this->loadModel("Snack")->fetchSnackReport($location->id);
-
 		smarty()->assign('snacks', $snacks);
 		smarty()->assign('location', $location);
 		smarty()->assign('isPDF', $is_pdf);

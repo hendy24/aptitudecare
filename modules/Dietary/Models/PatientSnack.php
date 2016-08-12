@@ -19,6 +19,12 @@ class PatientSnack extends Dietary {
 		return false;
 	}
 
+  public function fetchSnacksByPatientId($patient_id) {
+    $sql = "SELECT snack.name FROM {$this->tableName()} INNER JOIN dietary_snack snack ON snack.id = {$this->tableName()}.snack_id WHERE patient_id = :patient_id";
+    $params[":patient_id"] = $patient_id;
+    return $this->fetchAll($sql, $params);
+  }
+
 
 	public function deleteSnack($patient_id, $snack_name, $snack_time) {
 		$snack = $this->loadTable("Snack");
@@ -35,6 +41,15 @@ class PatientSnack extends Dietary {
 
 		return false;
 	}
+
+  public function deleteSnacksByPatientId($patient_id) {
+    $sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id";
+    $params[":patient_id"] = $patient_id;
+    if ($this->deleteQuery($sql, $params)) {
+      return true;
+    }
+    return false;
+  }
 
   public function fetchByLocation($location, $date) {
 //    $adapt_equip = $this->loadTable("AdaptEquip");

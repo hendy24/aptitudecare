@@ -910,8 +910,10 @@ class PatientInfoController extends DietaryController {
 	public function saveFoodItems($items = array(), $patient_id = null, $snackTime = null) {
 		if (!empty($items)) {
 			$snackArray = array();
+			// delete all snacks for this patient
+			$this->loadModel("PatientSnack")->deleteSnacksByPatientId($patient_id);
+
 			foreach ($items as $key => $snack) {
-				echo $key;
 				$time = $this->loadModel("PatientSnack");
 				$snackObj = $this->loadModel("Snack")->fetchByName($snack);
 				// if the item was found in the db, then assign the id
