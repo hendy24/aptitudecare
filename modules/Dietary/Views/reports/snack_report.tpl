@@ -61,7 +61,6 @@
 <head>
     <meta charset="utf-8">
     <title></title>
-    <link href="labels.css" rel="stylesheet" type="text/css" >
     <style>
     body {
         width: 8.5in;
@@ -73,13 +72,13 @@
         height: .875in; /* plus .125 inches from padding */
         padding: .125in .3in 0;
         margin-right: .125in; /* the gutter */
-
+        font-size: 10px;
         float: left;
 
         text-align: center;
         overflow: hidden;
 
-        outline: 1px dotted; /* outline doesn't occupy space like border does */
+        outline: #000000 dotted thick; /* outline doesn't occupy space like border does */
         }
     .page-break  {
         clear: left;

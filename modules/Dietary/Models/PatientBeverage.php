@@ -64,4 +64,17 @@ class PatientBeverage extends Dietary {
         return false;
     }
 
+
+    public function deletePatientBevs($patient_id) {
+        $sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id";
+        $params = array(
+            ":patient_id" => $patient_id,
+        );
+        if ($this->deleteQuery($sql, $params)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
