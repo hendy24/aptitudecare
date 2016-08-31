@@ -18,7 +18,7 @@
   </div>
   <div id="action-right">
     {if $auth->isLoggedIn()}
-    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_labels&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
       <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
     </a>
     {/if}

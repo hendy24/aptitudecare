@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>HTML & CSS Avery Labels (5160) by MM at Boulder Information Services</title>
+    <title>AHC Snack Labels</title>
     <link href="labels.css" rel="stylesheet" type="text/css" >
     <style>
     body {
@@ -11,8 +11,8 @@
         }
     .label{
         /* Avery 5160 labels -- CSS and HTML by MM at Boulder Information Services */
-        width: 2.025in; /* plus .6 inches from padding */
-        height: .875in; /* plus .125 inches from padding */
+        width: 2.125in; /* plus .6 inches from padding */
+        height: .9125in; /* plus .125 inches from padding .875 */
         padding: .125in .3in 0;
         margin-right: .125in; /* the gutter */
 
@@ -28,17 +28,25 @@
         display:block;
         page-break-after:always;
         }
+    .allergy {
+        color: red;
+        font-style: italic;
+    }
+    .snack { font-weight: bold; }
+
     </style>
 
 </head>
 <body>
 
-<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
-<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
-<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
-<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
-<div class="label">(Repeat 30 times)</div>
-<div class="page-break"></div>
-
+    
+    {foreach from=$snacks item=snack key=time}
+    <div class="label">
+        <strong>{$snack->number} &mdash; {$snack->patient_name}</strong><br />
+        {$snack->diet}<br />
+        <div class="allergy">{$snack->allergy}</div>
+        <div class="snack">{$snack->name} {$snack->time}</div>
+    </div>
+    {/foreach}
 </body>
 </html>

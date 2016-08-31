@@ -228,7 +228,17 @@ class ReportsController extends DietaryController {
 
 
 		smarty()->assign('location', $location);
+		if (isset (input()->date)) {
+			$date = date('Y-m-d', strtotime(input()->date));
+		} else {
+			$date = mysql_date();
+		}
 
+		// get snacks
+		$snacks = $this->loadModel("Snack")->fetchSnackReport($location->id);
+		smarty()->assign('snacks', $snacks);
+		smarty()->assign('location', $location);
+		smarty()->assign('isPDF', $is_pdf);
 	}
 
 
