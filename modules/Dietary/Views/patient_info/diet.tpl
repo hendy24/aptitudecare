@@ -249,7 +249,7 @@
 	        	patient: patientId,
 	        	name: beverageName,
 	        	type: "beverage",
-	        	meal: "Breakfast"
+	        	meal: 1
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -275,7 +275,7 @@
 	        	patient: patientId,
 	        	name: beverageName,
 	        	type: "beverage",
-	        	meal: "Lunch"
+	        	meal: 2
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -302,7 +302,7 @@
 	        	patient: patientId,
 	        	name: beverageName,
 	        	type: "beverage",
-	        	meal: "Dinner"
+	        	meal: 3
 	        	}, function (e) {
 	        		console.log(e);
 	        	}, "json"
@@ -408,7 +408,6 @@
         			});
         		}, "json"
         	);
-
         	return array;
         }
 

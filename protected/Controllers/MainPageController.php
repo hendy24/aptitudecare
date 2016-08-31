@@ -98,6 +98,7 @@ class MainPageController extends MainController {
 					$this->redirect(array("module" => $this->loadModel("Module")->fetchDefaultModule()->name));
 				}
 			}
+
 		} 
 		smarty()->assign('module', $this->module);
 	}
@@ -190,7 +191,6 @@ class MainPageController extends MainController {
 		} elseif (auth()->is_admin()) {
 			return true;
 		}
-
 		return false;
 	}
 
