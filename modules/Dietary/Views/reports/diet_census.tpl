@@ -33,7 +33,9 @@
 	<tr>
 		<th><a href="" id="room" class="order">Room</a></th>
 		<th><a href="" id="patient_name" class="order">Patient Name</a></th>
+		{if !$isPDF}
 		<th>&nbsp;</th>
+		{/if}
 		<th><a href="" id="diet_order" class="order">Diet Order</a></th>
 		<th><a href="" id="texture" class="order">Texture</a></th>
 		<th><a href="" id="liquid_consistency" class="order">Liquid Consistency</a></th>
@@ -42,7 +44,9 @@
 	<tr>
 		<td>{$diet->room}</td>
 		<td>{$diet->patient_name}</td>
+		{if !$isPDF}
 		<td class="{$k}">{$dietaryMenu->menu($diet, $selectedLocation)}</td>
+		
 		<td class="{$k}">
 			{if !$modEnabled}
 			<a href="#" class="delete-patient">
@@ -53,6 +57,7 @@
 				<input type="hidden" class="patient-id" value="{$diet->public_id}">
 			{/if}
 		</td>
+		{/if}
 		<td>{$diet->diet_order}</td>
 		<td>{$diet->texture}</td>
 		<td>{$diet->liquid_consistency}</td>
