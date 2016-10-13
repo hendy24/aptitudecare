@@ -112,7 +112,7 @@ class PatientInfo extends Dietary {
 			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
 			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
 			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id
-			LEFT JOIN {$allergy->tableName()} a ON a.id = pfi.food_id
+			LEFT JOIN {$allergy->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 1
 			WHERE s.status = 'Approved'
 			AND s.location_id = :location_id
 			AND (s.datetime_discharge >= :current_date OR s.datetime_discharge IS NULL)
@@ -121,7 +121,6 @@ class PatientInfo extends Dietary {
 
 		$params[":location_id"] = $location->id;
 		$params[":current_date"] = mysql_date();
-
 		return $this->fetchAll($sql, $params);
 
 
