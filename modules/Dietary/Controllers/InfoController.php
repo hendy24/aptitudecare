@@ -208,7 +208,7 @@ class InfoController extends DietaryController {
 
 	public function corporate_menus() {
 		smarty()->assign('title', "Corporate Menus");
-
+		session()->setReferringPage();
 		// Get all available menus
 		$menus = $this->loadModel('Menu')->fetchAll();
 		smarty()->assign('menus', $menus);
@@ -227,7 +227,6 @@ class InfoController extends DietaryController {
 		} else {
 			$page = 1;
 		}
-
 
 		// Fetch content for selected menu
 		$menuItems = $this->loadModel('MenuItem')->paginateMenuItems($selectedMenu->id, null, $page);

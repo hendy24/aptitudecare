@@ -171,6 +171,20 @@ class MenuController extends DietaryController {
 			$this->redirect();
 		}
 
+		if (input()->menu != "") {
+			$menu = $this->loadModel('Menu', input()->menu);
+		} else {
+			$menu = $this->loadModel('Menu');
+		}
+
+		if (input()->page_count != "") {
+			$page_count = input()->page_count;
+		} else {
+			$page_count = null;
+		}
+
+		smarty()->assign('page_count', $page_count);
+
 		// Need to fetch the menu item
 		if (input()->type == "MenuMod") {
 			// fetch the menu modification
@@ -200,10 +214,11 @@ class MenuController extends DietaryController {
 		smarty()->assign('menuChange', $menuChange);
 		smarty()->assign('menuType', input()->type);
 		smarty()->assign('menuMod', $menuMod);
+		smarty()->assign('menu', $menu);
 
 		if (input()->is('post')) {
 
-			// determine if this edit is for all locations or only those selected
+			// determine if this edit is for all locations or 	only those selected
 			if (input()->edit_type == "corp_menu") {
 				// this edit is for all locations
 				// set the menu item variables
@@ -211,7 +226,7 @@ class MenuController extends DietaryController {
 
 				if ($menuItem->save()) {
 					session()->setFlash("The menu was successfully changed for all locations.", 'success');
-					$this->corpPageRedirect();
+					$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $menu->public_id, 'page_count' => input()->page_count));
 				} else {
 					session()->setFlash("Could not save the menu. Please try again.", 'error');
 					$this->redirect(input()->path);
@@ -374,13 +389,13 @@ class MenuController extends DietaryController {
 	}
 
 
-	private function corpPageRedirect() {
+	private function corpPageRedirect($menu_id = null) {
 		// if the location is set we came from the facility menu page, redirect there
 		if (isset (input()->location)) {
 			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "facility_menus"));
 		} else {
 			// redirect to the corporate menu page
-			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus"));
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $menu_id));
 		}
 
 	}

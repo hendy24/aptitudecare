@@ -10,7 +10,6 @@ class DietaryController extends MainPageController {
 	protected $helper = 'DietaryMenu';
 
 
-
 	public function index() {
 		smarty()->assign("title", "Dietary");
 		// if user is not authorized to access this page, then re-direct

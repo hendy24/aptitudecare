@@ -2,6 +2,8 @@
 
 <script>
 	$(document).ready(function() {
+		$(".facilities-list").hide();
+
 		$("#reset").submit(function(e) {
 			e.preventDefault();
 			$.post(SITE_URL, { 
@@ -39,7 +41,9 @@
 	<input type="hidden" name="type" value="{$menuType}" />
 	<input type="hidden" name="id" id="public-id" value="{$menuItem->public_id}" />
 	<input type="hidden" name="location" value="{$location->public_id}">
-
+	<input type="hidden" name="menu" value="{$menu->public_id}" />
+	<input type="hidden" name="page_count" value="{$page_count}" />
+	
 	<table class="form">
 		<tr>
 			<td colspan="3"><strong>Menu:</strong></td>
@@ -59,8 +63,8 @@
 			<td colspan="3"><strong>Make the change to:</strong></td>
 		</tr>
 		<tr id="change-type">
-			<td><input type="radio" name="edit_type" value="corp_menu">Corporate Menu</td>
-			<td colspan="2"><input type="radio" name="edit_type" id="individualLocations" value="select_locations"{if $location} checked="checked"{/if}>Individual Locations <span class="text-10">(recurring only for the selected locations)</span></td>
+			<td><input type="radio" name="edit_type" value="corp_menu" checked>Corporate Menu</td>
+			<td colspan="2"><input type="radio" name="edit_type" id="individualLocations" value="select_locations">Individual Locations <span class="text-10">(recurring only for the selected locations)</span></td>
 		</tr>
 			<tr>
 				<td colspan="3">&nbsp;</td>

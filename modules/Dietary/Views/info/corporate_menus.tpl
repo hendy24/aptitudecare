@@ -62,7 +62,7 @@
 						</ul>
 					</div>
 					<div class="menu-edit-button">
-						<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit_corporate_menu&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}" class="button">Edit</a>
+						<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit_corporate_menu&amp;menu={$selectedMenu->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;page_count={$pagination->current_page}" class="button">Edit</a>
 					</div>
 				</div>
 			</td>
