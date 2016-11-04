@@ -193,7 +193,6 @@ class UsersController extends MainPageController {
 			}		
 		}
 		
-
 		smarty()->assign('group_id', $user->group_id);
 		smarty()->assign('default_location', $user->default_location);
 		smarty()->assign('public_id', $user->public_id);
@@ -319,7 +318,6 @@ class UsersController extends MainPageController {
 		}
 
 
-
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
 			session()->setFlash($error_messages, 'error');
@@ -423,7 +421,7 @@ class UsersController extends MainPageController {
 				}
 
 				$siteUser->default_facility = $user->default_location;
-				$siteUser->timeout = 1;
+				$siteUser->timeout = 0;
 				
 				$siteUser->save($siteUser, db()->dbname2);
 

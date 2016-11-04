@@ -106,7 +106,7 @@ class LoginController extends MainPageController {
 				if ($uname == $_username) {
 					if (auth()->login($user->email, $user->password)) {
 						$user = auth()->getRecord();
-						$this->redirect(array('module' => input()->module));
+						$this->redirect(array('module' => "HomeHealth"));
 
 					} else {
 						$this->redirect(array('page' => 'login'));
@@ -115,15 +115,19 @@ class LoginController extends MainPageController {
 				} else {
 					if (auth()->login($user->email, $user->password)) {
 						$user = auth()->getRecord();
+						echo 1; exit;
 						$this->redirect(array('module' => input()->module));
 					} else {
+						echo 2; exit;
 						$this->redirect(array('page' => 'login'));
 					}
 				}
 			}
 		} elseif ($_username = input()->username) {
+			echo 3; exit;
 			$this->redirect();
 		} else {
+			echo 4; exit;
 			$this->redirect(array('page' => 'login'));
 		}
 		exit;
