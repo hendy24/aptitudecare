@@ -325,7 +325,14 @@ class PatientInfoController extends DietaryController {
 		}
 
 		// set texture array
-		if (!empty (input()->texture)) {
+		$texture_entered = false;
+		foreach (input()->texture as $texture) {
+			if ($texture != "") {
+				$texture_entered = true;
+				break;
+			} 
+		}
+		if ($texture_entered) {
 			// check if the patient already has an "other" item saved. 
 			// if there is something... delete it.
 			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
