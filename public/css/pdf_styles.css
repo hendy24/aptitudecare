@@ -52,6 +52,15 @@ h1, h2 {
 	text-align: center;
 }
 
+.page-break {
+	display: block; 
+	page-break-before: always;
+}
+
+.page-header {
+	height: 50px;
+}
+
 table {
 	max-width: 90%;
 	margin: 20px auto;

@@ -18,16 +18,19 @@
 </div>
 
 
-<table class="form bev-table">
+
   {foreach from=$beverages item=beverage key=meal}
-  <tr>
-    <th colspan="2" width="50%">{$this->mealName($meal)}</th>
-  </tr>
-  {foreach from=$beverage item=bev} 
-  <tr>
-    <td>{$bev["name"]}</td>
-    <td class="text-right">{$bev["num"]}</td>
-  </tr>
+    <table class="form bev-table">
+      <tr>
+        <th colspan="2" width="50%">{$this->mealName($meal)}</th>
+      </tr>
+      {foreach from=$beverage item=bev} 
+      <tr>
+        <td>{$bev["name"]}</td>
+        <td class="text-right">{$bev["num"]}</td>
+      </tr>
+      {/foreach}
+    </table>
+    <div class="page-break"></div>
+    <div class="page-header"></div>
   {/foreach}
-  {/foreach}
-</table>
