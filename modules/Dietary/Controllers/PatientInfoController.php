@@ -210,7 +210,7 @@ class PatientInfoController extends DietaryController {
 		if (!empty (input()->breakfast_specialrequest)) {
 			foreach (input()->breakfast_specialrequest as $item) {
 				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
-				$deleteSpecialReq = $this->loadModel("PatientSpecialReq")->deleteSpecialReqs($patient->id);
+				$deleteSpecialReq = $this->loadModel("PatientSpecialReq")->deleteSpecialReqs($patient->id, $item, 1);
 				$patient_spec_req = $this->loadModel("PatientSpecialReq");
 				$patient_spec_req->patient_id = $patient->id;
 				$patient_spec_req->special_req_id = $spec_req->id;
