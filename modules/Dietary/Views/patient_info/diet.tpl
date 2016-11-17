@@ -169,7 +169,7 @@
 	        	action: "deleteItem",
 	        	patient: patientId,
 	        	name: specialRequestName,
-	        	meal: "Breakfast",
+	        	meal: 1,
 	        	type: "special_request"
 	        	}, function (e) {
 	        		console.log(e);
@@ -195,7 +195,7 @@
 	        	action: "deleteItem",
 	        	patient: patientId,
 	        	name: specialRequestName,
-	        	meal: "Lunch",
+	        	meal: 2,
 	        	type: "special_request"
 	        	}, function (e) {
 	        		console.log(e);
@@ -221,7 +221,7 @@
 	        	action: "deleteItem",
 	        	patient: patientId,
 	        	name: specialRequestName,
-	        	meal: "Dinner",
+	        	meal: 3,
 	        	type: "special_request"
 	        	}, function (e) {
 	        		console.log(e);
