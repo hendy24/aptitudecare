@@ -81,6 +81,20 @@
 			});
 		});
 
+		$("#meal-order-form-select-date").on("click", function(e) {
+			e.preventDefault();
+			var url = $(this).attr("href");
+			$("#meal-order-dialog").dialog({
+				buttons: {
+					"Submit": function() {
+						var selectedDate = $("#form-date").val();
+						window.open(url + "&start_date=" + selectedDate, '_blank');
+						$(this).dialog("close");
+					}
+				}
+			});
+		});
+
 	});
 </script>
 
@@ -94,7 +108,7 @@
 	</div>
 	<div id="action-right">
 		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="button">Tray Cards</a>
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="button" target="_blank">Meal Order Forms</a>
+		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="button" target="_blank">Meal Order Forms</a>
 	</div>
 </div>
 
@@ -160,4 +174,9 @@
 <div id="tray-card-dialog" title="Select Date">
 	<p>Select the date for which you would like to print the tray cards.</p>
 	<input type="date" id="selected-date">
+</div>
+
+<div id="meal-order-dialog" title="Select Date">
+	<p>Select the date for which you would like to print the meal order form.</p>
+	<input type="date" id="form-date">
 </div>
