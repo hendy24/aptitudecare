@@ -148,7 +148,9 @@ class PatientInfoController extends DietaryController {
 		$patient->first_name = input()->first_name;
 		$patient->last_name = input()->last_name;
 		if (input()->date_of_birth != "") {
-			mysql_date(input()->date_of_birth);
+			$patient->date_of_birth = mysql_date(input()->date_of_birth);
+		} else {
+			$patient->date_of_birth = null;
 		}
 
 		// if input fields are not empty then set the data

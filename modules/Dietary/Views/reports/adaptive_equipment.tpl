@@ -24,7 +24,7 @@
 		<th width="500">Adaptive Equipment</th>
 	</tr>
 	{foreach from=$patients item=patient}
-	<tr>
+	<tr class="form-row">
 		<td>{$patient->number}</td>
 		<td>{$patient->fullName()}</td>
 		<td>{$patient->ae_name}</td>

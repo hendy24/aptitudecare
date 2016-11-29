@@ -161,3 +161,7 @@ tr.beverages td {
 	padding: 0;
 	text-align: center;
 }
+
+tr.form-row td {
+	border-bottom: 1px dotted #ccc;
+}

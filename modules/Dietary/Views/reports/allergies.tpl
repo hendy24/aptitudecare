@@ -24,7 +24,7 @@
     <th width="500">Allergy</th>
   </tr>
   {foreach from=$patients item=patient}
-  <tr>
+  <tr class="form-row">
     <td>{$patient->number}</td>
     <td>{$patient->last_name}, {$patient->first_name}</td>
     <td>{$patient->allergy_name|default:"None"}</td>

@@ -27,10 +27,10 @@
 		<input type="hidden" name="path" value="{$current_url}">
 		<table class="form-multiple">
 			<tr>
-				<td><input type="text" name="menu_greeting" value="{$menuGreeting->menu_greeting}" size="65" onkeydown="limitText(this.form.menu_greeting,this.form.countdown,50)" onkeyup="limitText(this.form.menu_greeting,this.form.countdown,50)" maxlength="50"></td>
+				<td><input type="text" name="menu_greeting" value="{$menuGreeting->menu_greeting}" size="65" onkeydown="limitText(this.form.menu_greeting,this.form.countdown,75)" onkeyup="limitText(this.form.menu_greeting,this.form.countdown,75)" maxlength="75"></td>
 			</tr>
 			<tr>
-				<td class="text-right"><font size="1">You have <input readonly type="text" name="countdown" size="3" value="50"> characters left. (Maximum characters: 50). </font></td>
+				<td class="text-right"><font size="1">You have <input readonly type="text" name="countdown" size="3" value="75"> characters left. (Maximum characters: 75). </font></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>

@@ -21,7 +21,7 @@
 	<input type="hidden" name="action" value="submitStartDate">
 	<input type="hidden" name="location" value="{$location->public_id}">
 	<input type="hidden" name="path" value="{$current_url}">
-
+	<br><br>
 	<table class="form">
 		<tr>
 			<td><strong>Choose the menu:</strong></td>

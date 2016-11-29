@@ -41,7 +41,7 @@
 		<th><a href="" id="liquid_consistency" class="order">Liquid Consistency</a></th>
 	</tr>
 	{foreach from=$dietCensus item=diet}
-	<tr>
+	<tr class="form-row">
 		<td>{$diet->room}</td>
 		<td>{$diet->patient_name}</td>
 		{if !$isPDF}

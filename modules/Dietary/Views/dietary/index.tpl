@@ -173,10 +173,10 @@
 
 <div id="tray-card-dialog" title="Select Date">
 	<p>Select the date for which you would like to print the tray cards.</p>
-	<input type="date" id="selected-date">
+	<input type="text" id="selected-date" class="date-picker">
 </div>
 
 <div id="meal-order-dialog" title="Select Date">
 	<p>Select the date for which you would like to print the meal order form.</p>
-	<input type="date" id="form-date">
+	<input type="text" id="form-date" class="date-picker">
 </div>

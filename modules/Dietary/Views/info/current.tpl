@@ -52,6 +52,7 @@
 					{/foreach}
 					</ul>
 				</div>
+				<div class="clear"></div>
 				<div class="menu-edit-button">
 					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit&amp;location={$location->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;date={"$startDate + $count day"|date_format:"%Y-%m-%d"}" class="button">Edit</a>
 				</div>

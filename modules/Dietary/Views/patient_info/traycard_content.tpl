@@ -67,7 +67,7 @@
 
       <tr>
         <td class="text-strong" width="150">Percent Consumed:</td>
-        <td class="text-center text-10" style="padding-top:9px;">0-25 &nbsp;&nbsp; 26-50 &nbsp;&nbsp; 51-75 &nbsp;&nbsp; 76-100</td>
+        <td class="text-center text-10" style="padding-top:5px;">0-25 &nbsp;&nbsp; 26-50 &nbsp;&nbsp; 51-75 &nbsp;&nbsp; 76-100</td>
       </tr>
     </table>
   </div>

@@ -25,7 +25,7 @@
         <th colspan="2" width="50%">{$this->mealName($meal)}</th>
       </tr>
       {foreach from=$beverage item=bev} 
-      <tr>
+      <tr class="form-row">
         <td>{$bev["name"]}</td>
         <td class="text-right">{$bev["num"]}</td>
       </tr>

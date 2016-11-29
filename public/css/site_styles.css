@@ -28,6 +28,8 @@ img {text-decoration: none; border: 0px}
 	height: 100px;
 }
 
+.clear { clear: both; }
+
 table {
 	border-collapse: collapse;
 }
@@ -79,6 +81,12 @@ div.multiple-page-form h2 {
 }
 
 
+table.form {
+	margin: 0 auto;
+	width: 80%;
+	text-align: center;
+}
+
 
 
 /***** Styles specific to the table on the edit diet page *****/
@@ -127,12 +135,16 @@ div.menu {
 
 div.menu-info {
 	padding: 0;
+	clear: both;
 }
 
 div.menu-edit-button {
-	position: absolute;
-	bottom: 15px;
-	right: 15px;
+	float: left;
+	vertical-align: bottom;
+	margin-left: 85%;
+	margin-bottom: 15px;
+	width: 100%;
+	height: 25px;
 }
 
 #legendary {
@@ -501,14 +513,14 @@ table#patient-info a:hover {
 }
 
 .current-menu-info {
-	width: 20%;
+	width: 40%;
 	margin: 0 auto;
-	background: #d8d8d8;
 	padding: 2px 5px;
 }
 
 .current-menu-info p {
 	margin: 0;
+	text-align: center;
 }
 
 #page-info {
