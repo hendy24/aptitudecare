@@ -122,3 +122,42 @@ input[type="checkbox"] {
 	margin-top: 20px;
 	text-align: center;
 }
+
+.form h1 {
+	font-size: 16px;
+	font-style: italic;
+}
+
+table.menu {
+	width: 80%;
+}
+
+table.menu td {
+	font-size: 10px;
+}
+
+td.menu-content {
+	padding: 2px 5px;
+}
+
+td.menu-day-title {
+	text-align: center;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	font-weight: bold;
+}
+
+td.menu-header {
+	text-align: center;
+	font-weight: bold;
+}
+
+td.public-info {
+	text-align: center;
+	font-style: italic;
+}
+
+tr.beverages td {
+	padding: 0;
+	text-align: center;
+}

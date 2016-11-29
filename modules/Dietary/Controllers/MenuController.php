@@ -354,6 +354,102 @@ class MenuController extends DietaryController {
 
 
 
+	public function print_menu() {
+		$this->template = "pdf";
+		smarty()->assign('title', "Current Menu");
+
+		// Get the selected facility. If no facility has been selected return the users' default location
+		if (isset (input()->location)) {
+			$location = $this->loadModel("Location", input()->location);
+		} else {
+			$location = $this->getLocation();
+		}
+
+		smarty()->assign('location', $location);
+
+		// get the correct time for the selected location
+		date_default_timezone_set($location->timezone);
+
+
+		// Check url for week in the past or future
+		if (isset (input()->weekSeed)) {
+			$weekSeed = input()->weekSeed;
+		// If no date is set in the url then default to this week
+		} else {
+			$weekSeed = date('Y-m-d');
+		}
+
+		$week = Calendar::getWeek($weekSeed);
+
+		$nextWeekSeed = date("Y-m-d", strtotime("+7 days", strtotime($week[0])));
+
+
+		smarty()->assign(array(
+			'weekSeed' => $weekSeed,
+			'weekStart' => date('Y-m-d', strtotime($weekSeed)),
+			'week' => $week,
+			'advanceWeekSeed' => $nextWeekSeed,
+			'retreatWeekSeed' => date("Y-m-d", strtotime("-7 days", strtotime($weekSeed))),
+		));
+
+		$_dateStart = date('Y-m-d', strtotime($week[0]));
+		$_dateEnd = date('Y-m-d', strtotime($week[6]));
+
+		if (strtotime($_dateStart) > strtotime('now')) {
+			$today = date('Y-m-d', strtotime('now'));
+		} else {
+			$today = false;
+		}
+
+		smarty()->assign('today', $today);
+
+		smarty()->assign('startDate', $_dateStart);
+		smarty()->assign('endDate', $_dateEnd);
+
+
+		$urlDate = date('m/d/Y', strtotime($_dateStart));
+		$printDate = date("l, F j, Y", strtotime($_dateStart));
+		smarty()->assign('urlDate', $urlDate);
+
+
+		// Get the menu id the facility is currently using
+		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
+		smarty()->assign('menu', $menu);
+
+		// Get the menu day for today
+		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
+		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+		$endDay = $startDay + 6;
+
+
+		// Get the menu items for the week
+		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateEnd, $startDay, $endDay, $menu->menu_id);
+
+		$menuItemsArray = array();
+		$day = date("l", strtotime("Sunday"));
+		$i = 0;
+		foreach ($menuItems as $item) {
+			if ($i == 3) {
+				$i = 0;
+				$day = date("l", strtotime($day . " + 1 day"));
+			}
+
+			if ($i <= 2) {
+				$menuItemsArray[$day][] = explode("\n", $item->content);
+			} 
+					
+			$i++;
+		}
+
+		smarty()->assign('menuItems', $menuItemsArray);
+
+		// fetch alternate menu items
+		$alternates = $this->loadModel('Alternate')->fetchAlternates($location->id);
+		smarty()->assign('alternates', $alternates);
+		// $this->normalizeMenuItems($menuItems);
+
+	}
+
 
 
 

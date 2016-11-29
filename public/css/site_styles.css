@@ -625,3 +625,7 @@ li.permission-access a {
 #tray-card-dialog {
 	display: none;
 }
+
+#meal-order-dialog {
+	display: none;
+}
