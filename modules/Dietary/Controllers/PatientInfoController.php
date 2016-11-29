@@ -147,7 +147,9 @@ class PatientInfoController extends DietaryController {
 
 		$patient->first_name = input()->first_name;
 		$patient->last_name = input()->last_name;
-		$patient->date_of_birth = mysql_date(input()->date_of_birth);
+		if (input()->date_of_birth != "") {
+			mysql_date(input()->date_of_birth);
+		}
 
 		// if input fields are not empty then set the data
 /*		if (input()->height != "") {
@@ -578,7 +580,7 @@ class PatientInfoController extends DietaryController {
 							$tray_card_cols[$key][$i]->special_reqs .= $sr->name . ", ";
 						}
 					}
-					if (strtotime($tci['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+					if (strtotime($tci['main_data']->date_of_birth) != "" && strtotime($tci['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
 						$tray_card_cols[$key][$i]->birthday = true;
 					} else {
 						$tray_card_cols[$key][$i]->birthday = false;
@@ -606,7 +608,7 @@ class PatientInfoController extends DietaryController {
 						$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
 					}
 				}
-				if (strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+				if (strtotime($tci['main_data']->date_of_birth) != "" && strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
 					$tray_card_cols[$i]->birthday = true;
 				} else {
 					$tray_card_cols[$i]->birthday = false;
@@ -630,7 +632,7 @@ class PatientInfoController extends DietaryController {
 							$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
 						}
 					}
-					if (strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
 						$tray_card_cols[$i]->birthday = true;
 					} else {
 						$tray_card_cols[$i]->birthday = false;

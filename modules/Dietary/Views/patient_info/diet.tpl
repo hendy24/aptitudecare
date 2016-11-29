@@ -43,9 +43,14 @@
 		}
 
 		var tagOptions = ["adaptEquip", "allergies", "dislikes", "breakfast_beverages", "lunch_beverages", "dinner_beverages", "supplements", "breakfast_specialrequest", "lunch_specialrequest", "dinner_specialrequest"];
-		for (category of tagOptions){
-				startTag(category);
-		}
+
+		$.each(tagOptions, function(index, value) {
+			startTag(value);
+		});
+		
+		// for (category of tagOptions){
+		// 		startTag(category);
+		// }
 
 		//startTag("adaptEquip");
 
@@ -463,6 +468,7 @@
 			<td colspan="2">Food Allergies:</td>
 			<td colspan="2">Food dislikes or intolerances:</td>
 		</tr>
+		<tr>
 			<td colspan="2" class="text-right">
 				<ul id="allergies">
 					{if $allergies}
@@ -712,7 +718,6 @@
 						<td colspan="3">
 							<input type="text" name="texture[]" class="other-input" placeholder="Enter other texture info..." value="{$textures['other']}">
 						</td>
-					</tr>
 					</tr>
 				</table>
 			</td>

@@ -3,6 +3,8 @@ ul {
 	list-style-type: none;
 }
 
+img {text-decoration: none; border: 0px}
+
 #container {
 	position: relative;
 	width: 95%;
