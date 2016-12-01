@@ -161,10 +161,9 @@ class ReportsController extends DietaryController {
 			$this->redirect(array('module' => $this->module));
 		}
 
-		// check if the location is has the admission dashboard enabled
+		// // check if the location is has the admission dashboard enabled
 		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
 		smarty()->assign('modEnabled', $modEnabled);
-
 		
 		if (!auth()->isLoggedIn()) {
 			$this->template = "pdf";
@@ -179,7 +178,7 @@ class ReportsController extends DietaryController {
 			$order_by = "room";
 		}
 
-		// need to get patients room number and name with the diet order, texture and liquid
+		// // need to get patients room number and name with the diet order, texture and liquid
 		$diet_census = $this->loadModel('PatientDietOrder')->fetchPatientCensus($location->id, $order_by);
 		smarty()->assign('dietCensus', $diet_census);
 		smarty()->assign('pageUrl', $this->getUrl());

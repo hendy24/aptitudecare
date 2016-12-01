@@ -67,13 +67,12 @@ class PatientDietOrder extends Dietary {
               INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id 
               INNER JOIN {$room->tableName()} r ON r.id = s.room_id 
               INNER JOIN {$patient_info->tableName()} pi ON pi.patient_id = p.id
-              LEFT JOIN {$diet_order->tableName()} do ON do.id = pdo.diet_order_id
-              LEFT JOIN {$patient_texture->tableName()} pt ON p.id 
-              LEFT JOIN {$texture->tableName()} t ON t.id = pt.texture_id 
+              -- LEFT JOIN {$diet_order->tableName()} do ON do.id = pdo.diet_order_id
+              -- LEFT JOIN {$patient_texture->tableName()} pt ON p.id 
+              -- LEFT JOIN {$texture->tableName()} t ON t.id = pt.texture_id 
             WHERE pi.location_id = :location_id 
               AND s.status = 'Approved'
             GROUP BY p.id ORDER BY {$order_by} ASC";
-
 
     $params[":location_id"] = $location_id;
     return $this->fetchAll($sql, $params);

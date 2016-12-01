@@ -80,13 +80,18 @@ div.multiple-page-form h2 {
 	font-weight: bold;
 }
 
-
 table.form {
-	margin: 0 auto;
 	width: 80%;
-	text-align: center;
+	margin: 0 auto;
 }
 
+
+/*table.form {
+	margin: 0 auto;
+	width: 10%;
+	text-align: center;
+}
+*/
 
 
 /***** Styles specific to the table on the edit diet page *****/
