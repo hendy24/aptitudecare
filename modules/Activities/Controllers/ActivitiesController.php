@@ -168,7 +168,7 @@ class ActivitiesController extends MainPageController {
 				$activity_schedule->all_day = 0;
 			}	
 		}
-		pr ($activity_schedule); exit;
+		
 		// BREAKPOINT
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'error');

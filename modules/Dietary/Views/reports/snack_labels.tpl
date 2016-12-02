@@ -44,6 +44,7 @@
         <strong>{$snack->number} &mdash; {$snack->patient_name}</strong><br />
         {$snack->diet}<br />
         <div class="allergy">{$snack->allergy}</div>
+        <div class="texture">{$snack->texture}</div>
         <div class="snack">{$snack->name} {$snack->time}</div>
     </div>
     {/foreach}

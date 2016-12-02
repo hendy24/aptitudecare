@@ -22,7 +22,7 @@
 	<input type="hidden" name="location" value="{$location->public_id}">
 	<input type="hidden" name="path" value="{$current_url}">
 	<br><br>
-	<table class="form">
+	<table class="form text-center">
 		<tr>
 			<td><strong>Choose the menu:</strong></td>
 		</tr>

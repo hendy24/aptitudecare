@@ -1,3 +1,4 @@
+{if $auth->hasPermission('edit_data')}
 <li><a href="" onClick="return true">Data</a>
 	<ul>
 		{if $this->getModule() == "Admissions" || $this->getModule() == "HomeHealth"}
@@ -15,3 +16,4 @@
 		{/if}
 	</ul>
 </li>
+{/if}

@@ -363,6 +363,12 @@ class UsersController extends MainPageController {
 
 			// Delete all groups for the curent user so we can reset and save them again
 			$groups = $this->loadModel('UserGroup')->deleteCurrent($user->id);
+			//Save the default user group to user_group
+			$default_group = $this->loadModel('UserGroup');
+			$default_group->user_id = $user->id;
+			$default_group->group_id = $user->group_id;
+			$default_group->save();
+
 			// Save the users additional groups
 			foreach (input()->additional_groups as $group) {
 				if ($group == 1) {
@@ -376,6 +382,12 @@ class UsersController extends MainPageController {
 
 
 			$modules = $this->loadModel('UserModule')->deleteCurrent($user->id);
+			// Save the default module to user_module
+			$default_module = $this->loadModel('UserModule');
+			$default_module->user_id = $user->id;
+			$default_module->module_id = $user->default_module;
+			$default_module->save();
+
 			// Save the users additional modules
 			$i = 0;
 			foreach (input()->additional_modules as $mod) {

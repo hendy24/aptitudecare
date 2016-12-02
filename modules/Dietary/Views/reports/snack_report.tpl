@@ -39,6 +39,7 @@
         <th>Patient Name</th>
         <th>Diet</th>
         <th>Allergies</th>
+        <th>Texture</th>
         <th>Snack</th>
         <th>Time</th>
       </tr>
@@ -48,6 +49,7 @@
         <td>{$snack->patient_name}</td>
         <td>{$snack->diet}</td>
         <td>{$snack->allergy}</td>
+        <td>{$snack->texture}</td>
         <td>{$snack->name}</td>
         <td>{$snack->time}</td>
       </tr>

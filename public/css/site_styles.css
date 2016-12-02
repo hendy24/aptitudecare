@@ -81,7 +81,8 @@ div.multiple-page-form h2 {
 }
 
 table.form {
-	width: 80%;
+	width: auto;
+	max-width: 80% !important;
 	margin: 0 auto;
 }
 
