@@ -63,7 +63,7 @@
 	</tr>
 
 	<tr>
-		<td colspan="3" class="public-info">Please contact the Nutrition Services Director, ______________________________________________________ for any questions or comments.</td>
+		<td colspan="3" class="public-info">Please contact the Nutrition Services Director, <strong>{$nsd->name}</strong> for any questions or comments.</td>
 	</tr>
 </table>
 		

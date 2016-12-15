@@ -126,4 +126,10 @@ class User extends AppData {
 		return $this->fetchOne($sql, $params);
 	}
 
+	public function fetchNSD($location) {
+		$sql = "SELECT CONCAT(first_name, ' ', last_name) AS name FROM {$this->tableName()} WHERE default_location = :location_id AND group_id = 11 LIMIT 1";
+		$params[":location_id"] = $location;
+		return $this->fetchOne($sql, $params);
+	}
+
 }
