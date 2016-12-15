@@ -13,6 +13,11 @@
         <td>{$item->diet_orders}</td>
       </tr>
       <tr>
+        <td class="text-strong">Portion Size:</td>
+        <td>{$item->portion_size}</td>
+      </tr>
+
+      <tr>
         <td class="text-strong">Textures:</td>
         <td>{$item->textures}</td>
       </tr>
@@ -23,10 +28,6 @@
       <tr>
         <td class="text-strong">Special Requests:</td>
         <td>{$item->special_reqs|default:"None"}</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Portion Size:</td>
-        <td>{$item->portion_size}</td>
       </tr>
       <tr>
         <td class="text-red text-italics text-strong">Allergies:</td>

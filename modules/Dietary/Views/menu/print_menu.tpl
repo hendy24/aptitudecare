@@ -26,18 +26,12 @@
 	<tr>
 		<td colspan="3" class="public-info">If the daily special doesn't appeal to you today, please choose from the following alternate selections</td>
 	</tr>
-	<tr>
-		<td colspan="3">&nbsp;</td>
-	</tr>
 
 	<tr>
 		<td colspan="3" class="menu-header">Alternate Menu</td>
 	</tr>
 	<tr>
 		<td colspan="3" class="text-center">{$alternates->content}</td>
-	</tr>
-	<tr>
-		<td colspan="3">&nbsp;</td>
 	</tr>
 	<tr>
 		<td colspan="3" class="menu-header">Beverage Options</td>
@@ -66,9 +60,6 @@
 		<td>&nbsp;</td>
 		<td>Lemonade</td>
 		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td colspan="3">&nbsp;</td>
 	</tr>
 
 	<tr>
