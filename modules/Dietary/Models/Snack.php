@@ -29,7 +29,7 @@ FROM dietary_snack AS snack
     INNER JOIN dietary_patient_snack patient_snack ON patient_snack.snack_id = snack.id 
     INNER JOIN ac_patient patient ON patient.id = patient_snack.patient_id INNER JOIN admit_schedule sch ON sch.patient_id = patient.id 
     INNER JOIN admit_room room ON room.id = sch.room_id 
-WHERE sch.location_id = :location_id AND sch.status='Approved' ORDER BY room.number, patient_snack.time";
+WHERE sch.location_id = :location_id AND sch.status='Approved' GROUP BY room.number ORDER BY room.number, patient_snack.time";
 
     	$params[":location_id"] = $location_id;
     	return $this->fetchAll($sql, $params);
