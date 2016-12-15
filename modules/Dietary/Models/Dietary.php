@@ -38,6 +38,36 @@ class Dietary extends AppModel {
 	}
 
 
+	public function fetchAll($sql = null, $params = array()) {
+		
+		$called_class = get_called_class();
+		$class = new $called_class;
+
+		$table = $this->tableName();
+
+		if ($sql == null) {
+			$sql = "SELECT * FROM `{$table}`";
+			if (!empty($params)) {
+				foreach ($params as $k => $p) {
+					$sql .= " WHERE {$k} = {$p} AND";
+				}
+
+				$sql = trim($sql, "AND");
+			}
+
+			$sql .= "ORDER BY name ASC";
+
+		}
+		
+		try {
+			return db()->fetchRows($sql, $params, $class);
+		} catch (PDOException $e) {
+			echo $e;
+		}
+	}
+
+
+
 
 /*
  * ---------------------------------------------------------------------------
