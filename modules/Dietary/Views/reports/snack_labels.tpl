@@ -39,15 +39,16 @@
 <body>
 
 <div id="label-page">    
-    {foreach from=$snacks item=snack key=time}
-    <div class="label">
-        <strong>{$snack->number} &mdash; {$snack->patient_name}</strong><br />
-        {$snack->diet}<br />
-        <div class="allergy">{$snack->allergy}</div>
-        <div class="texture">{$snack->texture}</div>
-        <div class="snack">{$snack->name} {$snack->time}</div>
-    </div>
+  {foreach from=$snacks item=item key=time}
+    {foreach from=$item item=snack}
+      <div class="label">
+        <strong>{$snack->number} - {$snack->patient_name}</strong><br />
+        <strong>Diet: {$snack->diet}</strong><br />
+        <strong>Allergies:</strong> {$snack->allergy}<br />
+        <strong>Snack</strong> {$snack->name} <strong>Time:</strong> {$snack->time}<br />
+      </div>
     {/foreach}
+  {/foreach}
 </div>
 </body>
 </html>

@@ -43,16 +43,19 @@
         <th>Snack</th>
         <th>Time</th>
       </tr>
-      {foreach from=$snacks item=snack key=time}
-      <tr class="{cycle values="row,rowalt"}">
-        <td>{$snack->number}</td>
-        <td>{$snack->patient_name}</td>
-        <td>{$snack->diet}</td>
-        <td>{$snack->allergy}</td>
-        <td>{$snack->texture}</td>
-        <td>{$snack->name}</td>
-        <td>{$snack->time}</td>
-      </tr>
+      {foreach from=$snacks item=item key=time}
+        {foreach from=$item item=snack}
+        <tr class="{cycle values="row,rowalt"}">
+          <td>{$snack->number}</td>
+          <td>{$snack->patient_name}</td>
+          <td>{$snack->diet}</td>
+          <td>{$snack->allergy}</td>
+          <td>{$snack->texture}</td>
+          <td>{$snack->name}</td>
+          <td>{$snack->time}</td>
+        </tr>
+    
+        {/foreach}
       {/foreach}
     </table>
   </form>
@@ -92,13 +95,15 @@
 </head>
 <body>
 
-  {foreach from=$snacks item=snack key=time}
-    <div class="label">
-      <strong>{$snack->number} - {$snack->patient_name}</strong><br />
-      <strong>Diet: {$snack->diet}</strong><br />
-      <strong>Allergies:</strong> {$snack->allergy}<br />
-      <strong>Snack</strong> {$snack->name} <strong>Time:</strong> {$snack->time}<br />
-    </div>
+  {foreach from=$snacks item=item key=time}
+    {foreach from=$item item=snack}
+      <div class="label">
+        <strong>{$snack->number} - {$snack->patient_name}</strong><br />
+        <strong>Diet: {$snack->diet}</strong><br />
+        <strong>Allergies:</strong> {$snack->allergy}<br />
+        <strong>Snack</strong> {$snack->name} <strong>Time:</strong> {$snack->time}<br />
+      </div>
+    {/foreach}
   {/foreach}
 </body>
 </html>
