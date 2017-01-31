@@ -312,6 +312,10 @@ class PatientInfoController extends DietaryController {
 			$this->loadModel("PatientDietOrder")->removeOtherItems($patient->id, 'DietOrder');
 			$this->loadModel("PatientDietOrder")->removePatientDietItems($patient->id);
 
+			//remove sepecial requests and beverages
+			$this->loadModel("PatientSpecialReq")->removePatientDietItems($patient->id);
+			$this->loadModel("PatientBeverage")->removePatientDietItems($patient->id);
+
 			foreach (input()->diet_order as $item) {
 				$diet_order = $this->loadModel("DietOrder")->fetchByName($item, true);
 				if (!empty ($diet_order)) {
@@ -492,7 +496,6 @@ class PatientInfoController extends DietaryController {
  */
 
 	public function meal_tray_card() {
-
 		// this page will always create a PDF
 		$this->template = 'pdf';
 		// fetch the location
@@ -536,7 +539,7 @@ class PatientInfoController extends DietaryController {
 			// fetch the selected patient info
 			$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
 			// fetch the patient's tray card info
-			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);			
+			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);		
 		}
 
 		// get date from the url

@@ -1,6 +1,9 @@
   <div class="traycard-column">
     <table class="traycard {if $k == 2} last-table{/if}">
       <tr>
+        <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
+      </tr>
+      <tr>
         <td colspan="2" class="text-strong text-18 text-center">{$item->meal_name}</td>
       </tr>
       {if $item->birthday}
@@ -50,9 +53,6 @@
       </tr>
       <tr>
         <td colspan="2" class="text-center text-18">{$selectedDate|date_format}</td>
-      </tr>
-      <tr>
-        <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
       </tr>
       <tr>
         <td>&nbsp;</td>
