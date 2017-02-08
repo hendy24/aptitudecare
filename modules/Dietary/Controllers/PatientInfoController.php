@@ -348,12 +348,11 @@ class PatientInfoController extends DietaryController {
 
 			foreach (input()->texture as $item) {
 				if ($item != "") {
-					$texture_item = $this->loadModel("Texture")->fetchByName($item, true);
+					$texture_item = $this->loadModel("Texture")->fetchByName($item, true, true);
 					$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
 				} else {
 					$feedback[] = "Diet texture has not been entered";
 				}
-
 				if ($patientTexture->patient_id == "") {
 					$patientTexture->patient_id = $patient->id;
 					$patientTexture->texture_id = $texture_item->id;
@@ -370,7 +369,7 @@ class PatientInfoController extends DietaryController {
 			$this->loadModel("PatientOther")->removeOtherItems($patient->id, 'Other');
 			$this->loadModel("PatientOther")->removePatientDietItems($patient->id);
 			foreach (input()->other as $item) {
-				$other_item = $this->loadModel("Other")->fetchByName($item, true);
+				$other_item = $this->loadModel("Other")->fetchByName($item, true, false);
 				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOtherId($patient->id, $other_item->id);
 
 				if ($patientOther->patient_id == "") {
