@@ -53,6 +53,8 @@ class PatientDietOrder extends Dietary {
     $diet_order = $this->loadTable('DietOrder');
     $texture = $this->loadTable('Texture');
     $patient_texture = $this->loadTable('PatientTexture');
+    $allergy = $this->loadTable('Allergy');
+    $food_info = $this->loadTable('PatientFoodInfo');
 
     $sql = "SELECT 
               p.id, 
@@ -61,7 +63,8 @@ class PatientDietOrder extends Dietary {
               CONCAT(p.last_name, ', ', p.first_name) AS patient_name,
               (SELECT GROUP_CONCAT(do.name separator ', ') as diet_order FROM {$diet_order->tableName()} do INNER JOIN {$this->tableName()} pdo ON pdo.diet_order_id = do.id WHERE pdo.patient_id = p.id GROUP BY pdo.patient_id) AS diet_order,
               (SELECT GROUP_CONCAT(t.name separator ', ') as texture FROM {$texture->tableName()} t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE is_liquid = 0 AND pt.patient_id = p.id GROUP BY pt.patient_id) AS texture,
-              (SELECT GROUP_CONCAT(t.name separator ', ') as texture FROM {$texture->tableName()} t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE is_liquid = 1 AND pt.patient_id = p.id GROUP BY pt.patient_id) AS liquid_consistency
+              (SELECT GROUP_CONCAT(t.name separator ', ') as texture FROM {$texture->tableName()} t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE is_liquid = 1 AND pt.patient_id = p.id GROUP BY pt.patient_id) AS liquid_consistency,
+              (SELECT GROUP_CONCAT(a.name separator ', ') as patient_allergy FROM {$allergy->tableName()} a INNER JOIN {$food_info->tableName()} food_info ON a.id = food_info.food_id WHERE food_info.allergy = 1 AND food_info.patient_id = p.id GROUP BY food_info.patient_id) AS allergies
             FROM {$this->tableName()} pdo 
               INNER JOIN {$patient->tableName()} p ON p.id = pdo.patient_id 
               INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id 
