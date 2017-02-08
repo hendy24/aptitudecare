@@ -7,9 +7,10 @@
     body {
         width: 8.5in;
         margin: 0in .1875in;
+        font-size: 10px;
         }
     #label-page {
-        margin-top: .25in;
+        margin-top: .2in;
     }
     .label{
         /* Avery 5160 labels -- CSS and HTML by MM at Boulder Information Services */
@@ -42,10 +43,13 @@
   {foreach from=$snacks item=item key=time}
     {foreach from=$item item=snack}
       <div class="label">
-        <strong>{$snack->number} - {$snack->patient_name}</strong><br />
-        <strong>Diet: {$snack->diet}</strong><br />
-        <strong>Allergies:</strong> {$snack->allergy}<br />
-        <strong>Snack</strong> {$snack->name} <strong>Time:</strong> {$snack->time}<br />
+        <strong>{$snack->number} - {$snack->patient_name}</strong><br>
+        <strong>Date:</strong> {$smarty.now|date_format:"%D"}<strong> Time:</strong> {$snack->time}<br>
+        <strong>Diet:</strong> {$snack->diet}<br>
+        {if !empty($snack->allergy)}
+        <strong>Allergies:</strong> {$snack->allergy}<br>
+        {/if}
+        <strong>Snack:</strong> {$snack->name} 
       </div>
     {/foreach}
   {/foreach}
