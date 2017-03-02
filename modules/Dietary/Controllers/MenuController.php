@@ -370,7 +370,6 @@ class MenuController extends DietaryController {
 		// get the correct time for the selected location
 		date_default_timezone_set($location->timezone);
 
-
 		// Check url for week in the past or future
 		if (isset (input()->weekSeed)) {
 			$weekSeed = input()->weekSeed;
@@ -378,6 +377,7 @@ class MenuController extends DietaryController {
 		} else {
 			$weekSeed = date('Y-m-d');
 		}
+
 
 		$week = Calendar::getWeek($weekSeed);
 
@@ -426,12 +426,12 @@ class MenuController extends DietaryController {
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateEnd, $startDay, $endDay, $menu->menu_id);
 
 		$menuItemsArray = array();
-		$day = date("l", strtotime("Sunday"));
+		$day = date("m/d/y", strtotime($_dateStart));
 		$i = 0;
 		foreach ($menuItems as $item) {
 			if ($i == 3) {
 				$i = 0;
-				$day = date("l", strtotime($day . " + 1 day"));
+				$day = date("m/d/y", strtotime($day . " + 1 day"));
 			}
 
 			if ($i <= 2) {

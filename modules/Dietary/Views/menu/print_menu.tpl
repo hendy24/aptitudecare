@@ -5,7 +5,7 @@
 	</tr>	
 	{foreach from=$menuItems item="menu" key="day"}
 	<tr>
-		<td colspan="3" class="menu-day-title"><strong>{$day}</strong></td>
+		<td colspan="3" class="menu-day-title"><strong>{$day|date_format:"%A, %B %e, %Y"} </strong></td>
 	</tr>
 	<tr>
 		{foreach from=$menu item="content"}

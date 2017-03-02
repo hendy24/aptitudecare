@@ -15,7 +15,7 @@
 		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=print_menu&amp;location={$location->public_id}&amp;pdf=true" class="button" target="_blank">Print Menu</a>
+		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=print_menu&amp;location={$location->public_id}&amp;weekSeed={$urlDate}&amp;pdf=true" class="button" target="_blank">Print Menu</a>
 	</div>
 </div>
 
