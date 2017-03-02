@@ -70,7 +70,11 @@ class HomeHealthController extends MainPageController {
 		 *	Sync admission dashboard discharges with the ac_*.admit_schedule table and ac_*.patient table
 		 *	Remove $adDischarges once the admission app has been re-built in the new framework.
 		 */
-		$adDischarges = $this->loadModel('AdmissionDashboard')->syncDischarges($_dateStart, $_dateEnd, $location->id, $areas);
+		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
+
+		if ($modEnabled) {
+			$adDischarges = $this->loadModel('AdmissionDashboard')->syncDischarges($_dateStart, $_dateEnd, $location->id, $areas);
+		}
 		$admits = $this->loadModel('HomeHealthSchedule')->fetchAdmits($_dateStart, $_dateEnd, $areas);		
 
 		// split the admits up by date
