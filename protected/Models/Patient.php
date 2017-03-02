@@ -67,7 +67,7 @@ class Patient extends AppData {
 	public function fetchPatients($location_id) {
 		$schedule = $this->loadTable("Schedule");
 		$room = $this->loadTable("Room");
-		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE s.location_id = :location_id AND s.status = 'Approved' AND (s.datetime_discharge <= :datetime OR s.datetime_discharge IS NULL)";
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE s.location_id = :location_id AND s.status = 'Approved' AND (s.datetime_discharge >= :datetime OR s.datetime_discharge IS NULL)";
 		$params[":location_id"] = $location_id;
 		$params["datetime"] = mysql_date() . " 23:59:59";
 		return $this->fetchAll($sql, $params);
