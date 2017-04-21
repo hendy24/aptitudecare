@@ -279,11 +279,9 @@ class InfoController extends DietaryController {
 		$menuGreeting = $this->loadModel("LocationDetail")->fetchOne(null, array("location_id" => $location->id));
 		smarty()->assign("menuGreeting", $menuGreeting);
 
-
 		// meal time info
 		$meals = $this->loadModel("Meal")->fetchAll(null, array("location_id" => $location->id));
 		smarty()->assign("meals", $meals);
-
 
 		// alternate menu items
 		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));

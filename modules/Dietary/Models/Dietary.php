@@ -58,7 +58,9 @@ class Dietary extends AppModel {
 				$sql = trim($sql, "AND");
 			}
 
-			$sql .= "ORDER BY name ASC";
+			if (isset ($table->name)) {
+				$sql .= "ORDER BY name ASC";
+			}
 
 		}
 		
