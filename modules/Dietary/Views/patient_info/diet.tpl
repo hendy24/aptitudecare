@@ -740,7 +740,7 @@
 		</tr>
 		<tr>
 			<td><input type="radio" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}> &nbsp;Small</td>
-			<td><input type="radio" name="portion_size" value="Medium" {if $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}> &nbsp;Medium</td>
+			<td><input type="radio" name="portion_size" value="Regular" {if $patientInfo->portion_size == "Regular"} checked{elseif $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}> &nbsp;Regular</td>
 			<td><input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}> &nbsp;Large</td>
 		</tr>
 	
