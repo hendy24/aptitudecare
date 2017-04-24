@@ -33,10 +33,6 @@
         <td>{$item->special_reqs|default:"None"}</td>
       </tr>
       <tr>
-        <td class="text-red text-italics text-strong">Allergies:</td>
-        <td class="text-red text-italics text-strong">{$item->allergies}</td>
-      </tr>
-      <tr>
         <td class="text-strong">Other:</td>
         <td>{$item->orders}</td>
       </tr>
@@ -64,6 +60,10 @@
       <tr>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="text-red text-italics text-strong">Allergies:</td>
+        <td class="text-red text-italics text-strong">{$item->allergies}</td>
       </tr>
 
       <tr>
