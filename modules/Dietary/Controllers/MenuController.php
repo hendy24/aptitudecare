@@ -492,10 +492,10 @@ class MenuController extends DietaryController {
 	private function corpPageRedirect($menu_id = null) {
 		// if the location is set we came from the facility menu page, redirect there
 		if (isset (input()->location)) {
-			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "facility_menus"));
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "facility_menus", 'location' => input()->location, 'menu' => input()->menu, 'page_count' => input()->page_count));
 		} else {
 			// redirect to the corporate menu page
-			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $menu_id));
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $menu_id, 'page_count' => input()->page_count));
 		}
 
 	}

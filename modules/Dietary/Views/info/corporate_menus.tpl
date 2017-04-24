@@ -11,7 +11,7 @@
 		{$this->loadElement("module")}
 	</div>
 	<div id="center-title">
-		{$this->loadElement("selectLocation")}
+		<h1>{$selectedMenu->name} Menu</h1>
 	</div>
 	<div id="action-right">
 		<select name="menu" id="menu">
@@ -29,12 +29,6 @@
 	<div id="action-left">
 		<a href="{$SITE_URL}/?module=Dietary&amp;page=info&amp;action=create" class="button">Create Menu</a>
 		<a href="{$SITE_URL}/?module={$this->getModule()}&amp;page=info&amp;action=manage" class="button">Manage Menus</a>
-	</div>
-	<div id="center-title">
-		<h1>{$selectedMenu->name} Menu</h1>
-	</div>
-	<div id="action-right">
-		
 	</div>
 </div>
 
