@@ -29,10 +29,12 @@
         <td class="text-strong">Adaptive Equipment:</td>
         <td>{$item->adapt_equip}</td>
       </tr>
+      {if !empty($item->special_reqs)}
       <tr>
         <td class="text-strong">Special Requests:</td>
         <td>{$item->special_reqs|default:"None"}</td>
       </tr>
+      {/if}
       <tr>
         <td class="text-strong">Other:</td>
         <td>{$item->orders}</td>
