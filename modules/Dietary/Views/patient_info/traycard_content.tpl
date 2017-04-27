@@ -22,7 +22,7 @@
       </tr>
       {/if}
       <tr>
-        <td class="text-strong">Textures:</td>
+        <td class="text-strong">Texture:</td>
         <td>{$item->textures}</td>
       </tr>
       <tr>
