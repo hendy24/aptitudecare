@@ -459,9 +459,6 @@
 			<td><input type="text" name="weight" value="{$patientInfo->weight}" size="8"></td>
 		</tr> -->
 		<tr>
-			<td colspan="4">&nbsp;</td>
-		</tr>
-		<tr>
 			<th colspan="4" class="text-center">Diet Info</th>
 		</tr>
 		<tr>
