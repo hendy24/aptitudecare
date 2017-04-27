@@ -15,11 +15,12 @@
         <td class="text-strong">Diet Order:</td>
         <td>{$item->diet_orders}</td>
       </tr>
+      {if ($item->portion_size != "Regular")}
       <tr>
         <td class="text-strong">Portion Size:</td>
         <td>{$item->portion_size}</td>
       </tr>
-
+      {/if}
       <tr>
         <td class="text-strong">Textures:</td>
         <td>{$item->textures}</td>
