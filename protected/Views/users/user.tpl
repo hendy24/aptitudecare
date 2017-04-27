@@ -121,7 +121,7 @@
 			<td colspan="2">
 				<select name="default_location" id="user-location">
 					<option value="">Select a location...</option>
-					{foreach $available_locations as $location}
+					{foreach $additional_locations as $location}
 					<option value="{$location->id}" {if $default_location == $location->id} selected{/if}>{$location->name}</option>
 					{/foreach}
 				</select>
@@ -134,7 +134,7 @@
 		</tr>
 		<tr>
 			<td style="vertical-align: top">
-			{foreach $available_locations as $k => $loc name=count}
+			{foreach $additional_locations as $k => $loc name=count}
 				
 				<input type="checkbox" name="additional_locations[{$k}]" id="{$loc->id}" value="{$loc->id}" {foreach $assigned_locations as $location} {if $location->id == $loc->id} checked{/if}{/foreach} /> {$loc->name}<br>
 				{if $smarty.foreach.count.iteration % 10 == 0}
