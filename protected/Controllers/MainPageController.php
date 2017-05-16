@@ -28,7 +28,7 @@ class MainPageController extends MainController {
  *
  */
 	public function landscape_array($action) {
-		$landscape_actions = array("meal_tray_card, diet_census");
+		$landscape_actions = array("meal_tray_card", "diet_census");
 		if (in_array($action, $landscape_actions)) {
 			return true;
 		}
