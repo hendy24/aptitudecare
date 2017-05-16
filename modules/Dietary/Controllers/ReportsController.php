@@ -164,7 +164,7 @@ class ReportsController extends DietaryController {
 		// // check if the location is has the admission dashboard enabled
 		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
 		smarty()->assign('modEnabled', $modEnabled);
-		
+
 		if (!auth()->isLoggedIn()) {
 			$this->template = "pdf";
 			$is_pdf = true;
@@ -289,7 +289,7 @@ class ReportsController extends DietaryController {
 		} else {
 			$is_pdf = false;
 		}
-		
+
 		if (isset (input()->location)) {
 			$location = $this->loadModel("Location", input()->location);
 		} else {

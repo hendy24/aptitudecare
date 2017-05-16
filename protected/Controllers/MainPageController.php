@@ -9,26 +9,26 @@ class MainPageController extends MainController {
 	protected $area;
 
 
-/* 
+/*
  *  These are PDF pages to which access is allowed for PDF creation. When trying to generage a PDF from an HTML
- *  page mPDF does not keep the current session login connection, so this has be be overridden allow access to 
+ *  page mPDF does not keep the current session login connection, so this has be be overridden allow access to
  *  these pages even when not logged in.
  *
  * 	NOTE: Need to check security on these pages as users who are not logged in could actually access these pages.
- *	
+ *
  */
 	public function allow_access() {
 		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu");
 	}
 
 
-/* 
+/*
  *  An array of PDF pages which need to be printed in landscape mode. This array is searched from the framework's
  *  MainController.php page in the createPDF() method.
- *	
+ *
  */
 	public function landscape_array($action) {
-		$landscape_actions = array("meal_tray_card");
+		$landscape_actions = array("meal_tray_card, diet_census");
 		if (in_array($action, $landscape_actions)) {
 			return true;
 		}
@@ -65,13 +65,13 @@ class MainPageController extends MainController {
 			if ($this->module == "HomeHealth") {
 				$this->fetchArea();
 			}
-		} 
+		}
 
 		// Fetch the modules to which the user has access
 		if (auth()->isLoggedIn()) {
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 			smarty()->assign('modules', $modules);
-		} 
+		}
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
@@ -83,7 +83,7 @@ class MainPageController extends MainController {
 
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
-		
+
 
 		if (auth()->isLoggedIn()) {
 			if ($this->action == "admission_login") {
@@ -99,7 +99,7 @@ class MainPageController extends MainController {
 				}
 			}
 
-		} 
+		}
 		smarty()->assign('module', $this->module);
 	}
 
@@ -232,7 +232,7 @@ class MainPageController extends MainController {
 		} else {
 			return $this->location;
 		}
-		
+
 	}
 
 	public function getArea() {

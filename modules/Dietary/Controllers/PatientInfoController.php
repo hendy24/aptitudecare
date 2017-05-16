@@ -67,7 +67,7 @@ class PatientInfoController extends DietaryController {
 				$order_array['standard'][] .= $order->name;
 				if ($order->is_other) {
 					$order_array['other'] = $order->name;
-				} 
+				}
 			}
 		}
 
@@ -82,7 +82,7 @@ class PatientInfoController extends DietaryController {
 				$texture_array['standard'][] .= $pt->name;
 				if ($pt->is_other) {
 					$texture_array['other'] = $pt->name;
-				} 
+				}
 			}
 		}
 
@@ -97,13 +97,13 @@ class PatientInfoController extends DietaryController {
 				$other_array["standard"][] .= $other->name;
 				if ($other->is_other) {
 					$other_array["other"] = $other->name;
-				} 
+				}
 			}
 		}
 
 
 		smarty()->assignByRef('patient', $patient);
-		smarty()->assignByRef('patientInfo', $patientInfo);	
+		smarty()->assignByRef('patientInfo', $patientInfo);
 		smarty()->assignByRef('allergies', $allergies);
 		smarty()->assignByRef('dislikes', $dislikes);
 		smarty()->assignByRef('adaptEquip', $adapt_equip);
@@ -307,7 +307,7 @@ class PatientInfoController extends DietaryController {
 		// set diet_order array
 		$patientDietOrderArray = array();
 		if (!empty (input()->diet_order)) {
-			// check if the patient already has an "other" item saved. 
+			// check if the patient already has an "other" item saved.
 			// if there is something... delete it.
 			$this->loadModel("PatientDietOrder")->removeOtherItems($patient->id, 'DietOrder');
 			$this->loadModel("PatientDietOrder")->removePatientDietItems($patient->id);
@@ -338,10 +338,10 @@ class PatientInfoController extends DietaryController {
 			if ($texture != "") {
 				$texture_entered = true;
 				break;
-			} 
+			}
 		}
 		if ($texture_entered) {
-			// check if the patient already has an "other" item saved. 
+			// check if the patient already has an "other" item saved.
 			// if there is something... delete it.
 			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
 			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
@@ -538,7 +538,7 @@ class PatientInfoController extends DietaryController {
 			// fetch the selected patient info
 			$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
 			// fetch the patient's tray card info
-			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);		
+			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);
 		}
 
 		// get date from the url
@@ -546,7 +546,7 @@ class PatientInfoController extends DietaryController {
 			$_dateStart = date('Y-m-d', strtotime(input()->date));
 		} else{
 			$_dateStart = date('Y-m-d', strtotime('now'));
-		}	
+		}
 
 		// get the meal id from the url
 		if (isset (input()->meal_id)) {
@@ -566,20 +566,20 @@ class PatientInfoController extends DietaryController {
 		if (input()->patient == 'all') {
 			foreach ($tray_card_info as $key => $tci) {
 				for ($i=0;$i<3;$i++) {
-				
+
 					$tray_card_cols[$key][$i] = new stdClass();
 					$tray_card_cols[$key][$i]->meal_name = $meal_names[$i];
 					foreach ($tci['main_data'] as $k => $d) {
 						$tray_card_cols[$key][$i]->$k = $d;
 					}
 					$tray_card_cols[$key][$i]->beverages = "";
-					foreach ($tci['items_by_meal']['beverages'] as $k => $b) {			
+					foreach ($tci['items_by_meal']['beverages'] as $k => $b) {
 						if ($b->meal == $meals[$i]) {
 							$tray_card_cols[$key][$i]->beverages .= $b->name . ", ";
 						}
 					}
 					$tray_card_cols[$key][$i]->special_reqs = "";
-					foreach ($tci['items_by_meal']['special_reqs'] as $k => $sr) {	
+					foreach ($tci['items_by_meal']['special_reqs'] as $k => $sr) {
 						if ($sr->meal == $meals[$i]) {
 							$tray_card_cols[$key][$i]->special_reqs .= $sr->name . ", ";
 						}
@@ -601,7 +601,7 @@ class PatientInfoController extends DietaryController {
 					$tray_card_cols[$i]->$k = $d;
 				}
 				$tray_card_cols[$i]->beverages = "";
-				foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {			
+				foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {
 					if ($b->meal == $meals[$i]) {
 						$tray_card_cols[$i]->beverages .= $b->name . ", ";
 					}
@@ -631,12 +631,12 @@ class PatientInfoController extends DietaryController {
 						}
 					}
 					$tray_card_cols[$i]->special_reqs = "";
-					foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {	
+					foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {
 						if ($sr->meal == $meals[$i]) {
 							$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
 						}
 					}
-					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
 						$tray_card_cols[$i]->birthday = true;
 					} else {
 						$tray_card_cols[$i]->birthday = false;
@@ -645,7 +645,7 @@ class PatientInfoController extends DietaryController {
 						$tray_card_cols[$i]->beverages = rtrim($tray_card_cols[$i]->beverages, ",");
 					}
 					if (isset ($tray_card_cols[$i]->special_reqs)) {
-						$tray_card_cols[$i]->special_reqs = rtrim($tray_card_cols[$i]->special_reqs, ",");						
+						$tray_card_cols[$i]->special_reqs = rtrim($tray_card_cols[$i]->special_reqs, ",");
 					}
 				}
 			}
@@ -667,7 +667,7 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  *
  * This page allows the selection of a tray card for a specific date and/or
- * meal. It is accessed from the patient's wrench menu with "Selected Tray 
+ * meal. It is accessed from the patient's wrench menu with "Selected Tray
  * Card".
  *
  */
@@ -827,18 +827,18 @@ class PatientInfoController extends DietaryController {
 			return false;
 		}
 
-		if (input()->name != "") {			
+		if (input()->name != "") {
 			switch (input()->type) {
 				case "allergy":
 					if ($this->loadModel("PatientFoodInfo")->deleteFoodInfoItem($patient->id, input()->name, input()->type)) {
 						return true;
-					}	
+					}
 					break;
 
 				case "dislike":
 					if ($this->loadModel("PatientFoodInfo")->deleteFoodInfoItem($patient->id, input()->name, input()->type)) {
 						return true;
-					}	
+					}
 					break;
 
 				case "snack":
