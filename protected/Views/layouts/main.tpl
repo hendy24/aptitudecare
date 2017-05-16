@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
-	<link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css">
+	<!-- <link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css"> -->
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
@@ -13,6 +13,8 @@
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/tagit/css/jquery.tagit.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$CSS}/bootstrap_styles.css">
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
@@ -25,12 +27,15 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.row-grid.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/dropzone/dropzone.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.pack.js"></script>	
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.pack.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/gridify-min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/require.js"></script>	
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>	
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/require.js"></script>
+	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/tagit/js/tag-it.min.js"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
 
 	<script>
@@ -47,13 +52,13 @@
 	<script type="text/javascript" src="{$JS}/general.js"></script>
 
 	{if $auth->valid() && $auth->getRecord()->timeout}
-		<script type="text/javascript" src="{$JS}/timeout.js"></script>	  
+		<script type="text/javascript" src="{$JS}/timeout.js"></script>
 
 		<script>
 			$(document).ready(function() {
 				startTimer();
 			});
-		</script> 
+		</script>
 	{/if}
 </head>
 <body>
@@ -71,9 +76,9 @@
 		</div>
 	</div>
 	<div class="clear"></div>
-	
+
 	<div id="wrapper">
-		<div id="content">	
+		<div id="content">
 			{if $flashMessages}
 			<div id="flash-messages">
 				{foreach $flashMessages as $class => $message}
@@ -87,13 +92,13 @@
 				<div class="clear"></div>
 				{/foreach}
 			</div>
-			
+
 			{/if}
-			
+
 			<div id="page-content">
 				{include file=$content}
 			</div>
-			
+
 		</div>
 <!-- 		<div id="copyright">
 			<p>All content &copy; {$smarty.now|date_format:"%Y"} AptitudeCare.  All rights reserved. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptITude</a></p>
@@ -105,6 +110,6 @@
 	<div id="timeout-warning">
 	    <p>Your session is about to timeout.  You will be automatically logged out in 1 minute. To remain logged in click the button below.</p>
 	</div>
-	
+
 </body>
 </html>

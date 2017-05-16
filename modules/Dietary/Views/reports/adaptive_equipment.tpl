@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<table class="form">
+<table class="table">
 	<tr>
 		<th width="75">Room</th>	
 		<th width="250">Patient</th>
