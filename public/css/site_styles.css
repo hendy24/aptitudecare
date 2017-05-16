@@ -1,7 +1,7 @@
 html {
 	margin: 0;
 	padding: 0;
-	background: #686868;
+	background: #ffffff;
 	min-height: 100%;
 }
 
@@ -1305,7 +1305,7 @@ div#action-right {
 
 /****************** Dashboard Page *******************/
 
-div#locations select {
+select.location {
 	font-size: 24px;
 	height: 30px;
 	margin: 5px 0;

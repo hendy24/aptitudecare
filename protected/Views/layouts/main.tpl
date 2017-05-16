@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>{$title} &nbsp;|&nbsp; {$this->module}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
 	<!-- <link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css"> -->
@@ -77,7 +78,7 @@
 	</div>
 	<div class="clear"></div>
 
-	<div id="wrapper">
+	<div class="container">
 		<div id="content">
 			{if $flashMessages}
 			<div id="flash-messages">
