@@ -33,7 +33,7 @@
     <input type="hidden" name="page" value="reports">
     <input type="hidden" name="action" value="snack_report">
     <input type="hidden" name="location" value="{$location->public_id}">
-    <table class="center">
+    <table class="table">
       <tr>
         <th>Room</th>
         <th>Patient Name</th>
@@ -45,7 +45,7 @@
       </tr>
       {foreach from=$snacks item=item key=time}
         {foreach from=$item item=snack}
-        <tr class="{cycle values="row,rowalt"}">
+        <tr>
           <td>{$snack->number}</td>
           <td>{$snack->patient_name}</td>
           <td>{$snack->diet}</td>
