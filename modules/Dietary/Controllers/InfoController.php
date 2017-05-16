@@ -84,7 +84,7 @@ class InfoController extends DietaryController {
 			$new_menu->name = input()->menu_name;
 		} else {
 			$error_messages[] = "Enter a name for the new menu";
-			
+
 		}
 
 		if (input()->num_weeks != "") {
@@ -182,7 +182,7 @@ class InfoController extends DietaryController {
 	 *  EDIT MENU
 	 * -------------------------------------------------------------------------
 	 *
-	 * Functionality to change the menu name only right now. May need to add 
+	 * Functionality to change the menu name only right now. May need to add
 	 * addtional functionality in the future...
 	 *
 	 */
