@@ -35,7 +35,7 @@
 		<th><a href="" id="diet_order" class="order">Diet Order</a></th>
 		<th><a href="" id="allergies" class="order">Allergies</a></th>
 		<th><a href="" id="texture" class="order">Texture</a></th>
-		<th><a href="" id="liquid_consistency" class="order">Liquid Order</a></th>
+		<th><a href="" id="liquid_consistency" class="order">Liquid/Fluid/Orders</a></th>
 	</tr>
 	{foreach from=$dietCensus item=diet}
 	<tr class="form-row">
@@ -44,7 +44,7 @@
 		<td>{$diet->diet_order}</td>
 		<td>{$diet->allergies}</td>
 		<td>{$diet->texture}</td>
-		<td>{$diet->liquid_order}</td>
+		<td>{$diet->liquid_fluid_order}</td>
 	</tr>
 	{/foreach}
 </table>

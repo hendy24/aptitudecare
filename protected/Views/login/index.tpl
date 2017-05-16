@@ -1,36 +1,11 @@
 
-
-<div id="login-box">
-	<h2>Login</h2>
-	<br /><br />
-	
-	<form method="post" action="{$SITE_URL}/login">
-		<input type="hidden" name="path" value="{$current_url}" />
-		<input type="hidden" name="submit" value="1" />
-		<table id="login">
-			<tr>
-				<td>Username:</td>
-				<td><input type="text" name="email" value="" id="login_username" /></td>
-			</tr>
-			{if $site_email}
-			<tr>
-				<td>&nbsp;</td>
-				<td style="text-align: right">{$site_email}</td>
-			</tr>
-			{else}
-			<tr>
-				<td></td>
-				<td></td>
-			</tr>
-			{/if}
-			<tr>
-				<td>Password:</td>
-				<td class="text-right"><input type="password" name="password" value="" /></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="right"><input type="submit" value="Login" style="margin-top: 10px;" /></td>
-			</tr>
-
-		</table>
-	</form>
-</div>
+<div class="wrapper">
+	 <form method="post" class="form-signin" action="{$SITE_URL}/login">
+		 <h2 class="form-signin-heading">Please login</h2>
+			 <input type="hidden" name="path" value="{$current_url}" />
+			 <input type="hidden" name="submit" value="1" />
+			 <input type="text" class="form-control" name="email" placeholder="Email Address" required="true" autofocus="" />
+			 <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>
+			 <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
+	 </form>
+ </div>
