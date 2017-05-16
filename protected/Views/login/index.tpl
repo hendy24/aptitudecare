@@ -1,7 +1,7 @@
 
 <div class="wrapper">
 	 <form method="post" class="form-signin" action="{$SITE_URL}/login">
-		 <h2 class="form-signin-heading">Please login</h2>
+		 <h2 class="form-signin-heading">Login</h2>
 			 <input type="hidden" name="path" value="{$current_url}" />
 			 <input type="hidden" name="submit" value="1" />
 			 <input type="text" class="form-control" name="email" placeholder="Email Address" required="true" autofocus="" />
