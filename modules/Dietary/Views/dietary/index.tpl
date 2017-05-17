@@ -1,4 +1,3 @@
-<!-- modules/Dietary/Views/dietary/index.tpl -->
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -66,11 +65,11 @@
 			});
 		});
 
-		
+
 		$("#tray-card-select-date").on("click", function(e) {
 			e.preventDefault();
 			var url = $(this).attr("href");
-			$("#tray-card-dialog").dialog({	
+			$("#tray-card-dialog").dialog({
 				buttons: {
 					"Submit": function() {
 						var selectedDate = $("#selected-date").val();
@@ -99,16 +98,18 @@
 </script>
 
 
-<div id="page-header">
-	<div id="action-left">
+<div class="row"">
+	<div class="col-lg-4">
 		{$this->loadElement("module")}
 	</div>
-	<div id="center-title">
+	<div class="col-lg-4 text-center">
 		{$this->loadElement("selectLocation")}
 	</div>
-	<div id="action-right">
-		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="button">Tray Cards</a>
-		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="button" target="_blank">Meal Order Forms</a>
+
+	<div class="col-lg-4">
+		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="btn btn-primary pull-right">Tray Cards</a>
+
+		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
 	</div>
 </div>
 
