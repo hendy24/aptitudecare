@@ -1,4 +1,3 @@
-<!-- modules/Dietary/Views/dietary/index.tpl -->
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -100,17 +99,17 @@
 
 
 <div class="row"">
-	<div class="col">
+	<div class="col-lg-4">
 		{$this->loadElement("module")}
 	</div>
-	<div id="col-4">
+	<div class="col-lg-4 text-center">
 		{$this->loadElement("selectLocation")}
 	</div>
 
-	<div class="col">
-		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="btn btn-primary">Tray Cards</a>
+	<div class="col-lg-4">
+		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="btn btn-primary pull-right">Tray Cards</a>
 
-		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="btn btn-primary" target="_blank">Meal Order Forms</a>
+		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
 	</div>
 </div>
 

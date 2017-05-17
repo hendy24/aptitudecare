@@ -1305,7 +1305,7 @@ div#action-right {
 
 /****************** Dashboard Page *******************/
 
-select.location {
+div#locations select {
 	font-size: 24px;
 	height: 30px;
 	margin: 5px 0;
