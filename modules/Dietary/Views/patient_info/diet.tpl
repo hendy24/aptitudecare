@@ -654,26 +654,59 @@
 
 	<!-- Diet Order Section-->
 	<div class="form-header2">Diet Order</div>
-	<div class="checkbox-inline">
-		<label for=""><input type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}> &nbsp;Regular</label>
+	<div class="checkbox">
+		<label for="regular" class="checkbox-label">
+			<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
+			Regular
+		</label>
+		<label for="aha-cardiac" class="checkbox-label">
+			<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
+			AHA/Cardiac
+		</label>
+		<label class="checkbox-label">
+			<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
+			No Added Salt
+		</label>
+		<label class="checkbox-label">
+			<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
+			Renal
+		</label>
+		<label class="checkbox-label">
+			<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
+			2 gram Na
+		</label>
+		<label class="checkbox-label">
+			<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
+			Fortified/High Calorie
+		</label>
+		<label class="checkbox-label">
+			<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
+			RCS
+		</label>
+		<input type="text" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
 	</div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}> &nbsp;AHA/Cardiac</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}> &nbsp;No Added Salt</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}> &nbsp;Renal</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}> &nbsp;2 gram Na</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}> &nbsp;Fortified/High Calorie</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}> &nbsp;RCS</label></div>
-	<div class="form-group"><input type="text" name="diet_order[]" class="other-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}"></div>
 
 
 	<!-- Texture Section -->
 	<div class="form-header2">Texture</div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="texture[]" value="Regular" {if in_array('Regular', $textures['standard'])} checked{/if}> &nbsp;Regular</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="texture[]" value="Mechanical Soft" {if in_array('Mechanical Soft', $textures['standard'])} checked{/if}> &nbsp;Mechanical Soft</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}> &nbsp;Puree</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="texture[]" value="Tube Feeding" {if in_array('Tube Feeding', $textures['standard'])} checked{/if}> &nbsp;Tube Feeding</label></div>
-	<div class="form-group">
-		<label for="liquid">Liquid:</label>
+	<div class="checkbox">
+		<label for="" class="checkbox-label">
+			<input type="checkbox" name="texture[]" value="Regular" {if in_array('Regular', $textures['standard'])} checked{/if}>
+			Regular
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="checkbox" name="texture[]" value="Mechanical Soft" {if in_array('Mechanical Soft', $textures['standard'])} checked{/if}>
+			Mechanical Soft
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}>
+			Puree
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="checkbox" name="texture[]" value="Tube Feeding" {if in_array('Tube Feeding', $textures['standard'])} checked{/if}>
+			Tube Feeding
+		</label>
+		<label for="liquid" class="checkbox-label">Liquid:</label>
 		<select name="texture[]" id="">
 			<option value="">Select Liquid Type...</option>
 			<option value="Nectar Thick Liquids" {if in_array("Nectar Thick Liquids", $textures['standard'])} selected{/if}>Nectar Liquid</option>
@@ -683,21 +716,37 @@
 			<option value="Full Liquid" {if in_array("Full Liquid", $textures['standard'])} selected{/if}>Full Liquid</option>
 			<option value="Fluid Restriction" {if in_array("Fluid Restriction", $textures['standard'])} selected{/if}>Fluid Restriction</option>
 		</select>
-	</div>
-	<div class="form-group">
 		<input type="text" maxlength="25" name="texture[]" size="50" class="other-input" placeholder="Enter other texture info... (25 character limit)" value="{$textures['other']}">
 	</div>
 
 	<!-- Other Section -->
 	<div class="form-header2">Other</div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="other[]" value="Isolation" {if in_array("Isolation", $other['standard'])} checked{/if}> &nbsp;Isolation</label></div>
-	<div class="checkbox-inline"><label for=""><input type="checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}> &nbsp;Fluid Restriction</label></div>
-	<div class="checkbox-inline"><label for=""><input type="text" name="other[]" class="other-input" placeholder="Enter other order info..." value="{$other['other']}"></label></div>
+		<label for="" class="checkbox-label">
+			<input type="checkbox" name="other[]" value="Isolation" {if in_array("Isolation", $other['standard'])} checked{/if}>
+			Isolation
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}>
+			Fluid Restriction
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="text" name="other[]" class="other-input" placeholder="Enter other order info..." value="{$other['other']}">
+		</label>
 
 	<!-- Portion Size Section -->
-	<div class="checkbox-inline"><label for=""><input type="radio" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}> &nbsp;Small</label></div>
-	<div class="checkbox-inline"><label for=""><input type="radio" name="portion_size" value="Regular" {if $patientInfo->portion_size == "Regular"} checked{elseif $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}> &nbsp;Regular</label></div>
-	<div class="checkbox-inline"><label for=""><input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}> &nbsp;Large</label></div>
+		<label for="" class="checkbox-label">
+			<input type="radio" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}>
+			Small
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="radio" name="portion_size" value="Regular" {if $patientInfo->portion_size == "Regular"} checked{elseif $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}>
+			Regular
+		</label>
+		<label for="" class="checkbox-label">
+			<input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}>
+			Large
+		</label>
+	</div>
 
 	<br>
 	<br>
@@ -708,4 +757,4 @@
 </form>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script> -->
