@@ -526,7 +526,6 @@ class PatientInfoController extends DietaryController {
 				$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
 			}
 
-			pr ($rooms); exit;
 			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 			$tray_card_info = array();
