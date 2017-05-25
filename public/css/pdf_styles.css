@@ -1,16 +1,33 @@
-html {
+@page *{
+    margin-top: 2.54cm;
+    margin-bottom: 2.54cm;
+    margin-left: 3.175cm;
+    margin-right: 3.175cm;
+}
+
+/*@media print {
+	body {
+		margin-top: 50mm;
+		margin-bottom: 50mm;
+		margin-left: 0mm;
+		margin-right: 0mm;
+	}
+}*/
+
+/*html {
 	margin: 0;
 	padding: 0;
 	background: #686868;
-	height: 100%;
-}
+	height: 297mm;
+	width: 210mm;
+}*/
 
-body {
+/*body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
 	width: 100%;
-}
+}*/
 
 a, a:visited {
 	color: #000;
@@ -19,8 +36,8 @@ a, a:visited {
 
 body, td, th {
 	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-	font-size: 14px;
-	color: #050505;
+	font-size: 12px;
+	color: #000000;
 }
 
 .text-center { text-align: center; }
@@ -41,7 +58,7 @@ body, td, th {
 
 
 h1 {
-	margin: 25px 0 5px 0;
+	margin: 5px 0 0 0;
 }
 
 h2 {
@@ -53,7 +70,7 @@ h1, h2 {
 }
 
 .page-break {
-	display: block; 
+	display: block;
 	page-break-before: always;
 }
 
@@ -61,27 +78,32 @@ h1, h2 {
 	height: 50px;
 }
 
-table {
+.table {
 	max-width: 90%;
-	margin: 20px auto;
+	margin: 0 auto;
 	padding: 20px;
+	page-break-inside: avoid;
 }
 
-table.traycard {
+.table tr {
+	page-break-inside: avoid;
+	page-break-after: always;
+}
+
+.table.traycard {
 	border-right: 1px dashed #000;
 }
 
-table.last-table {
+.table.last-table {
 	border-right: none;
 }
 
-table th {
-	background: #c8c8c8;
-	padding: 5px;
+.table th {
+	border-bottom: 1px solid #000000;
 }
 
-table td {
-	padding: 2px 0;
+.table td {
+	padding: 2px;
 	vertical-align: top;
 }
 

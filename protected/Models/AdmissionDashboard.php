@@ -28,7 +28,7 @@ class AdmissionDashboard extends AppModel {
 
 		$sql = trim($sql, ", ");
 
-		$sql .= ")";	
+		$sql .= ")";
 
 		$result =  $this->fetchAll($sql, $params);
 
@@ -70,7 +70,7 @@ class AdmissionDashboard extends AppModel {
 			//	This will update the referral date if the discharge date changes
 			$hhSchedule->referral_date = $r->datetime_discharge;
 
-			
+
 
 			if (empty ($patient)) {
 				$patient = new Patient();
@@ -80,11 +80,11 @@ class AdmissionDashboard extends AppModel {
 
 			// need to find the healthcare facility id by the location name
 			$healthcare_facility = $this->loadTable("Location", $r->facility)->fetchHealthcareFacilityId();
-			
+
 			if (isset ($healthcare_facility->id)) {
 				$hhSchedule->admit_from_id = $healthcare_facility->id;
 			}
-			
+
 			$hhSchedule->referred_by_type = "ahc_facility";
 			$hhSchedule->location_id = $r->facility;
 			$hhSchedule->datetime_created = mysql_datetime();
@@ -112,31 +112,31 @@ class AdmissionDashboard extends AppModel {
 			} else {
 				$patient->address = $r->address;
 			}
-			
+
 			if ($r->discharge_city != '') {
 				$patient->city = $r->discharge_city;
 			} else {
 				$patient->city = $r->city;
 			}
-			
+
 			if ($r->discharge_state != '') {
 				$patient->state = $r->discharge_state;
 			} else {
 				$patient->state = $r->state;
 			}
-			
+
 			if ($r->discharge_zip != '') {
 				$patient->zip = $r->discharge_zip;
 			} else {
 				$patient->zip = $r->zip;
 			}
-			
+
 			if ($r->discharge_phone != '') {
 				$patient->phone = $r->discharge_phone;
 			} else {
 				$patient->phone = $r->phone;
 			}
-			
+
 			$patient->sex = $r->sex;
 			$patient->date_of_birth = $r->birthday;
 			$patient->ethnicity = $r->ethnicity;
@@ -157,13 +157,13 @@ class AdmissionDashboard extends AppModel {
 			if ($r->service_disposition == "Other Home Health" || $r->service_disposition == "AHC Home Health") {
 				$schedule->service_disposition = "Home Health";
 			} else {
-				$schedule->service_disposition = $r->service_disposition;			
+				$schedule->service_disposition = $r->service_disposition;
 			}
 			$schedule->discharge_location_id = $r->discharge_location_id;
 			$schedule->home_health_id = $r->home_health_id;
 			$schedule->discharge_address = $r->discharge_address;
 			$schedule->discharge_city = $r->discharge_city;
-			$schedule->discharge_state = $r->discharge_state;				
+			$schedule->discharge_state = $r->discharge_state;
 			$schedule->discharge_zip = $r->discharge_zip;
 			$schedule->discharge_phone = $r->discharge_phone;
 			$schedule->datetime_discharge_bedhold_end = $r->datetime_discharge_bedhold_end;
@@ -191,15 +191,15 @@ class AdmissionDashboard extends AppModel {
 
 				// Per request, patient note files are no longer pulled from the admission dashboard
 				// removed on 2015-08-25 by kwh
-				
+
 				// for ($i = 0; $i <= 9; $i++) {
 				// 	$file = "notes_file{$i}";
 				// 	$name = "notes_name{$i}";
-					
+
 				// 	$patient_notes = new PatientNote;
 
 				// 	// check for already existing files and save
-					
+
 				// 	$patient_notes->patient_id = $patient->id;
 				// 	if (isset ($r->$name) && $r->$name != null) {
 				// 		$patient_notes->name = $r->$name;
@@ -210,26 +210,26 @@ class AdmissionDashboard extends AppModel {
 				// 		if (!$patient_notes->checkExisting()) {
 				// 			$patient_notes->save();
 				// 		}
-				// 	}				
+				// 	}
 				// }
 			}
-			
+
 
 		}
-		
+
 		return true;
-		
+
 	}
 
 
 	public function syncCurrentPatients($location_id = false) {
-		if ($location_id) {		
+		if ($location_id) {
 			$params = array(
 				":locationid" => $location_id,
 				":datetime" => date('Y-m-d H:i:s', strtotime('now')),
 			);
-		
-		
+
+
 			$sql = "select distinct "
 				. db()->dbname2 . ".`room`.*, "
 				. db()->dbname2 . ".`patient_admit`.`pubid` as `patient_pubid`, "
@@ -282,15 +282,15 @@ class AdmissionDashboard extends AppModel {
 				. db()->dbname2 . ".`patient_admit_nursing`.`weight`, "
 				. db()->dbname2 . ".`schedule_hospital`.`is_complete`, "
 				. db()->dbname2 . ".`schedule_hospital`.`datetime_sent`
-				from " . db()->dbname2 . ".`room` 
-				inner join " . db()->dbname2 . ".`schedule` on " . db()->dbname2 . ".`schedule`.`room`=" . db()->dbname2 . ".`room`.`id` 
+				from " . db()->dbname2 . ".`room`
+				inner join " . db()->dbname2 . ".`schedule` on " . db()->dbname2 . ".`schedule`.`room`=" . db()->dbname2 . ".`room`.`id`
 				inner join " . db()->dbname2 . ".`patient_admit` on " . db()->dbname2 . ".`schedule`.`patient_admit`=" . db()->dbname2 . ".`patient_admit`.`id`
 				left join " . db()->dbname2 . ".`schedule_hospital` on " . db()->dbname2 . ".`schedule_hospital`.`schedule`=" . db()->dbname2 . ".`schedule`.`id`
 				left join " . db()->dbname2 . ".`patient_admit_nursing` on " . db()->dbname2 . ".`patient_admit_nursing`.`patient_admit`=" . db()->dbname2 . ".`patient_admit`.`id`
-				where " . db()->dbname2 . ".`room`.`facility`=:locationid 
+				where " . db()->dbname2 . ".`room`.`facility`=:locationid
 				and (" . db()->dbname2 . ".`schedule`.`status`='Approved' OR " . db()->dbname2 . ".`schedule`.`status`='Under Consideration' OR " . db()->dbname2 . ".`schedule`.`status` = 'Discharged')
-				and :datetime >= " . db()->dbname2 . ".schedule.`datetime_admit` 
-				and 
+				and :datetime >= " . db()->dbname2 . ".schedule.`datetime_admit`
+				and
 				(
 					(" . db()->dbname2 . ".schedule.`datetime_discharge` IS NULL)
 					OR
@@ -306,7 +306,7 @@ class AdmissionDashboard extends AppModel {
 					" . db()->dbname2 . ".schedule.`discharge_to`='Discharge to Hospital (Bed Hold)' and :datetime < " . db()->dbname2 . ".schedule.`datetime_discharge_bedhold_end`
 					)
 				)";
-		
+
 			$sql .= " GROUP BY " . db()->dbname2 . ".room.`id`
 				ORDER BY " . db()->dbname2 . ".room.`number`
 				";
@@ -392,7 +392,7 @@ class AdmissionDashboard extends AppModel {
 				$schedule->home_health_id = $r->home_health_id;
 				$schedule->discharge_address = $r->discharge_address;
 				$schedule->discharge_city = $r->discharge_city;
-				$schedule->discharge_state = $r->discharge_state;				
+				$schedule->discharge_state = $r->discharge_state;
 				$schedule->discharge_zip = $r->discharge_zip;
 				$schedule->discharge_phone = $r->discharge_phone;
 				$schedule->datetime_discharge_bedhold_end = $r->datetime_discharge_bedhold_end;
@@ -425,7 +425,7 @@ class AdmissionDashboard extends AppModel {
 						}
 
 						// $patientInfo->public_id = null;
-						
+
 						if (isset ($r->height)) {
 							$patientInfo->height = $r->height;
 						}
@@ -435,17 +435,17 @@ class AdmissionDashboard extends AppModel {
 						$patientInfo->location_id = $r->facility;
 						$patientInfo->save();
 					}
-				} 
+				}
 
 				$patient->number = $r->number;
 				$patientResults[$k] = $patient;
-				
+
 			}
 
 			return $patientResults;
 
 		}
-	
+
 		return false;
 	}
 
@@ -463,12 +463,12 @@ class AdmissionDashboard extends AppModel {
 
 	public function fetchEmptyRooms($location_id) {
 		$sql = "select * from " . db()->dbname2 . ".`room` where facility=:facilityid and id not in (
-			select `room`.`id` from " . db()->dbname2 . ".`room` 
-			inner join " . db()->dbname2 . ".`schedule` on `schedule`.`room`=`room`.`id` 
-			where `room`.`facility`=:facilityid 
-			and :datetime >= `datetime_admit` 
+			select `room`.`id` from " . db()->dbname2 . ".`room`
+			inner join " . db()->dbname2 . ".`schedule` on `schedule`.`room`=`room`.`id`
+			where `room`.`facility`=:facilityid
+			and :datetime >= `datetime_admit`
 			and (`schedule`.`status`='Approved' || `schedule`.`status`='Under Consideration' || `schedule`.`status` = 'Discharged')
-			and 
+			and
 			(
 				(`datetime_discharge` IS NULL)
 				OR

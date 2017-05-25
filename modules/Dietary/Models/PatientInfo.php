@@ -44,8 +44,8 @@ class PatientInfo extends Dietary {
 		// set params for the query
 		$params[":patient_id"] = $patient_id;
 
-		// fetch all the items from the disparate tables for the tray card 
-		$sql = "SELECT 
+		// fetch all the items from the disparate tables for the tray card
+		$sql = "SELECT
 					r.number,
 					CONCAT (p.last_name, ', ', p.first_name) as patient_name,
 					p.date_of_birth,
@@ -69,7 +69,7 @@ class PatientInfo extends Dietary {
 		$tray_card_info['main_data'] = $this->fetchOne($sql, $params);
 		$tray_card_info['items_by_meal'] = $this->fetchItemsByMeal($patient_id);
 		return $tray_card_info;
-	}	
+	}
 
 
 	private function fetchItemsByMeal($patient_id) {
@@ -99,15 +99,15 @@ class PatientInfo extends Dietary {
 		$patient = $this->loadTable('Patient');
 		$pfi = $this->loadTable('PatientFoodInfo');
 
-		$sql = "SELECT 
-				r.number, 
-				p.id AS patient_id, 
-				s.id AS schedule_id, 
-				p.last_name, 
-				p.first_name, 
-				s.location_id, 
+		$sql = "SELECT
+				r.number,
+				p.id AS patient_id,
+				s.id AS schedule_id,
+				p.last_name,
+				p.first_name,
+				s.location_id,
 				GROUP_CONCAT(a.name separator ', ') as allergy_name
-			FROM {$patient->tableName()} AS p 
+			FROM {$patient->tableName()} AS p
 			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
 			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
 			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id

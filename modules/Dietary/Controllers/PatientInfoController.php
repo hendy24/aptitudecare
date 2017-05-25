@@ -506,6 +506,7 @@ class PatientInfoController extends DietaryController {
 			// check if the location is has the admission dashboard enabled
 			$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
 
+
 			// if the facility is using the admission dashboard, then get a list of
 			// the current patients from the admission app for the current location.
 
@@ -524,6 +525,8 @@ class PatientInfoController extends DietaryController {
 				// fetch current patients
 				$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
 			}
+
+			pr ($rooms); exit;
 			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 			$tray_card_info = array();
