@@ -22,9 +22,9 @@
   {foreach from=$beverages item=beverage key=meal}
     <table class="form bev-table">
       <tr>
-        <th colspan="2" width="50%">{$this->mealName($meal)}</th>
+        <th colspan="2">{$this->mealName($meal)}</th>
       </tr>
-      {foreach from=$beverage item=bev} 
+      {foreach from=$beverage item=bev}
       <tr class="form-row">
         <td>{$bev["name"]}</td>
         <td class="text-right">{$bev["num"]}</td>

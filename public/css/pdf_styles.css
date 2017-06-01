@@ -1,8 +1,8 @@
-@page *{
-    margin-top: 2.54cm;
-    margin-bottom: 2.54cm;
-    margin-left: 3.175cm;
-    margin-right: 3.175cm;
+@page {
+  margin-top: 1.5cm;
+  margin-bottom: 1.5cm;
+  margin-left: 2cm;
+  margin-right: 2cm;
 }
 
 /*@media print {
@@ -150,8 +150,15 @@ input[type="checkbox"] {
 	font-style: italic;
 }
 
+table.bev-table {
+  margin: 50px auto;
+  width: 400px;
+}
+
 table.menu {
 	width: 80%;
+  margin: auto;
+  page-break-inside: avoid;
 }
 
 table.menu td {
