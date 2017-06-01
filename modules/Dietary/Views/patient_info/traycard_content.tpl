@@ -1,5 +1,6 @@
   <div class="traycard-column">
-    <table class="traycard {if $k == 2} last-table{/if}">
+    <br><br>
+    <table class="table traycard {if $k == 2} last-table{/if}">
       <tr>
         <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
       </tr>

@@ -36,7 +36,7 @@ a, a:visited {
 
 body, td, th {
 	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-	font-size: 12px;
+	font-size: 14px;
 	color: #000000;
 }
 
@@ -90,7 +90,7 @@ h1, h2 {
 	page-break-after: always;
 }
 
-.table.traycard {
+table.traycard {
 	border-right: 1px dashed #000;
 }
 
