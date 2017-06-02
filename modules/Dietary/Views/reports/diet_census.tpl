@@ -10,12 +10,11 @@
 </script>
 
 <div id="page-header">
+	{if $auth->isLoggedIn()}
 	<div id="action-left">&nbsp;</div>
+	{/if}
 	<div id="center-title">
 		<h1>Diet Census {if $isPDF} for {$smarty.now|date_format}{/if}</h1>
-
-
-
 	</div>
   <div id="action-right">
   	{if $auth->isLoggedIn()}
