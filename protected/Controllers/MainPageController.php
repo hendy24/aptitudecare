@@ -11,7 +11,7 @@ class MainPageController extends MainController {
 
 /*
  *  These are PDF pages to which access is allowed for PDF creation. When trying to generage a PDF from an HTML
- *  page mPDF does not keep the current session login connection, so this has be be overridden allow access to
+ *  page mPDF does not keep the current session login connection, so this has be be overridden allowing access to
  *  these pages even when not logged in.
  *
  * 	NOTE: Need to check security on these pages as users who are not logged in could actually access these pages.
