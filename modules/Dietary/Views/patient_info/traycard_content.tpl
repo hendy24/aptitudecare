@@ -46,7 +46,7 @@
       </tr>
       <tr>
         <td class="text-strong">Do Not Serve:</td>
-        <td>{$item->dislikes}</td>
+        <td>{$item->dislikes|capitalize}</td>
       </tr>
       <tr>
         <td colspan="2">&nbsp;</td>

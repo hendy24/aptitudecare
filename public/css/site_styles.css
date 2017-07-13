@@ -48,6 +48,13 @@ a {
 }
 
 
+form label {
+	font-weight: bold;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+
 /********* General Site-wide Items **************/
 
 
@@ -1634,4 +1641,13 @@ li.permission-access a {
 	  border-top-left-radius: 0;
 	  border-top-right-radius: 0;
 	}
+}
+
+#manage-photos ul {
+	padding: 0;
+	list-style-type: none;
+}
+
+.ahc-hospice {
+	background-color: #f4ad42;
 }

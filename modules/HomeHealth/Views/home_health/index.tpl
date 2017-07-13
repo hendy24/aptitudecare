@@ -40,7 +40,7 @@
 
 <div id="location-wrapper">
 	<div id="admits">
-		
+
 		{foreach $admitsByDate as $day => $admits}
 		<div class="location-container">
 			<h3 class="day-title">{$day|date_format:"%a, %b %e"}</h3>
@@ -49,14 +49,15 @@
 				<div class="box-title">Admit</div>
 				{foreach $admits as $admit}
 				{if isset($admit->id)}
-				<div class="location-admit 
+				<div class="location-admit
 					{if $admit->status == "Under Consideration"}
 						{if $admit->confirmed} confirmed
-						{elseif $admit->service_disposition == "No Services"} no-service 
-						{elseif $admit->service_disposition != "" AND $admit->service_disposition != "AHC Home Health"} other-service 
+						{elseif $admit->service_disposition == "No Services"} no-service
+						{elseif $admit->service_disposition == "Aspen Ridge Hospice"} ahc-hospice
+						{elseif $admit->service_disposition != "" AND $admit->service_disposition != "AHC Home Health"} other-service
 						{else} under-consideration
 						{/if}
-					{elseif $admit->status == "Pending"} pending 
+					{elseif $admit->status == "Pending"} pending
 					{elseif $admit->status == "Approved"} approved {/if} draggable="true">
 					<strong>{$admit->last_name}, {$admit->first_name}</strong>{$patientMenu->menu($admit)}<br>
 					<input type="hidden" class="schedule-id" value="{$admit->hh_public_id}">
@@ -78,7 +79,7 @@
 
 	<div class="clear"></div>
 	<div class="horizontal-break"></div>
-	
+
 	<div id="discharges">
 		{foreach $dischargesByDate as $day => $discharges}
 		<div class="location-container">
@@ -110,6 +111,6 @@
 	<div class="location-admit confirmed">Confirmed admission.</div>
 	<div class="location-admit pending">All items have been received and confirmed. Patient is pending final approval.</div>
 	<div class="location-admit approved">Admission is approved and complete.</div>
+	<div class="location-admit ahc-hospice">Aspen Ridge Hospice</div>
 </div>
 {/if}
-

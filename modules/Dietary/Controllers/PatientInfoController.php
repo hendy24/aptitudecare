@@ -605,13 +605,13 @@ class PatientInfoController extends DietaryController {
 				$tray_card_cols[$i]->beverages = "";
 				foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {
 					if ($b->meal == $meals[$i]) {
-						$tray_card_cols[$i]->beverages .= $b->name . ", ";
+						$tray_card_cols[$i]->beverages .= $b->name . ', ';
 					}
 				}
 				$tray_card_cols[$i]->special_reqs = "";
 				foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {
 					if ($sr->meal == $meals[$i]) {
-						$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
+						$tray_card_cols[$i]->special_reqs .= $sr->name .= ', ';
 					}
 				}
 				if (strtotime($tci['main_data']->date_of_birth) != "" && strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
@@ -629,13 +629,13 @@ class PatientInfoController extends DietaryController {
 					$tray_card_cols[$i]->beverages = "";
 					foreach ($tray_card_info['items_by_meal']['beverages'] as $k => $b) {
 						if ($b->meal == $meals[$i]) {
-							$tray_card_cols[$i]->beverages .= $b->name . ", ";
+							$tray_card_cols[$i]->beverages .= $b->name . ', ';
 						}
 					}
 					$tray_card_cols[$i]->special_reqs = "";
 					foreach ($tray_card_info['items_by_meal']['special_reqs'] as $k => $sr) {
 						if ($sr->meal == $meals[$i]) {
-							$tray_card_cols[$i]->special_reqs .= $sr->name . ", ";
+							$tray_card_cols[$i]->special_reqs .= $sr->name . ', ';
 						}
 					}
 					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
@@ -644,10 +644,10 @@ class PatientInfoController extends DietaryController {
 						$tray_card_cols[$i]->birthday = false;
 					}
 					if (isset ($tray_card_cols[$i]->beverages)) {
-						$tray_card_cols[$i]->beverages = rtrim($tray_card_cols[$i]->beverages, ",");
+						$tray_card_cols[$i]->beverages = rtrim($tray_card_cols[$i]->beverages, ', ');
 					}
 					if (isset ($tray_card_cols[$i]->special_reqs)) {
-						$tray_card_cols[$i]->special_reqs = rtrim($tray_card_cols[$i]->special_reqs, ",");
+						$tray_card_cols[$i]->special_reqs = rtrim($tray_card_cols[$i]->special_reqs, ', ');
 					}
 				}
 			}
