@@ -18,7 +18,7 @@
   </div>
   <div id="action-right">
     {if $auth->isLoggedIn()}
-    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_labels&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
       <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
     </a>
     {/if}
@@ -54,7 +54,7 @@
           <td>{$snack->name}</td>
           <td>{$snack->time}</td>
         </tr>
-    
+
         {/foreach}
       {/foreach}
     </table>
@@ -66,35 +66,9 @@
 <head>
     <meta charset="utf-8">
     <title></title>
-    <style>
-    body {
-        width: 8.5in;
-        margin: 0in .1875in;
-        }
-    .label{
-        /* Avery 5160 labels -- CSS and HTML by MM at Boulder Information Services */
-        width: 2.025in; /* plus .6 inches from padding */
-        height: .875in; /* plus .125 inches from padding */
-        padding: .125in .3in 0;
-        margin-right: .125in; /* the gutter */
-        font-size: 10px;
-        float: left;
-
-        text-align: center;
-        overflow: hidden;
-
-        outline: #000000 dotted thick; /* outline doesn't occupy space like border does */
-        }
-    .page-break  {
-        clear: left;
-        display:block;
-        page-break-after:always;
-        }
-    </style>
-
+    <link rel="stylesheet" href="{$CSS}/labels.css">
 </head>
 <body>
-
   {foreach from=$snacks item=item key=time}
     {foreach from=$item item=snack}
       <div class="label">
