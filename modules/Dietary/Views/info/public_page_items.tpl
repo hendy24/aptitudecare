@@ -1,23 +1,10 @@
-<script type="text/javascript">
-	function limitText(limitField, limitCount, limitNum) {
-		console.log(limitField);
-		if (limitField.value.length > limitNum) {
-			limitField.value = limitField.value.substring(0, limitNum);
-		} else {
-			limitCount.value = limitNum - limitField.value.length;
-		}
-	}
-</script>
 
 <div id="page-header">
 	<div id="action-left">&nbsp;</div>
 	<div id="center-title">{$this->loadElement("selectLocation")}</div>
 	<div id="action-right">&nbsp;</div>
 </div>
-
-
-
-<div class="multiple-page-form">
+<div class="row multiple-page-form">
 	<h2>Welcome Info</h2>
 	<form name="welcome_info" id="welcome-info" method="post" action="{$SITE_URL}">
 		<input type="hidden" name="page" value="info">
@@ -42,7 +29,7 @@
 	</form>
 </div>
 
-<div class="multiple-page-form">
+<div class="row multiple-page-form">
 	<h2>Meal Times</h2>
 	<form name="meal_times" id="meal-times" method="post" action="{$SITE_URL}">
 		<input type="hidden" name="page" value="info">
@@ -59,7 +46,7 @@
 			<tr>
 				<td>Breakfast</td>
 			{foreach from=$meals item="meal" name="meal_name"}
-				
+
 				{if $meal@iteration == 2}
 				<td>Lunch</td>
 				{/if}
@@ -78,11 +65,11 @@
 				<td colspan="3" class="text-right"><input type="submit" value="Save"></td>
 			</tr>
 		</table>
-		
+
 	</form>
 </div>
 
-<div class="multiple-page-form">
+<div class="row multiple-page-form">
 	<h2>Alternate Menu Items</h2>
 	<form name="alt_menu_items" id="alt-menu-items" method="post" action="{$SITE_URL}">
 		<input type="hidden" name="page" value="info">
@@ -101,6 +88,21 @@
 			<tr>
 				<td class="text-right"><input type="submit" value="Save"></td>
 			</tr>
-		</table>	
+		</table>
 	</form>
 </div>
+
+
+
+
+
+<script type="text/javascript">
+	function limitText(limitField, limitCount, limitNum) {
+		console.log(limitField);
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+		} else {
+			limitCount.value = limitNum - limitField.value.length;
+		}
+	}
+</script>
