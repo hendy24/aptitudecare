@@ -335,7 +335,7 @@ class MenuController extends DietaryController {
 		// Get the menu items for the week
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $start_date, $end_date, $startDay, $startDay, $menu->menu_id);
 		$this->normalizeMenuItems($menuItems);
-
+		
 		smarty()->assignByRef('menuItems', $menuItems);
 		smarty()->assign('location', $location);
 
@@ -436,8 +436,8 @@ class MenuController extends DietaryController {
 
 			if ($i <= 2) {
 				$menuItemsArray[$day][] = explode("\n", $item->content);
-			} 
-					
+			}
+
 			$i++;
 		}
 

@@ -22,7 +22,7 @@ class Patient extends AppData {
 		} else {
 			$params[":location"] = $location;
 			$sql .= " :location)";
-		} 		
+		}
 
 		$sql .= " ORDER BY ";
 		switch ($order_by) {
@@ -49,13 +49,13 @@ class Patient extends AppData {
 			default:
 				$sql .=" s.`referral_date` ASC";
 				break;
-				
+
 		}
 		return $this->fetchAll($sql, $params);
 	}
 
 
-	/* 
+	/*
 	 * CURRENT PATIENTS FROM NEW DATABASE
 	 *
 	 * This function selects the current patients from the new master database (not the admissions db). After the admission
@@ -148,7 +148,7 @@ class Patient extends AppData {
 			default:
 				$sql .=" `{$this->tableName()}`.`last_name` ASC, `home_health_schedule`.`referral_date` ASC";
 				break;
-				
+
 		}
 
 
@@ -160,35 +160,35 @@ class Patient extends AppData {
 
 
 
-	/* 
-	 * Fetch Patients for the 90-Day Census 
-	 *	
+	/*
+	 * Fetch Patients for the 90-Day Census
+	 *
 	 */
 	public function fetch90DayCensusPatients($location_id, $order_by = false, $all = false) {
 		$schedule = $this->loadTable('HomeHealthSchedule');
 		$physician = $this->loadTable('Physician');
 		$healthcare_facility = $this->loadTable('HealthcareFacility');
-		$sql = "SELECT 
-			p.*, 
-			s.public_id AS schedule_pubid, 
-			hc_f.name AS referral_source, 
+		$sql = "SELECT
+			p.*,
+			s.public_id AS schedule_pubid,
+			hc_f.name AS referral_source,
 			s.clinicians_assigned,
-			s.referral_date, 
-			s.start_of_care, 
-			s.datetime_discharge, 
-			s.f2f_received, 
-			s.status, 
+			s.referral_date,
+			s.start_of_care,
+			s.datetime_discharge,
+			s.f2f_received,
+			s.status,
 			CONCAT(physician.last_name, ', ', physician.first_name) AS physician_name
-			
-			FROM {$this->tableName()} p 
 
-			INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id 
-			LEFT JOIN {$physician->tableName()} AS physician ON physician.id = s.following_physician_id 
+			FROM {$this->tableName()} p
+
+			INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id
+			LEFT JOIN {$physician->tableName()} AS physician ON physician.id = s.following_physician_id
 			LEFT JOIN {$healthcare_facility->tableName()} as hc_f ON s.referred_by_location_id = hc_f.id
 
-			WHERE s.referral_date >= :datetime_start 
-			AND s.referral_date <= :datetime_end 
-			AND (s.status = 'Approved' OR s.status = 'Discharged') 
+			WHERE s.referral_date >= :datetime_start
+			AND s.referral_date <= :datetime_end
+			AND (s.status = 'Approved' OR s.status = 'Discharged')
 			AND ";
 
 		if ($all) {
@@ -222,7 +222,7 @@ class Patient extends AppData {
 			default:
 				$sql .=" p.last_name ASC, s.referral_date ASC";
 				break;
-				
+
 		}
 
 		$params[":location_id"] = $location_id;
@@ -268,7 +268,7 @@ class Patient extends AppData {
 			} else {
 				$params[":location"] = $location;
 				$sql .= " :location)";
-			} 	
+			}
 
 			$result = $this->fetchAll($sql, $params);
 

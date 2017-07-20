@@ -1650,3 +1650,8 @@ li.permission-access a {
 .ahc-hospice {
 	background-color: #f4ad42;
 }
+
+.bev-input {
+	margin: 2px;
+	padding: 5px;
+}

@@ -64,7 +64,7 @@
 				<input type="checkbox"> {$alternate}</input><br>
 				&nbsp;
 				{/foreach}
-			</td>		
+			</td>
 		</tr>
 
 		<tr>
@@ -89,7 +89,7 @@
 				<input type="checkbox"> {$alternate}</input><br>
 				&nbsp;
 				{/foreach}
-			</td>		
+			</td>
 		</tr>
 
 		<tr><td colspan="5">&nbsp;</td></tr>

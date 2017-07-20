@@ -370,6 +370,14 @@ class InfoController extends DietaryController {
 
 
 
+	public function beverages() {
+		$location = $this->getLocation();
+		$beverages = $this->loadModel('LocationBeverage')->fetchAll(null, array("location_id" => $location->id));
+		smarty()->assign('beverages', $beverages);
+	}
+
+
+
 /*
  * SET MENU START DATE
  * This page is used to set the start date when changing the menu the facility will
