@@ -313,6 +313,8 @@ class MenuController extends DietaryController {
 
 		if (isset (input()->end_date)) {
 			$end_date = date("Y-m-d", strtotime(input()->end_date));
+		} elseif (isset (input()->start_date)) {
+			$end_date = $start_date;
 		} else {
 			$end_date = date("Y-m-d", strtotime("now"));
 		}
@@ -335,7 +337,7 @@ class MenuController extends DietaryController {
 		// Get the menu items for the week
 		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $start_date, $end_date, $startDay, $startDay, $menu->menu_id);
 		$this->normalizeMenuItems($menuItems);
-		
+
 		smarty()->assignByRef('menuItems', $menuItems);
 		smarty()->assign('location', $location);
 

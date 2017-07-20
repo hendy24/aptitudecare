@@ -1,11 +1,11 @@
-<li><a href="{$SITE_URL}?module=Dietary">Home</a></li>
+<li><a href="{$SITE_URL}?module=Dietary&amp;page=dietary&amp;action=index&amp;location={$location->public_id}">Home</a></li>
 {if $auth->hasPermission('manage_menu')}
 <li>Info
 	<ul>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=current">Current Menu</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=menu_start_date">Menu Start Date</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=public_page_items">Public Page Items</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=beverages">Beverages</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=current&amp;location={$location->public_id}">Current Menu</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=menu_start_date&amp;location={$location->public_id}">Menu Start Date</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=public_page_items&amp;location={$location->public_id}">Public Page Items</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=beverages&amp;location={$location->public_id}">Beverages</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=public&amp;location={$location->public_id}" target="_blank">Preview Public Page</a></li>
 		{if $auth->hasPermission("create_menu")}
 			<li class="permission-access"><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=create">Create Menu</a></li>

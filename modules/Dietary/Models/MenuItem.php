@@ -55,7 +55,6 @@ class MenuItem extends Dietary {
 		}
 
 		$sql .= " ORDER BY {$this->tableName()}.id ASC";
-
 		// return the results
 		return $this->fetchCustom($sql, $params);
 	}
