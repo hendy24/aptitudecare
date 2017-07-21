@@ -100,7 +100,7 @@ class PatientInfoController extends DietaryController {
 				}
 			}
 		}
-
+		
 
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
