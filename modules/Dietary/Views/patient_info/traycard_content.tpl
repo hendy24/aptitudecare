@@ -74,5 +74,11 @@
         <td class="text-strong" width="150">Percent Consumed:</td>
         <td class="text-center text-10" style="padding-top:5px;">0-25 &nbsp;&nbsp; 26-50 &nbsp;&nbsp; 51-75 &nbsp;&nbsp; 76-100</td>
       </tr>
+      {if ($location->id == 9)}
+      <tr>
+        <td class="text-strong" width="150">Cc Intake:</td>
+        <td class="text-center text-10" style="padding-top:5px">120 cc. &nbsp;&nbsp; 240 cc. &nbsp;&nbsp; 360 cc. &nbsp;&nbsp; 480 cc.</td>
+      </tr>
+      {/if}
     </table>
   </div>

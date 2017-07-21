@@ -100,7 +100,7 @@ class PatientInfoController extends DietaryController {
 				}
 			}
 		}
-		
+
 
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
@@ -658,6 +658,7 @@ class PatientInfoController extends DietaryController {
 		// smarty()->assign('patient', $patient);
 		smarty()->assign('selectedDate', $_dateStart);
 		smarty()->assign('allTrayCards', $all_tray_cards);
+		smarty()->assign('location', $location);
 	}
 
 
