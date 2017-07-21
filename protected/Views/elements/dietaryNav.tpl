@@ -5,7 +5,7 @@
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=current&amp;location={$location->public_id}">Current Menu</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=menu_start_date&amp;location={$location->public_id}">Menu Start Date</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=public_page_items&amp;location={$location->public_id}">Public Page Items</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=beverages&amp;location={$location->public_id}">Beverages</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=beverages&amp;location={$location->public_id}">Beverage List</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=public&amp;location={$location->public_id}" target="_blank">Preview Public Page</a></li>
 		{if $auth->hasPermission("create_menu")}
 			<li class="permission-access"><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=create">Create Menu</a></li>

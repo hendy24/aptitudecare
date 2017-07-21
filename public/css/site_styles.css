@@ -1655,3 +1655,18 @@ li.permission-access a {
 	margin: 2px;
 	padding: 5px;
 }
+
+.bev-items {
+	background-color: #f8f8f8;
+	line-height: 2.5em;
+	padding: 10px;
+}
+
+.bev-items input {
+	line-height: 20px;
+}
+
+.bev-items img {
+	margin-top: 6px;
+	margin-right: 40%;
+}

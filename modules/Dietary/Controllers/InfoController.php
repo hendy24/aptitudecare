@@ -370,12 +370,145 @@ class InfoController extends DietaryController {
 
 
 
+/*
+ * FACILITY BEVERAGES
+ * Loads a list of the beverages available at the selected facility
+ *
+ */
 	public function beverages() {
 		$location = $this->getLocation();
-		$beverages = $this->loadModel('LocationBeverage')->fetchAll(null, array("location_id" => $location->id));
+		$beverages = $this->loadModel('LocationBeverage')->fetchBeverages($location->id);
 		smarty()->assign('beverages', $beverages);
 	}
 
+
+
+/*
+ * SAVE THE FACILITY BEVERAGES
+ * Save the beverages entered by the user.
+ */
+	public function save_beverages() {
+		$location = $this->loadModel('Location', input()->location);
+		$beverage_list = $this->loadModel('BeverageList')->fetchAll();
+		$location_beverage_list = $this->loadModel('LocationBeverage')->fetchAll(null, array('location_id' => $location->id));
+
+		// create an error save array
+		$save_errors = array();
+
+		// create an array holding the beverage id's
+		$bev_id_array = array();
+		foreach ($beverage_list as $b) {
+			array_push($bev_id_array, $b->id);
+		}
+		// create an array for the location specific beverages
+		$loc_id_array = array();
+		foreach ($location_beverage_list as $b) {
+			array_push($loc_id_array, $b->beverage_id);
+		}
+
+		// loop through input items and check if they already exist in the beverage list
+		foreach (input()->beverage as $ii) {
+			// if the id is not in the array then the item doesn't exist, save it...
+			if (!in_array($ii['id'], $bev_id_array)) {
+				$new_beverage = $this->loadModel('BeverageList');
+				$new_beverage->name = $ii['name'];
+				if ($new_beverage->save()) {
+					array_push($save_errors, true);
+				} else {
+					array_push($save_errors, false);
+				}
+
+				// if the id did not exist in the beverages list then it has never been
+				// saved for the location.
+				// add the new beverage to the beverage location list as well
+				$location_beverage = $this->loadModel('LocationBeverage');
+				$location_beverage->location_id = $location->id;
+				$location_beverage->beverage_id = $new_beverage->id;
+				if ($location_beverage->save()) {
+					array_push($save_errors, true);
+				} else {
+					array_push($save_errors, false);
+				}
+
+			}
+
+			// if the id is not in the location beverage list then it needs to be added
+			if (!in_array($ii['id'], $loc_id_array)) {
+				$location_beverage = $this->loadModel('LocationBeverage');
+				$location_beverage->location_id = $location->id;
+				$location_beverage->beverage_id = $ii['id'];
+				if ($location_beverage->save()) {
+					array_push($save_errors, true);
+				} else {
+					array_push($save_errors, false);
+				}
+			}
+		}
+
+		// error checking. set flash message and redirect to appropriate url
+		if (in_array(false, $save_errors)) {
+			session()->setFlash("There was a problem saving the beverages, please try again.", 'error');
+			$this->redirect(input()->current_url);
+		} else {
+			session()->setFlash("The beverages were saved", 'success');
+			$this->redirect(array('module' => 'Dietary', 'page' => 'dietary', 'action' => 'index', 'location' => $location->public_id));
+		}
+
+	}
+
+
+
+/*
+ * This was just a snippet to run to enter all the beverages in each location into
+ * the database.
+ *
+ */
+
+// public function insert_beverages() {
+// 	$locations = $this->loadModel('Location')->fetchFacilities();
+//
+// 	foreach ($locations as $l) {
+// 		$i = 1;
+// 		while ($i <= 12) {
+// 			$location_beverage = $this->loadModel('LocationBeverage');
+// 			$location_beverage->location_id = $l->id;
+// 			$location_beverage->beverage_id = $i;
+// 			$location_beverage->save();
+// 			$i++;
+// 		}
+// 	}
+//
+// 	pr ($location_beverage); exit;
+//
+// }
+
+
+
+/*
+ * AJAX request to delete a beverage items
+ *
+ */
+	public function delete_beverage() {
+		//	If the id var is filled then delete the item with that id
+		if (input()->bev_id != '') {
+			$beverage = $this->loadModel('Location', input()->menu);
+
+
+			// delete all entries in menu_item
+			if ($this->loadModel('MenuItem')->deleteMenuItems($menu->id)) {
+				if ($menu->delete()) {
+					return true;
+				}
+
+				return false;
+			}
+
+			return false;
+		}
+
+		return false;
+
+	}
 
 
 /*

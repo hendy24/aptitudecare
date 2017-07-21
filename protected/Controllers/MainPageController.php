@@ -359,4 +359,72 @@ class MainPageController extends MainController {
 		}
 	}
 
+
+	public function ajax_save() {
+
+		$location = $this->getLocation(input()->location);
+		$error_test = array();
+		$object_id = null;
+
+		if (is_object (input()->item)) {
+			foreach (input()->item as $key => $item) {
+				$object = $this->loadModel($item['object']);
+				if ($item['colName'] === 'location_id') {
+					$object->location_id = $location->id;
+				} else {
+					$object->{$item['colName']} = $item['value'];
+				}
+				if (isset ($item['join'])) {
+					$object->{$item['join']} = $object_id;
+				}
+
+				if ($object->save()) {
+					$saved_object = $object;
+					$object_id = $object->id;
+					array_push($error_test, true);
+				} else {
+					array_push($error_test, false);
+					break;
+				}
+
+			}
+		} else {
+			$object = input()->item['object'];
+			$object->{input()->item['colName']} = input()->item['value'];
+			if (isset ($item['join'])) {
+				$object->{$item['join']} = $object_id;
+			}
+
+			if ($object->save()) {
+				array_push($error_test, true);
+			} else {
+				array_push($error_test, false);
+				break;
+			}
+
+		}
+
+		if (!empty ($saved_object)) {
+			json_return($saved_object);
+		}
+
+		return false;
+	}
+
+
+	public function ajax_delete() {
+		pr (input()); exit;
+		// foreach (input()->item as $item) {
+		// 	$object = $this->loadModel($item->object);
+		// 	$object->{$item->colName} = $item->value;
+		// }
+		echo "hello";
+		// pr ($object); exit;
+		// if ($object->delete()) {
+		// 	return true;
+		// }
+
+		return false;
+	}
+
 }
