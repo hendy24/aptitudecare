@@ -413,16 +413,10 @@ class MainPageController extends MainController {
 
 
 	public function ajax_delete() {
-		pr (input()); exit;
-		// foreach (input()->item as $item) {
-		// 	$object = $this->loadModel($item->object);
-		// 	$object->{$item->colName} = $item->value;
-		// }
-		echo "hello";
-		// pr ($object); exit;
-		// if ($object->delete()) {
-		// 	return true;
-		// }
+		$object = $this->loadModel(input()->item->object, input()->item->value);
+		if ($object->delete()) {
+			return true;
+		}
 
 		return false;
 	}

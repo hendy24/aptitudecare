@@ -450,6 +450,9 @@ class MenuController extends DietaryController {
 		smarty()->assign('alternates', $alternates);
 		// $this->normalizeMenuItems($menuItems);
 
+		$beverages = $this->loadModel('LocationBeverage')->fetchBeverages($location->id);
+		smarty()->assign('beverages', $beverages);
+
 		// fetch NSD name
 		$nsd = $this->loadModel('User')->fetchNSD($location->id);
 		smarty()->assign('nsd', $nsd);

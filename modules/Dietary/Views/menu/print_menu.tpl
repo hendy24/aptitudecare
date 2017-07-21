@@ -1,69 +1,62 @@
+<div class="container print-menu">
+	<div class="row">
+		<div class="col-xs-12">
+			<h1 class="print-menu">{$location->name} Dining Services</h1>
+		</div>
+	</div>
 
-<table class="form menu">
-	<tr>
-		<td colspan="3" class="text-center"><h1>{$location->name} Dining Services</h1></td>
-	</tr>	
+
 	{foreach from=$menuItems item="menu" key="day"}
-	<tr>
-		<td colspan="3" class="menu-day-title"><strong>{$day|date_format:"%A, %B %e, %Y"} </strong></td>
-	</tr>
-	<tr>
-		{foreach from=$menu item="content"}
-			<td class="menu-content">
-			{foreach $content as $item}
-				{$item}<br>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 menu-day-title">
+			<strong>{$day|date_format:"%A, %B %e, %Y"}</strong>
+		</div>
+	</div>
+
+		<div class="row">
+			{foreach from=$menu item="content"}
+			<div class="menu-content">
+				{foreach $content as $item}
+					{$item}<br>
+				{/foreach}
+			</div>
 			{/foreach}
-			</td>
-		{/foreach}
-	</tr>
+		</div>
 	{/foreach}
-	<tr>
-		<td colspan="3">&nbsp;</td>
-	</tr>
-	<tr>
-		<td colspan="3" class="public-info">When a guest will be joining you for a meal, please provide the kitchen with a 2 hour notice. Thank You!</td>
-	</tr>	
-	<tr>
-		<td colspan="3" class="public-info">If the daily special doesn't appeal to you today, please choose from the following alternate selections</td>
-	</tr>
 
-	<tr>
-		<td colspan="3" class="menu-header">Alternate Menu</td>
-	</tr>
-	<tr>
-		<td colspan="3" class="text-center">{$alternates->content}</td>
-	</tr>
-	<tr>
-		<td colspan="3" class="menu-header">Beverage Options</td>
-	</tr>
-	<tr class="beverages">
-		<td>Coffee</td>
-		<td>Apple</td>
-		<td>Whole Milk</td>
-	</tr>
-	<tr class="beverages">
-		<td>Assorted Teas</td>
-		<td>Orange Juice</td>
-		<td>2% Milk</td>
-	</tr>
-	<tr class="beverages">
-		<td>Hot Cocoa</td>
-		<td>Cranberry</td>
-		<td>Skim Milk</td>
-	</tr>
-	<tr class="beverages">
-		<td>Sugar Free Hot Cocoa</td>
-		<td>Tomato</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr class="beverages">
-		<td>&nbsp;</td>
-		<td>Lemonade</td>
-		<td>&nbsp;</td>
-	</tr>
+	<div class="row">
+		<div class="col-xs-12 menu-info">
+			When a guest will be joining you for a meal, please provide the kitchen with a 2 hour notice. Thank You!
+			If the daily special doesn't appeal to you today, please choose from the following alternate selections
+		</div>
+	</div>
 
-	<tr>
-		<td colspan="3" class="public-info">Please contact the Nutrition Services Director, <strong>{$nsd->name}</strong> for any questions or comments.</td>
-	</tr>
-</table>
-		
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Alternate Menu</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<p>{$alternates->content}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Beverage Options</h2>
+		</div>
+	</div>
+	<div class="row">
+		{foreach from=$beverages item=bev}
+		<div class="menu-beverages">
+			{$bev->name}
+		</div>
+		{/foreach}
+	</div>
+	<div class="row">
+		<div class="col-xs-12 menu-info">
+			<p>Please contact the Nutrition Services Director, <strong>{$nsd->name}</strong> for any questions or comments.</p>
+		</div>
+	</div>
+</div>
