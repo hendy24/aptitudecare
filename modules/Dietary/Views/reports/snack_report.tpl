@@ -65,6 +65,7 @@
 <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="{$CSS}/labels.css">
 </head>
 <body>
   {foreach from=$snacks item=item key=time}
