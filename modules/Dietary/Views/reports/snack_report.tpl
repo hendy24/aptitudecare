@@ -23,7 +23,6 @@
     </a>
     {/if}
   </div>
-
 </div>
 
 <h1>Snack Report</h1>
@@ -66,12 +65,11 @@
 <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="{$CSS}/labels.css">
 </head>
 <body>
   {foreach from=$snacks item=item key=time}
     {foreach from=$item item=snack}
-      <div class="label">
+      <div class="snack-label">
         <strong>{$snack->number} - {$snack->patient_name}</strong><br />
         <strong>Diet: {$snack->diet}</strong><br />
         <strong>Allergies:</strong> {$snack->allergy}<br />

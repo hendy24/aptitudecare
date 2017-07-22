@@ -10,7 +10,7 @@
   margin: 0.5in 0.25in;
 }
 
-.label{
+.snack-label {
     /* Avery 5160 labels -- CSS and HTML by MM at Boulder Information Services */
     width: 2.025in; /* plus .6 inches from padding */
     height: .875in; /* plus .125 inches from padding */
@@ -20,7 +20,6 @@
     float: left;
 
     text-align: center;
-    overflow: hidden;
 
     outline: #000000 dotted 1px; /* outline doesn't occupy space like border does */
     }

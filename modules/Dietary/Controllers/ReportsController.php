@@ -271,7 +271,6 @@ class ReportsController extends DietaryController {
 		smarty()->assign('location', $location);
 		smarty()->assign('isPDF', $is_pdf);
 
-
 	}
 
 
