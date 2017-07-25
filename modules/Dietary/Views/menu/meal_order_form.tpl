@@ -1,101 +1,95 @@
 <!-- modules/Dietary/Views/menu/meal_order_form.tpl -->
-<div id="meal-order-form">
-	<div class="meal-order-form-header">
-		<img src="{$IMAGES}/logos_black_reduced/{$location->logo}" alt="">
+
+<div class="meal-order-form">
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<img src="{$IMAGES}/logos_black_reduced/{$location->logo}" alt="">
+		</div>
 	</div>
-	<br>
-	<h2>Daily Patient Meal Order</h2>
-	<table>
-		<tr>
-			<td style="padding-top: 12px" class="text-right">Room:</td>
-			<td style="border-bottom: 1px solid black; width: 200px;" class="text-right">&nbsp;</td>
-			<td colspan="2" class="text-right" style="width: 200px">Date: {$startDate|date_format}</td>
-		</tr>
-		<tr><td>&nbsp;</td></tr>
-		<tr>
-			<th colspan="2">Breakfast</th>
-			<td>&nbsp;</td>
-			<th colspan="2">Breakfast Alternate</th>
-		</tr>
-		<tr>
-			<td colspan="2">
-				{foreach from=$menuItems[0]->content item=menu}
-					<p>{$menu}</p>
-				{/foreach}
-			</td>
-			<td width="10" class="text-center" style="vertical-align:middle;">OR</td>
-			<td colspan="2">
-				&nbsp;
-				<input type="checkbox"> Special Egg: ______________________________________ <br>
-				&nbsp;
-				<input type="checkbox"> Bacon <br>
-				&nbsp;
-				<input type="checkbox"> Sausage <br>
-				&nbsp;
-				<input type="checkbox"> Hot Cereal <br>
-				&nbsp;
-				<input type="checkbox"> Cold Cereal <br>
-				&nbsp;
-				<input type="checkbox"> Special Toast: ____________________________________ <br>
-			</td>
-		</tr>
 
-		<tr>
-			<td></td>
-		</tr>
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Daily Patient Meal Order</h2>
+		</div>
+	</div>
 
-		<tr><td colspan="4">&nbsp;</td></tr>
-		<tr>
-			<th colspan="2">Lunch</th>
-			<td>&nbsp;</td>
-			<th colspan="2">Lunch Alternate (Please select one)</th>
-		</tr>
-		<tr>
-			<td colspan="2">
-				{foreach from=$menuItems[1]->content item=menu}
-					<p>{$menu}</p>
-				{/foreach}
-			</td>
-			<td class="text-center" style="vertical-align:middle">OR</td>
-			<td colspan="2">
-				&nbsp;
-				{foreach from=$alternates item=alternate}
-				<input type="checkbox"> {$alternate}</input><br>
-				&nbsp;
-				{/foreach}
-			</td>
-		</tr>
+	<div class="row">
+		<div class="col-xs-5">Room: ____________</div>
+		<div class="col-xs-5 text-right">Date: {$startDate|date_format}</div>
+	</div>
+	<div class="space-row"></div>
 
-		<tr>
-			<td></td>
-		</tr>
-		<tr><td colspan="4">&nbsp;</td></tr>
-		<tr>
-			<th colspan="2">Dinner</th>
-			<td>&nbsp;</td>
-			<th colspan="2">Dinner Alternate (Please select one)</th>
-		</tr>
-		<tr>
-			<td colspan="2">
-				{foreach from=$menuItems[2]->content item=menu}
-					<p>{$menu}</p>
-				{/foreach}
-			</td>
-			<td class="text-center" style="vertical-align:middle">OR</td>
-			<td colspan="2">
-				&nbsp;
-				{foreach from=$alternates item=alternate}
-				<input type="checkbox"> {$alternate}</input><br>
-				&nbsp;
-				{/foreach}
-			</td>
-		</tr>
+	<!-- Breakfast menu section -->
+	<div class="row text-center">
+		<div class="col-xs-4"><h3>Breakfast</h3></div>
+		<div class="col-xs-2">&nbsp;</div>
+		<div class="col-xs-4"><h3>Breakfast Alternate</h3></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4">
+			{foreach from=$menuItems[0]->content item=menu}
+				<p>{$menu}</p>
+			{/foreach}
+		</div>
 
-		<tr><td colspan="5">&nbsp;</td></tr>
-		<tr><td colspan="5">&nbsp;</td></tr>
-		<tr>
-			<td colspan="5" class="text-center text-strong">Please fill out your choices &amp; your completed form will be collected today.<br />Food choices may be changed to meet dietary restrictions.</td>
-		</tr>
+		<div class="col-xs-2 text-center menu-middle-col">OR</div>
+		<div class="col-xs-4">
+			Special Egg: ______________<br>
+			Bacon <br>
+			Sausage <br>
+			Hot Cereal <br>
+			Cold Cereal <br>
+			Special Toast: ____________
+		</div>
+	</div>
+	<div class="space-row"></div>
 
-	</table>
+
+	<!-- Lunch menu section -->
+	<div class="row text-center">
+		<div class="col-xs-4"><h3>Lunch</h3></div>
+		<div class="col-xs-2">&nbsp;</div>
+		<div class="col-xs-4"><h3>Lunch Alternate (select one)</h3></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4">
+			{foreach from=$menuItems[1]->content item=menu}
+				<p>{$menu}</p>
+			{/foreach}
+		</div>
+		<div class="col-xs-2 text-center menu-middle-col">OR</div>
+		<div class="col-xs-4">
+			{foreach from=$alternates item=alternate}
+				{$alternate}<br>
+			{/foreach}
+		</div>
+	</div>
+	<div class="space-row"></div>
+
+
+	<!-- Dinner menu section -->
+	<div class="row text-center">
+		<div class="col-xs-4"><h3>Dinner</h3></div>
+		<div class="col-xs-2">&nbsp;</div>
+		<div class="col-xs-4"><h3>Dinner Alternate (select one)</h3></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4">
+			{foreach from=$menuItems[2]->content item=menu}
+				<p>{$menu}</p>
+			{/foreach}
+		</div>
+		<div class="col-xs-2 text-center menu-middle-col">OR</div>
+		<div class="col-xs-4">
+			{foreach from=$alternates item=alternate}
+				{$alternate}<br>
+			{/foreach}
+		</div>
+	</div>
+	<div class="space-row"></div>
+	<div class="space-row"></div>
+
+	<div class="row">
+		<div class="col-xs-12 text-center text-strong">Please fill out your choices &amp; your completed form will be collected today.<br />Food choices may be changed to meet dietary restrictions.</div>
+	</div>
 </div>
