@@ -114,8 +114,9 @@ input[type="checkbox"] {
 }
 
 .traycard-column {
-	width: 33%;
+	width: 30%;
 	float: left;
+  padding: 0 .15in;
 	display: inline-block;
 }
 
