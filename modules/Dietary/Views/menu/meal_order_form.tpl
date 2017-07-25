@@ -60,7 +60,7 @@
 		<div class="col-xs-2 text-center menu-middle-col">OR</div>
 		<div class="col-xs-4">
 			{foreach from=$alternates item=alternate}
-				{$alternate}<br>
+				<p>{$alternate}</p>
 			{/foreach}
 		</div>
 	</div>
@@ -82,7 +82,7 @@
 		<div class="col-xs-2 text-center menu-middle-col">OR</div>
 		<div class="col-xs-4">
 			{foreach from=$alternates item=alternate}
-				{$alternate}<br>
+				<p>{$alternate}</p>
 			{/foreach}
 		</div>
 	</div>
