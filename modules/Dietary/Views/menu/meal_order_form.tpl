@@ -7,10 +7,9 @@
 	<h2>Daily Patient Meal Order</h2>
 	<table>
 		<tr>
-			<td>Room:</td>
-			<td style="border-bottom: 1px solid black; width: 200px;">&nbsp;</td>
-			<td class="text-right">Date:</td>
-			<td>{$startDate|date_format}</td>
+			<td style="padding-top: 12px" class="text-right">Room:</td>
+			<td style="border-bottom: 1px solid black; width: 200px;" class="text-right">&nbsp;</td>
+			<td colspan="2" class="text-right" style="width: 200px">Date: {$startDate|date_format}</td>
 		</tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr>
