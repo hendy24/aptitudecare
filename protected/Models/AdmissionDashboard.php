@@ -518,8 +518,6 @@ class AdmissionDashboard extends AppModel {
 			$result = $this->fetchAll($sql, $params);
 			$patientResults = array();
 
-			pr ($result); exit;
-
 			foreach ($result as $k => $r) {
 
 				//	If the items have already been saved to the db then get them.
