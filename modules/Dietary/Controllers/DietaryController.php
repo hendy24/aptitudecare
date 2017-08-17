@@ -54,6 +54,12 @@ class DietaryController extends MainPageController {
 	}
 
 
+	public function syncAdmissions() {
+		$location = $this->loadModel('Location', input()->location);
+		$this->loadModel('AdmissionDashboard')->syncDBs($location->id);
+	}
+
+
 
 	public function normalizeMenuItems($menuItems) {
 		$menuWeek = false;
