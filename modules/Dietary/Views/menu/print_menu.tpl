@@ -23,8 +23,8 @@
 			{/foreach}
 		</div>
 	{/foreach}
-
 	<div class="row">
+		<hr>
 		<div class="col-xs-12 menu-info">
 			When a guest will be joining you for a meal, please provide the kitchen with a 2 hour notice. Thank You!
 			If the daily special doesn't appeal to you today, please choose from the following alternate selections

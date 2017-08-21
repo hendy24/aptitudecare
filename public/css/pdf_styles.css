@@ -71,6 +71,11 @@ h1, h2 {
 	text-align: center;
 }
 
+hr {
+	margin: 0;
+	padding: 0;
+	color: #333333;
+}
 .page-break {
 	display: block;
 	page-break-before: always;
