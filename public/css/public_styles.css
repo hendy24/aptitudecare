@@ -383,3 +383,96 @@ div#public-access-error a:hover {
 	width: 1350px;
 	
 }
+
+@media screen and (max-width: 1024px) {
+	.overall {
+		display: none;
+	}
+	#menuPic {
+		position: static;
+		display: none;
+		width: 0px;
+	}
+	#mainContent {
+		/*padding-left: 20px;*/
+	}
+	.raisingTheStandard {
+		display: none;
+	}
+	#mainLogo {
+		width: 1024px;
+	}
+	#transitionDiv{
+		width: 1024px;
+		margin: 0 auto;
+		position: static;
+		top: 0px;
+	}
+	.rotatingPage {
+		width: 1024px;
+		margin: auto;
+	}
+	#activitiesContent {
+		width: 1024px;
+		margin-left: 20px;
+	}
+	#activities {
+		width: 899px;
+		margin-left: 125px;
+	}
+	#wrapper {
+		width: 1024px;
+		height: 768px;
+		margin: 0 auto;
+	}
+	#header {
+		width: 1024px;
+	}
+	#menuTitle {
+		width: 1024px;
+	}
+	#menuContent {
+		width: 1024px;
+	}
+	.menu {
+		font-size: 24px;
+		width: 300px;
+	}
+	#altMenu {
+		font-size: 20px;
+		width: 980px;
+		position: relative;
+	}
+	#guestWelcome {
+		width:  1024px;
+	}
+	#activitiesTitle {
+		float: left;
+		clear: none;
+		margin: 10px auto 10px auto;
+		width: 1024px;
+	}
+	#activities {
+		width: 1024px;
+		position: relative;
+		margin: auto;
+	}
+	.activity {
+		height: 175px;
+		width: 512px;
+		margin-left: 0px;
+		overflow: hidden;
+	}
+	.activity p {
+		font-size: 20px;
+	}
+	#teton{
+		height: auto;
+		width: auto;
+		position : static;
+		
+	}
+	.activitiesStandard {
+		display: none;
+	}
+}
