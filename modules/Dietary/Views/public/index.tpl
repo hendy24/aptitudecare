@@ -5,7 +5,7 @@
 	<div id="panel-0" class="rotatingPage">
 		<div id="mainContent">
 			<div id="mainLogo">
-				<img src="{$IMAGES}/{$location->logo}" alt="">
+				<img src="{$IMAGES}/facility_logo/{$location->logo}" alt="">
 			</div>
 			<div id="menuTitle">
 				<img src="{$IMAGES}/featured_menu.png" alt="">
