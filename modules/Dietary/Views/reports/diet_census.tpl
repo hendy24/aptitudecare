@@ -35,7 +35,7 @@
 	<tr>
 		<th><a href="" id="room" class="order">Room</a></th>
 		<th><a href="" id="patient_name" class="order">Patient Name</a></th>
-		<th><a href="" id="diet_order" class="order">Diet Order</a></th>
+		<th style="width: 150px"><a href="" id="diet_order" class="order">Diet Order</a></th>
 		<th style="width: 200px;"><a href="" id="allergies" class="order">Allergies</a></th>
 		<th><a href="" id="texture" class="order">Texture</a></th>
 		<th><a href="" id="liquid_consistency" class="order">Liquid/Fluid/Orders</a></th>

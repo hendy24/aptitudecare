@@ -132,4 +132,11 @@ class User extends AppData {
 		return $this->fetchOne($sql, $params);
 	}
 
+	public function fetchDietaryUsers($location) {
+		$group = $this->loadTable('Group');
+		$params[':location_id'] = $location->id;
+		$sql = "SELECT u.*, g.description AS group_name FROM {$this->tableName()} u INNER JOIN {$group->tableName()} g ON g.id = u.group_id WHERE default_location = :location_id AND group_id IN (12, 13)";
+		return $this->fetchAll($sql, $params);
+	}
+
 }

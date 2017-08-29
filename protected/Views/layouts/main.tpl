@@ -67,7 +67,7 @@
 		<div id="header">
 			{if $auth->valid()}
 			<div id="user-info">
-				Welcome, <a href="{$SITE_URL}/?page=users&amp;action=my_info">{$auth->fullName()}</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
+				Welcome, <a href="{$SITE_URL}/?page=users&amp;action=my_info&amp;id={$auth->getRecord()->public_id}">{$auth->fullName()}</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
 			</div>
 			{/if}
 			<img src="{$logo}" alt="Logo" class="logo"/>
