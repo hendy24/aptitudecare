@@ -532,15 +532,15 @@ class PatientInfoController extends DietaryController {
 		    foreach($currentPatients as $key => $patient){
 		    	if (get_class($patient) == "Patient") {
 		    		// fetch the traycard info for this patient
-		    		$tray_card_info[] = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);
+		    		$tray_card_info[] = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id, $location->id);
 		    	}
 		    }
 
 		} else {
-			// fetch the selected patient info
+			// fetch info for only the selected patient
 			$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
 			// fetch the patient's tray card info
-			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id);
+			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id, $location->id);
 		}
 
 		// get date from the url
@@ -586,7 +586,8 @@ class PatientInfoController extends DietaryController {
 							$tray_card_cols[$key][$i]->special_reqs .= $sr->name . ", ";
 						}
 					}
-					if (strtotime($tci['main_data']->date_of_birth) != "" && strtotime($tci['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+
+					if ($tci['main_data']->date_of_birth != '' && date('m-d', strtotime($tci['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
 						$tray_card_cols[$key][$i]->birthday = true;
 					} else {
 						$tray_card_cols[$key][$i]->birthday = false;
@@ -614,7 +615,7 @@ class PatientInfoController extends DietaryController {
 						$tray_card_cols[$i]->special_reqs .= $sr->name .= ', ';
 					}
 				}
-				if (strtotime($tci['main_data']->date_of_birth) != "" && strtotime($tray_card_info['main_data']->date_of_birth) == strtotime(date('Y-m-d', strtotime('now')))) {
+				if (strtotime($tci['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
 					$tray_card_cols[$i]->birthday = true;
 				} else {
 					$tray_card_cols[$i]->birthday = false;
@@ -653,7 +654,7 @@ class PatientInfoController extends DietaryController {
 			}
 			$all_tray_cards = false;
 		}
-
+		
 		smarty()->assign('trayCardCols', $tray_card_cols);
 		// smarty()->assign('patient', $patient);
 		smarty()->assign('selectedDate', $_dateStart);

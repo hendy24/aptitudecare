@@ -44,7 +44,7 @@ class CaseManagersController extends MainPageController {
 
 	public function case_manager() {
 		smarty()->assignByRef('location', $this->loadModel('Location', input()->location));
-		
+
 		if (isset (input()->isMicro)) {
 			smarty()->assign('isMicro', true);
 		} else {
@@ -69,7 +69,7 @@ class CaseManagersController extends MainPageController {
 		} else {
 			session()->setFlash("Could not load page. Please try again.");
 			$this->redirect(input()->current_url);
-		}		
+		}
 
 
 		smarty()->assignByRef('cm', $cm);
@@ -114,11 +114,11 @@ class CaseManagersController extends MainPageController {
 
 		if (input()->fax != '') {
 			$case_manager->fax = input()->fax;
-		} 
+		}
 
 		if (input()->email != '') {
 			$case_manager->email = input()->email;
-		} 
+		}
 
 		if (input()->healthcare_facility_id != '') {
 			$case_manager->healthcare_facility_id = input()->healthcare_facility_id;
@@ -142,7 +142,7 @@ class CaseManagersController extends MainPageController {
 			if (isset (input()->isMicro) && input()->isMicro == true) {
 				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			} else {
-				$this->redirect(array('page' => 'case_managers', 'action' => 'manage'));				
+				$this->redirect(array('page' => 'case_managers', 'action' => 'manage'));
 			}
 		}
 
@@ -154,7 +154,7 @@ class CaseManagersController extends MainPageController {
 			$healthcare_facility = $this->loadModel('HealthcareFacility', $data->healthcare_facility_id);
 			smarty()->assign('healthcare_facility', $healthcare_facility->name);
 		}
-		
+
 	}
 
 	public function searchReferralSource() {
@@ -177,7 +177,7 @@ class CaseManagersController extends MainPageController {
 		}
 
 		json_return($resultArray);
-		
+
 	}
 
 

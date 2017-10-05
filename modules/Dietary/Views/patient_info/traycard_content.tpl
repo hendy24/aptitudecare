@@ -80,5 +80,11 @@
         <td class="text-center text-10" style="padding-top:5px">120 cc. &nbsp;&nbsp; 240 cc. &nbsp;&nbsp; 360 cc. &nbsp;&nbsp; 480 cc.</td>
       </tr>
       {/if}
+      {if ($location->id == 21)}
+      <tr>
+        <td>&nbsp;</td>
+        <td class="text-center text-strong">Table: {$item->table_number}</td>
+      </tr>
+      {/if}
     </table>
   </div>

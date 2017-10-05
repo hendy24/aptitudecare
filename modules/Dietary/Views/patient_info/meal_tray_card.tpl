@@ -12,4 +12,3 @@
     {include file="$MODULES_DIR/Dietary/Views/patient_info/traycard_content.tpl"}
   {/foreach}
 {/if}
-

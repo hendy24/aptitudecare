@@ -24,7 +24,7 @@ class PatientInfo extends Dietary {
  * -------------------------------------------------------------------------
  */
 
-	public function fetchTrayCardInfo($patient_id) {
+	public function fetchTrayCardInfo($patient_id, $location_id) {
 		// connect to all the tables needed to get info for the tray card
 		$patient = $this->loadTable('Patient');
 		$schedule = $this->loadTable('Schedule');
@@ -41,13 +41,22 @@ class PatientInfo extends Dietary {
 		$adapt_equip = $this->loadTable('AdaptEquip');
 		$patient_adapt_equip = $this->loadTable('PatientAdaptEquip');
 
+		if ($location_id == 21) {
+			$table = $this->loadTable("Table");
+			$table_room = $this->loadTable("TableRoom");
+		}
+
+
 		// set params for the query
 		$params[":patient_id"] = $patient_id;
+		$params[":location_id"] = $location_id;
 
 		// fetch all the items from the disparate tables for the tray card
-		$sql = "SELECT
-					r.number,
-					CONCAT (p.last_name, ', ', p.first_name) as patient_name,
+		$sql = "SELECT r.number,";
+			if ($location_id == 21) {
+				$sql .= " ta.number as table_number, ";
+			}
+				$sql .= " CONCAT (p.last_name, ', ', p.first_name) as patient_name,
 					p.date_of_birth,
 					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_order->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
 					(SELECT GROUP_CONCAT(t.name separator ', ') FROM {$texture->tableName()} AS t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = :patient_id) AS textures,
@@ -56,14 +65,26 @@ class PatientInfo extends Dietary {
 					(SELECT GROUP_CONCAT(a.name separator ', ') FROM {$allergy->tableName()} AS a INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = a.id WHERE pfi.patient_id = :patient_id AND pfi.allergy = 1) AS allergies,
 					(SELECT GROUP_CONCAT(o.name separator ', ') FROM {$other->tableName()} AS o INNER JOIN {$patient_other->tableName()} po ON po.other_id = o.id WHERE po.patient_id = :patient_id) AS orders,
 					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = :patient_id) AS dislikes,
-					(SELECT GROUP_CONCAT(ae.name separator ', ') FROM {$adapt_equip->tableName()} AS ae INNER JOIN {$patient_adapt_equip->tableName()} pae ON pae.adapt_equip_id = ae.id WHERE pae.patient_id = :patient_id) AS adapt_equip
-				FROM {$this->tableName()} AS pi
-					INNER JOIN {$patient->tableName()} 				p ON p.id = pi.patient_id
-					INNER JOIN {$schedule->tableName()} 			s ON s.patient_id = pi.patient_id
-					INNER JOIN {$room->tableName()} 				r ON r.id = s.room_id
+					(SELECT GROUP_CONCAT(ae.name separator ', ') FROM {$adapt_equip->tableName()} AS ae INNER JOIN {$patient_adapt_equip->tableName()} pae ON pae.adapt_equip_id = ae.id WHERE pae.patient_id = :patient_id) AS adapt_equip";
 
-				WHERE p.id = :patient_id
-				ORDER BY r.number ASC";
+				$sql .= " FROM {$this->tableName()} AS pi
+					INNER JOIN {$patient->tableName()} p ON p.id = pi.patient_id
+					INNER JOIN {$schedule->tableName()} s ON s.patient_id = pi.patient_id
+					INNER JOIN {$room->tableName()} r ON r.id = s.room_id";
+				if ($location_id == 21) {
+					$sql .= " LEFT JOIN {$table->tableName()} AS ta ON ta.location_id = s.location_id LEFT JOIN {$table_room->tableName()} AS tr ON tr.table_id = ta.id";
+				}
+
+
+				$sql .= " WHERE p.id = :patient_id";
+				if ($location_id == 21) {
+					$sql .= " AND s.location_id = :location_id";
+				}
+				if ($location_id == 21) {
+					$sql .= " GROUP BY ta.number";
+				} else {
+					$sql .= " ORDER BY r.number ASC";
+				}
 
 		$tray_card_info = array();
 		$tray_card_info['main_data'] = $this->fetchOne($sql, $params);
