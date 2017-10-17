@@ -546,8 +546,10 @@ class PatientInfoController extends DietaryController {
 		// get date from the url
 		if(isset(input()->date)){
 			$_dateStart = date('Y-m-d', strtotime(input()->date));
+			$_month_day = date('m-d', strtotime(input()->date));
 		} else{
 			$_dateStart = date('Y-m-d', strtotime('now'));
+			$_month_day = date('m-d', strtotime('now'));
 		}
 
 		// get the meal id from the url
@@ -587,7 +589,7 @@ class PatientInfoController extends DietaryController {
 						}
 					}
 
-					if ($tci['main_data']->date_of_birth != '' && date('m-d', strtotime($tci['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
+					if ($tci['main_data']->date_of_birth != '' && date('m-d', strtotime($tci['main_data']->date_of_birth)) == $_month_day) {
 						$tray_card_cols[$key][$i]->birthday = true;
 					} else {
 						$tray_card_cols[$key][$i]->birthday = false;
@@ -615,7 +617,7 @@ class PatientInfoController extends DietaryController {
 						$tray_card_cols[$i]->special_reqs .= $sr->name .= ', ';
 					}
 				}
-				if (strtotime($tci['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
+				if (strtotime($tci['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == $_month_day) {
 					$tray_card_cols[$i]->birthday = true;
 				} else {
 					$tray_card_cols[$i]->birthday = false;
@@ -639,7 +641,7 @@ class PatientInfoController extends DietaryController {
 							$tray_card_cols[$i]->special_reqs .= $sr->name . ', ';
 						}
 					}
-					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == date('m-d', strtotime('now'))) {
+					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == $_month_day) {
 						$tray_card_cols[$i]->birthday = true;
 					} else {
 						$tray_card_cols[$i]->birthday = false;
