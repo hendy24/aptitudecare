@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>		
+		<title>Demo - Defaultvalue</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+		<link href="dependencies/screen.css" type="text/css" rel="stylesheet" />				
+	</head>
+	<body>
+	
+		<div class="form">
+			<p>
+				<label>Username</label>
+				<span class="w">
+					<input id="username" type="text" class="input" />
+				</span>
+			</p>
+			<p>
+				<label>Password</label>
+				<span class="w">
+					<input id="password" type="password" class="input" />
+				</span>
+			</p>
+			<p>
+				<label>Description</label>
+				<span class="w">
+					<textarea id="desc" class="input"></textarea>
+				</span>
+			</p>
+		</div>
+
+		<script src="dependencies/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.defaultvalue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			// <![CDATA[
+			$(document).ready(function(){			
+				$('#username').defaultValue('John Doe');
+				$('#password').defaultValue('Something secret',function(d){
+					alert(data);
+				});
+				$('#desc').defaultValue('Keep it short...');
+			});	
+			// ]]>
+		</script>
+		
+	</body>
+</html>

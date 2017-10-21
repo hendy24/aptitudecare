@@ -1,0 +1,9 @@
+CREATE TABLE `admin_user` (
+`id` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`email` TEXT NOT NULL ,
+`password` TEXT NOT NULL ,
+`fullname` TEXT NOT NULL ,
+`datetime_seen` DATETIME NOT NULL ,
+`is_root` TINYINT( 1 ) NOT NULL ,
+`admin_role` INT( 10 ) UNSIGNED NULL DEFAULT NULL
+) ENGINE = InnoDB;

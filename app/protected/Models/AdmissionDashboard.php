@@ -95,9 +95,9 @@ class AdmissionDashboard extends AppModel {
 			$hhSchedule->primary_insurance_number = $r->medicare_number;
 
 			if ($r->service_disposition == "AHC Home Health") {
-				$hhSchedule->confirmed = true;
+				$hhSchedule->confirmed = 1;
 			} else {
-				$hhSchedule->confirmed = false;
+				$hhSchedule->confirmed = 0;
 			}
 
 			$patient->public_id = $r->patient_pubid;
@@ -185,33 +185,9 @@ class AdmissionDashboard extends AppModel {
 
 			if ($patient->save()) {
 				$hhSchedule->patient_id = $patient->id;
-				$hhSchedule->save();
+				$hhSchedule->save();			
 				$schedule->patient_id = $patient->id;
 				$schedule->save();
-
-				// Per request, patient note files are no longer pulled from the admission dashboard
-				// removed on 2015-08-25 by kwh
-
-				// for ($i = 0; $i <= 9; $i++) {
-				// 	$file = "notes_file{$i}";
-				// 	$name = "notes_name{$i}";
-
-				// 	$patient_notes = new PatientNote;
-
-				// 	// check for already existing files and save
-
-				// 	$patient_notes->patient_id = $patient->id;
-				// 	if (isset ($r->$name) && $r->$name != null) {
-				// 		$patient_notes->name = $r->$name;
-				// 	}
-
-				// 	if (isset ($r->$file) && $r->$file != null) {
-				// 		$patient_notes->file = $r->$file;
-				// 		if (!$patient_notes->checkExisting()) {
-				// 			$patient_notes->save();
-				// 		}
-				// 	}
-				// }
 			}
 
 

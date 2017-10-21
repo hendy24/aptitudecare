@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `content` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `title` text NOT NULL,
+  `copy` longtext,
+  `file1` varchar(128) NOT NULL,
+  `file2` varchar(128) DEFAULT NULL,
+  `file3` varchar(128) DEFAULT NULL,
+  `file4` varchar(128) DEFAULT NULL,
+  `file5` varchar(128) DEFAULT NULL,
+  `file6` varchar(128) DEFAULT NULL,
+  `file7` varchar(128) DEFAULT NULL,
+  `file8` varchar(128) DEFAULT NULL,
+  `file9` varchar(128) DEFAULT NULL,
+  `file10` varchar(128) DEFAULT NULL,
+  `file11` varchar(128) DEFAULT NULL,
+  `file12` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
