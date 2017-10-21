@@ -1,0 +1,1672 @@
+html {
+	margin: 0;
+	padding: 0;
+	background: #ffffff;
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body, td, th {
+	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+	font-size: 14px;
+	color: #050505;
+}
+
+h1 {
+	margin: 25px 0;
+}
+
+h2 {
+	margin-top: 5px;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+h1.no-margin {
+	margin: 0;
+}
+
+h2, h3 {
+	font-weight: normal;
+}
+
+a {
+	color: #050505;
+	text-decoration: none;
+}
+
+
+.bold-link a:hover {
+	font-weight: bold;
+}
+
+
+form label {
+	font-weight: bold;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+
+/********* General Site-wide Items **************/
+
+
+.select-dropdown {
+	position: absolute;
+}
+
+.select-dropdown.right {
+	right: 0;
+	top: 30px;
+}
+
+a.button {
+	background: #686868;
+	border-radius: 3px;
+	color: #f1f1f1;
+	padding: 4px 8px;
+	margin: 0 5px;
+	font-size: 12px;
+}
+
+div.button {
+	position: absolute;
+
+}
+
+div.button.left {
+	left: 30px;
+}
+
+div.button.right {
+	right: 30px;
+}
+
+div.button > a {
+	background: #686868;
+	border-radius: 3px;
+	color: #f1f1f1;
+	padding: 6px 8px;
+}
+
+div.button > a:hover {
+	background: #999;
+	color: #000;
+}
+
+table.center {
+	margin: auto;
+	width: auto;
+}
+
+table.center td {
+	padding: 5px;
+}
+
+table.form {
+	width: auto;
+	max-width: 800px;
+	min-width: 80%;
+	margin: 20px auto;
+}
+
+table.form th {
+	background: #c8c8c8;
+	padding: 5px;
+}
+
+table.form td {
+	padding: 5px 10px;
+	vertical-align: top;
+}
+
+table.form td.section-title {
+	padding: 20px 0 0 0;
+}
+
+table.form td.title {
+	padding: 15px 0 0 0;
+}
+
+.form ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	line-height: 1.5em;
+}
+
+table.login td {
+	padding: 0;
+}
+
+table.view {
+	width: 90%;
+	margin: 20px auto;
+	text-align: left;
+	font-weight: normal;
+	border-collapse: collapse;
+}
+
+table.view th {
+	background: #e9e9e9;
+	width: auto;
+	padding: 5px 8px;
+	font-weight: bold;
+	text-align: center;
+}
+
+table.view td {
+	border-bottom: 1px dotted #c6c6c6;
+	padding: 5px 15px;
+	width: auto;
+	vertical-align: top;
+}
+
+table.view th a:hover {
+	text-decoration: none;
+}
+
+table.view a:hover {
+	text-decoration: underline;
+}
+
+table.view ul {
+	margin: 0;
+	padding: 0;
+}
+
+img.add-button {
+	position: absolute;
+}
+
+/******** General Use Classes *************/
+
+.clear { clear: both; }
+.left { float: left; }
+.right { float: right; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.no-margin { margin: 0; }
+.link { text-decoration: underline; font-size: 12px; }
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-17 { font-size: 17px; }
+.text-18 { font-size: 18px; }
+.text-19 { font-size: 19px; }
+.text-20 { font-size: 20px; }
+.text-21 { font-size: 21px; }
+.text-22 { font-size: 22px; }
+.text-23 { font-size: 23px; }
+.text-24 { font-size: 24px; }
+
+.text-grey { color: #ccc; }
+.text-darker-grey { color: #999; }
+.text-red { color: red; }
+.text-blue { color: blue; }
+.background-red { background: #FF6A6A; }
+.background-grey { background: #d8d8d8; }
+.background-blue { background: #185687; color: #f1f1f1; }
+.font-normal { font-weight: normal; }
+.text-strong { font-weight: bold; }
+.line-space { line-height: 30px; }
+
+.horizontal-break {
+	border-bottom: 1px dotted #c8c8c8;
+	margin: 25px 0;
+}
+
+#dialog {
+	display: none;
+}
+
+
+.patient-menu {
+	position: absolute;
+	margin-left: 8px;
+	margin-top: -2px;
+}
+
+
+
+
+/******* Main Template **********/
+
+div#header-container {
+	width: 100%;
+	height: 92px;
+	background: url(/aptitude-public/img/header-bg.png) repeat-x bottom center;
+	position: relative;
+	float: left;
+	top: 0;
+	z-index: 49;
+}
+
+div#header {
+	width: 92%;
+	/*height: 125px;*/
+	height: 92px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 50;
+}
+
+img.logo {
+	/*margin: 22px 0px 0px 30px;*/
+	margin: 24px 0px 0px 20px;
+	float: left;
+}
+
+div#user-info {
+	float: right;
+	color: #f1f1f1;
+	padding: 3px 18px 0px 8px;
+	height: 20px;
+}
+
+div#user-info a {
+	color: #f1f1f1;
+	text-decoration: none;
+}
+
+div#user-info a:hover {
+
+}
+
+
+nav {
+	float: right;
+	text-align: right;
+	margin: 52px 1px 0px 0px;
+	position: absolute;
+	right: 10px;
+	z-index: 51;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: right;
+}
+
+nav ul li {
+	width: 75px;
+	text-align: center;
+	margin: 0px 0px 0px 5px;
+	padding: 4px 8px 4px 8px;
+	display: block;
+	float: left;
+	background: #f1f1f1;
+	font-size: 14px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+}
+
+nav ul li:hover {
+	background: #fff;
+}
+
+nav ul li a {
+	color: #050505;
+	text-decoration: none;
+}
+
+nav ul li ul {
+/* 	right: -999em; */
+	display: none;
+	margin: 4px 0px 0px -92px;
+	padding: 6px 12px;
+	background: #fff;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	float: none;
+	position: relative;
+	z-index: 100;
+	width: 150px;
+}
+
+nav li:hover ul {
+	right: auto;
+	display: block;
+}
+
+nav ul li ul li {
+	margin: 0;
+	padding: 5px 4px;
+	display: block;
+	position: relative;
+	border: none;
+	float: none;
+	background: #fff;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 12px;
+	width: 118px;
+	border-radius: none;
+}
+
+div #nav ul li ul li a:hover {
+	color: #fff;
+}
+
+div #nav ul li ul li a {
+	display: block;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+nav ul li ul li:hover {
+	background: #185687;
+	padding: 5px;
+	border-radius: 0;
+	display: block;
+	color: #fff;
+	width: 100%;
+	height: 22px;
+
+}
+
+nav ul li ul li:hover a {
+	color: inherit;
+	border-radius: 0;
+	display: block;
+	width: 100%;
+	height: 22px;
+}
+
+
+nav ul li ul li:last-child {
+	margin-bottom: 0;
+}
+
+
+
+/* Grey Small Dropdown */
+
+/* General dropdown styles */
+.dropdown {
+	position: relative;
+	float: right;
+	top: -2px;
+	right: 15px;
+	z-index: 500;
+	margin: 0;
+}
+
+.dropdown dl {
+	 margin-left: 0px;
+	 position: relative;
+}
+
+.dropdown dd, .dropdown dt, .dropdown ul {
+	margin:0px;
+	padding:0px;
+	margin-left:0px;
+}
+
+.dropdown dd {
+	position:relative;
+}
+
+/* DT styles for sliding doors */
+.dropdown dt a {
+	background: url(/aptitude-public/img/tools.png);
+    position: absolute;
+    width:16px;
+    height:16px;
+    cursor: pointer;
+    margin: 0px 5px 0px 0px;
+}
+
+
+/* UL styles */
+.dropdown dd ul {
+	background:rgba(40, 40, 40,0.75) none repeat scroll 0 0;
+    list-style: none;
+    padding: 3px 0;
+    display: none;
+    position: absolute;
+    margin: 20px 0 0 -50px;
+    width: auto;
+    border: 1px solid #656565;
+    cursor: pointer;
+    z-index: 501;
+    border-radius: 3px;
+}
+.dropdown dd ul li {
+	margin: 0;
+	width:224px;
+}
+
+.dropdown span.value {
+	display:none;
+}
+
+.dropdown dd ul li a {
+	display: block;
+	font-weight: normal;
+	font-style: normal;
+	width: auto;
+	text-align:left;
+	overflow:hidden;
+	padding: 1px 4px 1px 19px;
+	margin: 2px 5px;
+	color:#ffffff;
+	text-decoration:none;
+	font-size: 12px;
+	line-height: 1.5em;
+}
+
+.dropdown dd ul li a:hover {
+	background: #ffffff;
+	color: #333;
+	text-decoration: none;
+}
+
+.dropdown dd ul li a:visited {
+	text-decoration:none;
+}
+
+
+
+
+/******************** Main page template (this is used on all pages in the application) ***********/
+
+
+div#wrapper {
+	width: 92%;
+	min-height: 100%;
+	margin: 0 auto 25px auto;
+	position: absolute;
+	top: 92px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+div#content {
+	width: 96%;
+	min-height: 100%;
+	margin-top: -10px;
+	padding: 20px 2% 30px 2%;
+	position: relative;
+	z-index: 1;
+	background: #ffffff;
+}
+
+#page-wrapper {
+	position: relative;
+	width: 75%;
+	text-align: justify;
+	margin: 50px auto;
+}
+
+#page-wrapper textarea {
+	width: 100%;
+	height: 60px;
+}
+
+div#page-content {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+div#copyright {
+	width: 96%;
+	height: 15px;
+	margin: 0 auto;
+	text-align: right;
+	color: #b4b4b4;
+	position: absolute;
+	border-top: 1px solid #ccc;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 20;
+	font-size: 12px;
+}
+
+div#copyright p {
+	margin: 15px;
+}
+
+div#copyright a {
+	color: #b4b4b4;
+}
+
+div#copyright a:hover {
+	color: #ff8339;
+}
+
+
+/*********** Errors *********************/
+
+#flash-messages {
+	position: relative;
+	margin: 20px auto;
+	font-size: 14px;
+	width: 60%;
+	color: #f1f1f1;
+	text-align: center;
+}
+
+#flash-messages > .error {
+	background: #c31e1e;
+	margin: 2px auto;
+	padding: 5px 15px;
+	width: 100%;
+	text-align: center;
+}
+
+#flash-messages > .success {
+	background: #157415;
+	margin: 2px auto;
+	padding: 5px 15px;
+	width: 100%;
+	text-align: center;
+}
+
+#flash-messages ul {
+	list-style-type: none;
+}
+
+/*** Validation errors **/
+.error {
+	margin: 3px 10px;
+	background: #e64d3d;
+	padding: 4px 6px;
+	float: left;
+	clear: both;
+}
+
+div#debug {
+	position: fixed:
+	bottom: 0;
+	width: 100%;
+}
+
+
+
+/************** Debugging *******************/
+#debug {
+	position: absolute;
+	bottom: 0;
+	padding: 15px;
+	width: 100%;
+	z-index: 100;
+	background: #fff;
+	border-top: 1px solid #666;
+	overflow: scroll;
+}
+
+
+
+/********* Form inputs, dropdowns, and button styling ***************/
+
+select {
+	border: 1px solid #c8c8c8;
+	height: 25px;
+	background: #fff;
+}
+
+#search-header select {
+	background: #f2f2f2;
+}
+
+
+/************* Pagination ********************/
+
+div#pagination {
+	position: relative;
+	margin: 50px auto 25px auto;
+	width: 70%;
+	text-align: center;
+}
+
+div#pagination a {
+	margin: 0 25px;
+}
+
+div#pagination a.page-numbers {
+	margin: 0;
+	padding: 0 8px;
+	border-right: 1px solid #444;
+}
+
+#page-count {
+	position: relative;
+	text-align: center;
+	width: 70%;
+	margin: auto;
+	font-size: 12px;
+}
+
+
+
+/************* New Admit request search results **************/
+div#patient-results {
+	margin: 25px auto;
+	width: 95%;
+	position: relative;
+	text-align: center;
+	display: none;
+}
+
+div.patient-search-result {
+	margin: 15px;
+	padding: 10px;
+	display: inline-block;
+	width: 24%;
+	background: #ccc;
+	border-radius: 4px;
+}
+
+div.patient-search-result p {
+	margin: 0;
+	text-align: left;
+}
+
+div#submit-new-patient {
+	float: right;
+	margin: 25px 150px;
+	clear: both;
+	display: none;
+}
+
+
+
+/********** Discharge pages *********************/
+
+#discharges {
+	position: relative;
+	margin: 0 auto;
+	width: 90%;
+}
+
+#current-patients {
+	margin: 50px auto 10px auto;
+	padding: 8px;
+	background: #e2e2e2;
+}
+
+#current-patients h2 {
+	font-size: 16px;
+	color: #a8a8a8;
+}
+
+.current-patient {
+	background: #195587;
+	width: 15%;
+	max-height: 25px;
+	margin: 2px;
+	padding: 5px;
+	border-radius: 4px;
+	color: #f9f9f9;
+	float: left;
+	font-size: 12px;
+	text-overflow: ellipsis;
+}
+
+
+#discharge-container {
+	width: 90%;
+	/*position: relative;*/
+	/*min-height: 250px;*/
+	text-align: justify;
+	white-space: nowrap;
+}
+
+div.discharge-day-wrapper {
+	width: 14.1%;
+	padding: .18%;
+	display: inline-block;
+	margin: 0px 4px;
+	font-size: 10px;
+
+
+}
+
+div.discharge-day-wrapper h3 {
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.discharge-day {
+	height: auto;
+	width: 100%;
+	min-width: 50px;
+	min-height: 175px;
+	padding: 5px 5px 50px 5px;
+	background: #e2e2e2;
+	border-radius: 2px;
+
+}
+
+
+.discharge-info {
+	font-size: 12px;
+	float: left;
+	background: #FF6A6A;
+	margin: 2px 0;
+	padding: 4px 6px;
+	border-radius: 4px;
+	width: 93%;
+	max-width: 150px;
+	color: #f9f9f9;
+	text-overflow: ellipsis;
+}
+
+
+div.dragging-patient {
+	background: #fff;
+	border: 1px dashed #666;
+	border-radius: 4px;
+	width: 150px;
+	padding: 6px;
+	font-size: 12px;
+	z-index: 1000;
+}
+
+.moving-element {
+	border: 1px dashed #666;
+}
+
+.moving-discharge {
+	opacity: 0.5;
+}
+
+
+div.drag-hover {
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+	background: #c8c8c8;
+}
+
+
+
+#timeout-warning {
+	display: none;
+}
+
+#timeout {
+	margin: 50px auto;
+	position: relative;
+	width: 50%;
+	padding: 10px;
+}
+
+#timeout p {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+#login-link {
+	position: relative;
+	text-align: center;
+	width: 50%;
+	margin: 20px auto;
+}
+
+
+#timeout a.button:hover {
+	background: #185687;
+	color: #f1f1f1;
+}
+
+
+/******** Patient note page *********/
+
+#current-files {
+	margin: 50px auto;
+	width: 75%;
+}
+
+.note-thumbnail {
+	width: auto;
+	height: 60px;
+	background: #a1a1a1;
+	color: #f1f1f1;
+	border: 1px solid #000;
+	float: left;
+	margin: 10px;
+	padding: 5px;
+	text-align: center;
+}
+
+#image-viewport {
+	position: relative;
+	overflow: hidden;
+	margin: auto;
+	border: 1px solid;
+}
+
+
+/******* Styles for a photo gallery page ********/
+
+.container {
+	padding: 5px;
+}
+
+/* clearfix */
+.container:before,
+.container:after {
+	content: "";
+	display: table;
+}
+.container:after {
+	clear: both;
+}
+
+.item {
+	float: left;
+	margin-bottom: 10px;
+}
+
+.item img {
+	max-width: 100%;
+	max-height: 100%;
+	vertical-align: bottom;
+	margin: 1px;
+}
+
+.buttons-row {
+	position: absolute;
+	width: 100%;
+	height: 18px;
+}
+
+.first-item {
+	clear: both;
+}
+
+/* remove margin bottom on last row */
+.last-row, .last-row ~ .item {
+	margin-bottom: 0;
+}
+
+
+#photo-submit-buttons {
+	float: right;
+	margin: 50px 20px;
+}
+
+
+
+.photo-info {
+	display: none;
+	margin: 5px;
+	overflow: auto;
+	position: relative;
+}
+
+.photo-info img {
+	width: 260px;
+	padding: 20px;
+	float: left;
+	display: block;
+}
+
+.photo-info-details {
+	float: left;
+	width: 100%;
+}
+
+
+.grid {
+	position: relative;
+	margin: 50px auto;
+	text-align: center;
+}
+
+tr.title-row {
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+ul {
+	list-style-type: none;
+}
+
+img {text-decoration: none; border: 0px}
+
+#container {
+	position: relative;
+	width: 95%;
+	margin: auto;
+}
+
+.dateTitle {
+	position: relative;
+	width: 100%;
+	text-align: center;
+	font-size: 18px;
+	clear: right;
+}
+
+.menuItems {
+	position: relative;
+	float: left;
+	width: 25%;
+	margin: 0;
+	padding: 20px;
+	height: 100px;
+}
+
+.clear { clear: both; }
+
+table {
+	border-collapse: collapse;
+}
+
+table.bev-table {
+	width: 50%;
+}
+
+table.bev-table td {
+	border-bottom: 1px dotted #c8c8c8;
+}
+
+table#menu-table {
+	width: 90%;
+	margin: auto;
+}
+
+table#menu-table th {
+	padding-bottom: 5px;
+	font-size: 18px;
+	font-weight: normal;
+	background: #444;
+	color: #f1f1f1;
+}
+
+table#menu-table td {
+	width: 33%;
+}
+
+table#menu-table a.button {
+	vertical-align: bottom;
+	margin-top: 15px;
+}
+
+table#menu-table td.menu-content {
+	vertical-align: top;
+	padding-left: 0;
+}
+
+div.multiple-page-form {
+	background: #d8d8d8;
+	padding: 5px;
+	margin: 10px;
+}
+
+div.multiple-page-form h2 {
+	font-weight: bold;
+}
+
+table.form {
+	width: auto;
+	max-width: 80% !important;
+	margin: 0 auto;
+}
+
+
+/*table.form {
+	margin: 0 auto;
+	width: 10%;
+	text-align: center;
+}
+*/
+
+
+/***** Styles specific to the table on the edit diet page *****/
+
+table.diet-form {
+	border-spacing: 0;
+	margin: 0 auto;
+}
+
+table.diet-form th {
+	background-color: #f1f1f1;
+}
+
+table.diet-form td {
+	width: 28%;
+	padding: 2px 10px;
+}
+
+table.diet-form td input[type="text"] {
+	width: 95%;
+}
+
+tr.padding-top td {
+	padding-top: 15px;
+}
+
+
+table.form-multiple {
+	width: 90%;
+	margin: 20px auto;
+}
+
+div#menu {
+	position: relative;
+	margin-top: 50px;
+}
+
+div.menu {
+	position: relative;
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	margin-bottom: 50px;
+	border-radius: 5px;
+}
+
+div.menu-info {
+	padding: 0;
+	clear: both;
+}
+
+div.menu-edit-button {
+	float: left;
+	vertical-align: bottom;
+	margin-left: 85%;
+	margin-bottom: 15px;
+	width: 100%;
+	height: 25px;
+}
+
+#legendary {
+	margin: 75px;
+	padding: 10px;
+	position: relative;
+}
+
+.legend-item {
+	position: relative;
+	padding: 15px 0;
+	clear: both;
+	width: 100%;
+}
+
+.legend-box {
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin: 0 10px;
+}
+
+.legend-desc {
+	display: inline;
+	padding: 10px;
+	text-align: justify;
+}
+
+#blank-wrapper {
+	width: 800px;
+	min-height: 100%;
+	margin: 10px auto 25px auto;
+	position: relative;
+}
+
+#tv-mode-button {
+	position: absolute;
+	right: 18px;
+	top: 40px;
+}
+
+#desktop-mode-button {
+	position: absolute;
+	right: 30px;
+	top: 20px;
+}
+
+
+#date-header {
+	position: relative;
+	margin: 0 auto;
+	padding: 5px 0;
+	width: 60%;
+	max-width: 800px;
+}
+
+
+.date-header-text {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.date-header-text h1 {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.date-header-img-left {
+	position: absolute;
+	top: 10px;
+	left: 25px;
+}
+
+.date-header-img-right {
+	position: absolute;
+	top: 10px;
+	right: 25px;
+}
+
+	padding: 5px 0;
+	width: 60%;
+	max-width: 800px;
+}
+
+
+.dietary-date-header-text {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.dietary-date-header-text h1 {
+	margin-top: 6px;
+	margin-bottom: 10px;
+	line-height: 30px;
+}
+
+.dietary-date-header-img-left {
+	position: relative;
+	float: left;
+	margin-top: 8px;
+}
+
+.dietary-date-header-img-right {
+	position: relative;
+	float: right;
+	margin-top: 8px;
+}
+
+.is-micro h1 {
+	margin: 5px;
+}
+
+#search-header {
+	position: relative;
+	width: 100%;
+	height: 18px;
+	margin-bottom: 30px;
+}
+
+#modules {
+	position: absolute;
+	top: 5px;
+}
+
+#patient-search input[type="text"] {
+	width: 250px;
+}
+
+div#areas {
+	position: absolute;
+	right: 15px;
+	top: 5px;
+}
+
+
+
+
+
+/****************** Divs for the header on top of the page ******************/
+
+div#page-header {
+	position: relative;
+	margin: 0 auto 75px auto;
+	width: 100%;
+	height: 25px;
+}
+
+
+div#action-left {
+	position: relative;
+	float: left;
+	width: 30%;
+	height: 25px;
+	display: inline;
+	text-align: left;
+}
+
+div#center-title {
+	position: relative;
+	float: left;
+	width: 40%;
+	height: 25px;
+	text-align: center;
+}
+
+div#action-right {
+	position: relative;
+	float: left;
+	width: 30%;
+	height: 25px;
+	text-align: right;
+}
+
+
+#sub-header {
+	position: relative;
+	width: 100%;
+	height: 38px;
+	top: -40px;
+}
+
+#patient-search {
+	float: left;
+	margin-top: 20px;
+}
+
+#download-links {
+	float: right;
+	margin-right: 60px;
+}
+
+
+
+
+
+/****************** Dashboard Page *******************/
+
+div#locations select {
+	font-size: 24px;
+	height: 30px;
+	margin: 5px 0;
+	background: #444;
+	color: #f1f1f1;
+}
+
+#optgroup h1 {
+	font-size: 14px;
+}
+
+div#location-wrapper {
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+}
+
+div#admits {
+	float: left;
+	width: 100%;
+}
+
+div#discharges {
+	position: relative;
+	height: auto;
+}
+
+div#day1 {
+
+}
+
+
+
+div.location-container {
+	width: 14.2857143%;
+	float: left;
+}
+
+div.location-day-box {
+	height: auto !important;
+	min-height: 180px;
+	border-radius: 3px;
+	padding: 5%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	background: none;
+}
+
+div.location-day-box-color {
+	background-color: #e6e6e6;
+}
+
+div.location-admit {
+	font-size: 11px;
+	line-height: 12px;
+	border-radius: 3px;
+	border: 1px solid #c8c8c8;
+	padding: 5px;
+	margin-top: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+div.under-consideration {
+	background: #ffffff;
+}
+
+div.confirmed {
+	background:  #6BBEFF;
+}
+
+div.other-service {
+	background: #333333;
+	color: #f1f1f1;
+}
+
+div.no-service {
+	background: #E60000;
+	color: #e9e9e9;
+}
+
+div.pending {
+	background: yellow;
+}
+
+div.approved {
+	background: #75dc6d;
+}
+
+#legend {
+	position: relative;
+	margin: 50px auto;
+	width: 35%;
+	border: none;
+}
+
+#legend h2 {
+	text-align: left;
+}
+
+.box-blue {
+	background: #6BBEFF;
+}
+
+.box-white {
+	background: #f1f1f1;
+	border: 1px solid #c8c8c8;
+}
+
+.location-discharge {
+	background: #FF6A6A;
+	font-size: 11px;
+	font-weight: normal;
+	line-height: 14px;
+	border-radius: 3px;
+	padding: 5px;
+	margin-top: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+.box-title {
+	margin: 0 0 4px 2px;
+	color: #b4b4b4;
+}
+
+.day-title {
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 4%;
+	color: #444;
+}
+
+
+table#patient-info {
+	width: 75%;
+	margin: 20px auto;
+	text-align: left;
+	font-weight: normal;
+	border-collapse: collapse;
+}
+
+table#patient-info th {
+	background: #e9e9e9;
+	width: auto;
+	padding: 5px 8px;
+	font-weight: bold;
+	text-align: center;
+}
+
+table#patient-info td {
+	border-bottom: 1px dotted #c6c6c6;
+	padding: 5px 15px;
+}
+
+table#patient-info th a:hover {
+	text-decoration: none;
+}
+
+table#patient-info a:hover {
+	text-decoration: underline;
+}
+
+.current-menu-info {
+	width: 40%;
+	margin: 0 auto;
+	padding: 2px 5px;
+}
+
+.current-menu-info p {
+	margin: 0;
+	text-align: center;
+}
+
+#page-info {
+	width: 60%;
+	margin: auto;
+}
+
+
+/********* Preview file page *************/
+
+#preview-chunks {
+	margin: 25px auto;
+	text-align: center;
+}
+
+#preview-buttons {
+	margin: 25px auto;
+	text-align: center;
+}
+
+#go-back {
+	position: absolute;
+	right: 12%;
+}
+
+.filename {
+	margin: 3px;
+	padding: 2px;
+}
+
+.trashcan {
+	float: right;
+}
+
+#images-wrapper {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+}
+
+#image-container {
+	width: 80%;
+	margin: auto;
+	text-align: center;
+}
+
+.photo-image {
+	width: 175px;
+	height: auto;
+	margin: 2px;
+}
+
+#image-inner {
+	min-height: 300px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.note {
+	width: 650px;
+	margin: 5px auto 5px auto;
+	text-align: center;
+}
+
+.note p {
+	color: #666;
+}
+
+
+#patient-count {
+	float: right;
+	margin: 0 0 10px 0;
+}
+
+
+/*** Activities Page ****/
+
+#activities {
+	margin: 50px 0 15px 30px;
+}
+
+#activities table {
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 800px;
+}
+
+#activities table td {
+	background-color: #f2f2f2;
+	padding: 5px 10px;
+}
+
+#activities img {
+	margin-top: 15px;
+}
+
+table.checkbox-table {
+	margin-left: 50px;
+	min-width: 80%;
+}
+
+tr.input-checkboxes td {
+	padding: 2px;
+}
+
+
+li.permission-access a {
+	color: #c2c2c2;
+}
+
+.rowalt {
+	background-color: #f2f2f2;
+}
+
+#tray-card-dialog {
+	display: none;
+}
+
+#meal-order-dialog {
+	display: none;
+}
+
+
+/*************** LOGIN PAGE **************************/
+.form-signin {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+
+  .form-signin-heading,
+	.checkbox {
+	  margin-bottom: 30px;
+	}
+
+	.checkbox {
+	  font-weight: normal;
+	}
+
+	.form-control {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+		@include box-sizing(border-box);
+
+		&:focus {
+		  z-index: 2;
+		}
+	}
+
+	input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+}
+
+#manage-photos ul {
+	padding: 0;
+	list-style-type: none;
+}
+
+.ahc-hospice {
+	background-color: #f4ad42;
+}
+
+.bev-input {
+	margin: 2px;
+	padding: 5px;
+}
+
+.bev-items {
+	background-color: #f8f8f8;
+	line-height: 2.5em;
+	padding: 10px;
+}
+
+.bev-items input {
+	line-height: 20px;
+}
+
+.bev-items img {
+	margin-top: 6px;
+	margin-right: 40%;
+}

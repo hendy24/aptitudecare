@@ -1,0 +1,213 @@
+@page {
+  margin-top: 1.5cm;
+  margin-bottom: 1.5cm;
+  margin-left: 2cm;
+  margin-right: 2cm;
+  width: 8.5in;
+  height: 11.25in;
+}
+
+/*@media print {
+	body {
+		margin-top: 50mm;
+		margin-bottom: 50mm;
+		margin-left: 0mm;
+		margin-right: 0mm;
+	}
+}*/
+
+/*html {
+	margin: 0;
+	padding: 0;
+	background: #686868;
+	height: 297mm;
+	width: 210mm;
+}*/
+
+/*body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}*/
+
+a, a:visited {
+	color: #000;
+	text-decoration: none;
+}
+
+body, td, th {
+	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+	font-size: 14px;
+	color: #000000;
+}
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-strong { font-weight: bold; }
+.text-italics { font-style: italic; }
+.text-red { color: red; }
+.text-green { color: green; }
+.bottom { vertical-align: baseline; }
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-14 { font-size: 14px; }
+.text-16 { font-size: 16px; }
+.text-18 { font-size: 18px; }
+.text-20 { font-size: 20px; }
+
+
+h1 {
+	margin: 5px 0 0 0;
+}
+
+h2 {
+	margin: 5px 0 0 0;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+hr {
+	margin: 0;
+	padding: 0;
+	color: #333333;
+}
+.page-break {
+	display: block;
+	page-break-before: always;
+}
+
+.page-header {
+	height: 50px;
+}
+
+.table {
+	max-width: 90%;
+	margin: 0 auto;
+	padding: 20px;
+	page-break-inside: avoid;
+}
+
+.table tr {
+	page-break-inside: avoid;
+	page-break-after: always;
+}
+
+table.traycard {
+	border-right: 1px dashed #000;
+}
+
+.table.last-table {
+	border-right: none;
+}
+
+.table th {
+	border-bottom: 1px solid #000000;
+}
+
+.table td {
+	padding: 2px;
+	vertical-align: top;
+}
+
+input[type="checkbox"] {
+	padding-right: 10px;
+}
+
+.traycard-column {
+	width: 30%;
+	float: left;
+  padding: 0 .15in;
+	display: inline-block;
+}
+
+
+.logo-footer {
+	position: fixed;
+	margin-top: 50px;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.page-break {
+	display: block;
+	page-break-before: always;
+}
+
+.meal-order-form h3{
+	font-size: 14px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.meal-order-form p {
+  line-height: 1em;
+}
+
+.menu-middle-col {
+  padding-top: 50px;
+}
+
+.form h1 {
+	font-size: 16px;
+	font-style: italic;
+}
+
+table.bev-table {
+  margin: 50px auto;
+  width: 400px;
+}
+
+.menu-day-title {
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+.menu-content {
+  font-size: 10px;
+  float: left;
+  width: 33%;
+}
+
+.menu-beverages {
+  float: left;
+  width: 16.66%;
+  font-size: 10px;
+}
+
+.menu-info {
+  text-align: center;
+  font-weight: bold;
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.print-menu h1 {
+  font-size: 18px;
+  font-weight: bold;
+  padding-bottom: 4px;
+}
+
+.print-menu h2 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+.print-menu p {
+  font-size: 10px;
+  line-height: 1em;
+}
+
+.space-row {
+  height: 25px;
+  width: 100%;
+  clear: both;
+}

@@ -1,0 +1,478 @@
+/* Public page layout */
+
+html {
+	height: 100%;
+	/*margin-bottom: 15px;*/
+}
+
+body {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 20px;
+	font-weight: normal;
+	color: #eee;
+	background-color: #000;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+	text-align: center;
+}
+
+p.time {
+	margin: 3px 0 8px 0;
+}
+
+h2 {
+	margin: 0;
+	text-decoration: underline;
+	text-align: center;
+	font-size: 22px;
+}
+
+h3 {
+	font-size: 13px;
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+.text-grey { color: #555; }
+.text-14 { font-size: 14px }
+
+/* General Use Clases */
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-17 { font-size: 17px; }
+.text-18 { font-size: 18px; }
+.text-19 { font-size: 19px; }
+.text-20 { font-size: 20px; }
+.text-black { color: #050505; }
+.text-white { color: #fff; }
+.text-blue { color: #195688; }
+.text-lgt-blue { color: #d0e2f0; }
+.text-red { color: #E33232; }
+.text-grey { color: #666; }
+.left { float: left; }
+.right { float: right; }
+.center { display: block; margin: 0 auto; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.clear { clear: both; }
+.text-purple { color: #A65878; }
+
+
+/****** Main layout styles ******/
+
+#wrapper {
+	position: relative; /***** this could cause the TV to not display properly ****/
+	width: 1280px;
+	max-height: 746px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.overall {
+	position: relative;
+	width: 1280px;
+}
+
+#headerTop {
+	padding-bottom: 5px;
+}
+
+#headerLogo {
+	float: left;
+	margin-left: 5px;
+}
+
+#date {
+	font-size: 24px;
+	color: #6d6a5b;
+	float: right;
+	margin-right: 5px;
+}
+
+
+#header {
+	width: 1280px;
+	height: 30px;
+	position: relative;
+	padding-bottom: 5px;
+}
+
+#mainContent {
+	position: relative;
+	width:  740px;
+	height: 700px;
+	margin-left: 20px;
+}
+
+#mainLogo {
+	float: left;
+	width: 740px;
+	margin: 20px auto 0 auto;
+	text-align: center;
+	z-index: 4;
+	/*clear: both;*/
+}
+
+#menuTitle {
+	float: left;
+	width: 740px;
+	margin: 10px auto 10px auto;
+	text-align: center;
+	clear: both;
+}
+
+#menuContent {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 740px;
+	height: 215px;
+}
+
+.menu {
+	float: left;
+	height: auto;
+	font-size: 20px;
+	width: 220px;
+	text-align: center;
+	margin-left: 25px;
+}
+
+
+#altMenu {
+	font-size: 18px;
+	float: left;
+	text-align: center;
+	margin: 40px auto 10px auto;
+	clear: both;
+	width: 740px;
+}
+
+#altMenu ul {
+	list-style-type: none;
+	text-align: center;
+}
+
+#altMenu h2 {
+	margin-bottom: 14px;
+}
+
+#guestWelcome {
+	float: left;
+	clear: both;
+	font-size: 26px;
+	font-style: italic;
+	width:  740px;
+	margin: 10px auto 10px auto;
+	text-align: center;
+}
+
+#menuPic {
+	position: absolute;
+	background: url(../img/menu_pic.png) 0 0 no-repeat;
+	width: 476px;
+	height: 696px;
+	left: 780px;
+	z-index: 2;
+	top: 0;
+}
+
+.raisingTheStandard {
+	position: absolute;
+	top: 375px;
+	left: 60px;
+}
+
+.activitiesStandard {
+	position: absolute;
+	top: 300px;
+	left: 775px;
+}
+
+.grangevilleActivitiesStandard {
+	position: absolute;
+	top: 200px;
+	left: 775px;
+}
+
+/*** Activities Page ***/
+
+#activitiesContent {
+	position: absolute;
+	width: 1280px;
+	clear: both;
+	top: 0px;
+	z-index: 5;
+}
+
+#activitiesTitle {
+	float: left;
+	clear: both;
+	margin: 0px auto 10px auto;
+	width: 1280px;
+	text-align: center;
+}
+
+.activity {
+	float: left;
+	height: auto;
+	width: 275px;
+	margin-left: 30px;
+	margin-right: auto;
+	text-align: center;
+	display: inline;
+}
+
+.activity p {
+	font-size: 16px;
+}
+
+.activity ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.activity ul li {
+	margin: 0;
+	padding: 0;
+	
+}
+
+.activity h2 {
+	margin-bottom: 10px;
+}
+
+#teton {
+	background: url(../img/teton.jpg) 0 0 no-repeat;
+	position: relative;
+	width: 1280px;
+	height: 434px;
+	z-index: 2;
+	left: 0;
+	top: 0;
+}
+
+#grangeville-teton {
+	background: url(../img/grangeville-teton.jpg) 0 0 no-repeat;
+	position: relative;
+	width: 1280px;
+	height: 340px;
+	z-index: 2;
+	left: 0;
+	top: 0;
+}
+
+#transitionDiv {
+	position: absolute;
+	width: 1280px;
+	height: 696px;
+	top: 50px;
+}
+
+
+.hidden {
+	display: none;
+}
+/*
+.current {
+	display: inline;
+}
+*/
+
+div#public-access-error {
+	margin: 50px auto 0 auto;
+	text-align: center;
+	width: 950px;
+}
+
+div#public-access-error img {
+	margin-bottom: 50px;
+}
+
+div#public-access-error h1 {
+	font-size: 24px;
+}
+
+div#public-access-error a:link, #public-access-error a:visited {
+	text-decoration: none;
+	color: #fff;
+}
+
+div#public-access-error a:hover {
+	color: #999;
+}
+/***** styles for viewing when logged into admin *******/
+
+#public-preview {
+	position: absolute;
+	top: 800px;
+	left: -35px;
+	width: 1350px;
+	height: 40px;
+	background-color: #ffffff;
+}
+
+#tv-fold {
+	position: absolute;
+	top: 0;
+	left: -35px;
+	width: 1350px;
+	height: 770px;
+	border-bottom: 1px dashed #555;
+	border-left: 1px dashed #555;
+	border-right: 1px dashed #555;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#tv-fold-note {
+	position: absolute;
+	height: 20px;
+	width: 1350px;
+	top: 770px;
+	left: -35px;
+	font-size: 14px;
+	padding-top: 5px;
+	text-align: center;
+	color: #555;
+}
+
+#public-preview a:link, a:visited {
+	color: #333;
+	font-size: 14px;
+	float: right;
+	margin: 10px 25px;
+}
+
+#public-preview a:hover {
+	color: #000;
+}
+
+#addContent {
+	position: absolute;
+	width: 1280px;
+	margin-top: 15px;
+	clear: both;
+	top: 0px;
+	z-index: 1;
+}
+
+#debug {
+	position: absolute;
+	top: 850px;
+	left: -35px;
+	width: 1350px;
+}
+
+#sql {
+	position: absolute;
+	top: 950px;
+	left: -35px;
+	width: 1350px;
+	
+}
+
+@media screen and (max-width: 1024px) {
+	.overall {
+		display: none;
+	}
+	#menuPic {
+		position: static;
+		display: none;
+		width: 0px;
+	}
+	#mainContent {
+		/*padding-left: 20px;*/
+	}
+	.raisingTheStandard {
+		display: none;
+	}
+	#mainLogo {
+		width: 1024px;
+	}
+	#transitionDiv{
+		width: 1024px;
+		margin: 0 auto;
+		position: static;
+		top: 0px;
+	}
+	.rotatingPage {
+		width: 1024px;
+		margin: auto;
+	}
+	#activitiesContent {
+		width: 1024px;
+		margin-left: 20px;
+	}
+	#activities {
+		width: 899px;
+		margin-left: 125px;
+	}
+	#wrapper {
+		width: 1024px;
+		height: 768px;
+		margin: 0 auto;
+	}
+	#header {
+		width: 1024px;
+	}
+	#menuTitle {
+		width: 1024px;
+	}
+	#menuContent {
+		width: 1024px;
+	}
+	.menu {
+		font-size: 24px;
+		width: 300px;
+	}
+	#altMenu {
+		font-size: 20px;
+		width: 980px;
+		position: relative;
+	}
+	#guestWelcome {
+		width:  1024px;
+	}
+	#activitiesTitle {
+		float: left;
+		clear: none;
+		margin: 10px auto 10px auto;
+		width: 1024px;
+	}
+	#activities {
+		width: 1024px;
+		position: relative;
+		margin: auto;
+	}
+	.activity {
+		height: 175px;
+		width: 512px;
+		margin-left: 0px;
+		overflow: hidden;
+	}
+	.activity p {
+		font-size: 20px;
+	}
+	#teton{
+		height: auto;
+		width: auto;
+		position : static;
+		
+	}
+	.activitiesStandard {
+		display: none;
+	}
+}

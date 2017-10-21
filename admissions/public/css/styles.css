@@ -1,0 +1,1752 @@
+/* CSS Document */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: url(../images/content-bg.jpg) repeat-y top center #d7d7d7;
+}
+
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #050505;
+}
+
+img { border: none; }
+dl, dd { margin: 0; padding: 0; }
+
+h1, h2, h3, h4, h5 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 100;
+	margin: 0;
+	padding: 0;
+	color: #050505;
+}
+
+h1 {
+}
+
+h2 {
+	font-size: 18px;
+}
+
+a {
+	color: #195688;
+	text-decoration: none;
+	cursor: pointer;
+	outline: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+hr {
+	width: 100%;
+	height: 1px;
+	border: none;
+	color: #195688;
+	background-color: #195688;
+}
+
+input, textarea, select {
+	border: #A6C9E2 solid 1px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #050505;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	/*background: #e8f2f9;*/
+	background: #ffffff;
+}
+
+input[type="text"], input[type="password"] {
+	margin: 0;
+	padding: 3px 4px;
+}
+
+input[type="submit"], input[type="button"] {
+	padding: 5px 8px;
+	color: #fff;
+	text-decoration: none;
+	background: #929292;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+
+select {
+	margin: 0;
+	padding: 2px 2px 2px 4px;
+}
+
+table {
+	width: 90%;
+	margin: 25px auto;
+}
+
+th {
+	background: #195587;
+	color: #fff;
+}
+
+table#edit-data {
+	width: auto;
+}
+
+table#room-table {
+	width: 65%;
+	clear: both;
+	margin-top: 15px;
+}
+
+table#room-table tr > td {
+	padding: 8px 0;
+}
+
+
+/* General Use Clases */
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-17 { font-size: 17px; }
+.text-18 { font-size: 18px; }
+.text-19 { font-size: 19px; }
+.text-20 { font-size: 20px; }
+.text-black { color: #050505; }
+.text-white { color: #fff; }
+.text-blue { color: #195688; }
+.text-lgt-blue { color: #d0e2f0; }
+.text-red { color: #E33232; }
+.text-grey { color: #666; }
+.text-light-grey { color: #ccc; }
+.left { float: left; margin-left: 25px; }
+.right { float: right; }
+.right-top { position: absolute; top: 20px; right: 24px }
+.center { display: block; margin: 0 auto; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-justify { text-align: justify; }
+.clear { clear: both; }
+.clear-left { clear: left; }
+.clear-right { clear: right; }
+.bold { font-weight: bold; }
+.text-purple { color: #A65878; }
+.background-purple {
+	background: #A65878;
+	padding: 5px 10px;
+}
+.background-yellow {
+	background: yellow;
+	padding: 5px 10px;
+}
+.background-red {
+	background: #FF6A6A;
+	padding: 5px 10px;
+}
+
+.background-grey {
+	background: #ebebeb;
+}
+
+.background-orange {
+	background: orange;
+	padding: 5px 10px;
+}
+
+.background-blue {
+	background: #6bbeff;
+	padding: 5px 10px;
+}
+
+.color-code {
+	margin: 2px;
+	border: 1px solid #c1c1c1;
+}
+
+.selected-page {
+	font-weight: bold;
+}
+
+.thickBorder tr {
+	border-style : solid;
+	border-width:2 px;
+	border-color : black;
+}
+
+div.button, a.button, a.button:hover {
+	display: block;
+	padding: 5px 8px;
+	color: #fff;
+	text-decoration: none;
+	background: #929292;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	float: left;
+}
+
+.button-disabled {
+	display: block;
+	padding: 5px 8px;
+	color: #fff;
+	text-decoration: none;
+	background: #dedede;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	float: left;
+	cursor: pointer;
+}
+
+#normal-view a {
+	color: #f1f1f1;	
+	float: right;
+	margin: 0 5px 10px 5px;
+	display: inline-block;
+}
+
+#admission-bar {
+	position: relative;
+	margin: 10px auto;
+	width: 600px;
+}
+
+#admission-report-details {
+	margin: 0 0 10px 90px;
+}
+
+.printForm {
+	position: relative;
+	top: -20px;
+	left: 850px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+
+#confirm-review {
+	display: none;
+	text-align: center;
+}
+
+#confirm-review button {
+	margin: 5px 15px;
+}
+
+#confirm-review p {
+	margin: 0 5px 10px 5px;
+	text-align: justify;
+}
+
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.ui-dialog .ui-dialog-title {
+  text-align: center;
+  width: 100%;
+}
+
+
+
+/* Main Template */
+
+div#header-container {
+	width: 100%;
+	height: 92px;
+	background: url(../images/header-bg.png) repeat-x bottom center;
+	position: relative;
+	z-index: 49;
+}
+
+div#header {
+	width: 962px;
+	/*height: 125px;*/
+	height: 92px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 50;
+}
+
+div#user-info {
+	float: right;
+	background: #d0e2f0;
+	border-bottom-left-radius: 3px;x
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	padding: 3px 8px 0px 8px;
+	height: 20px;
+}
+
+div#nav {
+	float: right;
+	text-align: right;
+	margin: 59px 1px 0px 0px;
+	position: absolute;
+	right: 0px;
+	z-index: 51;
+}
+
+div#nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: right;
+}
+
+div#nav ul li {
+	width: auto;
+	margin: 0px 0px 0px 5px;
+	padding: 4px 8px 4px 8px;
+	display: block;
+	float: right;
+	background: url(../images/nav-background.jpg) repeat-x;
+	font-size: 14px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+}
+
+div#nav ul li a {
+	color: #050505;
+	text-decoration: none;
+}
+
+div#nav ul li ul {
+/* 	right: -999em; */
+	display: none;
+	margin: 4px 0px 0px -9px;
+	padding: 6px;
+	background: url(../images/dropdown-bg.png) repeat;
+	border-right: 1px dotted #333;
+	border-bottom: 1px dotted #333;
+	border-left: 1px dotted #333;
+	border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	float: none;
+	position: absolute;
+	z-index: 100;
+	width: auto;
+	min-width: 104px;
+}
+
+div#nav li:hover ul {
+	right: auto;
+	display: block;
+}
+
+div#nav ul li ul li {
+	margin: 0;
+	padding: 5px 4px;
+	display: block;
+	float: none;
+	background: #fff;
+	border-top-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 12px;
+}
+
+div #nav ul li ul li a:hover {
+	color: #fff;
+}
+
+div #nav ul li ul li a {
+	display: block;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+div#nav ul li ul li:hover {
+	background: #185687;
+	color: #fff;
+}
+
+div#nav ul li ul li:hover a {
+	color: inherit;
+}
+
+
+div#nav ul li ul li:last-child {
+	margin-bottom: 0;
+}
+
+img.logo {
+	/*margin: 22px 0px 0px 30px;*/
+	margin: 24px 0px 0px 20px;
+	float: left;
+}
+
+div#content {
+	width: 920px;
+	margin: 0 auto;
+	padding: 11px 21px 30px 21px;
+	position: relative;
+	z-index: 1;
+}
+
+div#login-box {
+	width: 275px;
+	min-height: 150px;
+	height: auto;
+	color: #ffffff;
+	border: 2px solid #333;
+	border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	margin: 100px auto 0px auto;
+	padding: 20px 20px 20px 20px;
+	background-color: #185687;
+	/*-moz-box-shadow: 0 0 5px 5px #888;
+	-webkit-box-shadow: 0 0 5px 5px #888;*/
+	box-shadow: 25px 25px 25px 5px rgba(0,0,0,0.5);
+}
+
+div#login-box h2 {
+	color: #ffffff;
+	text-align: center;
+}
+
+div#login-box td {
+	color: #ffffff;
+}
+
+div#login-box input[type="text"], input[type="password"] {
+	background: #ffffff;
+	color: #333;
+	width: 200px;
+}
+
+
+/* */
+/* */
+/* Coordinator Dashboard */
+/* */
+/* */
+
+/* Coordinator Landing Page */
+div#under-consideration-table-wrapper {
+	height: 347px;
+	width: 920px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+div#pending-admissions {
+	margin-top: 25px;
+}
+
+table#under-consideration-table {
+	width: 920px;
+}
+
+table#under-consideration-table tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#under-consideration-table tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#under-consideration-table tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}
+
+div#facility-admit-section {
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+div.coordinator-day-box {
+	margin: 20px 0px 0px 0px;
+	padding: 20px 20px 50px 20px;
+	background: #d0e2f0;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	overflow: auto;
+}
+
+div.coordinator-day-box h3 {
+	font-size: 14px;
+	color: #1d5987;
+	font-weight: bold;
+	margin: -10px 0px 10px -10px;
+}
+
+div.patient-box {
+	width: 234px;
+	margin: 0px 0px 10px 0px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	padding: 4px 6px;
+	z-index: 500;
+}
+	
+div.admits {
+	width: 542px;
+	float: left;
+	border-right: 2px dotted #000;
+}
+
+div.patient-search-results {
+	margin: 15px 0px 40px 50px;
+	font-size: 14px;
+}
+
+div.patient-search-results button {
+	margin-left: 100px;
+	margin-bottom: 40px;
+	padding: 5px 8px;
+	color: #fff;
+	text-decoration: none;
+	background: #929292;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	border: none;
+	outline: none;
+}
+
+div.patient-search-results a:link,a:visited {
+	text-decoration: none;
+}
+
+div.admits-confirmed {
+	width: 246px;
+	float: left;
+}
+
+div.admit-confirmed {
+	background: #75dc6d;
+}
+
+div.admits-pending {
+	width: 246px;
+	margin-right: 20px;
+	float: right;
+	
+}
+
+div.admit-pending {
+	background: #6bbeff;
+}
+
+div.admit-pending-no-referral {
+	background: #e1e1e1;
+	border: 1px solid #333;
+}
+
+div#manage-discharges {
+	
+}
+
+div#manage-discharges table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.discharges {
+	width: 246px;
+	float: right;
+}
+
+div.discharge {
+	background: #FF6A6A;
+}
+
+div.hospital {
+	background: #A65878;
+}
+
+/* Notes */
+
+table#notes-upload {
+	width: 80%;
+	margin: 25px 200px;
+}
+
+table#notes-upload tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#notes-upload tr th {
+	text-align: left;
+	font-weight: bold;
+}
+
+table#notes-upload tr td {
+	height: 30px;
+	padding: 0px 0px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#notes-docs {
+	width: 820px;
+	margin: 0 auto;
+}
+
+table#notes-docs tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#notes-docs tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#notes-docs tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}
+
+/* Patient Inquiry */
+
+.back-to-dashboard {
+	position: absolute;
+}
+
+#created-info {
+	width: 100%;
+	text-align: center;
+	margin: 10px 0;
+}
+
+table#inquiry-form {
+	width: 920px;
+	margin: 0 auto;
+}
+
+table#inquiry-form th {
+	padding: 8px;
+}
+
+table#inquiry-form tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#inquiry-form tr td {
+	margin: 0;
+	padding: 3px;
+	white-space: nowrap;
+}
+
+table#inquiry-form tr.form-header-row {
+	font-weight: bold;
+}
+
+table#inquiry-form .normal-font {
+	font-weight: normal;
+}
+
+table#inquiry-form tr.form-header-row > td {
+	padding-top: 20px;
+}
+
+table#inquiry-form .add-item {
+	position: absolute;
+	margin-left: 32px;
+}
+
+table#inquiry-form .edit-item {
+	position: absolute;
+	margin-left: 8px;
+	margin-top: 2px;
+}
+
+
+.new-admit-add-item {
+	position: absolute;
+	margin-left: 5px;
+	margin-top: 2px;
+}
+
+
+.delete-row {
+	position: absolute;
+	margin-left: 24px;
+	margin-top: 2px;
+}
+
+
+/*** Reports Page ***/
+
+#report-info {
+	width: 100%;
+	height: auto;
+	position: relative;
+	margin: 5px auto;
+}
+
+.left-info {
+	float: left;
+	margin: 5px 5px 10px 0;
+}
+
+#report-info .background-blue {
+	background: #d0e2f0;
+	padding: 10px 8px;
+	border: 2px solid #ccc;
+}
+
+.right-info {
+	float: right;
+	margin: 5px 0 10px 5px;
+}
+
+
+#select-report-info {
+	margin-bottom: 15px;
+	width: 750px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#report-table {
+	width: 920px;
+	height: auto;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#report-table th a {
+	color: #fff;
+}
+
+table#report-table {
+	border-collapse: collapse;
+}
+
+br#report-table {
+	display: block
+	margin: 10px 0;
+}
+
+#summary-table {
+	width: 600px;
+	height: auto;
+	text-align: center;
+	margin: 0 auto 20px auto;
+	clear: both;
+}
+
+#report-table td {
+	padding-left: 10px;
+}
+
+#report-table th {
+	text-align: center;
+}
+
+#add-cm {
+	margin: 0 auto;
+}
+
+/*** Census Page ***/
+#census-report-table {
+	width: 920px;
+	height: auto;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#census-report-table tr.border-bottom td {
+	border-bottom: 1px dotted #c1c1c1;
+}
+
+.report-total {
+	background-color: #ccc;
+	font-weight: bold;
+}
+
+.page-header {
+	width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	position: relative;
+}
+
+/* */
+/* */
+/* Facility */
+/* */
+/* */
+
+/* Facility Landing Page */
+
+table#facility-admitted {
+	width: 920px;
+}
+
+table#facility-admitted tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#facility-admitted tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#facility-admitted tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}
+
+table#facility-discharged {
+	width: 920px;
+}
+
+table#facility-discharged tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#facility-discharged tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#facility-discharged tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}
+
+
+/* Patient Discharge */
+
+table#discharge tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#discharge tr td {
+	height: 30px;
+	vertical-align: middle;
+	margin: 0;
+	padding: 0px 10px 0px 0px;
+}
+
+table#discharge tr td img {
+	margin: 0px 0px -3px 5px;
+}
+
+
+div.facility-day-box h3 {
+	font-size: 14px;
+	color: #1d5987;
+	font-weight: bold;
+	margin: -10px 0px 10px -10px;
+}
+
+div.facility-patient-box {
+	width: 423px;
+	margin: 0px 0px 10px 0px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	padding: 4px 6px;
+}
+	
+div.facility-admits {
+	width: 435px;
+	float: left;
+}
+
+div.facility-admit {
+	background: #75dc6d;
+	font-size: 11px;
+	line-height: 12px;
+	padding: 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-hmo {
+	background: #ffff32;
+	border: 1px solid #333;
+	font-size: 11px;
+	line-height: 12px;
+	padding: 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-pending-no-referral {
+	background: #e1e1e1;
+	border: 1px solid #333;
+	font-size: 11px;
+	line-height: 12px;
+	padding: 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+
+div.facility-admit-pending {
+	background: #6BBEFF;
+	font-size: 11px;
+	line-height: 12px;
+	padding: 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-discharges {
+	width: 435px;
+	float: right;
+}
+
+div.facility-discharge {
+	background: #FF6A6A;
+	font-size: 11px;
+	line-height: 12px;
+	padding: 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-sent {
+	background: #CC3170;
+	font-size: 11px;
+	line-height: 12px;
+	padding: 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-admits {
+	width: 920px;
+	height: auto;
+	font-size: 11x;
+	border-bottom: 1px solid #195688;
+	padding-bottom: 5px;
+	margin: 0px 0px 20px 0px;
+}
+
+div.facility-discharges {
+	width: 920px;
+	height: auto;
+	padding-top: 5px;
+}
+
+div.facility-day-text {
+	width: 122px;
+	padding: 3px;
+	float: left;
+	margin: 0px 4px 0px 0px;
+	font-size: 10px;
+}
+
+div.facility-day-text-last {
+	margin: 0px 0px 0px 0px;
+}
+
+div.facility-day-box {
+	width: 122px;
+	height: auto;
+	margin: 0px 4px 10px 0px;
+	padding: 3px;
+	float: left;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	background: none;
+}
+
+div.facility-day-text h3 {
+	margin: -5px 0px 5px -5px;
+	padding: 0;
+	color: #195688;
+}
+
+div.facility-day-box-last {
+	margin: 0px 0px 10px 0px;
+}
+
+div.facility-day-box-blue {
+	background: #d0e2f0;
+}
+
+div.side-titles {
+	display: none;
+}
+
+div.tv-week-links {
+	display: none;
+}
+
+td.track-visits-patient {
+	padding: 15px 0px 15px 20px;
+}
+
+td.track-visits-patient-info {
+	padding: 15px 50px;
+	float: left;
+}
+
+
+/**** Discharge Page ***/
+
+div.address-info {
+}
+
+tr.address-info {
+	display: none;
+}
+
+.discharge-address-select {
+	display: none;
+}
+
+div#discharge-note {
+	margin: 15px auto 15px auto;
+	padding: 10px;
+	width: 650px;
+}
+
+.note {
+	width: 400px;
+}
+
+/*** Census Page **/
+
+tr.census {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+
+/***** Send to Hospital Page ****/
+
+.affirm-details {
+	margin-left: 20px;
+}
+
+.affirm-details input {
+	margin-top: 5px;
+}
+
+/******* Track Hospital Visit page ***/
+
+.trackVisitsName {
+	border-radius: .5em;
+	-moz-border-radius: .5em;
+	padding: 10px;
+	margin: 15px 0;
+	border: 1px solid #333;
+}
+
+.trackVisitInfo {
+	margin-top: 15px;
+}
+
+
+#first-visit table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.infobox {
+	display: none;
+}        
+
+.hidden {
+	display: none;
+}
+
+.grow {
+	height: 90px;
+	max-height: auto !important;
+	width: 250px;
+	margin: 20px 0;
+	padding: 8px;
+	float: left;
+	position: relative;
+	transition: height 0.5s;
+	-webkit-transition: 0.5s;
+}
+
+.grow:hover {
+	height: auto;
+}
+
+.inner-grow {
+	height: 85%;
+	width: 94%;
+	margin: auto;
+	padding: 8px;
+	float: left;
+	position: relative;
+	transition: height 0.5s;
+	-webkit-transition: 0.5s;
+}
+
+.inner-grow:hover {
+	height: auto;
+}
+
+#physican-admits {
+/*	float: left;
+	width: 250px;
+	margin: 20px 0;
+	padding: 8px;
+*/	background: #d0e2f0;
+	padding: 8px;
+}
+
+.physician-stats {
+	background: #fff;
+	padding: 8px;
+	overflow: hidden;
+}
+
+.physician-stats p {
+	margin: 2px;
+}
+
+.physician-stats h2 {
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	background: #185687;
+	color: #fff;
+}
+
+#physican-admits table {
+	margin: 0 auto;
+	padding: 3px;
+	background: #fff;
+}
+
+#physican-admits table th {
+	color: #000;
+	background: none;
+}
+
+.sort-right {
+	float: right;
+	margin: 5px 0 5px 0;
+}
+
+.sort-right2 {
+	float: right;
+	margin: 5px 0 5px 0;
+	clear: both;
+}
+
+.sort-left {
+	float: left;
+	margin: 10px 0;
+}
+
+.sort-left2 {
+	float: left;
+	margin: 0 0 10px 0;
+}
+
+.sort-left-phrase {
+	float: left;
+	margin: 10px 0 15px 0;
+	clear: both;
+}
+
+.right-phrase {
+	float:right;
+	margin-top: 15px;
+}
+
+#view-by {
+	float: left;
+	clear: left;
+}
+
+#view-totals {
+	float: left;
+	margin-top: 3px;
+	margin-bottom: 50px;
+}
+
+#change-module {
+	position: relative;
+	left: 0;
+	top: 20px;
+
+}
+
+#two-week-view {
+	position: absolute;
+	right: 20px;
+}
+
+.clear {
+	clear: both;
+}
+
+.lightbox {
+	margin: 20px 50px;
+}
+
+.lightbox h1 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.lightbox td {
+	height: 14px;
+}
+
+table.align-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p.phone {
+	margin: 0;
+}
+
+div.on-site {
+	
+}
+
+div.on-site table {
+	margin: 25px auto 20px auto;
+}
+
+div.on-site h2 {
+	margin-left: 150px;
+}
+
+/* Grey Small Dropdown */
+
+/* General dropdown styles */
+.dropdown { position: relative; z-index: 500; }
+.dropdown dl{ margin-left:0px; position: absolute; }
+.dropdown dd, .dropdown dt, .dropdown ul { margin:0px; padding:0px; margin-left:0px; }
+.dropdown dd { position:relative; }
+
+/* DT styles for sliding doors */
+.dropdown dt a {background: url(../images/icons/wrench.png) no-repeat scroll right center;
+    display:block; float:left; width:16px; height:16px; cursor:pointer; margin: 0px 5px 0px 0px;}
+
+/*.dropdown dt a.selected{
+	background:url(../images/icons/wrench_orange.png) no-repeat scroll right center;
+}*/
+.dropdown dt a span {cursor:pointer; display:block; padding:5px;}
+
+/* UL styles */
+.dropdown dd ul { background:#FFFFFF none repeat scroll 0 0; display:none;
+    list-style:none; padding:3px 0; position:absolute;
+    left:0px; top: -75px; width:200px; left:auto; right:0; border:1px solid #656565; cursor:pointer; z-index: 501;
+    box-shadow: 8px 8px 8px #666; }
+.dropdown dd ul li{ background-color:#FFFFFF; margin:0; width:200px; }
+.dropdown span.value { display:none;}
+.dropdown dd ul li a { display:block; font-weight:normal; margin: 4px 0; font-style: normal; width:178px; text-align:left; overflow:hidden; padding:2px 4px 2px 19px; color:#333; text-decoration:none; font-size: 11px;}
+.dropdown dd ul li a:hover{ background:#185687; color:white; text-decoration:none; }
+.dropdown dd ul li a:visited{ text-decoration:none; }
+
+
+
+/* Drag and Drop styles */
+
+[draggable] {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+
+.drag {
+	cursor: move;
+}
+
+.drag.over {
+	opacity: .5;
+	border: 2px dashed #666;
+	background-color: white;
+}
+
+.drag.droppable {
+	background-color: #999;
+}
+
+
+
+/**** Pagination *****/
+
+div#pagination {
+	width: 100%;
+	text-align: center;
+	clear: both;
+}
+
+.pagination-link {
+	margin-bottom: 7px;
+}
+
+.browse-pagination-previous {
+	float: left;
+}
+
+.browse-pagination-next {
+	float: left;
+}
+
+.browse-pagination-off {
+	float: left;
+}
+
+.browse-pagination-divide {
+	float: left;
+	width: 15px;
+}
+
+.browse-pagination-pages {
+	float: left;
+}
+
+.browse-pagination-page-numbers {
+	float: left;
+}
+
+
+table#info-form {
+	width: auto;
+	margin: 25px auto;
+}
+
+table#info-form th {
+	
+}
+
+
+#search-box {
+	float: left;
+	margin: 15px;
+}
+
+#facility-search-box {
+	clear: right;
+	float: right;
+	margin: 30px 0 5px 0;
+}
+
+#facility-search-box-left {
+	position: absolute;
+	margin-top: 8px;
+}
+
+#report-search-box {
+	position: absolute;
+	right: 20px;
+	
+}
+
+#facility-census-button {
+	position: relative;
+	float: right;
+	right: 15px;
+	top: -20px;
+}
+
+
+#action-menu {
+	float: right;
+	text-align: left;
+	margin: 18px 25px;
+	z-index: 100;
+}
+
+
+div#action-menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: right;
+}
+
+div#action-menu a {
+	color: #f1f1f1;
+	text-decoration: none;
+}
+
+div#action-menu ul li {
+	width: auto;
+	margin: 0px 0px 0px 5px;
+	padding: 4px 8px 4px 8px;
+	display: block;
+	float: right;
+	background: #666666;
+	font-size: 14px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+}
+
+div#action-menu ul li a {
+	color: #f1f1f1;
+	text-decoration: none;
+}
+
+div#action-menu ul li ul li a:hover {
+	font-weight: bold;
+}
+
+div#action-menu ul li ul {
+	right: -999em;
+	display: none;
+	margin: 4px 0px 0px -8px;
+	padding: 5px 10px 0px 10px;
+	background: #999;
+	border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	float: none;
+	position: absolute;
+	z-index: 100;
+	width: auto;
+	min-width: 175px;
+}
+
+div#action-menu li:hover ul {
+	right: 46px;
+	display: block;
+}
+
+div#action-menu ul li ul li {
+	margin: 0;
+	padding: 5px 15px;
+	display: block;
+	float: none;
+	background: none;
+	border-top-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	text-align: right;
+	white-space: nowrap;
+	font-size: 12px;
+}
+
+div#facility-home-header {
+	width: 100%;
+	position: relative;
+}
+
+div#census-options {
+	clear: both;
+	margin-bottom: 20px;
+}
+
+div.census-info {
+	float: right;
+	display: inline-block;
+	margin: 20px 0 20px 10px;
+	padding: 8px 25px;
+	color: #fff;
+	
+}
+
+div.success {
+	background: #0c6e0c;
+}
+
+div.alert {
+	background: #c31313;
+}
+
+
+
+
+/* Schedule discharges page */
+
+
+.current-patient {
+	font-size: 12px;
+	background: #195587;
+	margin: 2px 0;
+	padding: 5px;
+	border-radius: 4px;
+	color: #f8f8f8;
+}
+
+#discharge-calendar {
+	height: auto;
+	min-height: 250px;
+	margin: 25px auto;
+	padding-top: 5px;
+}
+
+
+.discharge-info {
+	font-size: 12px;
+	float: left;
+	background: #FF6A6A;
+	margin: 2px 0;
+	padding: 4px 6px;
+	border-radius: 4px;
+	width: 100px;
+}
+
+.discharge-day {
+	height: auto;
+	min-height: 175px;
+	padding: 5px 5px 50px 5px;
+	
+}
+
+
+div.discharge-day-text {
+	width: 122px;
+	padding: 3px;
+	float: left;
+	margin: 0px 4px 0px 0px;
+	font-size: 10px;
+}
+
+div.discharge-day-text-last {
+	margin: 0px 0px 0px 0px;
+}
+
+div.discharge-day-text h3 {
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+div.dragging-patient {
+	background: #fff;
+	border: 1px dashed #666;
+	border-radius: 4px;
+}
+
+
+div.drag-hover {
+	border: 1px solid #333;
+	box-shadow: 5px 5px 5px #333;
+}
+
+
+
+
+
+#week-nav {
+	text-align: center;
+}
+
+
+
+
+#week-nav a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#week-nav img {
+	position: relative;
+	top: 7px;
+}
+
+
+
+#form-table {
+	width: auto;
+	min-width: 450px;
+}
+
+#export-icons {
+	position: absolute;
+	right: 15px;
+	top: 50px;
+}
+
+.trash {
+	position: absolute;
+	float: right;
+}
+
+
+#map {
+	height: 400px;
+}
+
+.ui-state-highlight {
+	clear: both;
+}
+
+.ui-state-error {
+	background: none;
+}
+
+#form-error {
+	margin-top: 5px;
+	height: 15px;
+	padding: 2px 10px;
+	background: #ff9292;
+}
+
+#form-error p {
+	margin: 0;
+	padding: 0;
+}
+
+.menu-header {
+	font-weight: bold;
+	padding: 4px 0 0 8px;
+}
+
+.under-consideration {
+	background: #6bbeff;
+}
+
+.approved {
+	background: none;
+}
+
+
+/* Tooltip */
+
+a.tooltip {outline:none; }
+a.tooltip strong {line-height:30px;}
+a.tooltip:hover {text-decoration:none;} 
+a.tooltip span {
+    z-index:600;
+    display:none; 
+    padding: 5px 8px;
+    margin-top: -10px; 
+    margin-left: 10px;
+    width: auto; 
+    line-height: 14px;
+}
+a.tooltip:hover span{
+    display:inline; 
+    position:absolute; 
+    color:#111;
+    border:1px solid #333; 
+    background:#fff;
+    z-index: 1;
+}
+
+.callout {
+	z-index:20;
+	position:absolute;
+	top:30px;
+	border:0;
+	left:-12px;
+}
+    
+/*CSS3 extras*/
+a.tooltip span
+{
+    border-radius:4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+ }
+ 
+#upload {
+	width: 90%;
+}
+
+#upload p {
+	width: 90%; margin: auto; text-align: justify; margin-bottom: 30px;
+}
+
+#upload img {
+	float: right;
+	margin: 0 50px 30px 0;
+}
+
+#timeout-warning {
+	display: none;
+}
+
+#timeout {
+	border: 2px solid #333;
+	border-radius: 5px;
+	margin: 50px auto;
+	width: 400px;
+	padding: 10px;
+	box-shadow: 25px 25px 25px 5px rgba(0,0,0,0.5);
+}
+
+#timeout a.button {
+	text-align: center;
+	float: none;
+	margin: 20px auto;
+	width: 50px;
+}
+
+#timeout a.button:hover {
+	background: #185687;
+	color: #f1f1f1;
+}
+
+
+#tmp-message {
+	margin: auto;
+	width: 75%;
+	background: green;
+	color: #f1f1f1;
+	padding: 5px;
+	text-align: center;
+}
+

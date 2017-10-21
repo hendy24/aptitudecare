@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1"?>
+<labels
+	xmlns="http://lriaudel.free.fr/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lriaudel.free.fr/xsd/labels/labels.xsd">
+	<!--
+	<label dateCreation="" id="x">
+		<name>Label Name</name>
+		<brand>Label Brand</brand>
+		<supplier>Label Supplier</supplier>
+		<margin>Label margin</margin>
+		<sheet format="A4" orientation="L" bordercolor="#DCDCDC" borderwidth="0.1">
+			<cols>Sheet's cols Number</cols>
+			<lines>Sheet's lines Number</lines>
+			<margins>
+                <topMargin>Sheet Top Margin</topMargin>
+                <leftMargin>Sheet Left Margin</leftMargin>
+			</margins>
+		</sheet> 
+		
+		<width></width>
+		<height></height>
+		<margin></margin>
+	</label>
+	-->
+	<label id="1">
+		<name><![CDATA[Planche L4]]></name>
+		<description><![CDATA[48 etiquettes - 45.7x21.2]]></description>
+		<brand>Avery L6009</brand>
+		<supplier/>
+		<width>45.7</width>
+		<height>21.2</height>
+		<margin>2.5</margin>
+
+		<sheet format="A4">
+			<cols>4</cols>
+			<rows>12</rows>
+			<margins>
+				<topmargin>21.41</topmargin>
+				<leftmargin>9.75</leftmargin>
+			</margins>
+		</sheet>
+	</label>
+	<label id="2">
+		<name><![CDATA[AVIP]]></name>
+		<description><![CDATA[Etiquette Article - 40x27 ]]></description>
+		<brand/>
+		<supplier/>
+		<width>40</width>
+		<height>27</height>
+		<margin>3</margin>
+	</label>
+	<label id="3">
+		<name><![CDATA[24 : 70x35]]></name>
+		<description><![CDATA[24 etiquettes - 70x35]]></description>
+		<brand/>
+		<supplier/>
+		<legacy/>
+		<width>70</width>
+		<height>35</height>
+		<margin>4</margin>
+		<sheet format="A4">
+			<cols>3</cols>
+			<rows>8</rows>
+			<margins>
+				<topmargin>9</topmargin>
+				<leftmargin>0</leftmargin>
+			</margins>
+		</sheet>
+	</label>
+	<label id="4">
+		<name><![CDATA[Monarch L4-3PL]]></name>
+		<description><![CDATA[Etiquette Article L4 38x25]]></description>
+		<brand/>
+		<supplier/>
+		<width>38</width>
+		<height>25</height>
+		<margin>2.5</margin>
+	</label>
+	<label id="5">
+		<name><![CDATA[SFD - 70x35]]></name>
+		<description><![CDATA[Etiquette contenant]]></description>
+		<brand/>
+		<supplier/>
+		<width>70</width>
+		<height>35</height>
+		<margin>2.5</margin>
+	</label>
+	<label id="6">
+		<name><![CDATA[21 : 63.5x38.1]]></name>
+		<description><![CDATA[21 etiquettes - 63.5x38.1]]></description>
+		<brand>Avery L7060</brand>
+		<supplier/>
+		<width>63.5</width>
+		<height>38.1</height>
+		<margin>4</margin>
+		<sheet format="A4">
+			<cols>3</cols>
+			<rows>7</rows>
+			<margins>
+				<topmargin>15</topmargin>
+				<leftmargin>7</leftmargin>
+			</margins>
+		</sheet>
+	</label>
+	
+	<label id="7">
+		<name><![CDATA[65 : 38.1x21.2]]></name>
+		<description><![CDATA[65 etiquettes - 38.1x21.2]]></description>
+		<brand>Quick labels</brand>
+		<supplier/>
+		<width>38.1</width>
+		<height>21.2</height>
+		<margin>2</margin>
+		<sheet format="A4" border="0.1" bordercolor="#EEEEEE">
+			<cols>5</cols>
+			<rows>13</rows>
+			<margins>
+				<topmargin>10.5</topmargin>
+				<leftmargin>6</leftmargin>
+			</margins>
+		</sheet>
+	</label>
+	
+	<label id="8" dateCreation="">
+		<name><![CDATA[Nouveau Meubles L4]]></name>
+		<description><![CDATA[2x10 etiquettes 15x2 cm (Paysage)]]></description>
+		<brand>Avery - L4775</brand>
+		<supplier></supplier>
+		<width>145</width>
+		<height>20</height>
+		<margin>3</margin>
+		<sheet format="A4" orientation='L' bordercolor="#DCDCDC" borderwidth="0.1">
+			<cols>2</cols>
+			<rows>10</rows>
+			<margins>
+				<topmargin>5</topmargin>
+				<leftmargin>3.5</leftmargin>
+			</margins>
+		</sheet>     
+	</label>
+	
+	<label id="9" dateCreation="">
+		<name><![CDATA[Avery M3651]]></name>
+		<description><![CDATA[4x10 etiquettes 52.5x29.7]]></description>
+		<brand>Avery - M3651</brand>
+		<supplier></supplier>
+		<width>52.5</width>
+		<height>29.7</height>
+		<margin>0</margin>
+		<sheet format="A4" orientation='P'>
+			<cols>4</cols>
+			<rows>10</rows>
+			<margins>
+				<topmargin>0</topmargin>
+				<leftmargin>0</leftmargin>
+			</margins>
+		</sheet>     
+	</label>
+
+	<label id="10" dateCreation="012916">
+		<name><![CDATA[Avery 5160]]></name>
+		<description><![CDATA[3x10 address 66.6x25.4]]></description>
+		<brand>Avery - 5160</brand>
+		<supplier></supplier>
+		<width>68.6</width>
+		<height>20.4</height>
+		<margin>1</margin>
+		<sheet format="LETTER" orientation='P'>
+			<cols>3</cols>
+			<rows>10</rows>
+			<margins>
+				<topmargin>14</topmargin>
+				<leftmargin>4</leftmargin>
+			</margins>
+		</sheet>     
+	</label>
+
+</labels>

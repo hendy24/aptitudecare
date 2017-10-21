@@ -1,0 +1,11 @@
+select * from schedule,patient_admit,room where schedule.patient_admit=patient_admit.id and schedule.room=room.id and datetime_admit >= '2012-02-01 00:00:01' and schedule.facility=3;
+
+
+
+
+// Facility Re-Admit Rate query
+select datetime_sent,facility from schedule_hospital,schedule where schedule_hospital.schedule=schedule.id and datetime_sent>='2012-02-02 00:00:01' and datetime_sent<='2012-02-22 23:59:59' and facility=3;
+
+// Doctor Re-Admit rate query
+select datetime_sent,schedule.facility,patient_admit from schedule_hospital,schedule,patient_admit where schedule_hospital.schedule=schedule.id and schedule.patient_admit=patient_admit.id and datetime_sent>='2012-02-01 00:00:01' and datetime_sent<='2012-02-22 23:59:59' and physician_name like '$newcomb%' and schedule.facility=3;
+

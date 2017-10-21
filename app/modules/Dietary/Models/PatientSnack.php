@@ -1,0 +1,55 @@
+<?php
+
+class PatientSnack extends Dietary {
+
+	protected $table = "patient_snack";
+
+
+	public function fetchPatientSnacks($patient_id, $snack_time) {
+		$snack = $this->loadTable("Snack");
+		$sql = "SELECT s.* FROM {$this->tableName()} pfi INNER JOIN {$snack->tableName()} AS s ON s.id = pfi.snack_id WHERE patient_id = :patient_id AND time = :snack_time";
+		$params[":patient_id"] = $patient_id;
+		$params[":snack_time"] = $snack_time;
+		$result =  $this->fetchAll($sql, $params);
+
+		if (!empty ($result)) {
+			return $result;
+		}
+
+		return false;
+	}
+
+  public function fetchSnacksByPatientId($patient_id) {
+    $sql = "SELECT snack.name FROM {$this->tableName()} INNER JOIN dietary_snack snack ON snack.id = {$this->tableName()}.snack_id WHERE patient_id = :patient_id";
+    $params[":patient_id"] = $patient_id;
+    return $this->fetchAll($sql, $params);
+  }
+
+
+	public function deleteSnack($patient_id, $snack_name, $snack_time) {
+		$snack = $this->loadTable("Snack");
+		$sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND snack_id = (SELECT id FROM {$snack->tableName()} WHERE name = :snack_name) AND time = :snack_time";
+		$params = array(
+			":patient_id"	=> 	$patient_id,
+			":snack_name"	=> 	$snack_name,
+			":snack_time" 	=> 	$snack_time
+		);
+
+		if ($this->deleteQuery($sql, $params)) {
+			return true;
+		}
+
+		return false;
+	}
+
+  public function deleteSnacksByPatientId($patient_id) {
+    $sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id";
+    $params[":patient_id"] = $patient_id;
+    if ($this->deleteQuery($sql, $params)) {
+      return true;
+    }
+    return false;
+  }
+
+
+}

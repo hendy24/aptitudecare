@@ -1,0 +1,15 @@
+InfoKey: Creator
+InfoValue: PScript5.dll Version 5.2.2
+InfoKey: Title
+InfoValue: Microsoft Word - sample.pdf.docx
+InfoKey: Author
+InfoValue: carlos
+InfoKey: Producer
+InfoValue: GPL Ghostscript 8.15
+InfoKey: ModDate
+InfoValue: D:20101009102955
+InfoKey: CreationDate
+InfoValue: D:20101009102955
+PdfID0: 3f3c91dfb86df5533c81222198ae7
+PdfID1: 3f3c91dfb86df5533c81222198ae7
+NumberOfPages: 1

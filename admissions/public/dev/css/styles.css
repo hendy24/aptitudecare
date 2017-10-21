@@ -1,0 +1,202 @@
+/* CSS Document */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: url(../images/content-bg.jpg) repeat-y top center #d7d7d7;
+}
+
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #050505;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 100;
+	margin: 0;
+	padding: 0;
+	color: #050505;
+}
+
+h1 {
+}
+
+h2 {
+	font-size: 18px;
+}
+
+a {
+	color: #;
+	text-decoration:;
+	cursor: pointer;
+	outline: none;
+}
+
+a:hover {
+	text-decoration:;
+}
+
+hr {
+	width: 100%;
+	height: 1px;
+	border: none;
+	color: #195688;
+	background-color: #195688;
+}
+
+
+
+/* General Use Clases */
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-17 { font-size: 17px; }
+.text-18 { font-size: 18px; }
+.text-19 { font-size: 19px; }
+.text-20 { font-size: 20px; }
+.text-black { color: #050505; }
+.text-white { color: #fff; }
+.text-blue { color: #195688; }
+.text-lgt-blue { color: #d0e2f0; }
+
+.button, .button:hover {
+	display: block;
+	padding: 5px 8px;
+	color: #fff;
+	text-decoration: none;
+	background: #929292;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+/* Main Template */
+
+div#header-container {
+	width: 100%;
+	height: 125px;
+	background: url(../images/header-bg.png) repeat-x;
+}
+
+div#header {
+	width: 962px;
+	height: 125px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 50;
+}
+
+div#user-info {
+	float: right;
+	background: #d0e2f0;
+	border-bottom-left-radius: 3px;x
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	padding: 3px 8px 0px 8px;
+	height: 20px;
+}
+
+div#nav {
+	float: right;
+	text-align: right;
+	margin: 69px 1px 0px 0px;
+}
+
+div#nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+div#nav ul li {
+	margin: 0;
+	padding: 0;
+	float: right;
+	background-color: #d0e2f0;
+	font-size: 14px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	margin: 0px 0px 0px 5px;
+	padding: 4px 8px 4px 8px;
+}
+
+div#nav ul li a {
+	color: #050505;
+	text-decoration: none;
+}
+
+div#nav ul li ul {
+	display: none;
+	margin: 0;
+	padding: 0px;
+	background-color: none;
+	background-image: url(../images/dropdown-bg.png) repeat;
+	float: none;
+	position: relative;
+	z-index: 100;
+}
+
+div#nav ul li ul li {
+	margin: 0;
+	padding: 5px 0px;
+	border-top: 1px solid #050505;
+	display: block;
+	float: none;
+	background: none;
+	border-top-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	text-align: right;
+}
+
+img.logo {
+	margin: 22px 0px 0px 30px;
+	float: left;
+}
+
+div#content {
+	width: 920px;
+	margin: 0 auto;
+	padding: 11px 21px 30px 21px;
+	position: relative;
+	z-index: 1;
+}
+
+
+
+/* Coordinator Dashboard */
+
+table#under-consideration-table {
+	width: 920px;
+}
+
+table#under-consideration-table tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#under-consideration-table tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#under-consideration-table tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}

@@ -1,0 +1,175 @@
+/* CSS Document */
+
+#header-container {
+	display: none;
+}
+
+#print-two-weeks {
+	display: none;
+}
+
+#facility-tools {
+	display: none;
+}
+
+h1 {
+	float: left;
+	margin: -10px 0px 0px 0px;
+	color: #195688;
+	font-size: 16px;
+}
+
+h2 {
+	float: left;
+	margin: -12px 0px 0px 30px;
+	font-size: 11px;
+}
+
+div.tv-week-links {
+	float: left;
+	font-size: 10px;
+	display: block;
+	margin: -8px 0px 0px 40px;
+}
+
+.facility-day-box-tools {
+	display: none;
+}
+
+.facility-day-box-time {
+	display: none;
+}
+
+/**/
+div.facility-container {
+	width: 920px;
+	float: left;
+	height: auto;
+}
+
+div.facility-admits {
+	width: 920px;
+	height: 260px;
+	border-bottom: 1px solid #195688;
+	padding-bottom: 5px;
+	margin: 0;
+	float: left;
+}
+
+div.facility-discharges {
+	width: 920px;
+	height: 260px;
+	padding-top: 5px;
+	float: left;
+}
+
+div.facility-day-text {
+	width: 122px;
+	padding: 3px;
+	float: left;
+	margin: 0px 4px 0px 0px;
+}
+
+div.facility-discharge-day-text {
+	display: none;
+}
+
+div.facility-day-text-last {
+	margin: 0px 0px 0px 0px;
+}
+
+div.facility-day-box {
+	width: 122px;
+	height: 240px;
+	margin: 0px 4px 10px 0px;
+	padding: 3px 3px 3px 3px;
+	float: left;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	background: none;
+	font-size: 10px;
+}
+
+div.facility-day-box ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+div.facility-day-box ul li {
+	margin: 0;
+	padding: 3px 0px 3px 0px;
+	font-size: 10px;
+	line-height: 9px;
+}
+
+div.facility-day-text h3 {
+	margin: 0px 0px 0px 9px;
+	padding: 0;
+	color: #195688;
+	font-size: 9px;
+}
+
+div.facility-day-box-last {
+	margin: 0px 0px 10px 0px;
+}
+
+div.facility-day-box-blue {
+	background: #d0e2f0;
+}
+
+div.side-titles {
+	float: left;
+	margin: 0px 0px 0px -14px;
+	width: 12px;
+	height: 548px;
+	overflow: hidden;
+	background: url(../images/facility-titles-bg.jpg) no-repeat;
+}
+
+div.side-titles {
+	display: block;
+}
+
+
+div.regular-titles {
+	display: none;
+}
+
+div.facility-admit {
+	background: #75dc6d;
+	font-size: 9px;
+	line-height: 9px;
+	padding: 2px 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-discharge {
+	background: #FF6A6A;
+	font-size: 9px;
+	line-height: 9px;
+	padding: 2px 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.print-facility-discharge {
+	font-size: 11px;
+	line-height: 11px;
+	padding: 2px 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.print-discharge-bed-hold {
+	font-style: italic;
+}
+
+div.facility-admit-pending {
+	background: #6BBEFF;
+}
+
+
+/**/

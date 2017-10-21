@@ -1,0 +1,359 @@
+/* CSS Document */
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+@media print{
+	@page {
+		size: landscape
+	}
+}
+
+img { border: none; }
+dl, dd { margin: 0; padding: 0; }
+
+h1, h2, h3, h4, h5 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 100;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+}
+
+h2 {
+	font-size: 18px;
+}
+
+hr {
+	width: 100%;
+	height: 1px;
+	border: none;
+	color: #195688;
+	background-color: #195688;
+}
+
+
+/* General Use Clases */
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-17 { font-size: 17px; }
+.text-18 { font-size: 18px; }
+.text-19 { font-size: 19px; }
+.text-20 { font-size: 20px; }
+.text-center { text-align: center; }
+
+.printForm {
+	position: relative;
+	top: -20px;
+	left: 850px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+
+/** Print two week page **/
+
+
+.facility-container-first-week {
+	margin: 15px auto 0 auto;
+	width: 960px;
+	height: auto;
+	min-height: 250px;
+	background: #eee;
+	padding: 10px;
+}
+
+.facility-container-second-week {
+	position: relative;
+	margin: 15px auto 0 auto;
+	width: 960px;
+	height: auto;
+	min-height: 250px;
+	background: #eee;
+	padding: 10px;
+}
+
+table#facility-admitted {
+	width: 920px;
+}
+
+table#facility-admitted tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#facility-admitted tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#facility-admitted tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}
+
+table#facility-discharged {
+	width: 960px;
+}
+
+table#facility-discharged tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#facility-discharged tr td {
+	height: 30px;
+	padding: 0px 8px;
+	margin: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table#facility-discharged tr th {
+	text-align: left;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 0px 8px;
+}
+
+
+/* Patient Discharge */
+
+table#discharge tr {
+	margin: 0;
+	padding: 0;
+}
+
+table#discharge tr td {
+	height: 30px;
+	vertical-align: middle;
+	margin: 0;
+	padding: 0px 10px 0px 0px;
+}
+
+table#discharge tr td img {
+	margin: 0px 0px -3px 5px;
+}
+
+
+div.facility-day-box h3 {
+	font-size: 14px;
+	color: #1d5987;
+	font-weight: bold;
+	margin: -10px 0px 10px -10px;
+}
+
+div.facility-patient-box {
+	width: 423px;
+	margin: 0px 0px 10px 0px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	padding: 4px 6px;
+}
+	
+div.facility-admits {
+	width: 435px;
+	float: left;
+	border: 1px solid #000;
+	padding: 10px;
+}
+
+div.facility-admit {
+	background: #75dc6d;
+	font-size: 9px;
+	line-height: 11px;
+	padding: 0px 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.print-facility-admit {
+	font-size: 9px;
+	line-height: 11px;
+	padding: 0px 3px;
+	margin: 0px 0px 3px 0px;
+	font-weight: bold;
+}
+
+div.facility-admit-pending {
+	background: #6BBEFF;
+}
+
+div.print-facility-admit-pending {
+	font-size: 9px;
+	line-height: 11px;
+	padding: 0px 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-discharges {
+	width: 435px;
+	float: left;
+	border: 1px solid #000;
+	padding: 10px;
+}
+
+div.facility-discharge {
+	background: #FF6A6A;
+	font-size: 9px;
+	line-height: 11px;
+	padding: 0px 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.print-facility-discharge {
+	font-size: 9px;
+	line-height: 11px;
+	padding: 0px 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-sent {
+	background: #CC3170;
+	font-size: 9px;
+	line-height: 11px;
+	padding: 0px 3px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin: 0px 0px 3px 0px;
+}
+
+div.facility-admits {
+	width: 920px;
+	height: auto;
+	padding-bottom: 5px;
+	margin: 0px 0px 0px 0px;
+}
+
+div.facility-discharges {
+	width: 920px;
+	height: auto;
+	margin: 0;
+	padding-top: 5px;
+}
+
+div.facility-day-text {
+	width: 122px;
+	padding: 3px;
+	float: left;
+	margin: 0px 4px 0px 0px;
+	font-size: 10px;
+}
+
+div.facility-day-text-last {
+	margin: 0px 0px 0px 0px;
+}
+
+div.facility-day-box {
+	width: 123px;
+	height: auto;
+	margin: 0px 4px 10px 0px;
+	padding: 3px;
+	float: left;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	background: none;
+}
+
+div.facility-day-text h3 {
+	margin: -5px 0px 5px 5px;
+	padding: 0;
+	color: #000000;
+}
+
+div.facility-day-box-last {
+	margin: 0px 0px 10px 0px;
+}
+
+div.facility-day-box-blue {
+	background: #d0e2f0;
+}
+
+div.facility-day-box-grey {
+	background: #999999;
+}
+
+div.side-titles {
+	display: none;
+}
+
+div.side-display-titles {
+	float: left;
+	margin: 0px 0px 0px -14px;
+	width: 12px;
+	height: 548px;
+	overflow: hidden;
+	background: url(../images/facility-titles-bg.jpg) no-repeat;
+}
+
+div.tv-week-links {
+	display: none;
+}
+
+td.track-visits-patient {
+	padding: 15px 0px 15px 20px;
+}
+
+td.track-visits-patient-info {
+	padding: 15px 50px;
+	float: left;
+}
+
+div#reports {
+	
+}
+
+div#reports table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div#reports a {
+	text-decoration: none;
+	color: #000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,37 @@
+.text-strong { font-weight: bold; }
+
+h1 {
+	font-size: 26px;
+	text-align: center;
+}
+
+table {
+	width: 600px;
+	border: none;
+	margin: auto;
+}
+
+tr {
+	margin: 0;
+	padding: 0;
+	line-height: 1em;
+}
+
+td {
+	margin: 0;
+	padding: 0 5px;
+	vertical-align: top;
+	border: 1px dashed #cccccc;
+	border-collapse: collapse;
+}
+
+th {
+	border-bottom: 1px solid #333333;
+	padding: 10px;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
