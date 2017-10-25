@@ -1,9 +1,0 @@
-.DS_Store
-protected/Compile
-public/index.php
-protected/Configs/database.php
-protected/.DS_Store
-.dev
-public/files/
-nossl-redir/index.php
-sftp-config.json
