@@ -59,12 +59,12 @@
 		<div class="transitionDiv">
 			<div id="activitiesContent">	
 				<?php if ($facilityId == 12): ?>
-					<div id="grangeville-teton">
+				<div id="grangeville-teton">
 				<?php else: ?>
-					<div id="teton">
+				<div id="teton">
 				<?php endif; ?>
 					<div id="mainLogo">
-						<img src="{$IMAGES}/{$location->logo}" alt="">
+						<img src="{$IMAGES}/facility_logo/{$location->logo}" alt="">
 						{if $location->id == 12}
 							<div class="grangevilleActivitiesStandard">
 						{else}

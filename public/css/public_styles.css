@@ -384,6 +384,11 @@ div#public-access-error a:hover {
 	
 }
 
+@font-face {
+	font-family: "Georgia";
+	src: url("Georgia.ttf") format("truetype");
+}
+
 @media screen and (max-width: 1024px) {
 	.overall {
 		display: none;
