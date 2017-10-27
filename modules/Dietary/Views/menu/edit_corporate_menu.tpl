@@ -50,7 +50,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<textarea name="menu_content" id="menu-content" cols="50" rows="20">{foreach $menuItem->content as $menu}{$menu}{/foreach}</textarea>
+				<textarea name="menu_content" id="menu-content" cols="50" rows="20">{foreach $menuItem->content as $m}{$m}{/foreach}</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -92,7 +92,7 @@
 			<td>&nbsp;</td>
 			<td style="text-align: right">
 				{if $menuChange}
-					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=delete_item&amp;type={$menuType}&amp;id={$menuItem->public_id}" class="button">Reset to Original Item</a>
+					<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=delete_item&amp;type={$menuType}&amp;id={$menuItem->public_id}&amp;menu={$menu->public_id}&amp;page_count={$page_count}" class="button">Reset to Original Item</a>
 				{/if}
 				<input type="submit" value="Change Menu"></td>
 		</tr>

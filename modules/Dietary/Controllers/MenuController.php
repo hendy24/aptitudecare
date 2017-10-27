@@ -251,7 +251,6 @@ class MenuController extends DietaryController {
 					$this->redirect(input()->path);
 				}
 
-
 				$flash_message = array();
 				foreach ($location as $l) {
 					$location = $this->loadModel('Location', $l);
@@ -279,7 +278,7 @@ class MenuController extends DietaryController {
 					}
 				}
 
-				$this->corpPageRedirect();
+				$this->corpPageRedirect(input()->menu, $location->public_id);
 
 			}
 		}
@@ -492,13 +491,15 @@ class MenuController extends DietaryController {
 	}
 
 
-	private function corpPageRedirect($menu_id = null) {
+	private function corpPageRedirect($menu_id = null, $location_id = null) {
 		// if the location is set we came from the facility menu page, redirect there
-		if (isset (input()->location)) {
+		if (isset (input()->location) && input()->location != null) {
 			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "facility_menus", 'location' => input()->location, 'menu' => input()->menu, 'page_count' => input()->page_count));
+		} elseif ($location_id !== null) {
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "facility_menus", 'location' => $location_id, 'menu' => input()->menu, 'page_count' => input()->page_count));
 		} else {
 			// redirect to the corporate menu page
-			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $menu_id, 'page_count' => input()->page_count));
+			$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => input()->menu, 'page_count' => input()->page_count));
 		}
 
 	}
