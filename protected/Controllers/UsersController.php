@@ -26,12 +26,15 @@ class UsersController extends MainPageController {
 		$location = $this->loadModel('Location', $loc_id);
 		smarty()->assign('location_id', $location->public_id);
 
-		input()->type = "users";
+		input()->type = 'users';
 		// if the user is an NSD we only want to get other users who are NSD's, dietary staff, or activities coordinators
-		if ($user->group_id == 11) {
-			$users = $this->loadModel('User')->fetchDietaryUsers($location);
-		} else { // otherwise we will get everyone at the facility (have to have permission to access this page)
+		if (auth()->hasPermission('edit_users')) {
 			$users = $this->loadModel('User')->fetchManageData($location);
+		} elseif (auth()->hasPermission('edit_dietary_users')) { // otherwise we will get everyone at the facility (have to have permission to access this page)
+			$users = $this->loadModel('User')->fetchDietaryUsers($location);	
+		} else {
+			session()->setFlash("You do not have permission to access this page", 'error');
+			$this->redirect();
 		}
 		
 		smarty()->assignByRef('users', $users);
