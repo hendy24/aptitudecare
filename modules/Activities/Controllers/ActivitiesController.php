@@ -167,7 +167,10 @@ class ActivitiesController extends MainPageController {
 			else{
 				$activity_schedule->all_day = 0;
 			}	
+		} else {
+			$activity_schedule->all_day = 0;
 		}
+
 		
 		// BREAKPOINT
 		if (!empty ($feedback)) {

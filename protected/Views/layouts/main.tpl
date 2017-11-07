@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="{$CSS}/bootstrap_styles.css">
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
 	{if $this->module == "HomeHealth"}
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
@@ -35,7 +36,6 @@
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/tagit/js/tag-it.min.js"></script>
 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
 

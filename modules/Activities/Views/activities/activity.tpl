@@ -134,7 +134,7 @@
 				{if $activity->all_day == 1}
 					<input type="checkbox" name="all_day" value="true" checked class="all-day-box"/>
 				{else}
-					<input type="checkbox" name="all_day" value="true" class="all-day-box"/>
+					<input type="checkbox" name="all_day" value="false" class="all-day-box"/>
 				{/if}
 			</td>
 			<td class="text-strong text-right" id="time">Time:<input type="text" class="timepicker" name="time_start" value="{$activity->time_start|date_format: '%H:%M'}" size="6"></td>

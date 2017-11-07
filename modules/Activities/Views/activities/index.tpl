@@ -43,7 +43,7 @@
 <div class="date-header">
 	<h2>{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"} &nbsp;<input type="hidden" id="datepicker"></h2>
 </div>
-<div class="text-center"><a href="{$SITE_URL}/?module=Activities&amp;date={$previousWeek}">&laquo; Previous Week</a> &nbsp;&nbsp; <a href="{$SITE_URL}/?module=Activities&amp;date={$nextWeek}">Next Week &raquo;</a></div>
+<div class="text-center"><a href="{$SITE_URL}/?module=Activities&amp;date={$previousWeek}&amp;location={$location->public_id}">&laquo; Previous Week</a> &nbsp;&nbsp; <a href="{$SITE_URL}/?module=Activities&amp;date={$nextWeek}&amp;location={$location->public_id}">Next Week &raquo;</a></div>
 
 <div id="activities">
 	<table class="activities">
@@ -58,7 +58,7 @@
 					{if $activity->all_day == 1}
 						All Day
 					{else}
-						{$activity->date_start|date_format:"%b, %e"} {$activity->time_start|date_format: "%I:%M %p"}
+						{$activity->time_start|date_format: "%I:%M %p"}
 					{/if}
 				</td>
 				<td>{$activity->description}</td>
