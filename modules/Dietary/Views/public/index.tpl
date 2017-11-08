@@ -15,7 +15,7 @@
 						<h2>Breakfast</h2>
 						<p class="text-14 time">{$meal[0]->start|date_format:"%l:%M %P"} - {$meal[0]->end|date_format:"%l:%M %P"}</p>
 						{foreach from=$menuItems[0]->content item=menu}
-						<p>{$menu}</p>
+						<p>{$menu|strip_tags:true}</p>
 						{/foreach}
 					</div>
 
@@ -23,7 +23,7 @@
 						<h2>Lunch</h2>
 						<p class="text-14 time">{$meal[1]->start|date_format:"%l:%M %P"} - {$meal[1]->end|date_format:"%l:%M %P"}</p>
 						{foreach from=$menuItems[1]->content item=menu}
-						<p>{$menu}</p>
+						<p>{$menu|strip_tags:true}</p>
 						{/foreach}
 					</div>
 
@@ -31,7 +31,7 @@
 						<h2>Dinner</h2>
 						<p class="text-14 time">{$meal[2]->start|date_format:"%l:%M %P"} - {$meal[2]->end|date_format:"%l:%M %P"}</p>
 						{foreach from=$menuItems[2]->content item=menu}
-						<p>{$menu}</p>
+						<p>{$menu|strip_tags:true}</p>
 						{/foreach}
 					</div>
 

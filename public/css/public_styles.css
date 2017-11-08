@@ -404,6 +404,10 @@ div#public-access-error a:hover {
 	.raisingTheStandard {
 		display: none;
 	}
+
+	#grangeville-teton { height: 225px; }
+	#activitiesTile { margin-bottom: 100px; }
+
 	#mainLogo {
 		width: 1024px;
 	}
