@@ -1,15 +1,15 @@
 <!-- /app/View/Layouts/default.ctp -->
-
+{if !$headless}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<!--<meta http-equiv="refresh" content="1800">-->
 	<title>Advanced Health Care Menu &amp; Activities</title>
 	<link rel="stylesheet" href="{$CSS}/public_styles.css" type="text/css" />
-	<link rel="stylesheet" href="/js/jquery-ui/css/cupertino/jquery-ui-1.8.21.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.jclock.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/public.js"></script>
 
@@ -17,6 +17,7 @@
 </head>
 
 <body>
+{/if}
 	<div id="wrapper">
 		<div class="overall">
 
@@ -73,6 +74,8 @@
  *}		</div>
 	</div>
 	<!-- div containing the red warning symbol -->
-			<div id="error" style="display:none;position:absolute;bottom:10px;left:20px;font-size: 2em;"><img src="{$IMAGES}/warning.png" alt="No internet connection"></div>
+			<div id="error" style="display:none;position:absolute;bottom:10px;left:20px;font-size: 2em;color:yellow;">&#x26A0;</div>
+{if !$headless}
 </body>
 </html>
+{/if}

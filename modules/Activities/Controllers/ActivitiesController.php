@@ -38,7 +38,6 @@ class ActivitiesController extends MainPageController {
 		$next_week = date("m/d/Y", strtotime($start_date . "+ 7 days"));
 
 
-
 		// fetch activities for the selected location
 
 		$location = $this->getLocation();
