@@ -90,15 +90,15 @@ class PublicController extends DietaryController {
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date, 4);
 		smarty()->assignByRef('weekActivities', $activities);
 
-		$headless = false;
-		header("Cache-Control; no-cache; must-revalidate");
-		header("Expires: Fri, 31 Jul 1980 06:00:00 GMT");
+		// $headless = false;
+		// header("Cache-Control; no-cache; must-revalidate");
+		// header("Expires: Fri, 31 Jul 1980 06:00:00 GMT");
 
-		if (isset(input()->headless) && input()->headless == true) {
-			$headless = true;
-		} 
+		// if (isset(input()->headless) && input()->headless == true) {
+		// 	$headless = true;
+		// } 
 
-		smarty()->assign('headless', $headless);
+		// smarty()->assign('headless', $headless);
 
 	}
 

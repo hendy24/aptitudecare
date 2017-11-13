@@ -1,5 +1,4 @@
 <!-- /app/View/Layouts/default.ctp -->
-{if !$headless}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -17,9 +16,10 @@
 </head>
 
 <body>
-{/if}
+
 	<div id="wrapper">
 		<div class="overall">
+			<input type="hidden" name="location" value="{$location->public_id}" />
 
 			<div id="header">
 				<div id="headerTop">
@@ -52,31 +52,9 @@
 					{include file=$content}
 				</div>
 			</div>
-}
-
-{* 			{if $isAdmin && !$isTV}
-				<div id="tv-fold">
-				</div>
-				<div id="tv-fold-note">
-				Anything outside the dotted line will not showup on the TV and will cause a scroll bar to appear on the right side of the page.
-				</div>
-				<div id="public-preview">
-					<a href="{$SITE_URL}/?module=Dietary&amp;location={$location->public_id}">Return to Admin Page</a>
-				</div>
-				{if $user->group->id == 1}
-					<div id="debug">
-						<div class="panelCount"></div>
-						<div class="currentPanel"></div>
-						<div class="nextPanel"></div>
-						<div class="firstRun"></div>
-					</div>
-				{/if}
-			{/if}
- *}		</div>
+ 	</div>
 	</div>
 	<!-- div containing the red warning symbol -->
-			<div id="error" style="display:none;position:absolute;bottom:10px;left:20px;font-size: 2em;color:yellow;">&#x26A0;</div>
-{if !$headless}
+	<div id="error" style="display:none;position:absolute;bottom:10px;left:20px;font-size: 2em;color:yellow;">&#x26A0;</div>
 </body>
 </html>
-{/if}

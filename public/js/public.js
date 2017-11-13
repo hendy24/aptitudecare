@@ -21,28 +21,18 @@ var errorStatus = 0;
 	setInterval(autoAdvance, 18000); // page rotates every 18 seconds
 
 	//Tell javascript to call loadpage every X milliseconds
-	setInterval(loadPage, 900000); // 15 minute for production
+	setInterval(loadPage, 900000); // 15 minute (900000) ms for production
 	
 });
 
 	
 //function called by JS engine every X seconds to update the menu contents.
 function loadPage()
-{
-	//change to apporpriate URL here.
-	if (loadNumber == 4 && navigator.onLine) { // page will refresh every hour
-		window.location = location.href;
-		loadNumber = 0;
-	} else {
-		var whatToLoad = window.location.href;
-        if(!whatToLoad.indexOf("headless") >= 0)
-            if(whatToLoad.indexOf("?") >= 0)
-                whatToLoad = whatToLoad.concat("&headless=true");
-            else
-                whatToLoad = whatToLoad.concat("?headless=true");
-		$(document.body).load(whatToLoad, postLoad);
-	}
-	
+{	// check if we have internet access
+	if (navigator.onLine) {
+		// if we do have access simply reload the page
+		location.reload();
+	}	
 }
 	
 //function called async after an attempted load, 
