@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.jclock.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/public.js"></script>
+	<script type="text/javascript" src="{$JS}/public.js"></script>
 
 
 </head>
@@ -52,6 +52,7 @@
 					{include file=$content}
 				</div>
 			</div>
+}
 
 {* 			{if $isAdmin && !$isTV}
 				<div id="tv-fold">
