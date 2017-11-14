@@ -11,7 +11,7 @@ var errorStatus = 0;
 	
  $(document).ready(function() {
 	//loadPage();  //Load the menu on the page load
-	
+
 	$panels = $('#transitionDiv').children('.rotatingPage');
 	panelCount = $panels.length - 1;
 	
@@ -32,7 +32,16 @@ function loadPage()
 	if (navigator.onLine) {
 		// if we do have access simply reload the page
 		location.reload();
-	}	
+		loadFailCount = 0;		
+	} else {
+		loadFailCount++;
+	}
+
+	console.log(loadFailCount);
+
+	if (loadFailCount !== 0) {
+		$('#error').show();
+	}
 }
 	
 //function called async after an attempted load, 
