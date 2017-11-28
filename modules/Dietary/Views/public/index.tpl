@@ -1,6 +1,12 @@
 <!-- modules/Dietary/Views/public/index.tpl -->
 
 <div id="transitionDiv">
+	{if $warning}
+	<div id="warning">
+		<img src="{$IMAGES}/warning.png" alt="">
+	</div>
+	{/if}
+
 	<!-- Main menu content page -->
 	<div id="panel-0" class="rotatingPage">
 		<div id="mainContent">
@@ -99,10 +105,11 @@
 	</div>
 
 
+
 	<!-- Additional page -->
-{* 	{if $additionalPage->active}
+{if $additionalPage->active}
 		<div id="panel-2" class="rotatingPage" style="display: none;">
 	
 		</div>
 	{/if}
- *}</div>
+</div>

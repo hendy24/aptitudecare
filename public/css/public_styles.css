@@ -485,3 +485,11 @@ div#public-access-error a:hover {
 		display: none;
 	}
 }
+
+
+#warning {
+	z-index: 1;
+	position: absolute;
+	top: 25px;
+	left: 15px;
+}
