@@ -103,13 +103,3 @@
 			</div>
 		</div>
 	</div>
-
-
-
-	<!-- Additional page -->
-{if $additionalPage->active}
-		<div id="panel-2" class="rotatingPage" style="display: none;">
-	
-		</div>
-	{/if}
-</div>
