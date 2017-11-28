@@ -84,20 +84,20 @@
 	<table class="form">
 		<tr>
 			<td><strong>First Name:</strong></td>			
-			<td><strong>Last Name:</strong></td>			
+			<td colspan="2"><strong>Last Name:</strong></td>			
 				
 		</tr>
 		<tr>
 			<td><input type="text" name="first_name" id="first-name" value="{$user->first_name}" size="20"></td>
-			<td><input type="text" name="last_name" id="last-name" value="{$user->last_name}" size="40"></td>
+			<td colspan="2"><input type="text" name="last_name" id="last-name" value="{$user->last_name}" size="40"></td>
 		</tr>
 		<tr>
 			<td><strong>Email:</strong></td>
-			<td><strong>Phone:</strong></td>	
+			<td colspan="2"><strong>Phone:</strong></td>	
 		</tr>
 		<tr>
 			<td><input type="text" name="email" id="email" value="{$user->email}" size="50" /></td>
-			<td><input type="text" name="phone" id="phone" value="{$user->phone}"></td>
+			<td colspan="2"><input type="text" name="phone" id="phone" value="{$user->phone}"></td>
 		</tr>
 		<tr>
 		{if $existing}
@@ -105,20 +105,21 @@
 			<td><a href="{$SITE_URL}/?page=users&amp;action=reset_password&amp;id={$user->public_id}" class="button">Reset Password</a></td>
 		{else}
 			<td><strong>Password:</strong></td>
-			<td><strong>Verify Password:</strong></td>
+			<td colspan="2"><strong>Verify Password:</strong></td>
 		</tr>
 		<tr>
 			<td><input type="password" name="password" id="password"></td>
 			<td><input type="password" name="verify_password" id="verify-password"></td>
+			<td colspan="2" class="text-right"><input type="checkbox" name="temp_password" value="true"> Temporary Password</td>
 		</tr>
 
 		{/if}
 		<tr>
-			<td colspan="2">&nbsp;</td>
+			<td colspan="3">&nbsp;</td>
 		</tr>
 		<tr>	
 			<td><strong>Default Location:</strong></td>
-			<td colspan="2">
+			<td colspan="3">
 				<select name="default_location" id="user-location">
 					<option value="">Select a location...</option>
 					{foreach $additional_locations as $location}
@@ -139,7 +140,7 @@
 				<input type="checkbox" name="additional_locations[{$k}]" id="{$loc->id}" value="{$loc->id}" {foreach $assigned_locations as $location} {if $location->id == $loc->id} checked{/if}{/foreach} /> {$loc->name}<br>
 				{if $smarty.foreach.count.iteration % 10 == 0}
 					</td>
-					<td colspan="2" style="vertical-align:top">
+					<td colspan="3" style="vertical-align:top">
 				{/if}
 			{/foreach}
 			</td>
@@ -173,7 +174,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"><strong>Additional Groups:</strong></td>
+			<td colspan="3"><strong>Additional Groups:</strong></td>
 		</tr>
 		<tr>
 			<td>
@@ -189,7 +190,7 @@
 		</tr>
 
 		<tr>
-			<td colspan="2">&nbsp;</td>
+			<td colspan="3">&nbsp;</td>
 		</tr>	
 	</table>
 	<table class="form">	
@@ -206,7 +207,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"><strong>Additional Modules:</strong></td>
+			<td colspan="3"><strong>Additional Modules:</strong></td>
 		</tr>
 		<tr>
 			<td>
@@ -217,7 +218,7 @@
 		</tr>
 
 		<tr>
-			<td colspan="2">&nbsp;</td>
+			<td colspan="3">&nbsp;</td>
 		</tr>
 		<tr>
 			<td><input type="button" value="Cancel" onClick="history.go(-1);return true;"></td>

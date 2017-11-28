@@ -71,7 +71,7 @@ class LoginController extends MainPageController {
 
 				$user = auth()->getRecord();
 				if ($user->temp_password) {
-					$this->redirect(array('page' => 'users', 'action' => 'reset_password', 'id' => $user->public_id));
+					$this->redirect(array('module' => 'Dietary', 'page' => 'users', 'action' => 'reset_password', 'id' => $user->public_id));
 				} elseif ($user->module_name == "Admission") {
 					$this->redirect(array('module' => 'Admission', 'user' => $user->public_id));
 				} else {
