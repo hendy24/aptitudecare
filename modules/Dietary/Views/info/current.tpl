@@ -2,7 +2,25 @@
 	$(document).ready(function() {
 		$("#location").change(function() {
 			var location = $("#location option:selected").val();
-			window.location.href = SITE_URL + "/?module=Dietary&page=dietary&action=current&location=" + location;
+			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=current&location=" + location;
+		});
+
+		$("#print-menu-select-date").on("click", function(e){
+			e.preventDefault();
+			var location = $("#location option:selected").val();
+			var url = SITE_URL + '?module=Dietary&page=menu&action=print_menu&location=' + location;
+			console.log(url);
+
+			$('#menu-date-dialog').dialog({
+				buttons: {
+					"Submit": function() {
+						var selectedDate = $("#selected-date").val();
+						window.open(url + '&weekSeed=' + selectedDate + '&pdf=true', '_blank');
+						$(this).dialog("close");
+					}
+				}
+			});
+
 		});
 	});
 </script>
@@ -15,7 +33,7 @@
 		{$this->loadElement("selectLocation")}
 	</div>
 	<div id="action-right">
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=print_menu&amp;location={$location->public_id}&amp;weekSeed={$urlDate}&amp;pdf=true" class="button" target="_blank">Print Menu</a>
+		<button id="print-menu-select-date" class="btn btn-primary pull-right">Print Menu</button>
 	</div>
 </div>
 
@@ -36,6 +54,8 @@
 </div>
 
 <h2><strong>Week {$menuWeek}</strong> of the <strong>{$menu->name}</strong> Menu</h2>
+
+<input type="hidden" name="location" id="location" value="{$location->public_id}">
 
 <table id="menu-table">
 	<tr>
@@ -92,3 +112,8 @@
 
 </div>
 <div class="clear"></div>
+
+<div id="menu-date-dialog" title="Select Date">
+	<p>Select the date for which you would like to print the menu.</p>
+	<input type="text" id="selected-date" class="date-picker">
+</div>

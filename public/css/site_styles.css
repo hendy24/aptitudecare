@@ -1600,6 +1600,10 @@ li.permission-access a {
 	display: none;
 }
 
+#menu-date-dialog {
+	display: none;
+}
+
 
 /*************** LOGIN PAGE **************************/
 .form-signin {
