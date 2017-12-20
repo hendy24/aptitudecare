@@ -88,7 +88,7 @@ class MainPageController extends MainController {
 		if (auth()->isLoggedIn()) {
 			if ($this->action == "admission_login") {
 				// this is a hack to allow switching between modules until the admission module is rebuilt.
-				$this->module = "HomeHealth";
+				//$this->module = "HomeHealth";
 			} else {
 				$this->module = session()->getModule();
 			}
@@ -142,7 +142,7 @@ class MainPageController extends MainController {
 			} else {
 				$selectedArea = "all";
 			}
-		} elseif ($this->module == "Dietary") {
+		} elseif ($this->module == "Dietary" || $this->module == 'Activities') {
 			// Select only facilities
 			$locations = $this->loadModel('Location')->fetchFacilities();
 			// get either the selected location or the users' default location
