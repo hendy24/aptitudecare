@@ -28,7 +28,6 @@ class PublicController extends DietaryController {
 		// array of user agents for which we want to throw the warning
 		// these will be the Google TV's located in the dining rooms trying to access without the Raspberry Pi
 		$ua_array = array(
-			// 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36',
 			'Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.77 Large Screen Safari/534.24 GoogleTV/092754',
 			'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.84 Safari/537.36',
 		);
@@ -38,8 +37,11 @@ class PublicController extends DietaryController {
 		// if the user agent is in the array then set the warning variable to true
 		// this means the TV is trying to access the site without using the Raspberry Pi
 		if (in_array($ua, $ua_array)) {
-			$warning = true;
+			if(strpos($ua, "GoogleTV") !== 0 && strpos($ua, "i686") !== 0) {
+				$warning = true;
+			}
 		}
+
 
 		// get the location
 		if (isset (input()->location)) {
