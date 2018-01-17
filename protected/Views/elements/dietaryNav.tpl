@@ -35,7 +35,7 @@
 <li>Photos
 	<ul>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=photos&amp;action=upload_photos&amp;location={$location->public_id}">Upload</a></li>
-		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=photos&amp;action=view_photos">View</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=photos&amp;action=photos">View Photos</a></li>
 		{if $auth->hasPermission('manage_dietary_photos')}
 		<li class="permission-access"><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=photos&amp;action=approve_photos">Approve Photos</a></li>
 		<li class="permission-access"><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=photos&amp;action=manage_photos">Manage Photos</a></li>

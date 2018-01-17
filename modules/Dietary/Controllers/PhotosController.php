@@ -123,43 +123,54 @@ class PhotosController extends DietaryController {
 	}
 
 
+	/*
+	 * New Photos page with folders
+	 *
+	 */
+	public function photos() {
+		// need to get a list of the available folders
+		$folders = $this->loadModel('PhotoFolder')->fetchAll();
+
+		smarty()->assign('folders', $folders);
+	}
 
 
+	// this page was replaced by the photos page (above) on 2018.01.17 by kwh
 	/*
 	 * View Photos page
 	 *
 	 */
-	public function view_photos() {
+	// public function view_photos() {
 
-		if (isset (input()->current_page)) {
-			$current_page = input()->current_page;
-		} else {
-			$current_page = false;
-		}
+	// 	if (isset (input()->current_page)) {
+	// 		$current_page = input()->current_page;
+	// 	} else {
+	// 		$current_page = false;
+	// 	}
 
-		$facilities = $this->loadModel('Location')->fetchFacilities();
+	// 	$facilities = $this->loadModel('Location')->fetchFacilities();
 
-		if (isset (input()->facility) && input()->facility != "all") {
-			$sel_facility = $this->loadModel('Location', input()->facility); 
-		} else {
-			$sel_facility = $this->loadModel('Location');
-		}
+	// 	if (isset (input()->facility) && input()->facility != "all") {
+	// 		$sel_facility = $this->loadModel('Location', input()->facility); 
+	// 	} else {
+	// 		$sel_facility = $this->loadModel('Location');
+	// 	}
 
-		smarty()->assign('facilities', $facilities);
-		smarty()->assign('selectedFacility', $sel_facility);
+	// 	smarty()->assign('facilities', $facilities);
+	// 	smarty()->assign('selectedFacility', $sel_facility);
 
-		$photos = $this->loadModel("Photo")->paginateApprovedPhotos($current_page, $sel_facility->id);
-		smarty()->assign('photos', $photos);
-	}
-
-
+	// 	$photos = $this->loadModel("Photo")->paginateApprovedPhotos($current_page, $sel_facility->id);
+	// 	smarty()->assign('photos', $photos);
+	// }
 
 
-	public function view_photos_json() {
-		$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
-		echo json_encode($photos);
-		exit;
-	}
+
+
+	// public function view_photos_json() {
+	// 	$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
+	// 	echo json_encode($photos);
+	// 	exit;
+	// }
 
 
 	public function search_photos() {
