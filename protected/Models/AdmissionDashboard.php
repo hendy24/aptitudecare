@@ -288,7 +288,7 @@ class AdmissionDashboard extends AppModel {
 				left join " . db()->dbname2 . ".`schedule_hospital` on " . db()->dbname2 . ".`schedule_hospital`.`schedule`=" . db()->dbname2 . ".`schedule`.`id`
 				left join " . db()->dbname2 . ".`patient_admit_nursing` on " . db()->dbname2 . ".`patient_admit_nursing`.`patient_admit`=" . db()->dbname2 . ".`patient_admit`.`id`
 				where " . db()->dbname2 . ".`room`.`facility`=:locationid
-				and (" . db()->dbname2 . ".`schedule`.`status`='Approved' OR " . db()->dbname2 . ".`schedule`.`status`='Under Consideration' OR " . db()->dbname2 . ".`schedule`.`status` = 'Discharged')
+				and (" . db()->dbname2 . ".`schedule`.`status`='Approved' OR " . db()->dbname2 . ".`schedule`.`status` = 'Discharged')
 				and :datetime >= " . db()->dbname2 . ".schedule.`datetime_admit`
 				and
 				(
