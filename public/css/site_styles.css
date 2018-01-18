@@ -917,18 +917,19 @@ div.drag-hover {
 
 
 .photo-info {
-	display: none;
-	margin: 5px;
-	overflow: auto;
-	position: relative;
+	width: 100%;
+	margin: 50px auto 25px auto;
+	border-bottom: 1px solid #e8e8e8;
+}
+
+.photo-info a.btn {
+	margin-bottom: 15px;
 }
 
 .photo-info img {
-	width: 260px;
-	padding: 20px;
-	float: left;
-	display: block;
+	width: 175px;
 }
+
 
 .photo-info-details {
 	float: left;
@@ -1673,4 +1674,13 @@ li.permission-access a {
 .bev-items img {
 	margin-top: 6px;
 	margin-right: 40%;
+}
+
+.photo-folder {
+	padding-bottom: 50px;
+	width: 100px;
+}
+
+.folder-name {
+	text-align: center;
 }

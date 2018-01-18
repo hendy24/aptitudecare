@@ -16,42 +16,47 @@ class PhotosController extends DietaryController {
 	 *
 	 */
 	public function upload_photos() {
-		smarty()->assign('title', "Upload Photos");
+		smarty()->assign('title', "Add Photos");
+
+		$user_id = auth()->getRecord()->id;
+		// need to get the photos which have been uploaded by this user which have not add info added to them yet.
+		$folders = $this->loadModel('PhotoCategory')->fetchAll();
+
+		smarty()->assign('folders', $folders);
+
 	}
 
 
+	// Tag functionality removed on 2018.01.18 by kwh
 	/*
 	 * -------------------------------------------------------------------------
 	 * AJAX call to delete tag from photo
 	 * -------------------------------------------------------------------------
 	 */
-	public function delete_tag() {
-		// Get the id for the tag by name
-		$tag = $this->loadModel('PhotoTag')->fetchByName(input()->tag_name);
+	// public function delete_tag() {
+	// 	// Get the id for the tag by name
+	// 	$tag = $this->loadModel('PhotoTag')->fetchByName(input()->tag_name);
 
-		// Delete the linked photo tag
-		if ($this->loadModel('PhotoLinkTag')->deleteLinkedTag(input()->photo_id, $tag->id)) {
-			return true;
-		}
+	// 	// Delete the linked photo tag
+	// 	if ($this->loadModel('PhotoLinkTag')->deleteLinkedTag(input()->photo_id, $tag->id)) {
+	// 		return true;
+	// 	}
 
-		return false;
-	}
+	// 	return false;
+	// }
 
 
-	/*
-	 * Add photo info page
-	 *
-	 */
 	public function photo_info() {
 		smarty()->assign('title', "Add Photo Info");
 
 		$user_id = auth()->getRecord()->id;
 		// need to get the photos which have been uploaded by this user which have not add info added to them yet.
 		$photos = $this->loadModel("Photo")->fetchPhotosWithoutInfo($user_id);
+		$categories = $this->loadModel('PhotoCategory')->fetchAll();
 
+		smarty()->assign('categories', $categories);
 		smarty()->assignByRef('photos', $photos);
 	}
-
 
 
 	/*
@@ -60,6 +65,7 @@ class PhotosController extends DietaryController {
 	 */
 	public function save_photo_info() {
 		$success = false;
+		$user_id = auth()->getRecord()->id;
 
 		if (input()->photo_id != "") {
 			$photo = $this->loadModel("Photo", input()->photo_id);
@@ -67,59 +73,51 @@ class PhotosController extends DietaryController {
 			$this->redirect(input()->current_url);
 		}
 
-		// add the photo name
-		if (input()->name != "") {
-			$photo->name = input()->name;
+		if (input()->category != '') {
+			$photo->category = input()->category;
+		} else {
+			// throw an error
+			session()->setFlash("Please select a category and try again.", 'error');
+			$this->redirect(input()->currentUrl);
 		}
 
-		// add description
-		if (input()->description != "") {
-			$photo->description = input()->description;
+		if (input()->subcategory != '') {
+			$photo->subcategory = input()->subcategory;
 		}
 
 		// we have added the info now
 		$photo->info_added = true;
-
-		if (isset (input()->approved)) {
-			$photo->approved = input()->approved;
-		}
+		$photo->user_approved = $user_id;
 
 		// save the photo info
 		if ($photo->save()) {
-			// save the tags
-			foreach (input()->photo_tag as $tag) {
-				// create an empty object for the photo tag link
-				$photo_link_tag = $this->loadModel('PhotoLinkTag');
-
-				// set the photo id for the linked tag
-				$photo_link_tag->photo_id = $photo->id;
-
-				// check for pre-existing tags with the same name
-				$photo_tag = $this->loadModel('PhotoTag')->find_existing($tag);
-
-				// if an existing tag is found set the id equal to the existing tag
-				if (!empty ($photo_tag)) {
-					$photo_link_tag->tag_id = $photo_tag->id;
-				} else {
-					// if no tag is found we need to create it first
-					$new_photo_tag = $this->loadModel('PhotoTag');
-					$new_photo_tag->name = $tag;
-					$new_photo_tag->save();
-
-					// now we can set the id
-					$photo_link_tag->tag_id = $new_photo_tag->id;
-				}
-
-				$photo_link_tag->save();
-				$success = true;
-			}
-
-			if ($success) {
-				return true;
-			}
-			return false;
+			return true;
 		} 
 		return false;
+	}
+
+
+	/*
+	 * Find sub-categories
+	 *
+	 */
+	public function find_subcategories() {
+		// get sub-categories by id
+		if (isset (input()->category) && input()->category != '') {
+			// if the category has an id of 6 then we need to get the facilities
+			if (input()->category == 6) {
+				$subcats = $this->loadModel('Location')->fetchFacilities();
+			} else {
+				$subcats = $this->loadModel('PhotoSubcategory')->fetchByCategoryId(input()->category);
+			}
+			
+		}
+
+		if (!empty ($subcats)) {
+			json_return($subcats);
+		}
+
+		return false;		
 	}
 
 
@@ -128,10 +126,25 @@ class PhotosController extends DietaryController {
 	 *
 	 */
 	public function photos() {
+		if (isset (input()->folder_id) && input()->folder_id != '') {
+			$_folder_id = input()->folder_id;
+			$folders = $this->loadModel('PhotoSubcategory')->fetchByFolderId($_folder_id);
+
+			if (empty ($folders)) {
+				// fetch the photos that go in the folder
+
+			}
+		} else {
+			$folders = $this->loadModel('PhotoCategory')->fetchAll();
+		}
 		// need to get a list of the available folders
-		$folders = $this->loadModel('PhotoFolder')->fetchAll();
+		
 
 		smarty()->assign('folders', $folders);
+	}
+
+	public function subfolder() {
+
 	}
 
 
@@ -270,15 +283,15 @@ class PhotosController extends DietaryController {
 			$tempFile = $_FILES['file']['tmp_name'];
 			$fileType = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
 			$targetPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";;
-			$fileName = getRandomString() . "." . $fileType;
+			$fileName = getRandomString() . strtotime('now') . '.' . $fileType;
 			$targetFile = $targetPath . $fileName;
 
 			if (move_uploaded_file($tempFile, $targetFile)) {
 				// success
 				// need to create a file name and save to photo table
 				$photo = $this->loadModel("Photo");
+				$photo->filename =  $fileName;
 				$photo->location_id = $location->id;
-				$photo->filename = $fileName;
 				$photo->info_added = false;
 				if ($photo->save()) {
 					if ($this->createThumbnail($photo->filename)) {
