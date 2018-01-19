@@ -948,7 +948,9 @@ tr.title-row {
 }
 
 
-
+.item-image {
+	height: 115px;
+}
 
 
 
@@ -1677,9 +1679,12 @@ li.permission-access a {
 }
 
 .photo-folder {
-	padding-bottom: 50px;
-	width: 100px;
+	height: 180px;
+	width: 150px;
+	text-align: center;
+	margin: auto;
 }
+
 
 .folder-name {
 	text-align: center;

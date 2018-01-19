@@ -53,8 +53,10 @@ class PhotosController extends DietaryController {
 		// need to get the photos which have been uploaded by this user which have not add info added to them yet.
 		$photos = $this->loadModel("Photo")->fetchPhotosWithoutInfo($user_id);
 		$categories = $this->loadModel('PhotoCategory')->fetchAll();
+		$locations = $this->loadModel('Location')->fetchFacilities();
 
 		smarty()->assign('categories', $categories);
+		smarty()->assign('locations', $locations);
 		smarty()->assignByRef('photos', $photos);
 	}
 
@@ -81,6 +83,13 @@ class PhotosController extends DietaryController {
 			$this->redirect(input()->currentUrl);
 		}
 
+		if (input()->location != '') {
+			$location = $this->loadModel('Location', input()->location);
+			$photo->location_id = $location->id;
+		} else {
+			$photo->location_id = auth()->getRecord()->default_location;
+		}
+
 		if (input()->subcategory != '') {
 			$photo->subcategory = input()->subcategory;
 		}
@@ -104,13 +113,7 @@ class PhotosController extends DietaryController {
 	public function find_subcategories() {
 		// get sub-categories by id
 		if (isset (input()->category) && input()->category != '') {
-			// if the category has an id of 6 then we need to get the facilities
-			if (input()->category == 6) {
-				$subcats = $this->loadModel('Location')->fetchFacilities();
-			} else {
-				$subcats = $this->loadModel('PhotoSubcategory')->fetchByCategoryId(input()->category);
-			}
-			
+			$subcats = $this->loadModel('PhotoSubcategory')->fetchByCategoryId(input()->category);
 		}
 
 		if (!empty ($subcats)) {
@@ -126,21 +129,39 @@ class PhotosController extends DietaryController {
 	 *
 	 */
 	public function photos() {
-		if (isset (input()->folder_id) && input()->folder_id != '') {
-			$_folder_id = input()->folder_id;
-			$folders = $this->loadModel('PhotoSubcategory')->fetchByFolderId($_folder_id);
+		$subcat_selected = false;
+		$facility_selected = false;
 
-			if (empty ($folders)) {
-				// fetch the photos that go in the folder
-
+		if (isset (input()->facility_id) && input()->facility_id != '') {
+			$photos = $this->loadModel('Photo')->fetchByFacility(input()->facility_id);
+			smarty()->assign('photos', $photos);
+		} elseif (isset (input()->subcategory_id) && input()->subcategory_id != '') {
+			$photos = $this->loadModel('Photo')->fetchBySubcategory(input()->subcategory_id);
+			smarty()->assign('photos', $photos);
+		} elseif (isset (input()->category_id) && input()->category_id != '') {
+			if (input()->category_id == 'all_locations') {
+				$subcats = $this->loadModel('Location')->fetchFacilities();
+				$facility_selected = true;
+			} else {
+				$subcats = $this->loadModel('PhotoSubcategory')->fetchByCategoryId(input()->category_id);
 			}
-		} else {
-			$folders = $this->loadModel('PhotoCategory')->fetchAll();
-		}
-		// need to get a list of the available folders
-		
+			
+			$subcat_selected = true;
+			smarty()->assign('categories', $subcats);
 
-		smarty()->assign('folders', $folders);
+			if (empty ($subcats)) {
+				// fetch the photos that go in the folder
+				$photos = $this->loadModel('Photo')->fetchByCategory(input()->category_id);
+				smarty()->assign('photos', $photos);
+			}	
+		} else {
+			$categories = $this->loadModel('PhotoCategory')->fetchAll();
+			smarty()->assign('categories', $categories);
+		}
+
+		// need to get a list of the available folders
+		smarty()->assign('subcat_selected', $subcat_selected);
+		smarty()->assign('facility_selected', $facility_selected);
 	}
 
 	public function subfolder() {

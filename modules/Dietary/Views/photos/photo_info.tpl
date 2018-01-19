@@ -12,6 +12,7 @@
 		$('.save-photo-info').click(function(e) {
 			e.preventDefault();
 			var photoId = $(this).parent().find('.photo_id').val();
+			var locationId = $(this).parent().find('.facility :selected').val();
 			var catId = $(this).parent().find('.categories :selected').val();
 			var subCatId = $(this).parent().find('.subcategories :selected').val();
 			var currentUrl = $('#currentUrl').val();
@@ -29,6 +30,7 @@
 					page: 'photos',
 					action: 'save_photo_info',
 					photo_id: photoId,
+					location: locationId,
 					category: catId,
 					subcategory: subCatId,
 					current_url: currentUrl
@@ -102,6 +104,15 @@
 				<img src="{$SITE_URL}/files/dietary_photos/thumbnails/{$photo->filename}" alt="">
 			</div>
 			<div class="col-md-8">
+				<div class="form-group">
+					<label for="facility">Facility:</label>
+					<select name="facility" class="facility">
+						<option value="">Select a Facility...</option>
+						{foreach from=$locations item=location}
+						<option value="{$location->public_id}">{$location->name}</option>
+						{/foreach}
+					</select>
+				</div>
 				<div class="form-group">
 					<div class="message alert alert-danger" role="alert"></div>
 					<label for="categories">Category</label>

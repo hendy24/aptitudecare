@@ -80,6 +80,27 @@ class Photo extends Dietary {
 		return $pagination->paginate($sql, $params, $this);
 	}
 
+	public function fetchBySubcategory($subcat_id) {
+		$params[":subcat"] = $subcat_id;
+		$sql = "SELECT * FROM {$this->tableName()} WHERE subcategory = :subcat ORDER BY datetime_created ASC";
+		
+		return $this->fetchAll($sql, $params);
+	}
+
+	public function fetchByCategory($cat_id) {
+		$params[":cat"] = $cat_id;
+		$sql = "SELECT * FROM {$this->tableName()} WHERE category = :cat ORDER BY datetime_created ASC";
+
+		return $this->fetchAll($sql, $params);
+	}
+
+	public function fetchByFacility($facility_id) {
+		$params[":facility"] = $facility_id;
+		$sql = "SELECT * FROM {$this->tableName()} WHERE location_id = :facility ORDER BY datetime_created ASC";
+
+		return $this->fetchAll($sql, $params);
+	}
+
 
 	public function fetchPhotosForApproval() {
 		$location = $this->loadTable("Location");
