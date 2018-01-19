@@ -155,7 +155,7 @@ class PhotosController extends DietaryController {
 				smarty()->assign('photos', $photos);
 			}	
 		} else {
-			$categories = $this->loadModel('PhotoCategory')->fetchAll();
+			$categories = $this->loadModel('PhotoCategory')->fetchCategories();
 			smarty()->assign('categories', $categories);
 		}
 
