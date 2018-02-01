@@ -49,9 +49,9 @@ class MainPageController extends MainController {
 
 	public function getSiteInfo() {
 		// if there is a company logo in the img directory... load it, otherwise use the aptitudecare logo
-		if (file_exists(SITE_DIR . '/public/img/logo.jpg')) {
+		if (file_exists(APP_DIR . '/public/img/logo.jpg')) {
 			$logo = IMAGES . '/logo.jpg';
-		} elseif (file_exists(SITE_DIR . '/public/img/logo.png')) {
+		} elseif (file_exists(APP_DIR . '/public/img/logo.png')) {
 			$logo = IMAGES . '/logo.png';
 		} else {
 			$logo = FRAMEWORK_IMAGES . '/aptitudecare.png';
@@ -399,7 +399,7 @@ class MainPageController extends MainController {
 				array_push($error_test, true);
 			} else {
 				array_push($error_test, false);
-				break;
+				exit;
 			}
 
 		}

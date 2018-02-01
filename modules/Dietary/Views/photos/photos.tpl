@@ -30,8 +30,8 @@
 		{foreach from=$photos item=photo}
 		<div class="col-md-3 col-lg-2">
 			<div class="item-image">
-				<a href="{$FILES}/dietary_photos/{$photo->filename}" rel="shadowbox">
-					<img src="{$FILES}/dietary_photos/thumbnails/{$photo->filename}" class="img-thumbnail" alt="{$photo->filename}">
+				<a href="{$S3_BUCKET}/dietary_photos/{$photo->filename}" rel="shadowbox">
+					<img src="{$S3_BUCKET}/dietary_photos/thumbnails/{$photo->filename}" class="img-thumbnail" alt="{$photo->filename}">
 				</a>
 			</div>
 		</div>

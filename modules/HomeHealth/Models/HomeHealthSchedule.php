@@ -70,7 +70,7 @@ class HomeHealthSchedule extends HomeHealth {
 
 		$sql .= ") AND (hhs.`status` = 'Approved' OR hhs.`status` = 'Pending' OR hhs.status = 'Under Consideration')";
 		
-		return $this->fetchAll($sql, $params, $this);
+		return $this->fetchAll($sql, $params);
 	}
 
 
