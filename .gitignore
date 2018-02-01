@@ -7,3 +7,4 @@ protected/.DS_Store
 public/files/
 nossl-redir/index.php
 sftp-config.json
+logs
