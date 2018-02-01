@@ -1,14 +1,16 @@
 <?php
-		
 
 	$db = new MySqlDb();
-	$db->dbname = 'ac_dev';
-	$db->host = 'localhost';
-	$db->dbname2 = 'admit_dev';
-	$db->host2 = 'localhost';
+
+	$db->host = 'aptitudecare-dev.cwsngrwvtxuf.us-east-1.rds.amazonaws.com';
+	$db->dbname = 'aptitudecareDev';
 	$db->username = 'aptitudecare';
-	$db->password = 'TbPKh46U';
-
-	
-
+	$db->password = 'cio29t9viGiM^Fdm';
 	$db->conn();
+
+	$db2 = new MySqlDb();
+	$db2->dbname = 'aptitudecareAdmissionsDev';
+	$db2->host = 'aptitudecare-admissions.cwsngrwvtxuf.us-east-1.rds.amazonaws.com';
+	$db2->username = 'aptitudecare';
+	$db2->password = 'cio29t9viGiM^Fdm';
+	$db2->conn();

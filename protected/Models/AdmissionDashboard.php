@@ -7,7 +7,7 @@ class AdmissionDashboard extends AppModel {
 	protected $dbname = null;
 
 	public function __construct() {
-		$this->dbname = db()->dbname2;
+		$this->dbname = db2()->dbname;
 	}
 
 
@@ -19,7 +19,7 @@ class AdmissionDashboard extends AppModel {
 			":datetime_end" => date('Y-m-d 23:59:59', strtotime($datetime_end)),
 		);
 
-		$sql = "SELECT " . db()->dbname2 . ".patient_admit.*, " . db()->dbname2 . ".schedule.*, " . db()->dbname2 . ".schedule.pubid as schedule_pubid, " . db()->dbname2 . ".patient_admit.pubid as patient_pubid, " . db()->dbname2 . ".facility.name AS healthcare_facility_name FROM " . db()->dbname2 . ".`patient_admit` INNER JOIN " . db()->dbname2 . ".`schedule` ON " . db()->dbname2 . ".`schedule`.`patient_admit` = " . db()->dbname2 . ".`patient_admit`.`id` INNER JOIN " . db()->dbname2 . ".facility ON " . db()->dbname2 . ".facility.id = " . db()->dbname2 . ".schedule.facility WHERE " . db()->dbname2 . ".`schedule`.datetime_discharge >= :datetime_start AND " . db()->dbname2 . ".`schedule`.datetime_discharge <= :datetime_end AND " . db()->dbname2 . ".`schedule`.facility IN (";
+		$sql = "SELECT " . $this->dbname . ".patient_admit.*, " . $this->dbname . ".schedule.*, " . $this->dbname . ".schedule.pubid as schedule_pubid, " . $this->dbname . ".patient_admit.pubid as patient_pubid, " . $this->dbname . ".facility.name AS healthcare_facility_name FROM " . $this->dbname . ".`patient_admit` INNER JOIN " . $this->dbname . ".`schedule` ON " . $this->dbname . ".`schedule`.`patient_admit` = " . $this->dbname . ".`patient_admit`.`id` INNER JOIN " . $this->dbname . ".facility ON " . $this->dbname . ".facility.id = " . $this->dbname . ".schedule.facility WHERE " . $this->dbname . ".`schedule`.datetime_discharge >= :datetime_start AND " . $this->dbname . ".`schedule`.datetime_discharge <= :datetime_end AND " . $this->dbname . ".`schedule`.facility IN (";
 
 		foreach ($areas as $key => $area) {
 			$params[":area{$key}"] = $area->id;
@@ -30,7 +30,8 @@ class AdmissionDashboard extends AppModel {
 
 		$sql .= ")";
 
-		$result =  $this->fetchAll($sql, $params);
+		// set the third param to true to access the admission db
+		$result =  $this->fetchAll($sql, $params, true);
 
 		//	Map data to correct columns for the new db and save the rows, they can then be fetched with a single query
 		foreach ($result as $r) {

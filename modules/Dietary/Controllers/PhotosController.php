@@ -303,7 +303,8 @@ class PhotosController extends DietaryController {
 		if ( !empty ($_FILES)) {
 			$tempFile = $_FILES['file']['tmp_name'];
 			$fileType = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
-			$targetPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";;
+			$targetPath = 's3://advanced-health-care.s3.amazonaws.com/dietary_photos';
+			// $targetPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";;
 			$fileName = getRandomString() . strtotime('now') . '.' . $fileType;
 			$targetFile = $targetPath . $fileName;
 
@@ -378,8 +379,10 @@ class PhotosController extends DietaryController {
 	 *
 	 */
 	public function createThumbnail($filename) {
-		$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
-		$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
+		$targetImagePath = S3_BUCKET . DS .'dietary_photos';
+		$targetThumbsPath = S3_BUCKET . DS . 'dietary_photos/thumbails';
+		// $targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
+		// $targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
 
 		if (preg_match('/[.](jpg)$/', $filename)) {
 			$image = imagecreatefromjpeg($targetImagePath . $filename);
@@ -413,9 +416,9 @@ class PhotosController extends DietaryController {
 
 
 		if (imagejpeg($new_image, $targetThumbsPath . $filename)) {
-			echo "hello";
+			
 		} else {
-			echo "goodbye";
+			
 		}
 
 		exit;

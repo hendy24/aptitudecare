@@ -25,8 +25,8 @@
 		define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
 	}
 	
-	if (!defined('SITE_DIR')) {
-		define('SITE_DIR', dirname(dirname(__FILE__)));
+	if (!defined('APP_DIR')) {
+		define('APP_DIR', dirname(dirname(__FILE__)));
 	}
 	
 /**
@@ -34,13 +34,14 @@
  *	Define the path to the protected and public directories
  */
 
- 	define('FRAMEWORK_DIR', ROOT . DS . 'framework');
+ 	define('FRAMEWORK_DIR', APP_DIR . DS . 'framework');
  	define('FRAMEWORK_PROTECTED_DIR', FRAMEWORK_DIR . DS . 'protected');
  	define('FRAMEWORK_PUBLIC_DIR', FRAMEWORK_DIR . DS . 'public');
-	define('APP_PUBLIC_DIR', SITE_DIR . DS . 'public');
-	define('APP_PROTECTED_DIR', SITE_DIR . DS . 'protected');
-	define('MODULES_DIR', SITE_DIR . DS . 'modules');
+	define('APP_PUBLIC_DIR', APP_DIR . DS . 'public');
+	define('APP_PROTECTED_DIR', APP_DIR . DS . 'protected');
+	define('MODULES_DIR', APP_DIR . DS . 'modules');
 	define('VENDORS_DIR', FRAMEWORK_PROTECTED_DIR . DS . 'Vendors');
+	define('S3_BUCKET', 'http://advanced-health-care.s3.amazonaws.com');
 
 
 	// Use https, otherwise the site stylesheets and images will not load properly
@@ -51,8 +52,7 @@
  *
  * Include the bootstrap file in the protected directory and we're off!
  */
-	
-	
+
 	require(FRAMEWORK_DIR . DS . 'bootstrap.php');
 
 
