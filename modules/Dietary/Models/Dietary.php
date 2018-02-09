@@ -41,7 +41,7 @@ class Dietary extends AppModel {
 	}
 
 
-	public function fetchAll($sql = null, $params = array()) {
+	public function dietaryFetchAll($sql = null, $params = array()) {
 		
 		$called_class = get_called_class();
 		$class = new $called_class;
