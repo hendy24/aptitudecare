@@ -101,7 +101,7 @@
 		<div class="row photo-info">
 			<div class="col-md-4">
 				<input type="hidden" class="photo_id" value="{$photo->public_id}">
-				<img src="{$SITE_URL}/files/dietary_photos/thumbnails/{$photo->filename}" alt="">
+				<img src="{$S3_BUCKET}/dietary_photos/{$photo->filename}" alt="">
 			</div>
 			<div class="col-md-8">
 				<div class="form-group">

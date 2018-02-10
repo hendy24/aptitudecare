@@ -31,7 +31,7 @@
 		<div class="col-md-3 col-lg-2">
 			<div class="item-image">
 				<a href="{$S3_BUCKET}/dietary_photos/{$photo->filename}" rel="shadowbox">
-					<img src="{$S3_BUCKET}/dietary_photos/thumbnails/{$photo->filename}" class="img-thumbnail" alt="{$photo->filename}">
+					<img src="{$S3_BUCKET}/dietary_photos/{$photo->filename}" class="img-thumbnail" alt="{$photo->filename}">
 				</a>
 			</div>
 		</div>

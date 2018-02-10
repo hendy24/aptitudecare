@@ -40,7 +40,9 @@
 	define('APP_PROTECTED_DIR', APP_DIR . DS . 'protected');
 	define('MODULES_DIR', APP_DIR . DS . 'modules');
 	define('VENDORS_DIR', FRAMEWORK_PROTECTED_DIR . DS . 'Vendors');
-	define('S3_BUCKET', 'http://advanced-health-care.s3.amazonaws.com');
+	define('S3_BUCKET_PROTECTED', 's3://advanced-health-care.s3.amazonaws.com/dietary_photos');
+	define('S3_BUCKET', 'http://advancedhc.s3.amazonaws.com');
+	define('S3_BUCKET_NAME', 'advancedhc');
 
 
 	// Use https, otherwise the site stylesheets and images will not load properly

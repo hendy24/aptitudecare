@@ -10,7 +10,6 @@
 
 class PhotosController extends DietaryController {
 
-
 	/*
 	 * Upload Photos page
 	 *
@@ -169,44 +168,6 @@ class PhotosController extends DietaryController {
 	}
 
 
-	// this page was replaced by the photos page (above) on 2018.01.17 by kwh
-	/*
-	 * View Photos page
-	 *
-	 */
-	// public function view_photos() {
-
-	// 	if (isset (input()->current_page)) {
-	// 		$current_page = input()->current_page;
-	// 	} else {
-	// 		$current_page = false;
-	// 	}
-
-	// 	$facilities = $this->loadModel('Location')->fetchFacilities();
-
-	// 	if (isset (input()->facility) && input()->facility != "all") {
-	// 		$sel_facility = $this->loadModel('Location', input()->facility); 
-	// 	} else {
-	// 		$sel_facility = $this->loadModel('Location');
-	// 	}
-
-	// 	smarty()->assign('facilities', $facilities);
-	// 	smarty()->assign('selectedFacility', $sel_facility);
-
-	// 	$photos = $this->loadModel("Photo")->paginateApprovedPhotos($current_page, $sel_facility->id);
-	// 	smarty()->assign('photos', $photos);
-	// }
-
-
-
-
-	// public function view_photos_json() {
-	// 	$photos = $this->loadModel("Photo")->fetchApprovedPhotos();
-	// 	echo json_encode($photos);
-	// 	exit;
-	// }
-
-
 	public function search_photos() {
 
 		if (input()->facility != "all" && input()->facility != "") {
@@ -293,7 +254,6 @@ class PhotosController extends DietaryController {
 	 *
 	 */
 	public function submit_upload() {
-
 		if (isset (input()->location)) {
 			$location = $this->loadModel("Location", input()->location);
 		} else {
@@ -301,128 +261,97 @@ class PhotosController extends DietaryController {
 		}
 
 		if ( !empty ($_FILES)) {
-			$tempFile = $_FILES['file']['tmp_name'];
 			$fileType = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
-			$targetPath = 's3://advanced-health-care.s3.amazonaws.com/dietary_photos';
-			// $targetPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";;
-			$fileName = getRandomString() . strtotime('now') . '.' . $fileType;
-			$targetFile = $targetPath . $fileName;
-
-			if (move_uploaded_file($tempFile, $targetFile)) {
-				// success
-				// need to create a file name and save to photo table
-				$photo = $this->loadModel("Photo");
-				$photo->filename =  $fileName;
-				$photo->location_id = $location->id;
-				$photo->info_added = false;
-				if ($photo->save()) {
-					if ($this->createThumbnail($photo->filename)) {
-						json_return (array("filetype" => $fileType, "name" => $photo->filename));
-					}
-					json_return(false);
-
-				} else {
-					json_return(false);
-				}
-			} else {
-				// failure
-				json_return(false);
+			$filename = getRandomString() . strtotime('now') . '.' . $fileType;
+			
+			$photo = $this->loadModel('Photo');
+			$photo->filename = $filename;
+			$photo->location_id = $location->id;
+			$photo->info_added = false;
+			if ($photo->save()) {
+				$this->saveToS3($photo);
+				json_return(true);
 			}
-
-		} else {
-			// error message
-			json_return(false);
 		}
 
+		json_return(false);
 	}
 
 
 	/*
-	 * Process approved photos
-	 *
+	 * -------------------------------------------------------------------------
+	 * Save Photos to Amazon S3
+	 * -------------------------------------------------------------------------
 	 */
-	// public function approve_photos() {
-	// 	$success = false;
-	// 	if (!empty (input()->photo)) {
-	// 		foreach (input()->photo as $id => $approved) {
-	// 			$photo = $this->loadModel("Photo", $id);
-	// 			$photo->approved = $approved;
-	// 			$photo->user_approved = auth()->getRecord()->id;
-	// 			if ($photo->save()) {
-	// 				if ($approved == false) {
-	// 					// delete the file image and thumbnail
-	// 					$targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
-	// 					$targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
-	// 					unlink($targetImagePath . $photo->filename);
-	// 					unlink($targetThumbsPath . $photo->filename);
-	// 				}
-	// 				$success = true;
-	// 			}
-	// 		}
-	// 		if ($success) {
-	// 			session()->setFlash("The photos were approved.", 'success');
-	// 			$this->redirect(array("module" => "Dietary"));
-	// 		} else {
-	// 			session()->setFlash("Could not save the photos. Please try again.", 'error');
-	// 			$this->redirect(input()->current_url);
-	// 		}
-	// 	}
 
 
-	// }
+	private function saveToS3($photo) {
+		$tempFile = $_FILES['file']['tmp_name'];
+		$imageSaved = false;
 
-
-
-
-	/*
-	 * Create and save photo thumbnails
-	 *
-	 */
-	public function createThumbnail($filename) {
-		$targetImagePath = S3_BUCKET . DS .'dietary_photos';
-		$targetThumbsPath = S3_BUCKET . DS . 'dietary_photos/thumbails';
-		// $targetImagePath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/";
-		// $targetThumbsPath = dirname(dirname(dirname(dirname (__FILE__)))) . "/public/files/dietary_photos/thumbnails/";
-
-		if (preg_match('/[.](jpg)$/', $filename)) {
-			$image = imagecreatefromjpeg($targetImagePath . $filename);
-		} elseif (preg_match('/[.](gif)$/', $filename)) {
-			$image = imagecreatefromgif($targetImagePath . $filename);
-		} elseif (preg_match('/[.](png)$/', $filename)) {
-			$image = imagecreatefrompng($targetImagePath . $filename);
+		if (preg_match('/[.](jpg)$/', $photo->filename)) {
+			$contentType = 'image/jpeg';
+		} elseif (preg_match('/[.](gif)$/', $photo->filename)) {
+			$contentType = 'image/gif';
+		} elseif (preg_match('/[.](png)$/', $photo->filename)) {
+			$contentType = 'image/png';
 		}
 
-		$image_width = imagesx($image);
-		$image_height = imagesy($image);
+		$s3 = connectToAws('us-east-1');
+		// save files to S3
+		$result = $s3->putObject(array(
+			'Bucket' => S3_BUCKET_NAME,
+			'Key' => 'dietary_photos/' . $photo->filename,
+			'SourceFile' => $tempFile,
+			'ContentType' => $contentType,
+			'ACL' => 'public-read',
+		));
 
-		$new_width = 175;
-		$new_height = floor ($image_height * ($new_width / $image_width));
-
-		$new_image = imagecreatetruecolor($new_width, $new_height);
-
-		imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
-		// imagecopyresized($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
-
-
-		// if there is no photos directory, create it
-		if (!file_exists($targetImagePath)) {
-			mkdir($targetImagePath, 0777, true);
+		if ($result) {
+			return true;
 		}
 
-		// if there is no thumbs directory, create it
-		if (!file_exists($targetThumbsPath)) {
-			mkdir($targetThumbsPath, 0777, false);
-		}
+		// if file saved successfully it will have a url
+		// if ($result['ObjectURL'] != '') {
 
+		// 	$targetImagePath = S3_BUCKET . DS . 'dietary_photos/';
+		// 	// create thumbnails
+		// 	if (preg_match('/[.](jpg)$/', $photo->filename)) {
+		// 		$image = imagecreatefromjpeg($result['ObjectURL']);
+		// 	} elseif (preg_match('/[.](gif)$/', $photo->filename)) {
+		// 		$image = imagecreatefromgif($result['ObjectURL']);
+		// 	} elseif (preg_match('/[.](png)$/', $photo->filename)) {
+		// 		$image = imagecreatefrompng($result['ObjectURL']);
+		// 	}
 
-		if (imagejpeg($new_image, $targetThumbsPath . $filename)) {
-			
-		} else {
-			
-		}
+		// 	$image_width = imagesx($image);
+		// 	$image_height = imagesy($image);
+		// 	$new_width = 175;
+		// 	$new_height = floor ($image_height * ($new_width / $image_width));
+		// 	$new_image = imagecreatetruecolor($new_width, $new_height);
+		// 	imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
 
-		exit;
+		// 	// create the thumbnail and save it
+		// 	$thumbnail = $s3->putObject(array(
+		// 		'Bucket' => S3_BUCKET_NAME,
+		// 		'Key' => 'dietary_photos/thumbnails' . $photo->filename,
+		// 		'SourceFile' => $new_image,
+		// 		'ContentType' => $contentType,
+		// 		'ACL' => 'public-read',				
+		// 	));
+
+		// 	if ($thumbnail['ObjectURL']) {
+		// 		$imageSaved = true;
+		// 	}
+		// }
+
+		// if ($imageSaved) {
+		// 	return true;
+		// }
+
+		return false;
 
 	}
+
 
 }
