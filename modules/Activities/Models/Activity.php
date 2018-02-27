@@ -34,7 +34,7 @@ class Activity extends Info {
 						OR
 						act_s.daily = 1
 					)
-					ORDER BY act_s.date_start, act_s.time_start";
+					ORDER BY act_s.time_start, act_s.date_start";
 
 
 		for ($i=0; $i < $num_days; $i++) {

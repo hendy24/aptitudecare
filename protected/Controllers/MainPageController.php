@@ -80,7 +80,6 @@ class MainPageController extends MainController {
 			// if there is module set then set it to the session
 			session()->setModule($this->module);
 		}
-
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
 
