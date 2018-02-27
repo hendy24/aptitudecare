@@ -405,7 +405,7 @@ div#public-access-error a:hover {
 		display: none;
 	}
 
-	#grangeville-teton { height: 225px; }
+	#grangeville-teton { height: 225px; width: 100%; }
 	#activitiesTile { margin-bottom: 100px; }
 
 	#mainLogo {
@@ -458,7 +458,7 @@ div#public-access-error a:hover {
 	#activitiesTitle {
 		float: left;
 		clear: none;
-		margin: 10px auto 10px auto;
+		margin: 5px auto 5px auto;
 		width: 1024px;
 	}
 	#activities {
@@ -474,6 +474,9 @@ div#public-access-error a:hover {
 	}
 	.activity p {
 		font-size: 20px;
+	}
+	#activitiesContent {
+		margin-left: 0px;
 	}
 	#teton{
 		height: auto;

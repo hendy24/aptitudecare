@@ -89,12 +89,17 @@ function autoAdvance(){
 			firstRun = 0;
 		}
 	}
+
+	var delay = 3000;
+	if (window.innerWidth <= 1024) {
+		delay = 0;
+	}
 	
 	// clean slate: hide all panels
-	$panels.fadeOut(3000);
+	$panels.fadeOut(delay);
 	
 	// show the next panel
-	$('#panel-' + nextPanel).fadeIn(3000);
+	$('#panel-' + nextPanel).fadeIn(delay);
 	
 	// update global tracking var
 	currentPanel = nextPanel;
