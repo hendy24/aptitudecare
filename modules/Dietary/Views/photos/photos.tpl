@@ -1,4 +1,7 @@
 <div class="container">
+	<a class="btn btn-primary right" href="{$SITE_URL}/?module=Dietary&page=photos&action=upload_photos&location={$location->public_id}">Upload Photos</a>
+	<div class="clear"></div>
+	<br>
 	{if !isset($photos)}
 	<div class="row">
 		{foreach from=$categories item=category}
