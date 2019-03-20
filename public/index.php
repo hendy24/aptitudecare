@@ -22,16 +22,16 @@
  */
 
 	if (!defined('ROOT')) {
-		define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
+		define('ROOT', dirname(dirname(__FILE__)));
 	}
 	
 	if (!defined('SITE_DIR')) {
 		define('SITE_DIR', dirname(dirname(__FILE__)));
 	}
-	
+
 /**
  *
- *	Define the path to the protected and public directories
+ *	Define the paths to the protected and public directories
  */
 
  	define('FRAMEWORK_DIR', ROOT . DS . 'framework');
@@ -45,14 +45,12 @@
 
 	// Use https, otherwise the site stylesheets and images will not load properly
 	define('SITE_URL', 'https://' . $_SERVER['SERVER_NAME']);
-	define('APP_NAME', 'AptitudeCare');
+	define('APP_NAME', 'Riverside Alaska Dashboard');
 	
 /** 
  *
  * Include the bootstrap file in the protected directory and we're off!
  */
-	
-	
 	require(FRAMEWORK_DIR . DS . 'bootstrap.php');
 
 

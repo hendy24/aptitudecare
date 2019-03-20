@@ -175,7 +175,7 @@ class Location extends AppData {
 	public function fetchFacilities() {
 		$params[":user_id"] = auth()->getRecord()->id;
 
-		$sql = "SELECT * FROM {$this->tableName()} INNER JOIN ac_user_location ON {$this->tableName()}.id = ac_user_location.location_id WHERE {$this->tableName()}.location_type = 1 AND ac_user_location.user_id = :user_id";
+		$sql = "SELECT * FROM {$this->tableName()} INNER JOIN ac_user_location ON {$this->tableName()}.id = ac_user_location.location_id WHERE {$this->tableName()}.location_type = 4 AND ac_user_location.user_id = :user_id";
 		return $this->fetchAll($sql, $params);
 	}
 

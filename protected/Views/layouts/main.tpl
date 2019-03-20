@@ -2,82 +2,46 @@
 <html lang="en">
 <head>
 	<title>{$title} &nbsp;|&nbsp; {$this->module}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
 	<!-- <link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css"> -->
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" />
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
-	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
+<!-- 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
+ --><!-- 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
+ -->	
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/tagit/css/jquery.tagit.css" />
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
+<!-- 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ -->	
+
+ 	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="{$CSS}/bootstrap_styles.css">
 
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-	{if $this->module == "HomeHealth"}
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
-	{/if}
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/datepicker.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.row-grid.min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/dropzone/dropzone.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.pack.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/gridify-min.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/gridify/require.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.js"></script>
-	<script type="text/javascript" src="{$FRAMEWORK_JS}/tagit/js/tag-it.min.js"></script>
+<!-- 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
+ -->
 
-
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
-
-	<script>
-		var SITE_URL = '{$SITE_URL}';
-		Shadowbox.init({
-			height: 425,
-			width: 450,
-			handleOversize: "resize",
-			overlayColor: "#666",
-			overlayOpacity: "0.25"
-		});
-	</script>
-
-	<script type="text/javascript" src="{$JS}/general.js"></script>
-
-	{if $auth->valid() && $auth->getRecord()->timeout}
-		<script type="text/javascript" src="{$JS}/timeout.js"></script>
-
-		<script>
-			$(document).ready(function() {
-				startTimer();
-			});
-		</script>
-	{/if}
 </head>
 <body>
-	<div id="header-container">
-		<div id="header">
-			{if $auth->valid()}
-			<div id="user-info">
-				Welcome, <a href="{$SITE_URL}/?page=users&amp;action=my_info&amp;id={$auth->getRecord()->public_id}">{$auth->fullName()}</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
-			</div>
-			{/if}
-			<img src="{$logo}" alt="Logo" class="logo"/>
+	<nav class="navbar navbar-expand-md nav-custom">
+		<a class="navbar-brand" href="{$SITE_URL}?module=Dietary&amp;page=dietary&amp;action=index&amp;location={$location->public_id}"><img src="{$logo}" alt="logo"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggler-icon"></span></button>
+
+		{if $auth->valid()}
+		<div id="user-info">
+			Welcome, <a href="{$SITE_URL}/?page=users&amp;action=my_info&amp;id={$auth->getRecord()->public_id}">{$auth->fullName()}</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
+		</div>
+		{/if}
+
+		<div class="collapse navbar-collapse" id="navbarContent">
 			{if $auth->valid()}
 				{$this->loadElement("navigation")}
 			{/if}
 		</div>
-	</div>
-	<div class="clear"></div>
-
+	</nav>
+		
 	<div class="container">
 		<div id="content">
 			{if $flashMessages}
@@ -112,5 +76,6 @@
 	    <p>Your session is about to timeout.  You will be automatically logged out in 1 minute. To remain logged in click the button below.</p>
 	</div>
 
+	{$this->loadElement("scripts")}
 </body>
 </html>
