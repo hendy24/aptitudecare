@@ -21,9 +21,10 @@ class DietaryController extends MainPageController {
 		$location = $this->getLocation();
 
 		// check if the user has permission to access this module
-		if ($location->location_type != 1) {
+		if ($location->location_type != 1 && $location->location_type != 4) {
 			$this->redirect();
 		}
+
 
 		// check if the location is has the admission dashboard enabled
 		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
