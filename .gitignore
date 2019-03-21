@@ -6,3 +6,4 @@ protected/.DS_Store
 .development
 public/files/
 nossl-redir/index.php
+.vscode/sftp.json

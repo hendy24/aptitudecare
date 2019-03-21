@@ -97,7 +97,6 @@
 	});
 </script>
 
-
 <div class="row">
 	<div class="col-lg-4 col-md-6 col-sm-12 header-buttons">
 		{$this->loadElement("module")}
@@ -107,7 +106,7 @@
 	</div>
 
 	<div class="col-lg-4 col-md-6 col-sm-12 header-buttons">
-		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="btn btn-primary pull-right">Tray Cards</a>
+		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="btn btn-primary pull-right" target="_blank">Tray Cards</a>
 
 		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
 	</div>
