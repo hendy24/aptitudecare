@@ -5,25 +5,31 @@
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
-	<!-- <link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css"> -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="{$SITE_URL}/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$SITE_URL}/bootstrap/css/bootstrap-theme.min.css"> -->
+	<link rel="stylesheet" href="{$CSS}/custom.css">
+	<link rel="stylesheet" href="{$CSS}/bootstrap_styles.css">
+
+
+	<!-- <link rel="stylesheet" href="{$FRAMEWORK_JS}/jQuery-Autocomplete-master/content/styles.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_CSS}/styles.css">
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" />
-<!-- 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
- --><!-- 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
- -->	
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/dropzone/dropzone.css" />
+ 	<link rel="stylesheet" href="{$CSS}/site_styles.css" />
+	
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/tagit/css/jquery.tagit.css" />
-<!-- 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/jquery.fancybox.css" />
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
- -->	
-
-
- 	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="{$CSS}/bootstrap_styles.css">
 
-<!-- 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" />
- -->
+	<link rel="stylesheet" href="{$FRAMEWORK_JS}/fancybox/helpers/jquery.fancybox-buttons.css" /> -->
+
 
 </head>
 <body>
