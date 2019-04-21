@@ -26,6 +26,7 @@ class PatientInfoController extends DietaryController {
 
 		// get the diet info for the selected patient
 		$patientInfo = $this->loadModel('PatientInfo')->fetchDietInfo($patient->id);
+		$location = $this->loadModel("Location", $patientInfo->location_id);
 
 		// fetch the allergies, dislikes and snacks
 		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
@@ -117,7 +118,7 @@ class PatientInfoController extends DietaryController {
 		smarty()->assignByRef('am_snacks', $am_snacks);
 		smarty()->assignByRef('pm_snacks', $pm_snacks);
 		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
-
+		smarty()->assign('selectedLocation', $location);
 
 		smarty()->assign("dietOrder", $order_array);
 		smarty()->assign("textures", $texture_array);
@@ -134,6 +135,7 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function save_diet() {
+
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -331,6 +333,9 @@ class PatientInfoController extends DietaryController {
 		} else {
 			$feedback[] = "Diet order has not been entered";
 		}
+		
+		if (input()->puree !== null) {
+		}
 
 		// set texture array
 		$texture_entered = false;
@@ -340,24 +345,38 @@ class PatientInfoController extends DietaryController {
 				break;
 			}
 		}
+
+		if (input()->puree !== null) {
+			$texture_entered = true;
+		}
+		
 		if ($texture_entered) {
 			// check if the patient already has an "other" item saved.
 			// if there is something... delete it.
 			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
 			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
 
+			$puree_item = $this->loadModel("Texture")->fetchByName(input()->puree, false, false, true);
+			$patient_puree = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $puree_item->id);
+			if ($patient_puree->id == null) {
+				$patient_puree->texture_id = $puree_item->id;
+				$patient_puree->patient_id = $patient->id;
+				$patient_puree->save();
+			}
+
 			foreach (input()->texture as $item) {
 				if ($item != "") {
 					$texture_item = $this->loadModel("Texture")->fetchByName($item, true, true);
 					$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
+					if ($patientTexture->patient_id == "") {
+						$patientTexture->patient_id = $patient->id;
+						$patientTexture->texture_id = $texture_item->id;
+						$patientTextureArray[] = $patientTexture;
+					}
 				} else {
 					$feedback[] = "Diet texture has not been entered";
 				}
-				if ($patientTexture->patient_id == "") {
-					$patientTexture->patient_id = $patient->id;
-					$patientTexture->texture_id = $texture_item->id;
-					$patientTextureArray[] = $patientTexture;
-				}
+				
 			}
 		} else {
 			$feedback[] = "Diet texture has not been entered";
@@ -369,7 +388,7 @@ class PatientInfoController extends DietaryController {
 			$this->loadModel("PatientOther")->removeOtherItems($patient->id, 'Other');
 			$this->loadModel("PatientOther")->removePatientDietItems($patient->id);
 			foreach (input()->other as $item) {
-				$other_item = $this->loadModel("Other")->fetchByName($item, true, false);
+				$other_item = $this->loadModel("Other")->fetchByName($item, true, false, false);
 				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOtherId($patient->id, $other_item->id);
 
 				if ($patientOther->patient_id == "") {
