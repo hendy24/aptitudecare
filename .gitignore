@@ -1,8 +1,4 @@
-.DS_Store
-protected/Compile
-public/index.php
-protected/Configs/database.php
-protected/.DS_Store
-.dev
+.gitignore
+nossl-redir
+protected/Compile/
 public/files/
-nossl-redir/index.php
