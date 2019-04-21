@@ -1,4 +1,24 @@
 $(document).ready(function() {
+  
+  
+  
+
+  if ($("#liquid-select").val() == "Other") {
+    $("#other-texture-input").show();
+  } else {
+    $("#other-texture-input").hide();
+  }
+  
+  $("#liquid-select").change(function() {
+    if ($("#liquid-select").val() == 'Other') {
+      $("#other-texture-input").show();
+    } else {
+      $("#other-texture-input").val('');
+      $("#other-texture-input").hide();
+    }
+  });
+  
+  
   var snackTime = null;
   var thisFieldName = null;
 
@@ -378,7 +398,6 @@ $("#supplements").tagit({
           );
       }
       });
-
 
       function fetchOptions(type){
         var choices = "";
