@@ -320,19 +320,26 @@
 			Mechanical Soft
 		</label>
 		{/if}
-		{if $selectedLocation->public_id == "ATW500KSj"}
-			<label for="puree" class="checkbox-label">Puree:</label>
-			<select name="puree" id="">
-					<option value="">Select Puree Type...</option>
-					<option value="Soft & Bite Sized" {if in_array("Soft & Bite Sized", $textures['standard'])} selected{/if}>Soft &amp; Bite Sized</option>
-					<option value="Minced & Moist" {if in_array("Minced & Moist", $textures['standard'])} selected{/if}>Minced &amp; Moist</option>
-					<option value="Chopped" {if in_array("Chopped", $textures['standard'])} selected{/if}>Chopped</option>
-					<option value="Chopped Meat" {if in_array("Chopped Meat", $textures['standard'])} selected{/if}>Chopped Meat</option>
-			</select>
-		{else}
 		<label for="" class="checkbox-label">
-			<input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}>
-			Puree
+				<input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}>
+				Puree
+		</label>
+		{if $selectedLocation->public_id == "ATW500KSj"}
+		<label for="" class="checkbox-label">
+				<input type="checkbox" name="texture[]" value="Soft & Bite Sized" {if in_array('Soft & Bite Sized', $textures['standard'])} checked{/if}>
+				Soft &amp; Bite Sized
+		</label>
+		<label for="" class="checkbox-label">
+				<input type="checkbox" name="texture[]" value="Minced & Moist" {if in_array('Minced & Moist', $textures['standard'])} checked{/if}>
+				Minced &amp; Moist
+		</label>
+		<label for="" class="checkbox-label">
+				<input type="checkbox" name="texture[]" value="Chopped" {if in_array('Chopped', $textures['standard'])} checked{/if}>
+				Chopped
+		</label>
+		<label for="" class="checkbox-label">
+				<input type="checkbox" name="texture[]" value="Chopped Meat" {if in_array('Chopped Meat', $textures['standard'])} checked{/if}>
+				Chopped Meat
 		</label>
 		{/if}
 		<label for="" class="checkbox-label">
