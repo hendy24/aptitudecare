@@ -241,6 +241,10 @@
 					<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
 					Regular
 				</label>
+				<label for="aha-cardiac" class="checkbox-label">
+					<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
+					AHA/Cardiac
+				</label>
 				<label class="checkbox-label">
 					<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
 					No Added Salt
@@ -251,19 +255,19 @@
 					</label>
 					<label class="checkbox-label">
 							<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
-							2 gram Na
+						2 gram Na
 						</label>
 				<label class="checkbox-label">
 					<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
-					Renal
+						Renal
 				</label>
 			<label class="checkbox-label">
-					<input type="checkbox" name="diet_order[]" value="Gluten Free" {if in_array("Gluten Free", $dietOrder['standard'])} checked{/if}>
-					Gluten Free
+					<input type="checkbox" name="diet_order[]" value="Gluten Restricted" {if in_array("Gluten Restricted", $dietOrder['standard'])} checked{/if}>
+						Gluten Restricted
 			</label>
 				<label class="checkbox-label">
 					<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
-					Fortified/High Calorie
+						Fortified/High Calorie
 				</label>
 			
 				<input type="text" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
@@ -339,7 +343,7 @@
 		</label>
 		<label for="" class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Chopped Meat" {if in_array('Chopped Meat', $textures['standard'])} checked{/if}>
-				Chopped Meat
+				Chopped Meatf
 		</label>
 		{/if}
 		<label for="" class="checkbox-label">
