@@ -6,3 +6,5 @@ protected/.DS_Store
 .dev
 public/files/
 nossl-redir/index.php
+.vscode/
+push

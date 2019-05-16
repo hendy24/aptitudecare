@@ -27,14 +27,12 @@ class LoginController extends MainPageController {
 		} else {
 			smarty()->assign('site_email', "");
 		}
-		
-		smarty()->assign('title', 'Login');
+		smarty()->assign('title', 'Aspen Creek Login');
 
 		 // LOGIN FORM HAS BEEN SUBMITTED
 		 //		 
 		 		 
 		if (input()->is('post')) {
-			
 			// Verify that the email field is not blank
 			if (input()->email != '') {
 			
