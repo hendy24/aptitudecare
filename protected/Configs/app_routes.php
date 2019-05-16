@@ -134,7 +134,7 @@
 	 */
 
 	 	// If the module variable is not empty we can look directly into that controller directory
-	 	if ($module == '') {
+	 	if ($module) {
 		 	foreach ($module_dir as $dir) {
 				if (file_exists(MODULES_DIR . DS . $dir . DS . 'Controllers' . DS . $page.'Controller.php')) {
 					include_once(MODULES_DIR . DS . $dir . DS . 'Controllers' . DS . $page.'Controller.php');

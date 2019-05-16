@@ -398,7 +398,6 @@ class MainPageController extends MainController {
 			} else {
 				array_push($error_test, false);
 			}
-
 		}
 
 		if (!empty ($saved_object)) {
