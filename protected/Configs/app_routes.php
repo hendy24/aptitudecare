@@ -139,9 +139,7 @@
 				if (file_exists(MODULES_DIR . DS . $dir . DS . 'Controllers' . DS . $page.'Controller.php')) {
 					include_once(MODULES_DIR . DS . $dir . DS . 'Controllers' . DS . $page.'Controller.php');
 				}
-
 			}
-
 		//	Next, look in the protected directory for the controller.
 	 	} elseif (file_exists (APP_PROTECTED_DIR . DS . 'Controllers' . DS . $page.'Controller.php')) {
 			include_once (APP_PROTECTED_DIR . DS . 'Controllers' . DS . $page.'Controller.php');
@@ -149,10 +147,12 @@
 			// Loop through the modules to look for the controller.
 			include_once(MODULES_DIR . DS . $module . DS . 'Controllers' . DS . $page.'Controller.php');
 		}
+		
 		$className = $page.'Controller';
 
 		// If the class exists, instantiate it and load the coorespondig view from the Views folder. Otherwise, load the
 		// error page.
+		
 		if (class_exists($className)) {
 			$controller = new $className;
 			$controller->page = underscoreString($page);

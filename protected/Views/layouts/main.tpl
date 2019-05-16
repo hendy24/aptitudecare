@@ -70,7 +70,7 @@
 				Welcome, <a href="{$SITE_URL}/?page=users&amp;action=my_info&amp;id={$auth->getRecord()->public_id}">{$auth->fullName()}</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
 			</div>
 			{/if}
-			<img src="{$logo}" alt="Logo" class="logo"/>
+			<img width="200px" src="{$logo}" alt="Logo" class="logo"/>
 			{if $auth->valid()}
 				{$this->loadElement("navigation")}
 			{/if}

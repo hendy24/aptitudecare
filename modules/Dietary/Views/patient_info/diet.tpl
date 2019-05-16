@@ -7,18 +7,7 @@
 	<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}" />
 	<input type="hidden" name="path" value="{$current_url}" />
 
-
-	<div class="row">
-		<div class="col-xs-12">
-			Patient Info
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="form-group">
-			<label for="first-name">First Name:</label>
-		</div>
-	</div>
+	<br><br>
 	<!-- Patient Info Section -->
 	<div class="form-header">
 		Patient Info
