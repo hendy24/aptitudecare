@@ -1,61 +1,57 @@
 <h1>Edit Diet <span class="text-24">for</span> {$patient->fullName()}</h1>
 
 
-<form class="form-inline" action="{$SITE_URL}" method="post">
+<form class="form" action="{$SITE_URL}" method="post">
 	<input type="hidden" name="page" value="PatientInfo" />
 	<input type="hidden" name="action" value="saveDiet" />
 	<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}" />
 	<input type="hidden" name="path" value="{$current_url}" />
 
 
-	<div class="row">
-		<div class="col-xs-12">
-			Patient Info
+	<div class="data-block">
+		<div class="row">
+			<h2>Patient Info</h2>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-3 col-sm-6">
+				<label for="first-name">First Name:</label>
+				<input type="text" id="first-name" class="form-control" name="first_name" value="{$patient->first_name}">
+			</div>
+			<div class="form-group col-md-3 col-sm-6">
+				<label for="middle-name">Middle Name:</label>
+				<input type="text" id="middle-name" class="form-control" name="middle_name" value="{$patient->middle_name}">
+			</div>
+			<div class="form-group col-md-4 col-sm-9">
+				<label for="last-name"">Last Name:</label>
+						<input type=" text" id="last-name" class="form-control" name="last_name" value="{$patient->last_name}">
+			</div>
+			<div class="form-group col-md-2 col-sm-3">
+				<label for="last-name">Birthdate:</label>
+				<input type="text" class="form-control datepicker" name="date_of_birth"
+					value="{display_date($patient->date_of_birth)}" />
+			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="form-group">
-			<label for="first-name">First Name:</label>
-		</div>
-	</div>
-	<!-- Patient Info Section -->
-	<div class="form-header">
-		Patient Info
-	</div>
-	<div class="form-group">
-		<label for="first-name" class="col-form-label col-2">First Name:</label>
-		<input type="text" id="first-name" class="form-control" name="first_name" value="{$patient->first_name}">
-	</div>
-
-	<div class="form-group">
-		<label for="middle-name" class="col-form-label col-2">Middle Name:</label>
-		<input type="text" id="middle-name" class="form-control" size="10" name="middle_name" value="{$patient->middle_name}">
-	</div>
-	<div class="form-group">
-		<label for="last-name" class="col-form-label col-2">Last Name:</label>
-		<input type="text" id="last-name" class="form-control" name="last_name" value="{$patient->last_name}">
-	</div>
-	<div class="form-group">
-		<label for="last-name" class="col-form-label col-2">Birthdate:</label>
-		<input type="text" class="form-control datepicker" size="10" name="date_of_birth" value="{display_date($patient->date_of_birth)}" />
-	</div>
 
 
 	<!-- Diet Info Section -->
-	<div class="form-header">
-		Diet Info
-	</div>
-	<div class="form-group">
-		<label for="food-allergies">Food Allergies:</label>
-		<ul id="allergies">
-			{if $allergies}
+	<div class="data-block">
+		<div class="row">
+			<h2>Diet Info</h2>
+		</div>
+		<div class="form-group">
+			<label for="food-allergies">Food Allergies:</label>
+			<ul id="allergies">
+				{if $allergies}
 				{foreach from=$allergies item=allergy}
 				<li>{$allergy->name}</li>
 				{/foreach}
-			{/if}
-		</ul>
+				{/if}
+			</ul>
+		</div>
 	</div>
+
 
 	<!-- Food Dislikes or Intolerances section -->
 	<div class="form-group">
@@ -349,3 +345,4 @@
 </form>
 
 <script type="text/javascript" src="{$JS}/diet.js"></script>
+
