@@ -6,6 +6,9 @@
 		<img src="{$IMAGES}/warning.png" alt="">
 	</div>
 	{/if}
+	{if $zoom}
+		<link rel="stylesheet" href="https://ahc.aptitudecare.com/css/public_styles_zoom.css" type="text/css" />
+	{/if}
 
 	<!-- Main menu content page -->
 	<div id="panel-0" class="rotatingPage">
