@@ -31,6 +31,13 @@ class PublicController extends DietaryController {
 		if (strpos($ua, "GoogleTV") && strpos($ua, "i686")) {
 			$warning = true;
 		}
+		
+		// check if this is being displayed with a Samsung Tizen-TV
+		if (strpos($ua, "SMART-TV; Linux; Tizen") !== false) {
+			$zoom = true;
+		}
+		
+		
 
 		// get the location
 		if (isset (input()->location)) {
