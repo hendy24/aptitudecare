@@ -101,6 +101,7 @@ class PublicController extends DietaryController {
 
 		smarty()->assign('menu', $menu);
 		smarty()->assign('warning', $warning);
+		smarty()->assign('zoom', $zoom);
 		smarty()->assign('meal', $meal);
 		smarty()->assignByRef('menuItems', $menuItems);
 		smarty()->assignByRef("alternates", $alternates);
