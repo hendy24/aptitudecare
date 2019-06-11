@@ -26,6 +26,8 @@ class PublicController extends DietaryController {
 		$ua = $_SERVER['HTTP_USER_AGENT'];
 		// set a warning variable to false be default
 		$warning = false;
+		// set a zoom variable to be false by default
+		$zoom = false;
 
 		// check if this is being displayed with a GoogleTV
 		if (strpos($ua, "GoogleTV") && strpos($ua, "i686")) {
