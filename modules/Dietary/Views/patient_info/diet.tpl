@@ -309,44 +309,44 @@
 	<!-- Texture Section -->
 	<div class="form-header2">Texture</div>
 	<div class="checkbox">
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="checkbox" name="texture[]" value="Regular" {if in_array('Regular', $textures['standard'])} checked{/if}>
 			Regular
 		</label>
 		{if $selectedLocation->public_id == "ATW500KSj"}
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Easy to Chew" {if in_array('Easy to Chew', $textures['standard'])} checked{/if}>
 				Easy to Chew
 			</label>
 		{else}
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="checkbox" name="texture[]" value="Mechanical Soft" {if in_array('Mechanical Soft', $textures['standard'])} checked{/if}>
 			Mechanical Soft
 		</label>
 		{/if}
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}>
 				Puree
 		</label>
 		{if $selectedLocation->public_id == "ATW500KSj"}
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Soft & Bite Sized" {if in_array('Soft & Bite Sized', $textures['standard'])} checked{/if}>
 				Soft &amp; Bite Sized
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Minced & Moist" {if in_array('Minced & Moist', $textures['standard'])} checked{/if}>
 				Minced &amp; Moist
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Chopped" {if in_array('Chopped', $textures['standard'])} checked{/if}>
 				Chopped
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Chopped Meat" {if in_array('Chopped Meat', $textures['standard'])} checked{/if}>
-				Chopped Meatf
+				Chopped Meat
 		</label>
 		{/if}
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="checkbox" name="texture[]" value="Tube Feeding" {if in_array('Tube Feeding', $textures['standard'])} checked{/if}>
 			Tube Feeding
 		</label>
@@ -373,29 +373,29 @@
 
 	<!-- Other Section -->
 	<div class="form-header2">Other</div>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="checkbox" name="other[]" value="Isolation" {if in_array("Isolation", $other['standard'])} checked{/if}>
 			Isolation
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}>
 			Fluid Restriction
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="text" name="other[]" value="{$other['other']}">
 			<!-- <input type="text" name="other[]" class="other-input" placeholder="Enter other order info..." value="{$other['other']}"> -->
 		</label>
 
 	<!-- Portion Size Section -->
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="radio" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}>
 			Small
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="radio" name="portion_size" value="Regular" {if $patientInfo->portion_size == "Regular"} checked{elseif $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}>
 			Regular
 		</label>
-		<label for="" class="checkbox-label">
+		<label class="checkbox-label">
 			<input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}>
 			Large
 		</label>
