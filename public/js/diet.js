@@ -1,8 +1,24 @@
 $(document).ready(function() {
+	
+  if ($("#other-other-input").val() != "") {
+    $("#other-fluidRestriction-checkbox").prop('checked', true);
+  }
   
+  $("#other-fluidRestriction-checkbox").change(function() {
+	  if (!$("#other-fluidRestriction-checkbox").prop('checked')) {
+		$("#other-other-input").val("");
+	  }
+  });
   
+  $("#other-other-input").keyup(function() {
+	  if($("#other-other-input").val() == "") {
+		  $("#other-fluidRestriction-checkbox").prop('checked', false);
+	  } else {
+		  $("#other-fluidRestriction-checkbox").prop('checked', true);
+	  }
+  });
   
-
+/*
   if ($("#liquid-select").val() == "Other") {
     $("#other-texture-input").show();
   } else {
@@ -17,7 +33,7 @@ $(document).ready(function() {
       $("#other-texture-input").hide();
     }
   });
-  
+  */
   
   var snackTime = null;
   var thisFieldName = null;

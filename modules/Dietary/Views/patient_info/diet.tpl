@@ -270,7 +270,7 @@
 						Fortified/High Calorie
 				</label>
 			
-				<input type="text" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
+				<input type="text" name="diet_order[]" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
 			
 			{else}
 		<label for="regular" class="checkbox-label">
@@ -378,12 +378,11 @@
 			Isolation
 		</label>
 		<label class="checkbox-label">
-			<input type="checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}>
+			<input type="checkbox" id="other-fluidRestriction-checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}>
 			Fluid Restriction
 		</label>
 		<label class="checkbox-label">
-			<input type="text" name="other[]" value="{$other['other']}">
-			<!-- <input type="text" name="other[]" class="other-input" placeholder="Enter other order info..." value="{$other['other']}"> -->
+			<input type="text" id="other-other-input" name="other[]" maxlength="25" placeholder="Enter fluid restriction info... (25 character limit)" value="{$other['other']}">
 		</label>
 
 	<!-- Portion Size Section -->
