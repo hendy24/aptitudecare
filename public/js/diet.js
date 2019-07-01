@@ -435,5 +435,8 @@ $("#supplements").tagit({
         );
         return array;
       }
-
+	  
+	$("ul > li.tagit-new").each(function() {
+		$(this).find("input").attr("maxlength", $(this).parent().attr("maxlength"));
+	});
 });

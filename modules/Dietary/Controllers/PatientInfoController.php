@@ -844,7 +844,7 @@ class PatientInfoController extends DietaryController {
 		json_return($options);
 	}
 
-
+	//AJAX END POINT
 	public function deleteItem() {
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);

@@ -39,7 +39,7 @@
 	</div>
 	<div class="form-group">
 		<label for="food-allergies">Food Allergies:</label>
-		<ul id="allergies">
+		<ul maxlength="128" id="allergies">
 			{if $allergies}
 				{foreach from=$allergies item=allergy}
 				<li>{$allergy->name}</li>
@@ -51,7 +51,7 @@
 	<!-- Food Dislikes or Intolerances section -->
 	<div class="form-group">
 		<label for="food-dislikes">Food dislikes or intolerances:</label>
-		<ul id="dislikes">
+		<ul maxlength="128" id="dislikes">
 			{if $dislikes}
 				{foreach from=$dislikes item=dislike}
 				<li value="{$dislike->id}">{$dislike->name}</li>
@@ -63,7 +63,7 @@
 	<!-- Adaptive Equipment Section -->
 	<div class="form-group">
 		<label for="adaptive-equipment">Adaptive Equipment:</label>
-		<ul id="adaptEquip">
+		<ul maxlength="45" id="adaptEquip">
 			{if $adaptEquip}
 				{foreach from=$adaptEquip item=equip}
 				<li value="{$equip->id}">{$equip->name}</li>
@@ -75,7 +75,7 @@
 	<!-- Supplements Section -->
 	<div class="form-group">
 		<label for="supplements">Supplements:</label>
-		<ul id="supplements">
+		<ul maxlength="45" id="supplements">
 			{if $supplements}
 				{foreach from=$supplements item=supplement}
 				<li value="{$supplement->id}">{$supplement->name}</li>
@@ -97,7 +97,7 @@
 	      		<div class="panel-body">
 	        		<div class="col-md-1">Breakfast:</div>
 	        		<div class="col-md-3">
-						<ul id="breakfast_specialrequest">
+						<ul maxlength="45" id="breakfast_specialrequest">
 							{if $breakfast_spec_req}
 							{foreach from=$breakfast_spec_req item=req}
 							<li value="{$req->id}">{$req->name}</li>
@@ -107,7 +107,7 @@
 	        		</div>
 	        		<div class="col-md-1">Lunch:</div>
 	        		<div class="col-md-3">
-						<ul id="lunch_specialrequest">
+						<ul maxlength="45" id="lunch_specialrequest">
 							{if $lunch_spec_req}
 							{foreach from=$lunch_spec_req item=req}
 							<li value="{$req->id}">{$req->name}</li>
@@ -117,7 +117,7 @@
 	        		</div>
 	        		<div class="col-md-1">Dinner:</div>
 	        		<div class="col-md-3">
-						<ul id="dinner_specialrequest">
+						<ul maxlength="45" id="dinner_specialrequest">
 							{if $dinner_spec_req}
 							{foreach from=$dinner_spec_req item=req}
 							<li value="{$req->id}">{$req->name}</li>
@@ -146,7 +146,7 @@
 		        	Breakfast:
 		        </div>
 		        <div class="col-md-3">
-					<ul id="breakfast_beverages">
+					<ul maxlength="45" id="breakfast_beverages">
 						{if $breakfast_beverages}
 							{foreach from=$breakfast_beverages item=beverage}
 							<li>{$beverage->name}</li>
@@ -158,7 +158,7 @@
 		        	Lunch:
 		        </div>
 		        <div class="col-md-3">
-					<ul id="lunch_beverages">
+					<ul maxlength="45" id="lunch_beverages">
 						{if $lunch_beverages}
 							{foreach from=$lunch_beverages item=beverage}
 							<li>{$beverage->name}</li>
@@ -170,7 +170,7 @@
 		        	Dinner:
 		        </div>
 		        <div class="col-md-3">
-					<ul id="dinner_beverages">
+					<ul maxlength="45" id="dinner_beverages">
 						{if $dinner_beverages}
 							{foreach from=$dinner_beverages item=beverage}
 							<li>{$beverage->name}</li>
@@ -195,7 +195,7 @@
 		      		AM
 	      		</div>
 	      		<div class="col-md-3">
-					<ul id="snackAM">
+					<ul maxlength="128" id="snackAM">
 						{if $am_snacks}
 							{foreach from=$am_snacks item=snack}
 							<li>{$snack->name}</li>
@@ -207,7 +207,7 @@
 	      			PM
 	      		</div>
 	      		<div class="col-md-3">
-					<ul id="snackPM">
+					<ul maxlength="128" id="snackPM">
 						{if $pm_snacks}
 							{foreach from=$pm_snacks item=snack}
 							<li>{$snack->name}</li>
@@ -219,7 +219,7 @@
 	      			Bedtime
 	      		</div>
 	      		<div class="col-md-3">
-					<ul id="snackBedtime">
+					<ul maxlength="128" id="snackBedtime">
 						{if $bedtime_snacks}
 							{foreach from=$bedtime_snacks item=snack}
 							<li>{$snack->name}</li>
