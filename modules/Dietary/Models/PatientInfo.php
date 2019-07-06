@@ -111,7 +111,37 @@ class PatientInfo extends Dietary {
 
 	}
 
+	//total rip off of fetchByLocation_dislikes
+	public function fetchByLocation_dislikes($location) {
+		$dislike = $this->loadTable("Dislike");
+		$schedule = $this->loadTable("Schedule");
+		$room = $this->loadTable("Room");
+		$patient = $this->loadTable('Patient');
+		$pfi = $this->loadTable('PatientFoodInfo');
 
+		$sql = "SELECT
+				r.number,
+				p.id AS patient_id,
+				s.id AS schedule_id,
+				p.last_name,
+				p.first_name,
+				s.location_id,
+				GROUP_CONCAT(a.name separator ', ') as dislike_name
+			FROM {$patient->tableName()} AS p
+			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
+			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
+			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id
+			INNER JOIN {$dislike->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 0
+			WHERE s.location_id = :location_id AND 
+			 (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now())
+              OR (s.status = 'Discharged' AND s.datetime_discharge >= now()))  
+			GROUP BY p.id
+			ORDER BY r.number ASC";
+
+		$params[":location_id"] = $location->id;
+		//$params[":current_date"] = mysql_date();
+		return $this->fetchAll($sql, $params);
+	}
 
 	public function fetchByLocation_allergy($location) {
 		$allergy = $this->loadTable("Allergy");
@@ -132,15 +162,15 @@ class PatientInfo extends Dietary {
 			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
 			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
 			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id
-			LEFT JOIN {$allergy->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 1
-			WHERE s.status = 'Approved'
-			AND s.location_id = :location_id
-			AND (s.datetime_discharge >= :current_date OR s.datetime_discharge IS NULL)
+			INNER JOIN {$allergy->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 1
+			WHERE s.location_id = :location_id AND 
+			 (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now())
+              OR (s.status = 'Discharged' AND s.datetime_discharge >= now()))  
 			GROUP BY p.id
 			ORDER BY r.number ASC";
 
 		$params[":location_id"] = $location->id;
-		$params[":current_date"] = mysql_date();
+		//$params[":current_date"] = mysql_date();
 		return $this->fetchAll($sql, $params);
 
 

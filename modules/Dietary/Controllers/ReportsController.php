@@ -193,6 +193,7 @@ class ReportsController extends DietaryController {
  */
 
 	public function allergies() {
+		//echo "JASON was here.";
 		if (!auth()->isLoggedIn()) {
 			$this->template = "pdf";
 			$is_pdf = true;
@@ -203,8 +204,11 @@ class ReportsController extends DietaryController {
 		smarty()->assign('title', "Allergy Report");
 		$location = $this->getLocation();
 		$currentPatients = $this->loadModel('PatientInfo')->fetchByLocation_allergy($location);
+		$currentPatientsDislikes = $this->loadModel('PatientInfo')->fetchByLocation_dislikes($location);
 		smarty()->assignByRef('patients', $currentPatients);
+		smarty()->assignByRef('patientsdislikes', $currentPatientsDislikes);
 		smarty()->assign('isPDF', $is_pdf);
+		unset($this->landscape_array);
 	}
 
 
@@ -221,6 +225,8 @@ class ReportsController extends DietaryController {
 		} else {
 			$is_pdf = false;
 		}
+		
+		//$this->landscape_array = true;
 
 		smarty()->assign('title', "Snack Labels");
 		$location = $this->getLocation();

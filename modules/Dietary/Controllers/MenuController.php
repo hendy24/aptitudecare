@@ -354,7 +354,12 @@ class MenuController extends DietaryController {
 
 
 	public function print_menu() {
-		$this->template = "pdf";
+		if(isset(input()->pdf2) && input()->pdf2 == true) {
+			$this->template = "pdf2";
+		} else if(isset(input()->pdf) && input()->pdf == true) {
+			$this->template = "pdf";
+		}
+		
 		smarty()->assign('title', "Current Menu");
 
 		// Get the selected facility. If no facility has been selected return the users' default location

@@ -107,9 +107,9 @@
 	</div>
 
 	<div class="col-lg-4">
-		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true" class="btn btn-primary pull-right">Tray Cards</a>
+		<a id="tray-card-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf2=true" class="btn btn-primary pull-right">Tray Cards</a>
 
-		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true" class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
+		<a id="meal-order-form-select-date" href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf2=true" class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
 	</div>
 </div>
 

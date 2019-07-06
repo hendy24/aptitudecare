@@ -516,6 +516,12 @@ class PatientInfoController extends DietaryController {
 	public function meal_tray_card() {
 		// this page will always create a PDF
 		$this->template = 'pdf';
+		
+		if(isset(input()->pdf2) && input()->pdf2 == true) {
+			$this->template = "pdf2";
+			$this->landscape_array = true;
+			$this->margins = 0;
+		}
 		// fetch the location
 		$location = $this->getLocation();
 

@@ -10,7 +10,7 @@
   </div>
   <div id="action-right">
   	{if $auth->isLoggedIn()}
-  	<a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=adaptive_equipment&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+  	<a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=adaptive_equipment&amp;location={$location->public_id}&amp;pdf2=true" target="_blank">
   		<img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
   	</a>
   	{/if}

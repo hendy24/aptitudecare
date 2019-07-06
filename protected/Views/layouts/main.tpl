@@ -16,6 +16,9 @@
 	<link rel="stylesheet" href="{$FRAMEWORK_JS}/shadowbox-3.0.3/shadowbox.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{$CSS}/bootstrap_styles.css">
+{if $this->module == "Dietary" and $this->page == "reports" and !$isPDF}
+	<link rel="stylesheet" href="{$CSS}/report_printing.css">
+{/if}
 
 	<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery-2.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

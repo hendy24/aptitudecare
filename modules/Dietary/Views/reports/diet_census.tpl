@@ -16,7 +16,7 @@
 		<h1>Diet Census</h1>
 	</div>
   <div id="action-right">
-  	<a href="{$pageUrl}&amp;pdf=true" target="_blank">
+  	<a href="{$pageUrl}&amp;pdf2=true" target="_blank">
   		<img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
   	</a>
   </div>

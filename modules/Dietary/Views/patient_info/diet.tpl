@@ -29,7 +29,11 @@
 	</div>
 	<div class="form-group">
 		<label for="last-name" class="col-form-label col-2">Birthdate:</label>
-		<input type="text" class="form-control datepicker" size="10" name="date_of_birth" value="{display_date($patient->date_of_birth)}" />
+		<input type="text" class="form-control datepicker" size="8" name="date_of_birth" value="{display_date($patient->date_of_birth)}" />
+	</div>
+	<div class="form-group">
+		<label for="patient-room-number" class="col-form-label col-2">Room:</label>
+		<input type="text" id="room-number" class="form-control" size="4" name="room_number" value="{*todo to do insert value here*}" />
 	</div>
 
 
@@ -236,72 +240,77 @@
 	<!-- Diet Order Section-->
 	<div class="form-header2">Diet Order</div>
 	<div class="checkbox">
-			{if $selectedLocation->public_id == "ATW500KSj"}
-				<label for="regular" class="checkbox-label">
-					<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
-					Regular
-				</label>
-				<label for="aha-cardiac" class="checkbox-label">
-					<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
-					AHA/Cardiac
-				</label>
-				<label class="checkbox-label">
-					<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
-					No Added Salt
-				</label>
-				<label class="checkbox-label">
-						<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
-						RCS
-					</label>
-					<label class="checkbox-label">
-							<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
-						2 gram Na
-						</label>
-				<label class="checkbox-label">
-					<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
-						Renal
-				</label>
-			<label class="checkbox-label">
-					<input type="checkbox" name="diet_order[]" value="Gluten Restricted" {if in_array("Gluten Restricted", $dietOrder['standard'])} checked{/if}>
-						Gluten Restricted
+		{if $selectedLocation->public_id == "ATW500KSj"}
+			<label for="regular" class="checkbox-label">
+				<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
+				Regular
 			</label>
-				<label class="checkbox-label">
-					<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
-						Fortified/High Calorie
+			<label for="aha-cardiac" class="checkbox-label">
+				<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
+				AHA/Cardiac
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
+				No Added Salt
+			</label>
+			<label class="checkbox-label">
+					<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
+					RCS
 				</label>
+				<label class="checkbox-label">
+						<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
+					2 gram Na
+					</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
+					Renal
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="Gluten Restricted" {if in_array("Gluten Restricted", $dietOrder['standard'])} checked{/if}>
+					Gluten Restricted
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
+					Fortified/High Calorie
+			</label>
+		
+			<input type="text" name="diet_order[]" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
 			
-				<input type="text" name="diet_order[]" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
-			
-			{else}
-		<label for="regular" class="checkbox-label">
-			<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
-			Regular
-		</label>
-		<label for="aha-cardiac" class="checkbox-label">
-			<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
-			AHA/Cardiac
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
-			No Added Salt
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
-			Renal
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
-			2 gram Na
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
-			Fortified/High Calorie
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
-			RCS
-		</label>
-		<input type="text" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
+		{else}
+			<label for="regular" class="checkbox-label">
+				<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
+				Regular
+			</label>
+			<label for="aha-cardiac" class="checkbox-label">
+				<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
+				AHA/Cardiac
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
+				No Added Salt
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
+				RCS
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
+				2 gram Na
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
+				Renal
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="Gluten Free" {if in_array("Gluten Free", $dietOrder['standard'])} checked{/if}>
+				Gluten Free
+			</label>
+			<label class="checkbox-label">
+				<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
+				Fortified/High Calorie
+			</label>
+
+			<input type="text" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
 		{/if}
 	</div>
 
@@ -317,7 +326,7 @@
 		<label class="checkbox-label">
 				<input type="checkbox" name="texture[]" value="Easy to Chew" {if in_array('Easy to Chew', $textures['standard'])} checked{/if}>
 				Easy to Chew
-			</label>
+		</label>
 		{else}
 		<label class="checkbox-label">
 			<input type="checkbox" name="texture[]" value="Mechanical Soft" {if in_array('Mechanical Soft', $textures['standard'])} checked{/if}>
@@ -353,20 +362,20 @@
 		<label for="liquid" class="checkbox-label">Liquid:</label>
 		<select name="texture[]" id="liquid-select">
 			<option value="">Select Liquid Type...</option>
-			<option value="Nectar Thick Liquids" {if in_array("Nectar Thick Liquids", $textures['standard'])} selected{/if}>Nectar Liquid</option>
-			<option value="Honey Thick Liquids" {if in_array("Honey Thick Liquids", $textures['standard'])} selected{/if}>Honey Liquid</option>
-			<option value="Pudding Thick Liquids" {if in_array("Pudding Thick Liquids", $textures['standard'])} selected{/if}>Pudding Liquid</option>
-			<option value="Clear Liquid" {if in_array("Clear Liquid", $textures['standard'])} selected{/if}>Clear Liquid</option>
-			<option value="Full Liquid" {if in_array("Full Liquid", $textures['standard'])} selected{/if}>Full Liquid</option>
-			<option value="Fluid Restriction" {if in_array("Fluid Restriction", $textures['standard'])} selected{/if}>Fluid Restriction</option>
 			{if $selectedLocation->public_id == "ATW500KSj"}
 			<option value="Liquidised" {if in_array("Liquidised", $textures['standard'])} selected{/if}>Liquidised</option>
 			<option value="Slightly Thick" {if in_array("Slightly Thick", $textures['standard'])} selected{/if}>Slightly Thick</option>
 			<option value="Mildly Thick" {if in_array("Mildly Thick", $textures['standard'])} selected{/if}>Mildly Thick</option>
 			<option value="Moderately Thick" {if in_array("Moderately Thick", $textures['standard'])} selected{/if}>Moderately Thick</option>
 			<option value="Extremely Thick" {if in_array("Extremely Thick", $textures['standard'])} selected{/if}>Extremely Thick</option>
-			<option value="Other" {if in_array("Other", $textures['standard'])} selected{/if}>Other</option>
 			{/if}
+			<option value="Nectar Thick Liquids" {if in_array("Nectar Thick Liquids", $textures['standard'])} selected{/if}>Nectar Liquid</option>
+			<option value="Honey Thick Liquids" {if in_array("Honey Thick Liquids", $textures['standard'])} selected{/if}>Honey Liquid</option>
+			<option value="Pudding Thick Liquids" {if in_array("Pudding Thick Liquids", $textures['standard'])} selected{/if}>Pudding Liquid</option>
+			<option value="Clear Liquid" {if in_array("Clear Liquid", $textures['standard'])} selected{/if}>Clear Liquid</option>
+			<option value="Full Liquid" {if in_array("Full Liquid", $textures['standard'])} selected{/if}>Full Liquid</option>
+			<option value="Fluid Restriction" {if in_array("Fluid Restriction", $textures['standard'])} selected{/if}>Fluid Restriction</option>
+			{* <option value="Other" {if in_array("Other Liquid", $textures['standard'])} selected{/if}>Other</option> *}
 		</select>
 		<input type="text" id="other-texture-input" maxlength="25" name="texture[]" size="45" class="other-input" placeholder="Enter other texture info... (25 character limit)" value="{$textures['other']}">
 	</div>
