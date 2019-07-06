@@ -1,0 +1,240 @@
+@font-face {
+    font-family: 'DejaVu Serif Condensed';
+    src: url('DejaVuSerifCondensed.ttf') format('ttf');
+}
+
+
+@page {
+  margin-top: 1.5cm;
+  margin-bottom: 1.5cm;
+  margin-left: 2cm;
+  margin-right: 2cm;
+  width: 8.5in;
+  height: 11.25in;
+}
+
+/*@media print {
+	body {
+		margin-top: 50mm;
+		margin-bottom: 50mm;
+		margin-left: 0mm;
+		margin-right: 0mm;
+	}
+}*/
+
+/*html {
+	margin: 0;
+	padding: 0;
+	background: #686868;
+	height: 297mm;
+	width: 210mm;
+}*/
+
+/*body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}*/
+
+a, a:visited {
+	color: #000;
+	text-decoration: none;
+}
+
+body, td, th {
+	font-family: "DejaVu Serif Condensed", "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+	font-size: 12pt;
+	color: #000000;
+}
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-strong { font-weight: bold; }
+.text-italics { font-style: italic; }
+.text-red { color: red !important; }
+.text-green { color: green !important; }
+.bottom { vertical-align: baseline; }
+
+.text-10 { font-size: 10pt; }
+.text-11 { font-size: 11pt; }
+.text-12 { font-size: 12pt; }
+.text-14 { font-size: 14pt; }
+.text-16 { font-size: 16pt; }
+.text-18 { font-size: 18pt; }
+.text-20 { font-size: 20pt; }
+
+
+h1 {
+	margin: 5px 0 0 0;
+}
+
+h2 {
+	margin: 5px 0 0 0;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+hr {
+	margin: 0;
+	padding: 0;
+	color: #333333;
+}
+.page-break {
+	display: block;
+	page-break-before: always;
+}
+
+.page-header {
+	height: 50px;
+}
+
+.table {
+	max-width: 95%;
+	margin: 0 auto;
+	padding: 20px;
+	padding-top: 0px;
+	margin-top: 0px;
+	page-break-inside: avoid;
+}
+
+tr.spacer, tr.spacer td {
+	 font-size: 5pt;
+	 height: 5px;
+	 max-height: 5px;
+	 padding: 0px !important;
+}
+
+.table tr {
+	page-break-inside: initial;
+	page-break-after: initial;
+}
+
+div.traycard-column {
+	border-right: 1px dashed #000;
+}
+
+div.traycard-column.last-table {
+	border-right: none;
+}
+
+.table th {
+	border-bottom: 1px solid #000000;
+}
+
+.table tr td {
+	padding: 2px;
+	vertical-align: top;
+}
+
+td.tc-label {
+	max-width: 125px !important;
+	min-width: 125px !important;
+}
+
+input[type="checkbox"] {
+	padding-right: 10px;
+}
+
+.traycard-column {
+	width: 33.3%;
+	max-width: 33.3%;
+	min-width: 33.3%;
+	float: left;
+	padding: 0 .15in;
+	display: inline-block;
+}
+
+
+.logo-footer {
+	position: fixed;
+	margin-top: 50px;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.page-break {
+	float: none;
+	clear: both;
+	display: block;
+	page-break-before: initial;
+	page-break-after: always;
+	height: 1px;
+	max-height: 1px;
+}
+
+.meal-order-form h3{
+  font-size: 14pt;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.meal-order-form p {
+  line-height: 1em;
+}
+
+.menu-middle-col {
+  padding-top: 50px;
+}
+
+.form h1 {
+	font-size: 16pt;
+	font-style: italic;
+}
+
+table.bev-table {
+  margin: 50px auto;
+  width: 400px;
+}
+
+.menu-day-title {
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+.menu-content {
+  font-size: 10pt;
+  float: left;
+  width: 33%;
+}
+
+.menu-beverages {
+  float: left;
+  width: 16.66%;
+  font-size: 10pt;
+}
+
+.menu-info {
+  text-align: center;
+  font-weight: bold;
+  font-size: 10pt;
+  margin-top: 4px;
+}
+
+.print-menu h1 {
+  font-size: 18pt;
+  font-weight: bold;
+  padding-bottom: 4px;
+}
+
+.print-menu h2 {
+  font-size: 14pt;
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+.print-menu p {
+  font-size: 10pt;
+  line-height: 1em;
+}
+
+.space-row {
+  height: 25px;
+  width: 100%;
+  clear: both;
+}
