@@ -23,7 +23,7 @@
 </div>
 {/if}
 
-
+<h2 class="report_date">{$smarty.now|date_format}</h2>
 <input type="hidden" id="location" name="location" value="{$location->public_id}">
 <input type="hidden" id="current-url" name="current_url" value="{$current_url}">
 <table class="table">

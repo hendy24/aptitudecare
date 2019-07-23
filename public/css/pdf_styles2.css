@@ -201,6 +201,12 @@ table.bev-table {
   font-size: 10pt;
   float: left;
   width: 33%;
+  max-width: 33%;
+  /*
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  overflow: hidden;*/
+  float: left;
 }
 
 .menu-beverages {
@@ -237,4 +243,7 @@ table.bev-table {
   height: 25px;
   width: 100%;
   clear: both;
+}
+div.menu-content::first-line {
+	font-size:1.4em;
 }

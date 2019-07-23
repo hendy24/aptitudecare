@@ -75,8 +75,8 @@
       </tr>
       {* if ($location->id == 9) *}
       <tr>
-        <td class="text-strong" colspan="2">Cc Intake:
-        <span style="padding-top:5px; font-weight:normal;">120 cc. &nbsp;&nbsp; 240 cc. &nbsp;&nbsp; 360 cc. &nbsp;&nbsp; 480 cc.</td>
+        <td class="text-strong" colspan="2">mL Intake:
+        <span style="padding-top:5px; font-weight:normal;">120 mL &nbsp;&nbsp; 240 mL &nbsp;&nbsp; 360 mL &nbsp;&nbsp; 480 mL</td>
       </tr>
       {* /if *}
       {if ($location->id == 21)}

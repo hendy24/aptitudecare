@@ -18,8 +18,9 @@ class Beverage extends Dietary {
 
 
     $sql = "SELECT count(bev.id) AS num, bev.name, pb.meal 
-			FROM dietary_beverage bev 
+			FROM dietary_beverage bev 		
 			INNER JOIN dietary_patient_beverage pb ON pb.beverage_id = bev.id 
+			INNER JOIN dietary_patient_info as dpi on dpi.patient_id = pb.patient_id
 			INNER JOIN admit_schedule sch ON sch.patient_id = pb.patient_id 
 			WHERE sch.location_id = :location_id AND ((sch.status = 'Approved' AND (sch.datetime_discharge IS NULL OR sch.datetime_discharge >= :date)) OR (sch.status = 'Discharged' AND sch.datetime_discharge >= :date)) GROUP BY pb.meal, bev.id ORDER BY pb.meal";
 

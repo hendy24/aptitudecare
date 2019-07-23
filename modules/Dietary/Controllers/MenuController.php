@@ -368,7 +368,7 @@ class MenuController extends DietaryController {
 		} else {
 			$location = $this->getLocation();
 		}
-
+		$this->pdfName = "weekly_menu_".date("Y-m-d", strtotime('last sunday')).".pdf";
 		smarty()->assign('location', $location);
 
 		// get the correct time for the selected location

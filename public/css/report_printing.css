@@ -1,6 +1,14 @@
+h2.report_date {
+	margin-top: 5px;
+}
+
  @media print { 
  /* All your print styles go here */
- 	 #page-header #center-title{
+ 	 #page-header {
+		 margin-bottom: 0px;
+		 padding-bottom: 0px;
+	 }
+	 #page-header #center-title{
 		 /*display: block !important;*/
 		 width:100%;
 		 display: block;
@@ -20,9 +28,9 @@
 		 padding-top: 18px;
 		 
 	 }
-	 #content, #page-content div.container, body div.container {
+	 #content, #page-content div.container, body div.container, table.bev-table {
 		 padding: 0px !important;
-		 margin-left: 0px !important;
+		 margin-left: 5px !important;
 		 margin-right: 0px !important;
 		 width:100%;
 	 }
@@ -36,5 +44,20 @@
 	 }
 	 #page-content.container{
 		 width: 100% !important;
+	 }
+	 h1 {
+		display: table-header-group;
+	 }
+	 h2 {
+		 margin-top: 5px;
+		 margin-bottom: 5px;
+	 }
+	 table.bev-table {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	 }
+	 div.label5160{
+		color: pink;
+		outline: 1px none red;
 	 }
 }

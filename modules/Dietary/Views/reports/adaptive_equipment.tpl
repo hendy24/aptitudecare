@@ -3,10 +3,7 @@
     &nbsp;
   </div>
   <div id="center-title">
-    <h1>Adaptive Equipment Report</h1>
-    {if $isPDF}
-      <h2>{$smarty.now|date_format}</h2>
-    {/if}
+    <h1>Adaptive Equipment Report</h1>      
   </div>
   <div id="action-right">
   	{if $auth->isLoggedIn()}
@@ -16,7 +13,7 @@
   	{/if}
   </div>
 </div>
-
+<h2 class="report_date">{$smarty.now|date_format}</h2>
 <table class="table">
 	<tr>
 		<th width="75">Room</th>	

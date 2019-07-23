@@ -133,7 +133,7 @@ $("#adaptEquip").tagit({
       showAutocompleteOnFocus: false,
       caseSensitive: false,
       allowSpaces: true,
-
+      beforeTagAdded: checkChanges(),
       beforeTagRemoved: function(event, ui) {
       // if tag is removed, need to delete from the db
       var patientId = $("#patient-id").val();
@@ -435,8 +435,37 @@ $("#supplements").tagit({
         );
         return array;
       }
-	  
+	 
+	//have input boxes have the max length
 	$("ul > li.tagit-new").each(function() {
 		$(this).find("input").attr("maxlength", $(this).parent().attr("maxlength"));
 	});
+	
+	function checkChanges(){
+	}
+	/* //Don't yet have this working.
+	//unsaved changes messages.
+	var changeTimer;
+	function checkChanges()
+	{		  
+		if($loaded){
+			clearTimeout(changeTimer);
+			changeTimer = setTimeout(function() {
+
+				// Run code here, changes have "stopped"
+				console.log("running now");
+				$('.change-message').toggle($('form.form-inline').serialize() !== origForm);
+				
+			}, 250);
+		}
+	}
+
+	var $loaded = true;
+	var $form = $('form.form-inline'),
+    origForm = $form.serialize();
+
+	$('form.form-inline :input').on('change input', function() {
+		checkChanges();
+	});
+	*/
 });

@@ -1,31 +1,55 @@
 {if !$isPDF}
 <style>
-  .container{
-    width: 75%;
-    margin: 20px auto;
-    text-align: left;
-    font-weight: normal;
-    border-collapse: collapse;
-  }
+	.container{
+		width: 75%;
+		margin: 20px auto;
+		text-align: left;
+		font-weight: normal;
+		border-collapse: collapse;
+	}
+
+	.tooltiptext {
+		visibility: hidden;
+		width: 85px;
+		background-color: black;
+		color: #fff;
+		text-align: center;
+		border-radius: 6px;
+		padding: 5px 0;
+		margin-left: 40px;
+		margin-top: 10px;
+
+		/* Position the tooltip */
+		position: absolute;
+		z-index: 1;
+	}
+
+	.tool-tip:hover .tooltiptext {
+		visibility: visible;
+	}
 </style>
 
 <div id="page-header">
   <div id="action-left">
-    {$this->loadElement("module")}
+    &nbsp;
   </div>
   <div id="center-title">
-    {$this->loadElement("selectLocation")}
+    <h1>Snack Report</h1>
   </div>
   <div id="action-right">
     {if $auth->isLoggedIn()}
-    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
-      <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
+	<a class="" href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}&amp;pdf2=true" target="_blank" alt="Table">
+      <img src="{$FRAMEWORK_IMAGES}/print.png" alt="Table">
     </a>
+	<a class="tool-tip" href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_labels&amp;location={$location->public_id}&amp;pdf2=true" target="_blank" alt="Labels">
+	  <span class="tooltiptext">5160 Labels</span>
+	  <img src="{$FRAMEWORK_IMAGES}/print.png" alt="Labels">
+	</a>
     {/if}
   </div>
 </div>
+<h2 class="report_date">{$smarty.now|date_format}</h2>
 
-<h1>Snack Report</h1>
 <div class="container">
   <form action="{$SITE_URL}" method="POST">
     <input type="hidden" name="module" value="Dietary">

@@ -119,12 +119,12 @@
 <table id="patient-info">
 	<tr>
 		<th>Room</th>
-		<th>Patient Name</th>
+		<th style="width: 35%">Patient Name</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
-		<th style="width: 20%">&nbsp;</th>
+		<th style="width: 40px">&nbsp;</th>
 		<th>Room</th>
-		<th>Patient Name</th>
+		<th style="width: 35%">Patient Name</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 	</tr>
@@ -132,10 +132,14 @@
 	{foreach from=$currentPatients key=k item=patient name=count}
 		<td class="room-number" value="{$patient->number}">{$patient->number}</td>
 
-		{if get_class($patient) == "Patient"}
+		{if get_class($patient) == "Patient" and $patient->patient_admit_id != NULL}
 		<td class="{$k}">{$patient->last_name}, {$patient->first_name}</td>
-		<td class="{$k}">{$dietaryMenu->menu($patient, $selectedLocation)}</td>
+		<td class="{$k}">{$dietaryMenu->menu($patient, $selectedLocation, $modEnabled, $k)}</td>
 		<td class="{$k}">
+			<a href="?module=Dietary&amp;page=patient_info&amp;action=diet&amp;patient={$patient->public_id}">
+				<img src="{$FRAMEWORK_IMAGES}/edit.png" class="{$k}" style="position: relative; top: 7px;" alt="">
+			</a>
+			{*
 			{if !$modEnabled}
 			<a href="#" class="delete-patient">
 				<img src="{$FRAMEWORK_IMAGES}/delete.png" class="{$k}" style="position: relative; top: 7px;" alt="">
@@ -143,7 +147,8 @@
 				<input type="hidden" name="room_number" class="room-number" value="{$patient->number}">
 			</a>
 				<input type="hidden" class="patient-id" value="{$patient->public_id}">
-			{/if}
+			{/if} *}
+			
 		</td>
 		{else}
 
@@ -151,7 +156,7 @@
 			{if !$modEnabled}
 			<input type="button" class="add-patient" value="Add Patient">
 			<input type="hidden" class="room" value="{$patient->number}">
-			{/if}
+			{/if} 
 		</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
@@ -171,12 +176,10 @@
 <div id="dialog" title="Confirmation Required">
 	<p>Are you sure you want to delete this patient? This cannot be undone.</p>
 </div>
-
 <div id="tray-card-dialog" title="Select Date">
 	<p>Select the date for which you would like to print the tray cards.</p>
 	<input type="text" id="selected-date" class="date-picker">
 </div>
-
 <div id="meal-order-dialog" title="Select Date">
 	<p>Select the date for which you would like to print the meal order form.</p>
 	<input type="text" id="form-date" class="date-picker">

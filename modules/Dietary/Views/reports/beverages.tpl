@@ -4,9 +4,6 @@
   </div>
   <div id="center-title">
     <h1>Beverage Report</h1>
-    {if $isPDF}
-      <h2>{$smarty.now|date_format}</h2>
-    {/if}
   </div>
   <div id="action-right">
     {if $auth->isLoggedIn()}
@@ -16,7 +13,7 @@
     {/if}
   </div>
 </div>
-
+<h2 class="report_date">{$smarty.now|date_format}</h2>
 
 
   {foreach from=$beverages item=beverage key=meal}

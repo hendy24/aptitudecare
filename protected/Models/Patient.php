@@ -72,6 +72,38 @@ class Patient extends AppData {
 		$params["datetime"] = mysql_date() . " 23:59:59";
 		return $this->fetchAll($sql, $params);
 	}
+	/*
+	//this function differs because it joins the dietary patient info table. If they don't have a dietary record they don't show in either list.
+	public function fetchDietaryPatients($location_id) {
+		$schedule = $this->loadTable("Schedule");
+		$room = $this->loadTable("Room");
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p 
+		INNER JOIN dietary_patient_info as dpi on dpi.patient_id = p.id
+		INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE s.location_id = :location_id AND s.status = 'Approved' AND (s.datetime_discharge >= :datetime OR s.datetime_discharge IS NULL)";
+		$params[":location_id"] = $location_id;
+		$params["datetime"] = mysql_date() . " 23:59:59";
+		return $this->fetchAll($sql, $params);
+	}*/
+		//this function differs because it joins the dietary patient info table. If they don't have a dietary record they don't show in either list.
+	//It allso takes the result and then right joins the rooms again so that I get at least every room with nulls.
+	public function fetchDietaryPatients($location_id) {
+		$schedule = $this->loadTable("Schedule");
+		$room = $this->loadTable("Room");
+		$sql = "SELECT v.*, r.number FROM (SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, s.datetime_admit, s.datetime_discharge, r.number 
+		FROM {$this->tableName()} p 
+		INNER JOIN dietary_patient_info as dpi on dpi.patient_id = p.id
+		INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id
+		INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id 
+		WHERE s.location_id = :location_id AND (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now()) OR (s.status = 'Discharged' AND s.datetime_discharge >= now()))
+        ) v
+        RIGHT JOIN {$room->tableName()} AS r ON v.number = r.number
+        WHERE r.location_id = :location_id
+ORDER BY r.`number` ASC";
+		$params[":location_id"] = $location_id;
+		//$params["datetime"] = mysql_date() . " 23:59:59";
+		file_put_contents("/tmp/lastFetchDietaryPatients.txt", $sql, LOCK_EX);
+		return $this->fetchAll($sql, $params);
+	}
 
 	public function fetchPatientById($patient_id) {
 		$schedule = $this->loadTable("Schedule");
