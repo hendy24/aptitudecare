@@ -17,7 +17,7 @@
 			{foreach from=$menu item="content"}
 			<div class="menu-content">
 				{foreach $content as $item}
-					{$item}<br>
+					<span>{$item}</span><br>
 				{/foreach}
 			</div>
 			{/foreach}

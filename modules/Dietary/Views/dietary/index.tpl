@@ -43,6 +43,8 @@
 								id: id,
 							},
 							success: function() {
+								Location.reload();
+								/*
 								$("."+deleteClass).empty();
 								$("."+deleteClass).first().html('<input type="button" class="add-patient" value="Add Patient"><input type="hidden" class="room" value="' + roomNumber + '">');
 								//Have to rebind add-patient
@@ -53,6 +55,7 @@
 									window.location.href = SITE_URL + "/?module=Dietary&page=patient_info&action=add_patient&location=" + location + "&number=" + roomNumber;
 								});
 								// need to add back in the add patient option
+								*/
 							}
 						});
 						$(this).dialog("close");

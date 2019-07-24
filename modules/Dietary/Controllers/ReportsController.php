@@ -187,6 +187,8 @@ class ReportsController extends DietaryController {
 		smarty()->assign('pageUrl', $this->getUrl());
 		smarty()->assign('isPDF', $is_pdf);
 		$this->pdfName = "diet_census_".date("Y-m-d").".pdf";
+		$this->landscape_array = true;
+		//$this->otherPDFWebkit = "--disable-smart-shrinking";
 
 	}
 

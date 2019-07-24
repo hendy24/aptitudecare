@@ -244,6 +244,12 @@ table.bev-table {
   width: 100%;
   clear: both;
 }
-div.menu-content::first-line {
+div.menu-content:nth-child(1) span:nth-last-of-type(1){
+	font-size:1.4em;
+}
+div.menu-content:nth-child(2)::first-line {
+	font-size:1.4em;
+}
+div.menu-content:nth-child(3)::first-line {
 	font-size:1.4em;
 }
