@@ -7,4 +7,9 @@ protected/.DS_Store
 .development
 public/files/
 nossl-redir/index.php
+<<<<<<< HEAD
 .vscode/sftp.json
+=======
+.vscode/
+push
+>>>>>>> aspencreek-temp

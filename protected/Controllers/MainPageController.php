@@ -18,7 +18,7 @@ class MainPageController extends MainController {
  *
  */
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu", "print_activities");
 	}
 
 
@@ -150,7 +150,11 @@ class MainPageController extends MainController {
 			$locations = $this->loadModel('Location')->fetchAllLocations();
 			$location = $this->getSelectedLocation($locations);
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> aspencreek-temp
 		$this->locations = $locations;
 		$this->location = $location;
 		$this->areas = $areas;
@@ -398,7 +402,6 @@ class MainPageController extends MainController {
 			} else {
 				array_push($error_test, false);
 			}
-
 		}
 
 		if (!empty ($saved_object)) {

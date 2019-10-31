@@ -95,7 +95,18 @@
 		});
 
 	});
+<<<<<<< HEAD
 
+=======
+</script>
+<div class="row"">
+	<div class="col-lg-4">
+		{$this->loadElement("module")}
+	</div>
+	<div class="col-lg-4 text-center">
+		{$this->loadElement("selectLocation")}
+	</div>
+>>>>>>> aspencreek-temp
 
 	$('#deleteModal').on('shown.bs.modal', function () {
 			$('#myInput').trigger('focus')
@@ -123,8 +134,73 @@
 	</div>
 </div>
 
+<<<<<<< HEAD
 <div class="page-container">
 	<h1 class="text-center">Current Patients</h1>
+=======
+<h1>Current Residents</h1>
+<input type="hidden" id="location" value="{$location->public_id}">
+<input type="hidden" name="currentUrl" value="{$current_url}">
+<table id="patient-info">
+	<tr>
+		<th style="width:70px">Room</th>
+		<th>Patient Name</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+		<th style="width: 20%">&nbsp;</th>
+		<th style="width:70px">Room</th>
+		<th>Patient Name</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+	<tr>
+	{foreach from=$currentPatients key=k item=patient name=count}
+		<td class="room-number" value="{$patient->number}">{$patient->number}</td>
+
+		{if get_class($patient) == "Patient"}
+		<td class="{$k}">{$patient->last_name}, {$patient->first_name}</td>
+		<td class="{$k}">{$dietaryMenu->menu($patient, $selectedLocation)}</td>
+		<td class="{$k}">
+			{if !$modEnabled}
+			<a href="#" class="delete-patient">
+				<img src="{$FRAMEWORK_IMAGES}/delete.png" class="{$k}" style="position: relative; top: 7px;" alt="">
+				<input type="hidden" name="public_id" class="public-id" value="{$patient->public_id}">
+				<input type="hidden" name="room_number" class="room-number" value="{$patient->number}">
+			</a>
+				<input type="hidden" class="patient-id" value="{$patient->public_id}">
+			{/if}
+		</td>
+		{else}
+
+		<td>
+			{if !$modEnabled}
+			<input type="button" class="add-patient" value="Add Patient">
+			<input type="hidden" class="room" value="{$patient->number}">
+			{/if}
+		</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		{/if}
+
+	{if $smarty.foreach.count.iteration is div by 2}
+		</tr>
+		<tr>
+	{else}
+		<td>&nbsp;</td>
+	{/if}
+	{/foreach}
+	</tr>
+</table>
+
+
+<div id="dialog" title="Confirmation Required">
+	<p>Are you sure you want to delete this patient? This cannot be undone.</p>
+</div>
+
+<div id="tray-card-dialog" title="Select Date">
+	<p>Select the date for which you would like to print the tray cards.</p>
+	<input type="text" id="selected-date" class="date-picker">
+>>>>>>> aspencreek-temp
 </div>
 <div class="page-container">
 	<table class="table">

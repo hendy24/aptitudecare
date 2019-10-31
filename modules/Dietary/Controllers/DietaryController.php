@@ -16,12 +16,15 @@ class DietaryController extends MainPageController {
 		if (!auth()->getRecord()) {
 			$this->redirect();
 		}
-
 		// get the location
 		$location = $this->getLocation();
 
 		// check if the user has permission to access this module
+<<<<<<< HEAD
 		if ($location->location_type != 1 && $location->location_type != 4) {
+=======
+		if ($location->location_type != 4) {
+>>>>>>> aspencreek-temp
 			$this->redirect();
 		}
 

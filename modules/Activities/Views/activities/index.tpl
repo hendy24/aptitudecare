@@ -27,15 +27,16 @@
 	});
 </script>
 
-<div id="page-header">
-	<div id="action-left">
+<div class="row">
+	<div class="col-lg-4">
 		{$this->loadElement("module")}
 	</div>
-	<div id="center-title">
+	<div class="col-lg-4 text-center">
 		{$this->loadElement("selectLocation")}
 	</div>
-	<div id="action-right">
-		<a href="{$SITE_URL}/?page=activities&amp;action=activity&amp;type=new&amp;location={$location->public_id}" class="button">New Activity</a>
+	<div class="col-lg-4">
+		<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=activity&amp;type=new&amp;location={$location->public_id}" class="btn btn-primary pull-right">New Activity</a>
+		<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=print_activities&amp;location={$location->public_id}&amp;date={$startDate}&amp;pdf=true" target="_blank" class="btn btn-primary pull-right">Print activities</a>
 	</div>
 </div>
 
@@ -62,7 +63,7 @@
 					{/if}
 				</td>
 				<td>{$activity->description}</td>
-				<td class="text-right"><a href="{$SITE_URL}/?page=activities&amp;action=activity&amp;type=edit&amp;id={$activity->public_id}" class="button">Edit</a></td>
+				<td class="text-right"><a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=activity&amp;type=edit&amp;id={$activity->public_id}" class="button">Edit</a></td>
 			</tr>
 			{/foreach}
 		{else}
@@ -71,7 +72,7 @@
 			</tr>
 		{/if}
 		<tr>
-			<td colspan="3" class="text-right background-white"><a href="{$SITE_URL}/?page=activities&amp;action=activity&amp;type=new&amp;date={$date}&amp;location={$location->public_id}" class="button">Add New Activity</a></td>
+			<td colspan="3" class="text-right background-white"><a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=activity&amp;type=new&amp;date={$date}&amp;location={$location->public_id}" class="button">Add New Activity</a></td>
 		</tr>
 		<tr>
 			<td colspan="3" style="background-color:#ffffff">&nbsp;</td>

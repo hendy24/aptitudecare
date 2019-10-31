@@ -1,5 +1,4 @@
 <?php 
-
 /**
  *	Index
  *
@@ -45,8 +44,13 @@
 
 	// Use https, otherwise the site stylesheets and images will not load properly
 	define('SITE_URL', 'https://' . $_SERVER['SERVER_NAME']);
+<<<<<<< HEAD
 	define('APP_NAME', 'Riverside Alaska Dashboard');
 	
+=======
+	define('APP_NAME', 'Aspen Creek Alaska Dashboard');
+
+>>>>>>> aspencreek-temp
 /** 
  *
  * Include the bootstrap file in the protected directory and we're off!

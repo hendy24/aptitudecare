@@ -141,10 +141,9 @@ class PatientInfoController extends DietaryController {
 			session()->setFlash("Could not find the patient.", 'error');
 			$this->redirect(input()->currentUrl);
 		}
-
 		$patientDiet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
 		$patientDiet->patient_id = $patient->id;
-
+		
 		$patient->first_name = input()->first_name;
 		$patient->last_name = input()->last_name;
 		if (input()->date_of_birth != "") {
@@ -161,7 +160,6 @@ class PatientInfoController extends DietaryController {
 		if (input()->weight != "") {
 			$patientDiet->weight = input()->weight;
 		}*/
-
 
 		// set allergies array
 		$allergiesArray = array();
@@ -362,7 +360,6 @@ class PatientInfoController extends DietaryController {
 		} else {
 			$feedback[] = "Diet texture has not been entered";
 		}
-
 		// set other array
 		$patient_other_array = array();
 		if (!empty (input()->other)) {
@@ -748,7 +745,6 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function saveAddPatient() {
-
 		$feedback = array();
 		$patient = $this->loadModel("Patient");
 		if (input()->location != "") {

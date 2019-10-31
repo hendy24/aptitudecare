@@ -59,7 +59,7 @@
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td colspan="2" class="text-center"><img src="{$IMAGES}/logos_black_reduced/{$location->logo}" alt=""></td>
+        <td colspan="2" class="text-center"><img src="{$IMAGES}/aspencreek-logo-black.png" alt=""></td>
       </tr>
       <tr>
         <td>&nbsp;</td>

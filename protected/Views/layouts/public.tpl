@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<!--<meta http-equiv="refresh" content="1800">-->
-	<title>Advanced Health Care Menu &amp; Activities</title>
+	<title>Aspen Creek Senior Living Menu &amp; Activities</title>
 	<link rel="stylesheet" href="{$CSS}/public_styles.css" type="text/css" />
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css" media="screen" title="no title" charset="utf-8">
 

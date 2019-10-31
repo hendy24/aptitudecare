@@ -13,9 +13,9 @@ class Dietary extends AppModel {
 			if (empty ($result)) {
 				$this->name = $name;
 				if ($save_other) {
-					$this->is_other = true;
+					$this->is_other = 1;
 					if ($is_texture) {
-						$this->is_liquid = false;
+						$this->is_liquid = 0;
 					}
 				}
 				$this->save();
@@ -84,7 +84,6 @@ class Dietary extends AppModel {
       $sql = "SELECT t1.id AS t1_id, t2.id AS t2_id FROM {$this->tableName()} t1 INNER JOIN {$other_table->tableName()} t2 ON t2.id = t1.{$other_table->joinName()} WHERE t1.patient_id = :patient_id AND t2.is_other = 1";
 
       $params[":patient_id"] = $patient_id;
-
       $result = $this->fetchOne($sql, $params);
 
       if (!empty ($result)) {

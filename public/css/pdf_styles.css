@@ -211,3 +211,21 @@ table.bev-table {
   width: 100%;
   clear: both;
 }
+
+.activities-date {
+	font-size: 16px;
+}
+
+table.activities th {
+	border-bottom: 1px solid #000000;
+	padding-top: 25px;
+	font-size: 16px;
+}
+
+table.activities td {
+	padding: 4px;
+	font-size: 16px;
+}
+
+
+

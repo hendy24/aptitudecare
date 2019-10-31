@@ -302,9 +302,9 @@ class UsersController extends MainPageController {
 		} 
 
 		if (isset (input()->temp_password)) {
-			$user->temp_password = true;
+			$user->temp_password = 1;
 		} else {
-			$user->temp_password = false;
+			$user->temp_password = 0;
 		}
 
 		if (input()->phone != '') {

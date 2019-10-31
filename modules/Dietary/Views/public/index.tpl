@@ -11,7 +11,7 @@
 	<div id="panel-0" class="rotatingPage">
 		<div id="mainContent">
 			<div id="mainLogo">
-				<img src="{$IMAGES}/facility_logo/{$location->logo}" alt="">
+				<img src="{$IMAGES}/aspencreek-logo-white.png" alt="">
 			</div>
 			<div id="menuTitle">
 				<img src="{$IMAGES}/featured_menu.png" alt="">
@@ -64,7 +64,7 @@
 	<div id="panel-1" class="rotatingPage" style="display: none;">
 		<div class="transitionDiv">
 			<div id="activitiesContent">	
-				<?php if ($facilityId == 12): ?>
+				{* <?php if ($facilityId == 12): ?>
 				<div id="grangeville-teton">
 				<?php else: ?>
 				<div id="teton">
@@ -76,10 +76,10 @@
 						{else}
 							<div class="activitiesStandard">
 						{/if}
-							<img src="{$IMAGES}/raising_the_standard.png" alt="Raising the Standard">
+							
 						</div>
 					</div>
-				</div>
+				</div> *}
 				
 
 				<div id="activitiesTitle">
