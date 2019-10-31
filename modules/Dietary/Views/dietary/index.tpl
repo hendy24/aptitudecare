@@ -96,8 +96,6 @@
 
 	});
 </script>
-
-
 <div class="row"">
 	<div class="col-lg-4">
 		{$this->loadElement("module")}
@@ -113,17 +111,17 @@
 	</div>
 </div>
 
-<h1>Current Patients</h1>
+<h1>Current Residents</h1>
 <input type="hidden" id="location" value="{$location->public_id}">
 <input type="hidden" name="currentUrl" value="{$current_url}">
 <table id="patient-info">
 	<tr>
-		<th>Room</th>
+		<th style="width:70px">Room</th>
 		<th>Patient Name</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th style="width: 20%">&nbsp;</th>
-		<th>Room</th>
+		<th style="width:70px">Room</th>
 		<th>Patient Name</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>

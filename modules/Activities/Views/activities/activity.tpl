@@ -43,7 +43,7 @@
 								id: activityId,
 							},
 							success: function() {
-								window.location = SITE_URL + "/?module=Activities&page=activities";
+								window.location = SITE_URL + "/?module=Activities";
 							}
 						});
 						

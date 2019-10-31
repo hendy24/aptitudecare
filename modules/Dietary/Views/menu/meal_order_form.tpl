@@ -3,7 +3,7 @@
 <div class="meal-order-form">
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<img src="{$IMAGES}/logos_black_reduced/{$location->logo}" alt="">
+			<img src="{$IMAGES}/aspencreek-logo-black.png" alt="">
 		</div>
 	</div>
 

@@ -8,5 +8,4 @@
 	$db->username = 'ra_admin';
 	$db->password = 'wDxbo9QbHv}oQ2e7w=';
 
-
 	$db->conn();

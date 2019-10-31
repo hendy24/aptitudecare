@@ -5,7 +5,6 @@
 		});
 	});
 </script>
-
 	<select name="location" id="location" class="btn btn-primary dropdown-toggle dropdown-toggle-split">
 		{foreach $locations as $location}
 			<option value="{$location->public_id}" {if $location->public_id == $selectedLocation->public_id} selected{/if}>{$location->name}</option>
