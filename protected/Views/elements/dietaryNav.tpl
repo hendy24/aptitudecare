@@ -1,8 +1,8 @@
-<li class="nav-item active">
-	<a class="nav-link" href="{$SITE_URL}?module=Dietary&amp;page=dietary&amp;action=index&amp;location={$location->public_id}">Home</a>
+<li class="nav-item">
+	<a href="{$SITE_URL}?module=Dietary&amp;page=dietary&amp;action=index&amp;location={$location->public_id}" class="nav-link">Home</a>
 </li>
 {if $auth->hasPermission('manage_menu')}
-<li class="nav-item dropdown">
+<li class="nav-item dropdown" aria-labelledby="infoDropdown">
 	<a href="#" class="nav-link dropdown-toggle" id="infoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Info</a>
 	<div class="dropdown-menu" aria-labelledby="infoDropdown">
 		<a class="dropdown-item" href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=current&amp;location={$location->public_id}">Current Menu</a>
@@ -19,7 +19,9 @@
 	</div>
 </li>
 {/if}
-<li class="nav-item dropdown">
+
+
+<li class="nav-item dropdown" aria-labelledby="reportsDropdown">
 	<a href="#" class="nav-link dropdown-toggle" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reports</a>
 	<div class="dropdown-menu" aria-labelledby="reportsDropdown">
 		<a class="dropdown-item" href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=adaptive_equipment&amp;location={$location->public_id}">Adaptive Equipment</a>
@@ -34,7 +36,7 @@
 	</div>
 </li>
 {if $auth->hasPermission('view_photos')}
-<li class="nav-item dropdown">
+<li class="nav-item dropdown" aria-labelledby="photosDropdown">
 	<a href="#" class="nav-link dropdown-toggle" id="photosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Photos</a>
 	<div class="dropdown-menu" arialabelledby="photosDropdown">
 		{if $auth->hasPermission('manage_dietary_photos')}

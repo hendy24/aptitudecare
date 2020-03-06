@@ -18,7 +18,7 @@ class MainPageController extends MainController {
  *
  */
 	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu", "print_activities");
+		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu", "print_activities", "public");
 	}
 
 
@@ -37,12 +37,11 @@ class MainPageController extends MainController {
 
 
 
-
+	/*
+	 * This function is not being used now since we are using a public page.
+	 *
+	 */
 	public function index() {
-		// Check if user is logged in, if not redirect to login page
-		if (!auth()->isLoggedIn()) {
-			$this->redirect(array('page' => 'Login', 'action' => 'index'));
-		}
 
 	}
 
@@ -150,11 +149,8 @@ class MainPageController extends MainController {
 			$locations = $this->loadModel('Location')->fetchAllLocations();
 			$location = $this->getSelectedLocation($locations);
 		}
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> aspencreek-temp
+
 		$this->locations = $locations;
 		$this->location = $location;
 		$this->areas = $areas;
@@ -419,6 +415,51 @@ class MainPageController extends MainController {
 		}
 
 		return false;
+	}
+
+
+
+	public function normalizeMenuItems($menuItems) {
+		$menuWeek = false;
+		foreach ($menuItems as $key => $item) {
+
+			if (isset ($item->date) && $item->date != "") {
+				$menuItems[$key]->type = "MenuMod";
+			} elseif (isset ($item->menu_item_id) && $item->menu_item_id != "") {
+				$menuItems[$key]->type = "MenuChange";
+			} else {
+				$menuItems[$key]->type = "MenuItem";
+			}
+
+			// Get the current week
+			$menuWeek = floor($item->day / 7);
+
+			$menuItems[$key]->content = nl2br($item->content);
+
+			// explode the tags
+			if (strstr($item->content, "<p>")) {
+				$menuItems[$key]->content = explode("<p>", $item->content);
+				$menuItems[$key]->content = str_replace("</p>", "", $item->content);
+			} else {
+				$menuItems[$key]->content = explode("<br />", $item->content);
+			}
+
+			if (isset ($item->mod_content)) {
+				// explode the tags
+				if (strstr($item->mod_content, "<p>")) {
+					$menuItems[$key]->mod_content = explode("<p>", $item->mod_content);
+					$menuItems[$key]->mod_content = str_replace("</p>", "", $item->mod_content);
+				} else {
+					$menuItems[$key]->mod_content = explode("<br />", $item->mod_content);
+				}
+			}
+
+
+		}
+
+		smarty()->assign('count', 0);
+		smarty()->assign('menuWeek', $menuWeek);
+		smarty()->assignByRef('menuItems', $menuItems);
 	}
 
 }

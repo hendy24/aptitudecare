@@ -18,7 +18,7 @@ var errorStatus = 0;
 	//setup debugger
 	$('.panelCount').html('panelCount = '+window.panelCount);
 	
-	setInterval(autoAdvance, 18000); // page rotates every 18 seconds
+	setInterval(autoAdvance, 24000); // page rotates every 18 seconds
 
 	//Tell javascript to call loadpage every X milliseconds
 	setInterval(loadPage, 900000); // 15 minute (900000) ms for production

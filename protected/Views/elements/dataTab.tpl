@@ -1,5 +1,5 @@
 {if $auth->hasPermission('edit_data')}
-<li class="nav-item dropdown">
+<li class="nav-item dropdown" aria-labelledby="dataDropdown">
 	<a href="#" class="nav-link dropdown-toggle" id="dataDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data</a>
 	<div class="dropdown-menu" aria-labelledby="reportsDropdown">
 		{if $this->getModule() == "Admissions" || $this->getModule() == "HomeHealth"}

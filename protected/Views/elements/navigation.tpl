@@ -1,4 +1,4 @@
-<ul class="navbar-nav mr-auto custom-nav">
+<ul class="nav justify-content-end">
 	{if $session->getModule() == "HomeHealth"}
 		{$this->loadElement("homeHealthNav")}
 	{elseif $session->getModule() == "Dietary"}

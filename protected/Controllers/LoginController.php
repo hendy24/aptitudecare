@@ -2,6 +2,7 @@
 
 class LoginController extends MainPageController {
 
+	public $page = 'login';
 	public $allow_access = true;
 
 	
@@ -84,7 +85,6 @@ class LoginController extends MainPageController {
 					
 		} 
 				
-
 	}	
 
 

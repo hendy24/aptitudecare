@@ -1,0 +1,214 @@
+@media(max-width: 767px){	
+	h1 , .form_area_guide.section h2{
+		font-size: 34px;
+	}
+	.hero_slide_content p {
+		font-size: 18px;
+	}
+	.c_slide_inner {
+	    
+	    background-position: center center !important;
+	        background-position-x: center;
+	        background-position-y: center;
+	    background-size: cover !important;
+	}
+	.black-hero.btn{font-size: 20px;border:none;}
+	.section {
+		padding-top: 40px;
+	}
+	.section h2 {
+		font-size: 38px;
+		margin-bottom: 10px;
+	}
+	.has-slogan {
+		font-size: 18px;
+		margin-bottom: 50px;
+	}
+	 .call-to-action a h3, .white_shadow{
+	 	font-size: 32px;
+	 }
+	 .service_content h4 {
+	 	font-size: 24px;
+	 }
+	 .service_content p {
+	 	font-size: 18px;
+	 	line-height: 1.3em;
+	 }
+	 .service_content {
+	 	margin-bottom: 30px;
+	 }
+	 .bg_experience {
+	 	min-height: 210px;
+	 	background-size: cover;
+	 }
+	 .pda-55{
+	 	padding: 15px 0;
+	 }
+	 .banner_title_parallax p{
+	 	font-size: 18px;
+	 }
+	 .footer_row1  , .footer_row2 , .footer_row3{
+	 	padding-right: 0;
+	 	padding-left: 0;
+	 }
+	 .footer_row2 ul li a , .footer_row2 h4, .footer_row2 h4 a {
+	 	text-align: left !important;
+	 	display: block;
+	 }
+	.footer_row2 .col-sm-6 > .d-flex:first-child {
+
+	    flex-wrap: wrap;
+	    flex-direction: column;
+
+	}
+	 header .navbar-expand-lg .navbar-nav .nav-link {
+	 	padding-top: 10px;
+	 	padding-bottom: 10px;
+	 	border-bottom: 1px solid #d9d9d9;
+	 	min-height: inherit;
+	 }
+	 .navbar-nav {
+	 	margin-top: 15px;
+	 }
+	 .social-media ul{padding: 0;}
+	  .brand_footer {margin: 0;}
+	  .social-media ul li {
+		    margin-left: 20px;
+  	} 
+	 .ml-xs-0 {
+	 	margin-left: 0 !important;
+	 }
+	 header {
+	 	padding: 10px 0;
+
+	 }
+	 .navbar-collapse  {
+	 	position: absolute;
+	 	top: 100%;
+	 	left: 0;
+	 	width: 100%;
+	 	background: #fff;
+	 }
+	 .navbar{position: static;}
+	 .faq_section .card-header button {
+	 	font-size: 18px;
+	 	padding-right: 25px;
+	 }
+	 .faq_section .card-header button::before {
+	 	right: 0;
+	 }
+	 .faq_section .card-header button::after {
+	 	right: -8px;
+	 }
+	 .faq_section .card-body , .pg-contact .section-title p , .form-group label{
+	 	font-size: 18px;
+	 }
+	 .pg-contact .section-title p  br {display: none;}
+	 .pg-contact .section-title p b{display: inline-block;width: auto;}
+	 .info_area_contact h3 {font-size: 26px;}
+	 .info_area_contact p, .info_area_contact p a{font-size: 18px;}
+	 .info_area_contact p.icon::before {
+
+	    position: absolute;
+	    top: 3px;
+	    left: 0;
+	    height: 25px;
+	    width: 25px;
+	}
+	.mt-100  {
+		margin-top: 30px;
+	} 
+	.mb-100  {
+		margin-bottom: 30px;
+	} 
+	.cms_content_area h3 , .section-title h3{
+		font-size: 38px;
+	}
+	.call-to-action a h3, .white_shadow  {
+		padding: 0 15px;
+	}
+	.cms_content_area h4 {
+		font-size: 32px;
+	}
+	.plm-0  {
+		padding-left: 0 !important;
+	}
+	.standards_area   .cms_content_area  {
+		padding-top: 3rem;
+	}
+	.cms_content_area p {
+		font-size: 18px;
+	}
+}
+
+@media(min-width: 768px) and (max-width: 1024px){
+	header .navbar-expand-lg .navbar-nav .nav-link {
+	 	padding-top: 10px;
+	 	padding-bottom: 10px;
+	 	border-bottom: 1px solid #d9d9d9;
+	 	min-height: inherit;
+	 }
+	 .navbar-nav {
+	 	margin-top: 15px;
+	 }	
+	 header {
+	 	padding: 10px 0;
+
+	 }
+	 .navbar-collapse  {
+	 	position: absolute;
+	 	top: 100%;
+	 	left: 0;
+	 	width: 100%;
+	 	background: #fff;
+	 }
+	 .navbar{position: static;}
+	 h1 , .form_area_guide.section h2{
+		font-size: 64px;
+	}
+	.hero_slide_content p {
+		font-size: 18px;
+	}
+	.c_slide_inner {
+	    
+	    background-position: center center !important;
+	        background-position-x: center;
+	        background-position-y: center;
+	    background-size: cover !important;
+	}
+	.black-hero.btn{font-size: 20px;border:none;}
+	.section {
+		padding-top: 40px;
+	}
+	.footer_row2{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.call-to-action a h3, .white_shadow {
+		font-size: 38px;
+	}
+	.plm-0 {
+		padding-left: 0 !important;
+	}
+	.mt-100  {
+		margin-top: 30px;
+	} 
+	.mb-100  {
+		margin-bottom: 30px;
+	} 
+	.cms_content_area h3 , .section-title h3{
+		font-size: 38px;
+	}
+	.call-to-action a h3, .white_shadow  {
+		padding: 0 15px;
+	}
+	.standards_area   .cms_content_area  {
+		padding-top: 3rem;
+	}
+	.cms_content_area p {
+		font-size: 18px;
+	}
+	.cms_content_area h4 {
+		font-size: 32px;
+	}
+}

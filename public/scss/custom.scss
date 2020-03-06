@@ -1,0 +1,15 @@
+@import "../bootstrap/scss/bootstrap";
+
+
+/**** Custom bootstrap styles ****/
+a, a:hover {
+	color: var(--dark);
+	text-decoration: none;
+}
+
+.navbar a {color:#ffffff;}
+.navbar a:hover {color:#ffffff;text-decoration:underline;}
+.nav-link {color: #ffffff;}
+.nav-link:hover {color:#ffffff;text-decoration:none;}
+
+.container-xl {margin-top: 50px;}

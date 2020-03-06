@@ -9,7 +9,7 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h2>Daily Patient Meal Order</h2>
+			<h2>Daily Resident Meal Order</h2>
 		</div>
 	</div>
 
