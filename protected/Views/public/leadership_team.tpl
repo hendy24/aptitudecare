@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="team-section">
-		<h1 class="text-center">Meet the Team</h1>
+		<h1 class="text-center">Leadership Team</h1>
 	</div>
 	<div class="team-section">
 		<div class="row">
@@ -36,9 +36,11 @@
 		<div class="row">
 			<div class="col-xl text-justify">
 				<h2>Adrienne Bradley <br><small>Clinical Director</small></h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quo sed aliquam eligendi, quaerat, repudiandae quibusdam, modi neque repellat in vitae eaque ipsum rem quidem ratione cupiditate esse? Inventore, magni.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id quam soluta qui quo placeat, voluptatibus est aut beatae nostrum odio modi, maxime pariatur, sunt repellat eum adipisci, consectetur. Corrupti, nihil!</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis porro maxime tenetur molestias ab reprehenderit modi odio exercitationem dolorum. Exercitationem tenetur odio culpa reprehenderit ratione, vitae possimus, asperiores animi ullam?</p>
+				<p>I grew up in Utah where I lived close to family until my early 20’s when I married, had a baby, and moved to Fort Hood, Texas. Only 2 months after arriving in Texas, my husband left and deployed to Iraq for over a year. I had never been away from family or alone in my life until then. I applied for and was accepted into nursing school at University of Mary Hardin-Baylor and graduated in 2006 with my Bachelor of Science in Nursing. Nursing school with a toddler, a deployed husband, and no family support was the hardest thing I have done! But as with all trials, many blessings came from this, the biggest one was I became a nurse.</p>
+				<p>In nursing school I was always drawn to the elderly population. I’m sure this is because of the close relationship I had with my grandparents and great-grandmother in Utah. After doing a hospice clinical rotation, I realized I wanted to spend my nursing career caring for seniors, so I became a Hospice Case Manager straight out of nursing school. When we moved to San Antonio, I worked in the ICU for a bit to gain some clinical skills. In the ICU, I was always drawn to caring for the dying patients. Due to my husband being in the military, we moved around a lot, so I’ve also worked in Home Health & Hospice in Washington State, Kansas, was an Urgent Care Clinical Manager up in Fairbanks, a Hospice nurse in Kansas, and have recently worked as Home Health & Hospice nurse in Anchorage. I’m super excited about my new role at Aspen Creek where I get to work with seniors on a daily basis.</p>
+				<p>I love caring for our elderly population because I feel passionate about ensuring they get the care, compassion, and respect they deserve. I believe our seniors have so much to teach us about life, and I love learning from them. Working in Hospice and end of life care has taught me how precious life is, and that we can find hope, meaning, and quality of life right until the very end.</p>
+				<p>When I’m not working, I enjoy spending time with my 3 kids and husband. My absolute favorite thing to do in this world is read. I love going to bookstores and coffee shops whenever I get a chance.</p>
+				<p>I am so excited to be a part of the Aspen Creek team as everyone I have met who works here shares my same beliefs.</p>
 			</div>
 		</div>
 	</div>
@@ -48,9 +50,8 @@
 			<div class="col-xl text-justify">
 				<img src="{$IMAGES}/staff/stephanie_freeman.jpg" alt="" class="float-left rounded">
 				<h2>Stephanie Freeman <br><small>Business Office Manager</small></h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quo sed aliquam eligendi, quaerat, repudiandae quibusdam, modi neque repellat in vitae eaque ipsum rem quidem ratione cupiditate esse? Inventore, magni.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id quam soluta qui quo placeat, voluptatibus est aut beatae nostrum odio modi, maxime pariatur, sunt repellat eum adipisci, consectetur. Corrupti, nihil!</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis porro maxime tenetur molestias ab reprehenderit modi odio exercitationem dolorum. Exercitationem tenetur odio culpa reprehenderit ratione, vitae possimus, asperiores animi ullam?</p>
+				<p>My name is Stephanie Freeman and I am the Business Office Manager at Aspen Creek Senior Living. I was born and raised in Palmer, Alaska. After graduating from Palmer High School, I attended college at Mesa State College in Colorado then University of Alaska Anchorage. I took some basic classes, Biology courses and a couple of accounting courses. But since I couldn’t decide on a degree program, I discontinued taking classes. I enrolled in a Certified Nurse’s Assistant course through AVTEC in Anchorage and after graduating went straight to work using my CNA. </p>
+				<p>I have worked in many different types of jobs. In healthcare, I’ve worked in an urgent care, with a group of neurosurgeons, and in-home health care. I usually end up working in the offices or as the front desk person where I am able to put my computer skills and medical terminology to good use. Since starting as a Receptionist at Aspen Creek I have grown, learned lots of new roles and promoted to Business Office Manager. I strive to continue learning and bettering myself not only for my own knowledge but also so I can better help the residents in our community here and all of the family members involved in their care.</p>
 			</div>
 		</div>
 	</div>
@@ -59,9 +60,10 @@
 		<div class="row">
 			<div class="col-xl text-justify">
 				<h2>Anna Houser <br><small>Life Enrichment Director</small></h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quo sed aliquam eligendi, quaerat, repudiandae quibusdam, modi neque repellat in vitae eaque ipsum rem quidem ratione cupiditate esse? Inventore, magni.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id quam soluta qui quo placeat, voluptatibus est aut beatae nostrum odio modi, maxime pariatur, sunt repellat eum adipisci, consectetur. Corrupti, nihil!</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis porro maxime tenetur molestias ab reprehenderit modi odio exercitationem dolorum. Exercitationem tenetur odio culpa reprehenderit ratione, vitae possimus, asperiores animi ullam?</p>
+				<p>I attended the University of Wyoming on a Volleyball scholarship where I earned my degree in Child and Family Services. Part of my graduation requirements was a 6 month internship program where I thought I would be placed in an environment to work with children. My ultimate goal was always to work with children and youth.  Instead, I was placed in an assisted living facility helping to run the activities program. I had a great time and fell in love with those sweet residents but still  did not feel it was the direction I should take in my career.</p>
+				<p>As luck would have it I had my oldest daughter the semester before I graduated and  spent the next 20 years raising my family and being a stay at home mom. I coached club volleyball on the side as well as doing some catering, sold Pampered Chef and had several other flexible jobs I could do while raising my 4 kids. I was also highly active within my church and spent a significant amount of time coordinating and implementing week long youth retreats, working as a music chorister for the primary children and as an activities specialist for the women I served. I was even a cub master in the Boy Scout Program. Most recently I was working as a special needs para in an elementary school preschool. I loved working with those sweet little ones. I really felt like I had landed where I was supposed to be. Que a job opportunity for my husband in AK.</p>
+				<p>The whole move here felt surreal and I spent the first year just trying to settle in to my new reality and make sure my two teenage kids who came with us were getting the things they needed after such a big move. It didn’t take long to realize this was a home and state we were going to love. I felt ready to find my own purpose here in AK. I set about trying to find a job that I would not only be good at but that had meaning and purpose. The core of my nature is to serve and love and I wanted to find a job that was in need of my specific talent and abilities.</p>
+				<p>I knew when I walked through the doors at Aspen Creek I had found what I was looking for. My mother had a stroke when she was 62 and needed lots of care for the 16 years she lived with her new reality. 3 years before she passed my dad was diagnosed with ALS and again our world was rocked. So many questions about how he would be cared for how how his remaining time would look. Those experiences with my parents truly sensitized me to the plight of the elderly. The way they were treated by doctors and those they came in contact with all became a source of concern. Many times we had to fight for specific services and get help that no one felt was necessary. When I walked through the doors of Aspen Creek and met the staff and learned about their ideals and goals for the facility I knew it was a place I would have put my own parents and I wanted to be a part of it.</p>
 			</div>
 		</div>
 	</div>
@@ -71,9 +73,11 @@
 			<div class="col-xl text-justify">
 				<img src="{$IMAGES}/staff/jericho_mandani.jpg" alt="" class="float-left rounded">
 				<h2>Jericho Mandani <br><small>Executive Chef</small></h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quo sed aliquam eligendi, quaerat, repudiandae quibusdam, modi neque repellat in vitae eaque ipsum rem quidem ratione cupiditate esse? Inventore, magni.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id quam soluta qui quo placeat, voluptatibus est aut beatae nostrum odio modi, maxime pariatur, sunt repellat eum adipisci, consectetur. Corrupti, nihil!</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis porro maxime tenetur molestias ab reprehenderit modi odio exercitationem dolorum. Exercitationem tenetur odio culpa reprehenderit ratione, vitae possimus, asperiores animi ullam?</p>
+				<p>I cooked my first dish when I was 8 years old, it was Salisbury steak. I tried it in a local fast food chain back in the Philippines that sparked my curiosity in the culinary world. Growing up, I never had any formal kitchen training. Everything I did was through observation and self-study until I got my first cooking job. I have so much passion for cooking, but I did not have the resources to go to a culinary school until I met my mentor Luke Gilligan back in 2012. I trained with him about the management side of the job, I then preceded to stagiaire on fine dining restaurants around town for 2 years. I learned French, Italian and Asian cuisine from the top chefs of Alaska.</p>
+				<p>In 2014 I was hired as a Sous Chef at Crowne Plaza and got promoted to become the Executive Chef after 2 months. Since then I have been participating and able to win multiple awards from cooking competitions, the recent one was the “Soup R Bowl” soup contest and I also have been nominated twice as Kitchen Manager of the year at the Stars of the Industry (Alaska Hotel and Lodging Association). While I grow and establish my name in the culinary industry in Alaska, I still work hard to learn different techniques and styles of cooking. For me learning will never stop. I try to learn from everyone, be it on a professional kitchen or home kitchen. I get great pleasure out of seeing happy faces enjoying the meal that I prepared.</p>
+				<p>As a chef, my goal is to serve the best plate possible considering nutrition demands and dietary restrictions. Working for our seniors gives me a sense of fulfillment. Because I was not given the opportunity to do what I do best to my own grandparents.</p>
+				<p>My family is what drives me to become better in everything I do. My wife, as my support and my kids are my greatest critic. Other than being a family man and a chef, I am also a musician and an artist. I think combining all my talents is what separates me from the other chefs out there. My love for cooking, passion for music, plus the soul from my art, I think we got the perfect recipe.</p>
+				<p>I am grateful to be part of the Aspen Creek team and I give 100% to provide the best dining experience for our residents.</p>
 			</div>
 		</div>
 	</div>
@@ -83,9 +87,10 @@
 			<div class="col-xl text-justify">
 				<img src="{$IMAGES}/staff/tami_ochoa.jpg" alt="" class="float-left rounded">
 				<h2>Tami Ochoa <br><small>Admission Coordinator</small></h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quo sed aliquam eligendi, quaerat, repudiandae quibusdam, modi neque repellat in vitae eaque ipsum rem quidem ratione cupiditate esse? Inventore, magni.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id quam soluta qui quo placeat, voluptatibus est aut beatae nostrum odio modi, maxime pariatur, sunt repellat eum adipisci, consectetur. Corrupti, nihil!</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis porro maxime tenetur molestias ab reprehenderit modi odio exercitationem dolorum. Exercitationem tenetur odio culpa reprehenderit ratione, vitae possimus, asperiores animi ullam?</p>
+				<p>Born and raised in Alaska. As an adolescent we lived here in Anchorage and traveled with my father to different cities and towns during the summer while he was in charge of building many of the roads in Alaska for the Department of Transportation. During these years I was blessed to watch my parents support each other and show me how love and compassion can see you through good times as well as trials. We also had a strong presence of faith in our home then and to this day. My life was formed by love, compassion, belief that everyone is special and we all need to be take care of each other no matter what the differences may be in our lives. I have always cherished these teachings and have had the dream of being able to give back just a small amount of these gifts to everyone I meet.</p>
+				<p>My early adult years were spent married and raising my children. As long as I can remember I have wanted to take care of people. To bring happiness, ease their pain, share their joys, and comfort them in their sorrows. Naturally once my children were grown and all in school I decided to pursue a career in the medical field.</p>
+				<p>I worked for 19+ years in Skilled Nursing and loved being the one people came to when they needed love, help, comfort and care. A year ago my life changed, I was at a crossroad in my career, I took a break from Skilled Nursing and then I was approached to join this team at Aspen Creek Senior Living. Their vision was also mine. Compassion, Love, Giving, and Creating a place where people who need help can live and age in place.</p>
+				<p>I am blessed again in my life to be surrounded by people who have the Compassion, Love and a Genuine dream to Care for our Seniors and all of the residents in our community that are in need of assistance. We are here to enrich lives, share stories, enable dreams, allow families to become family again and allow us to care for their loved ones.</p>
 			</div>
 		</div>
 	</div>

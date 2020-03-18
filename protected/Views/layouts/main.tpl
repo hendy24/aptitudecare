@@ -6,11 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- CSS Files -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="{$CSS}/custom.css">
-
-	<script type="text/javascript" src="{$JS}/jquery-3.4.1.min.js"></script>
+	
+<!-- 	<script type="text/javascript" src="{$JS}/jquery-3.4.1.min.js"></script>
  	<script type="text/javascript" src="{$SITE_URL}/bootstrap/js/bootstrap.min.js"></script>
- 	<script type="text/javascript" src="{$SITE_URL}/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<script type="text/javascript" src="{$SITE_URL}/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+
+	<script src="{$JS}/jquery-3.4.1.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+	<script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
 
 	<script>var SITE_URL = '{$SITE_URL}';</script>
 
@@ -18,34 +25,28 @@
 <body>
 
 		
-	<div class="container-fluid">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="col-sm">
-				<a href="/" class="navbar-brand"><img src="{$IMAGES}/aspencreek-logo_white.png" alt="Aspen Creek Black Logo"></a>
-			</div>
-			<div class="col-md text-justify-end">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						{if $auth->valid()}
-							{$this->loadElement("navigation")}
-						{/if}
-					</ul>
-				</div>
-			</div>
-			<div class="col-sm text-right text-white">
-				{if $auth->valid()}
-	        	Welcome, <a href="{$SITE_URL}/?page=users&amp;action=my_info&amp;id={$auth->getRecord()->public_id}">{$auth->fullName()}</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout">Logout</a>
-		      	{/if}
-			</div>
-		</nav>		
-		<div class="container-xl">
+	<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow sticky-top">
+		<a href="/" class="navbar-brand col-sm-6 col-md-2 mr-0"><img class="img-fluid" src="{$IMAGES}/aspencreek-logo_white.png" alt="Aspen Creek Black Logo"></a>
+		<ul class="navbar-nav px-3">
+			<li class="nav-item text-nowrap text-white">
+				{if $auth->isLoggedIn()}Hello, {$auth->fullName()} &nbsp;|&nbsp;
+				<a href="{$SITE_URL}/login/logout" class="text-white">Logout</a>{/if}
+			</li>
+		</ul>
+	</nav>
+
+	{if $auth->valid()}
+		{$this->loadElement("navigation")}
+	{/if}
+
+	<main class="col-md-9 ml-sm-auto col-lg-10">
+		<div class="d-flex-justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2">
+			
+			<!-- Flash messages ------>
 			{if $flashMessages}
-			<div id="flash-messages">
+			<div class="row">
 				{foreach $flashMessages as $class => $message}
-				<div class="{$class}">
+				<div class="col-sm alert {$class}" role="alert">
 					<ul>
 					{foreach $message as $m}
 						<li>{$m}</li>
@@ -58,9 +59,11 @@
 			{/if}
 
 			{include file=$content}
+			
 		</div>
+	</main>
+			
 
-	</div>
 
 	<!-- <div id="timeout-warning">
 	    <p>Your session is about to timeout.  You will be automatically logged out in 1 minute. To remain logged in click the button below.</p>

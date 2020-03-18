@@ -102,84 +102,95 @@
 		})
 </script>
 
-<div class="row">
-	<div class="col-lg-4 col-md-6 col-sm-12">
-		{$this->loadElement("module")}
-	</div>
-	<div class="col-lg-4 col-md-12 col-sm-12 text-center">
-		{$this->loadElement("selectLocation")}
-	</div>
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-lg-4 col-md-6 col-sm-12 text-left">
+			{$this->loadElement("module")}
+		</div>
+		<div class="col-lg-4 col-md-12 col-sm-12 text-center">
+			{$this->loadElement("selectLocation")}
+		</div>
 
-	<div class="col-lg-4 col-md-6 col-sm-12 header-buttons">
-		<a id="tray-card-select-date"
-			href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true"
-			class="btn btn-primary pull-right" target="_blank">Tray Cards</a>
+		<div class="col-lg-4 col-md-6 col-sm-12 header-buttons text-right">
+			<a id="tray-card-select-date"
+				href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true"
+				class="btn btn-primary pull-right" target="_blank">Tray Cards</a>
 
-		<a id="meal-order-form-select-date"
-			href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true"
-			class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
-	</div>		
+			<a id="meal-order-form-select-date"
+				href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true"
+				class="btn btn-primary pull-right" target="_blank">Meal Order Forms</a>
+		</div>		
+	</div>
 </div>
 
 
 
-
-
-
-
-<div class="page-container">
-	<h1 class="text-center">Current Patients</h1>
+<div class="container width-80 mt-5">
+	<h1 class="text-center">Current Residents</h1>
 	<input type="hidden" id="location" value="{$location->public_id}">
 	<input type="hidden" name="currentUrl" value="{$current_url}">
-	<table id="patient-info">
-		<tr>
-			<th style="width:70px">Room</th>
-			<th>Patient Name</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th style="width: 20%">&nbsp;</th>
-			<th style="width:70px">Room</th>
-			<th>Patient Name</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-		</tr>
-		<tr>
-		{foreach from=$currentPatients key=k item=patient name=count}
-			<td class="room-number" value="{$patient->number}">{$patient->number}</td>
-
-			{if get_class($patient) == "Patient"}
-			<td class="{$k}">{$patient->last_name}, {$patient->first_name}</td>
-			<td class="{$k}">{$dietaryMenu->menu($patient, $selectedLocation)}</td>
-			<td class="{$k}">
-				{if !$modEnabled}
-				<a href="#" class="delete-patient">
-					<img src="{$FRAMEWORK_IMAGES}/delete.png" class="{$k}" style="position: relative; top: 7px;" alt="">
-					<input type="hidden" name="public_id" class="public-id" value="{$patient->public_id}">
-					<input type="hidden" name="room_number" class="room-number" value="{$patient->number}">
-				</a>
-					<input type="hidden" class="patient-id" value="{$patient->public_id}">
-				{/if}
-			</td>
-			{else}
-
-			<td>
-				{if !$modEnabled}
-				<input type="button" class="add-patient" value="Add Patient">
-				<input type="hidden" class="room" value="{$patient->number}">
-				{/if}
-			</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			{/if}
-
-		{if $smarty.foreach.count.iteration is div by 2}
-			</tr>
+	<table id="patient-info" class="table table-striped">
+		<thead class="thead-dark">
 			<tr>
-		{else}
-			<td>&nbsp;</td>
-		{/if}
-		{/foreach}
-		</tr>
+				<th scope="col">Room</th>
+				<th scope="col">Patient Name</th>
+				<th scope="col">&nbsp;</th>
+				<th scope="col">&nbsp;</th>
+				<th scope="col">&nbsp;</th>
+				<th scope="col">Room</th>
+				<th scope="col">Patient Name</th>
+				<th scope="col">&nbsp;</th>
+				<th scope="col">&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			{foreach from=$currentPatients key=k item=patient name=count}
+				<td value="{$patient->number}">{$patient->number}</td>
+
+				{if get_class($patient) == "Patient"}
+				<td>{$patient->last_name}, {$patient->first_name}</td>
+				<td>
+					<div class="dropdown">
+						<button class="btn text-right" type="button" id="patientDietInfoDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tools"></i></button>
+						<div class="dropdown-menu" aria-labelledby="patientDietInfoDropdown">
+							<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=diet&amp;patient={$patient->public_id}" class="dropdown-item">Edit Diet</a>
+							<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;patient={$patient->public_id}&amp;location={$location->public_id}&amp;pdf=true" class="dropdown-item">Current Tray Card</a>
+							<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$location->public_id}" class="dropdown-item">Selected Tray Card</a>
+						</div>
+					</div>
+				</td>
+				<td>
+					{if !$modEnabled}
+					<a href="#" class="delete-patient">
+						<button class="btn text-left" type="button"><i class="fas fa-trash"></i></button>
+						<input type="hidden" name="public_id" class="public-id" value="{$patient->public_id}">
+						<input type="hidden" name="room_number" class="room-number" value="{$patient->number}">
+					</a>
+						<input type="hidden" class="patient-id" value="{$patient->public_id}">
+					{/if}
+				</td>
+				{else}
+
+				<td>
+					{if !$modEnabled}
+					<input type="button" class="add-patient" value="Add Patient">
+					<input type="hidden" class="room" value="{$patient->number}">
+					{/if}
+				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				{/if}
+
+			{if $smarty.foreach.count.iteration is div by 2}
+				</tr>
+				<tr>
+			{else}
+				<td>&nbsp;</td>
+			{/if}
+			{/foreach}
+			</tr>
+		</tbody>
 	</table>
 </div>
 

@@ -74,8 +74,6 @@ class PatientsController extends MainPageController {
 
 
 
-
-
 		/*
 		 *	PROCESS SUBMITTED INQUIRY FORM
 		 *

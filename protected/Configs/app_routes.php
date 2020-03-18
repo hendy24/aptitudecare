@@ -108,6 +108,7 @@
 	}
 
 
+
 	/*
 	 * -------------------------------------------
 	 * CREATE ROUTES FOR SPECIFIC URL'S
@@ -121,6 +122,7 @@
 			$page = "Public";
 			$action = "index";
 		}
+
 
 	/*
 	 * -------------------------------------------
@@ -146,6 +148,7 @@
 		
 		$className = $page.'Controller';
 
+
 		// If the class exists, instantiate it and load the coorespondig view from the Views folder. Otherwise, load the
 		// error page.
 		
@@ -153,6 +156,7 @@
 			$controller = new $className;
 			$controller->page = underscoreString($page);
 			$controller->module = $module;
+
 
 			// Check the camelized, underscored, and action variables for the method within the class
 			if (method_exists($controller, $camelizedAction)) {

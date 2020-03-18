@@ -1,4 +1,4 @@
-<div class="container-sm">
+<div class="container login mt-5">
 	<h1>Login</h2>
 	 <form method="post" class="form-signin" action="{$SITE_URL}/login">
 		<div class="form-group">

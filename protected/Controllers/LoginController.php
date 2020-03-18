@@ -140,7 +140,7 @@ class LoginController extends MainPageController {
 	
 	public function logout() {
 		auth()->logout();
-		$this->redirect(array('page' => 'login', 'action' => 'index'));
+		$this->redirect(SITE_URL);
 	}
 	
 

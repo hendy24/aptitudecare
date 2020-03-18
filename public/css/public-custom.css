@@ -8234,180 +8234,35 @@ h3 {
     border: 1px solid #ddd !important;
   }
 }
-.text-12 {
-  font-size: 12px;
-}
-
-.text-14 {
-  font-size: 14px;
-}
-
-.text-16 {
-  font-size: 16px;
-}
-
-.text-18 {
-  font-size: 18px;
-}
-
-.text-20 {
-  font-size: 20px;
-}
-
-.text-22 {
-  font-size: 22px;
-}
-
-ul li {
-  list-style-type: none;
-}
-
-/**** Custom bootstrap styles ****/
-h1 {
-  margin: 15px 0;
-  text-align: center;
-}
-
-.nav li {
-  line-height: 0.75em;
-}
-.nav li.nav-item a {
-  color: #f8f8f8;
-}
-.nav li.nav-item a:hover {
+.dropdown-menu > a.dropdown-item {
   color: #333333;
-  background-color: #ffffff;
 }
 
-.table .btn {
-  background: none;
+.dropdown-menu > a.dropdown-item:hover {
+  background: #333333;
+  color: #ffffff;
 }
-.table a.btn {
-  border: none;
+
+li.dropdown a, li.dropdown li a:visited {
   color: #000;
 }
-.table a.btn:hover {
-  color: #333333;
-}
-.table a.btn-table, .table a.button:visited {
-  background: #444444;
-  padding: 6px 12px;
-  border-radius: 2px;
-  color: #f8f8f8;
-}
-.table a.btn-table:hover {
-  text-decoration: none;
-  background: #000000;
-  color: #ffffff;
+
+.page {
+  padding: 25px 0 75px 0;
 }
 
-/*
- * Site wide styles
- */
-.container {
-  width: 80%;
-}
-
-.login {
-  width: 40%;
-}
-
-.button {
-  padding: 5px 8px;
-  border-radius: 2px;
-  margin: 0 2px;
-  color: #ffffff;
-}
-
-.alert > ul li {
-  list-style-type: none;
-}
-
-/*
- * Sidebar
- */
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  /* Behind the navbar */
-  padding: 100px 0 0;
-  /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
-  line-height: 1em;
-}
-
-.sidebar .nav-link {
-  font-weight: 500;
-  color: #e4e4e4;
-}
-
-.sidebar .nav-link .feather {
-  margin-right: 4px;
-  color: #e4e4e4;
-}
-
-.sidebar .nav-link.active {
-  color: #e4e4e4;
-}
-
-.sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
-  color: inherit;
-}
-
-.sidebar-heading {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-}
-
-/*
- * Content
- */
-[role=main] {
-  padding-top: 48px;
-  /* Space for fixed navbar */
-}
-
-/*
- * Navbar
- */
-.navbar {
-  z-index: 150;
-}
-
-.navbar-brand {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  font-size: 1rem;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
-}
-
-.navbar .form-control {
-  padding: 0.75rem 1rem;
-  border-width: 0;
-  border-radius: 0;
-}
-
-.form-control-dark {
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.form-control-dark:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
-}
-
-.section {
+h2 {
   margin: 25px 0;
 }
 
-a, a:visited {
-  color: #000;
+.footer-background {
+  background-image: url(../img/aspencreek-symbol_grey.png);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-/*# sourceMappingURL=custom.css.map */
+.footer-background > a {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=public-custom.css.map */

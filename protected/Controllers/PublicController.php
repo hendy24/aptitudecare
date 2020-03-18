@@ -4,6 +4,7 @@ class PublicController extends MainPageController {
 
 	public $page = 'public';
 	public $template = 'website';
+	public $allow_access = true;
 
 	public function index() {
 		
@@ -13,11 +14,11 @@ class PublicController extends MainPageController {
 
 	}
 
-	public function meet_the_team() {
+	public function leadership_team() {
 
 	}
 
-	public function our_staff() {
+	public function caregiving_team() {
 
 	}
 
@@ -51,7 +52,7 @@ class PublicController extends MainPageController {
 		$end_date = date('Y-m-d', strtotime("{$start_date} + {$numDaysCount}"));
 
 		$location = $this->loadModel('Location', 26);
-		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date, $numDays);
+		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date, $numDaysCount);
 
 		smarty()->assign('startDate', $start_date);
 		smarty()->assign('activities', $activities);
