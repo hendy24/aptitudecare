@@ -44,16 +44,13 @@
 			
 			<!-- Flash messages ------>
 			{if $flashMessages}
-			<div class="row">
+			<div class="row mx-4">
 				{foreach $flashMessages as $class => $message}
-				<div class="col-sm alert {$class}" role="alert">
-					<ul>
+				<div class="col-12 text-center alert {$class}" role="alert">
 					{foreach $message as $m}
-						<li>{$m}</li>
+						{$m}
 					{/foreach}
-					</ul>
 				</div>
-				<div class="clear"></div>
 				{/foreach}
 			</div>
 			{/if}

@@ -34,7 +34,7 @@
 			{$this->loadElement("selectLocation")}
 		</div>
 		<div class="col-lg-4 col-sm-12 text-right">
-			<button id="print-menu-select-date" class="btn btn-primary pull-right">Print Menu</button>
+			<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#printModal">Print Menu</button>
 		</div>
 	</div>
 </div>
@@ -66,7 +66,7 @@
 		{foreach from=$menuItems item="menuItem" name="menuItems"}
 			<td>
 				<div>
-					<div {if $menuItem->type == "MenuMod"}background-blue{elseif $menuItem->type == "MenuChange"} background-grey{/if}">
+					<div {if $menuItem->type == "MenuMod"}class="text-primary"{elseif $menuItem->type == "MenuChange"}class="text-warning"{/if}>
 						<ul>
 						{foreach $menuItem->content as $menu}
 							<li>{$menu|strip_tags:true}</li>
@@ -96,23 +96,36 @@
 		{/foreach}
 	</table>
 
-	<div id="legendary">
-		<h2>Menu Color Legend</h2>
-		<div class="legend-item">
-			<div class="legend-box background-grey"></div>
-			<div class="legend-desc">Menu Items with this background color have been edited at a corporate level. These changes are <strong>permanent</strong> and will display each time the menu starts over.</div>
+	<h2 class="text-center mt-5 pb-2">Menu Color Legend</h2>
+		<div class="row">
+			<div class="col-lg-1 bg-warning"></div>
+			<div class="col-lg-11">Menu Items with this background color have been edited at a corporate level. These changes are <strong>permanent</strong> and will display each time the menu starts over.</div>
 		</div>
-		<div class="legend-item">
-			<div class="legend-box background-blue"></div>
-			<div class="legend-desc">Menu Items with this background color have been edited by the facility. These changes are a <strong>one-time</strong> change and will not recur when the menu starts over.</div>
+		<div class="row mt-2">
+			<div class="col-lg-1 bg-primary"></div>
+			<div class="col-lg-11">Menu Items with this font color have been edited by the facility. These changes are a <strong>one-time</strong> change and will not recur when the menu starts over.</div>
 		</div>
 
 	</div>
 </div>
 
-<div class="clear"></div>
 
-<div id="menu-date-dialog" title="Select Date">
-	<p>Select the date for which you would like to print the menu.</p>
-	<input type="text" id="selected-date" class="date-picker">
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5>Select Date</h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Select the date for which you would like the menu to print.</p>
+			</div>
+			<div class="modal-footer">
+				
+			</div>
+		</div>
+	</div>
 </div>
+
