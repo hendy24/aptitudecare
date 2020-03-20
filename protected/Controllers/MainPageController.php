@@ -66,11 +66,13 @@ class MainPageController extends MainController {
 			}
 		}
 
+
 		// Fetch the modules to which the user has access
 		if (auth()->isLoggedIn()) {
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 			smarty()->assign('modules', $modules);
 		}
+
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
@@ -79,9 +81,9 @@ class MainPageController extends MainController {
 			// if there is module set then set it to the session
 			session()->setModule($this->module);
 		}
+
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
-
 
 		if (auth()->isLoggedIn()) {
 			if ($this->action == "admission_login") {
@@ -105,9 +107,9 @@ class MainPageController extends MainController {
 	private function setContent() {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
-		if ($this->module != "") {
-			if (file_exists(MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
-				smarty()->assign('content', MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . '/' . $this->action . '.tpl');
+		if ($this->module != "") {			
+			if (file_exists(MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
+				smarty()->assign('content', MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl');
 			} else {
 				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
 			}
@@ -182,7 +184,7 @@ class MainPageController extends MainController {
 	private function verifyModuleAccess($user_modules, $module) {
 		if (!empty ($user_modules)) {
 			foreach ($user_modules as $m) {
-				if ($m->name == $module) {
+				if ($m->name == $module || $m->name == ucfirst($module)) {
 					return true;
 				}
 			}

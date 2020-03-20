@@ -1,5 +1,5 @@
 <li class="nav-item">
-	<a href="{$SITE_URL}/?module=activities&amp;page=activities&amp;action=index" class="nav-link">Current Activities</a>
+	<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=index" class="nav-link">Current Activities</a>
 </li>
 <li class="nav-item ml-4">
 	<a href="#otherSection" class="nav-link dropdown-toggle" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="otherSection">Other</a>

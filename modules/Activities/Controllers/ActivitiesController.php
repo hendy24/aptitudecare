@@ -8,6 +8,9 @@
  **/
 class ActivitiesController extends MainPageController {
 
+	public $page = 'activities';
+	public $template = 'main';
+	public $allow_access = false;
 
 	/*
 	 * Activity home page
@@ -43,8 +46,6 @@ class ActivitiesController extends MainPageController {
 		$location = $this->getLocation();
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date);
 
-		//pr($activities); exit;
-
 		smarty()->assignByRef('activitiesArray', $activities);
 		smarty()->assign('title', "Activities");
 
@@ -76,9 +77,6 @@ class ActivitiesController extends MainPageController {
 			smarty()->assign('headerTitle', "Edit Activity");
 			if (isset (input()->id) && input()->id != "") {
 				$activity = $this->loadModel('Activity', input()->id)->fetchSchedule();
-				//Split datetime to date AND time
-				$activity->date_start = $activity->date_start;
-				$activity->time_start = $activity->date_start;
 			}
 		} else {
 			smarty()->assign('headerTitle', "Add a New Activity");
@@ -97,7 +95,7 @@ class ActivitiesController extends MainPageController {
 			$activity->all_day = null;
 
 		}
-		
+
 		smarty()->assignByRef('activity', $activity);
 	}
 
@@ -162,6 +160,7 @@ class ActivitiesController extends MainPageController {
 		if (isset (input()->all_day)) {
 			if(input()->all_day == "true"){
 				$activity_schedule->all_day = 1;
+				$activity_schedule->time_start = null;
 			}
 			else{
 				$activity_schedule->all_day = 0;
@@ -169,6 +168,7 @@ class ActivitiesController extends MainPageController {
 		} else {
 			$activity_schedule->all_day = 0;
 		}
+
 
 		// BREAKPOINT
 		if (!empty ($feedback)) {
@@ -178,16 +178,17 @@ class ActivitiesController extends MainPageController {
 
 		$activity->user_id = auth()->getRecord()->id;
 		
+
 		if ($activity->save()) {
 			$activity_schedule->activity_id = $activity->id;
 			if ($activity_schedule->save()) {
-				session()->setFlash("The activity was saved", 'success');
+				session()->setFlash("The activity was saved", 'alert-success');
 				$this->redirect(array("module" => $this->module));				
 			} 
 			
 			//}
 		} else {
-			session()->setFlash("Could not save the activity. Please try again", 'error');
+			session()->setFlash("Could not save the activity. Please try again", 'alert-danger');
 			$this->redirect(input()->current_url);
 		}
 	}

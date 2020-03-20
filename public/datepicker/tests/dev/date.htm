@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+
+<meta name="author" content="Amsul - http://amsul.ca">
+<meta name="viewport" content="width=device-width,user-scalable=no">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<title>Pickadate.js Date & Time Picker Examples</title>
+
+<link rel="stylesheet" href="../../lib/themes/default.css">
+<link rel="stylesheet" href="../../lib/themes/default.date.css">
+<link rel="stylesheet" href="../../lib/themes/default.time.css">
+
+<!--[if lt IE 9]>
+    <script>document.createElement('section')</script>
+    <style type="text/css">
+        .holder {
+            position: relative;
+            z-index: 10000;
+        }
+        .datepicker {
+            display: block;
+        }
+    </style>
+<![endif]-->
+<style>
+    .container { margin: 100px auto; display: flex; align-items: center; flex-direction: column; justify-content: center; }
+</style>
+
+<body>
+
+    <div class="container">
+<h1>Pickadate.js Date & Time Picker Examples</h1>
+<div id="carbon-block" style="margin:30px auto"></div>
+<div style="margin:30px auto"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<h2>Date Picker</h2>
+                <input
+                    id="input_01"
+                    class="datepicker"
+                    name="date"
+                    type="text"
+                    value="14 February, 2020"
+                    data-value="2020-02-14">
+                    <h2>Time Picker</h2>
+                    <input
+                    id="input_from"
+                    class="timepicker"
+                    type="time"
+                    name="time">
+</div>
+
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="../../lib/picker.js"></script>
+    <script src="../../lib/picker.date.js"></script>
+    <script src="../../lib/picker.time.js"></script>
+    <script src="../../lib/legacy.js"></script>
+
+    <script type="text/javascript">
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd;
+        }
+        if(mm<10) {
+            mm='0'+mm;
+        }
+        today = dd+'/'+mm+'/'+yyyy;
+
+        var $input = $( '.datepicker' ).pickadate({
+            formatSubmit: 'yyyy/mm/dd',
+            // editable: true,
+            closeOnSelect: false,
+            closeOnClear: false,
+        })
+
+        var picker = $input.pickadate('picker')
+        // picker.set('select', '14 October, 2014')
+        // picker.open()
+
+        // $('button').on('click', function() {
+        //     picker.set('disable', true);
+        // });
+
+        var $input2 = $( '.timepicker' ).pickatime({
+        })
+        var picker2 = $input2.pickatime('picker2')
+        picker2.open()
+
+    </script>
+<script>
+try {
+  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
+    return true;
+  }).catch(function(e) {
+    var carbonScript = document.createElement("script");
+    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CK7DKKQU&placement=wwwjqueryscriptnet";
+    carbonScript.id = "_carbonads_js";
+    document.getElementById("carbon-block").appendChild(carbonScript);
+  });
+} catch (error) {
+  console.log(error);
+}
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
+
+

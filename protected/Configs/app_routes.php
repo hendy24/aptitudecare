@@ -157,7 +157,6 @@
 			$controller->page = underscoreString($page);
 			$controller->module = $module;
 
-
 			// Check the camelized, underscored, and action variables for the method within the class
 			if (method_exists($controller, $camelizedAction)) {
 				$controller->action = $camelizedAction;

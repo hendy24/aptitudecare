@@ -8258,6 +8258,14 @@ h3 {
   font-size: 22px;
 }
 
+.text-24 {
+  font-size: 24px;
+}
+
+.text-strong {
+  font-weight: bold;
+}
+
 ul li {
   list-style-type: none;
 }
