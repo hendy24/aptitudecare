@@ -1,10 +1,5 @@
-body{
-	font-family: 'Helvetica Neue';
-}
 
-img {
-	padding: 4px 15px;
-}
+
 
 /*common style start here*/
 
@@ -28,149 +23,21 @@ a[href]:hover { color: #FFF; }
 }
 /*common style end here*/
 
-header {
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  position: relative;
-  z-index: 11;
-}
-
-header .bg-light {
-	 background-color: rgb(255, 255, 255) !important;
-	 padding-top: 0;
-	 padding-bottom: 0;
-}
-header .navbar-expand-lg .navbar-nav .nav-link{
-	padding-left: 2.5rem;
-	padding-right:  2.5rem;
-	padding-top: 1.67rem;
-	padding-bottom: 1.67rem;
-	font-size: 14px;
-	font-family: 'Helvetica Neue';
-	font-weight: 400;
-	color: #000000;
-	transition: all 0.5s ease-in-out;
-	min-height: 80px;
-}
-header .navbar-expand-lg .navbar-nav .active .nav-link , header .navbar-expand-lg .navbar-nav .nav-link:hover , header .navbar-expand-lg .navbar-nav .nav-link:focus ,header .navbar-expand-lg .navbar-nav .nav-link:active{
-	background:#e9e9e9;
-}
-.navbar-light .navbar-brand {
-	padding: 0;
-}
-
-.dropdown-menu {
-	width: 16em;
-}
-
-nav {
-	text-transform: uppercase;
-}
-
-a.dropdown-item, a.dropdown-item:visited {
-	color: #333;
-}
-
-a.dropdown-item:hover,  {
-	color: #000000;
-
-}
 
 
 /*slider style start here*/
 
-.c_slide_inner  {
-	min-height: calc(100vh - 40px);
-	position: relative;
-}
-.hero_slider  .slick-prev, .hero_slider   .slick-next{
-	display: none !important;
-}
-
-.slick-prev {
-	left: 25px;
-}
-.slick-next {
-	right: 25px;
-
-}
 
 
-.hero_slide_content {
-	width: 100%;
-	position:absolute;
-	top: 50px;
-	left: 0;
-	height: 100%;
-}
+
 
 h1 {
 	font-size: 84px;
-	font-family: 'Baskerville BT';
 	color: #000;
 	margin-top: 0;
 }
-.hero_slide_content p {
-	font-size: 28px;
-	color: #000;
-	font-family: 'Helvetica Neue';
-	font-weight: 500px;
-	width: 558px;
-	max-width: 100%;
 
-}
-.black-hero.btn {
-	font-family: 'Helvetica Neue';
-	background: #000;
-	font-size: 24px;
-	font-weight: 900;	
-	color: #fff;
-	text-transform: uppercase;
-	width: 500px;
-	max-width: 100%;
-	text-align: center;
-	border-radius: 4px;
-	border: none;
-	background-color: #4b75df;
-}
 
-.black-hero.btn:hover {
-	background-color: #1437c7;
-}
-
-.section{
-	padding-top: 140px;
-	width: 100%;	
-}
-.new-section {
-	margin: 25px 0;
-	width: 100%;
-}
-.team-section {
-	margin: 50px 0 30px;
-	width: 100%;
-}
-.has-text-centered{
-	text-align: center !important;
-}
-.section h2 , .section-title h3 {
-	font-size: 60px;
-	color: #000;
-	margin-top: 40px;
-	font-family: 'Baskerville BT';
-	margin-bottom: 35px;
-}
-.our-community {
-	padding-top: 50px;
-}
-.our-community h2 {
-	font-size: 60px;
-	color: #000;
-	margin-top: 0px;
-	font-family: 'Baskerville BT';
-	margin-bottom: 35px;
-}
 
 .has-slogan {
 	font-size: 28px;
@@ -182,53 +49,13 @@ h1 {
 .med-sec .container {
 	max-width: 1200px;
 }
-.call-to-action a{
-	background: url(../img/virtualTour.jpg) no-repeat 0 0;
-	background-size: cover;
-	min-height: 350px;
-	width: 100%;
-	text-align: center;
-	text-decoration: none;
-}
-.call-to-action a h3 , .white_shadow{
-	width: 100%;
-	color: #fff;
-	font-size: 72px;
-	font-family: 'Baskerville BT';
-	text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.75);
-	-webkit-text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.75);
-	-moz-text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.75);
-}
 
-.service_content h4{
-	font-family: 'Helvetica Neue';
-	font-weight: 900;
-	color: #000;
-	width: 100%;
-	text-align: center;
-	font-size: 28px;
-	margin-top: 0;
-}
-.service_content p{
-	font-family: 'Helvetica Neue';
-	font-weight: 300;
-	color: #000; 
-	font-size: 26px;
-	text-align: center;
-	line-height: 40px;
-}
-.service_icon_area {
-	width: 100%;
-	text-align: center;
-	margin-bottom: 35px;
-}
+
+
 .full-width {
 	width: 100%;
 }
-.bg_experience {
-	min-height: 550px;
-	background: url(../img/aspenCreekExperience.jpg) no-repeat 0 0;
-}
+
 .pda-55 {
 	padding: 55px;
 }
@@ -244,90 +71,8 @@ h1 {
 	height: 450px;
 	padding-top: 0;
 }
-.map_section iframe{
-	width: 100%;
-	height: 100%;
-
-}
-
-/*footer style start here*/
-footer {
-	width: 100%;
-	background: #121212;	
-}
-.footer_row1 {
-	width: 100%;
-	padding: 50px 95px; 
-	border-bottom: 1px solid #333333;
-}
-.brand_footer  {
-	margin-right: auto;
-}
-.social-media  {
-	margin-left: auto;
-}
-.social-media ul {
-	list-style: none;
-}
-.social-media ul li{
-	margin-left: 50px;
-}
-.footer_row2{
-	width: 100%;
-	padding: 40px 95px; 
-	border-bottom: 1px solid #333333;
-}
-.address_area {
-	position: relative;
-}
-.address_area p {
-	font-weight: 500px;
-	font-family: 'Helvetica Neue'; 
-	line-height: 20px;
-	font-size: 14px;
-	color: #ffffff;
-}
-.iconx {	
-	width: 36px;		
-}
-.footer_row2 h4 ,  .footer_row2 h4 a{
-	font-size: 15px;
-	font-weight: 900;
-	color: #fff;
-	font-family: 'Helvetica Neue'; 
-	text-decoration: none;
-	letter-spacing: normal;
-}
-.footer_row2 ul{
-	list-style: none;padding:0; 
-}
-/*footer style end here*/
 
 
-
-.footer_row2 ul li a {
-	font-size: 12px;
-	color: #fff;
-	font-family: 'Helvetica Neue'; 
-	font-weight: 400;	
-}
-.footer_row3{
-	width: 100%;
-	padding: 40px 95px; 
-}
-.footer_row3 p {
-	color: #a8a8a8;
-	font-size: 12px;
-	margin-bottom: 0;
-}
-.footer_row3 a:link, a:visited {
-	color: #a8a8a8;
-}
-
-.footer_row3 a:hover {
-	text-decoration: none;
-	color: #ffffff;
-}
 
 
 /*guided tour page start here*/
@@ -359,13 +104,11 @@ footer {
 	border-color: #222;
 }
 .form-group label{
-	font-family: 'Helvetica Neue'; 
 	font-size: 28px;
 	font-weight: 300;
 	color: #000;
 }
 .form_note {
-	font-family: 'Helvetica Neue'; 
 	font-weight:700;
 	font-size: 28px;
 	color: #000;
@@ -378,7 +121,6 @@ footer {
 	border:0;
 	color: #fff;
 	font-size: 28px;
-	font-family: 'Helvetica Neue'; 
 	margin:40px auto;
 	width: 500px;
 	max-width: 100%;
@@ -387,7 +129,6 @@ footer {
 
 }
 .micro p{
-	font-family: Arial;
 	font-size: 6px;	
 	color: #121212;
 }	
@@ -412,7 +153,6 @@ footer {
 .faq_section .card-header button {
 	color: #000;
 	font-size: 36px;
-	font-family: 'Baskerville BT';
 	padding-right: 150px;
 	position: relative;
 	text-decoration: none;
@@ -445,7 +185,6 @@ footer {
 	background-color: #fafafa;
 	padding-left: 3rem;
 	padding-right: 3rem;
-	font-family: 'Helvetica Neue'; 
 	font-size: 28px;
 	
 }
@@ -473,7 +212,6 @@ footer {
 }
 .info_area_contact h3{
 	font-size: 36px;
-	font-family: 'Helvetica Neue';  
 	margin-top: 0;
 	margin-bottom: 15px;
 	color: #000;
@@ -485,7 +223,6 @@ footer {
 	font-size: 28px;
 	color: #000;
 	font-weight: 300;
-	font-family: 'Helvetica Neue';  
 }
 .info_area_contact p.icon {
 	padding-left: 44px;
@@ -544,13 +281,11 @@ text-align: left;}
 }
 .cms_content_area h3{
 	font-size: 48px;
-	font-family: 'Baskerville BT'; 
 	color: #000;
 	margin-top: 0;
 }
 .cms_content_area h4 {
 	font-size: 48px;
-	font-family: 'Baskerville BT'; 
 	color: #000;
 	margin-top: 0;	
 }

@@ -61,7 +61,7 @@
 	    flex-direction: column;
 
 	}
-	 header .navbar-expand-lg .navbar-nav .nav-link {
+	 header .navbar-expand-md .navbar-nav .nav-link {
 	 	padding-top: 10px;
 	 	padding-bottom: 10px;
 	 	border-bottom: 1px solid #d9d9d9;
@@ -142,7 +142,7 @@
 }
 
 @media(min-width: 768px) and (max-width: 1024px){
-	header .navbar-expand-lg .navbar-nav .nav-link {
+	header .navbar-expand-md .navbar-nav .nav-link {
 	 	padding-top: 10px;
 	 	padding-bottom: 10px;
 	 	border-bottom: 1px solid #d9d9d9;
