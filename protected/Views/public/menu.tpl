@@ -2,12 +2,17 @@
 	<h1 class="info-title">Current Menu</h1>
 	<div class="row">
 		<div class="col-lg">
-			<p class="info-date">{"$startDate"|date_format:"%A, %B %e, %Y"}</p>
+			<h5>{"$startDate"|date_format:"%A, %B %e, %Y"}</h5>
 		</div>
 	</div>
 	<div class="row">			
 	{foreach from=$menuItems item="menuItem" name="menuItems"}
-			<div class="col-md info-item">
+			<div class="col-md py-3 info-item">
+				<h6 class="text-strong">
+					{if $menuItem->meal_id == 1}Breakfast{/if}
+					{if $menuItem->meal_id == 2}Lunch{/if}
+					{if $menuItem->meal_id == 3}Dinner{/if}
+				</h6>
 				{foreach $menuItem->content as $menu}
 					{if !empty($menu)}<p>{$menu|strip_tags:true}</p>{/if}
 				{/foreach}		
@@ -18,8 +23,8 @@
 		</div>
 			{if !$smarty.foreach.menuItems.last}
 			<div class="row">
-				<div class="col-lg">
-					<p class="info-date">{"$startDate + $count day"|date_format:"%A, %B %e, %Y"}</p>	
+				<div class="col-lg mt-5">
+					<h5>{"$startDate + $count day"|date_format:"%A, %B %e, %Y"}</h5>	
 				</div>
 			</div>
 			<div class="row">
@@ -27,7 +32,7 @@
 		{/if}
 	{/foreach}	
 	<div class="row new-section">
-		<div class="col-lg">
+		<div class="col-lg mt-5">
 			<h2>Always Available Menu</h2>
 			<p>{$alternates->content}</p>
 		</div>

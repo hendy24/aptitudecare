@@ -28,6 +28,10 @@ class BlogController extends MainPageController {
 		smarty()->assign('post', $post);
 	}
 
+	public function posts() {
+		pr (input()); exit;
+	}
+
 
 	public function manage() {
 		$this->template = 'main';

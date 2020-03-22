@@ -1,12 +1,12 @@
 <div class="container">
 	<div class="row">
 		<div class="col-xl text-center">
-			<img src="{$IMAGES}/staff/team.jpg" alt="" class="img-fluid">	
+			<img src="{$IMAGES}/leadership-team.jpg" alt="" class="img-fluid">	
 		</div>
 	</div>
-	<div class="team-section">
-		<h1 class="text-center">Leadership Team</h1>
-	</div>
+
+	<h1 class="text-center">Leadership Team</h1>
+	
 	<div class="team-section">
 		<div class="row">
 			<div class="col-lg text-justify">
@@ -31,10 +31,11 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
+				<img src="{$IMAGES}/staff/adrienne_bradley.jpg" alt="" class="float-left rounded">
 				<h2>Adrienne Bradley <br><small>Clinical Director</small></h2>
 				<p>I grew up in Utah where I lived close to family until my early 20’s when I married, had a baby, and moved to Fort Hood, Texas. Only 2 months after arriving in Texas, my husband left and deployed to Iraq for over a year. I had never been away from family or alone in my life until then. I applied for and was accepted into nursing school at University of Mary Hardin-Baylor and graduated in 2006 with my Bachelor of Science in Nursing. Nursing school with a toddler, a deployed husband, and no family support was the hardest thing I have done! But as with all trials, many blessings came from this, the biggest one was I became a nurse.</p>
 				<p>In nursing school I was always drawn to the elderly population. I’m sure this is because of the close relationship I had with my grandparents and great-grandmother in Utah. After doing a hospice clinical rotation, I realized I wanted to spend my nursing career caring for seniors, so I became a Hospice Case Manager straight out of nursing school. When we moved to San Antonio, I worked in the ICU for a bit to gain some clinical skills. In the ICU, I was always drawn to caring for the dying patients. Due to my husband being in the military, we moved around a lot, so I’ve also worked in Home Health & Hospice in Washington State, Kansas, was an Urgent Care Clinical Manager up in Fairbanks, a Hospice nurse in Kansas, and have recently worked as Home Health & Hospice nurse in Anchorage. I’m super excited about my new role at Aspen Creek where I get to work with seniors on a daily basis.</p>
@@ -44,7 +45,7 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
@@ -55,10 +56,11 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
+				<img src="{$IMAGES}/staff/anna_houser.jpg" alt="" class="float-left rounded">
 				<h2>Anna Houser <br><small>Life Enrichment Director</small></h2>
 				<p>I attended the University of Wyoming on a Volleyball scholarship where I earned my degree in Child and Family Services. Part of my graduation requirements was a 6 month internship program where I thought I would be placed in an environment to work with children. My ultimate goal was always to work with children and youth.  Instead, I was placed in an assisted living facility helping to run the activities program. I had a great time and fell in love with those sweet residents but still  did not feel it was the direction I should take in my career.</p>
 				<p>As luck would have it I had my oldest daughter the semester before I graduated and  spent the next 20 years raising my family and being a stay at home mom. I coached club volleyball on the side as well as doing some catering, sold Pampered Chef and had several other flexible jobs I could do while raising my 4 kids. I was also highly active within my church and spent a significant amount of time coordinating and implementing week long youth retreats, working as a music chorister for the primary children and as an activities specialist for the women I served. I was even a cub master in the Boy Scout Program. Most recently I was working as a special needs para in an elementary school preschool. I loved working with those sweet little ones. I really felt like I had landed where I was supposed to be. Que a job opportunity for my husband in AK.</p>
@@ -67,7 +69,7 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
@@ -81,7 +83,7 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
@@ -94,7 +96,7 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
@@ -106,11 +108,11 @@
 			</div>
 		</div>
 	</div>
-	<hr width="80%">
+	<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
-				<img src="{$IMAGES}/staff/kemish_hendershot.jpg" alt="" class="float-left rounded">
+				<img src="{$IMAGES}/staff/kemish_hendershot2.jpg" alt="" class="float-left rounded">
 				<h2>Kemish W. Hendershot <br><small>Chief Operating Officer/Owner</small></h2>
 				<p>After attending school at Boise State University, my early career was spent working in construction, initially framing homes and then as a custom home builder, until the summer of 2009 when I had an experience that would change the course of my life.</p>
 				<p>Just like everyone working in the construction industry, the great recession starting in 2007 affected my business. In the summer of 2009, I was working on a small remodel project and was self-performing some of the work. On the last day, while putting up the last piece of material I was walking across a metal roof and it started to rain. I slipped, fell two stories and hit my head on a landscaping rock. A week later I awoke in the hospital, tried to get out of bed to go to the bathroom, fell over and didn’t understand why I couldn’t walk; I discovered I had suffered a traumatic brain injury. After a month of physical therapy, learning again to write, walk and accomplish normal everyday tasks, I was sent home with a walker to continue recovery on my own.</p>
@@ -122,7 +124,7 @@
 			</div>
 		</div>
 	</div>
-		<hr width="80%">
+		<hr width="100%">
 	<div class="team-section">
 		<div class="row">
 			<div class="col-xl text-justify">
