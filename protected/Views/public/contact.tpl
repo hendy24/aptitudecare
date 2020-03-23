@@ -3,26 +3,26 @@
     <iframe src="https://forms.monday.com/forms/embed/3b010bd6e04089d7066b6ef6337fbdb3" width="100%" height="1040" style="border:0px"></iframe>
 
 
-<div class="row">
-    <div class="col-lg-7">
-        <h3>General Inquiries</h3>
-         <p><a href="tel:907.868.2688" class="text-warning"><i class="fas fa-phone"></i>&nbsp;&nbsp;907.868.2688</a></p>
-         <p><a href="mailto:info@aspencreekalaska.com" class="text-warning"><i class="fas fa-envelope"></i></i>&nbsp;&nbsp;info@aspencreekalaska.com</a></p>
-         <p><i class="fas fa-map-marked-alt"></i><span class="ml-1">&nbsp;5915 Petersburg Street</span><br><span class="ml-4">&nbsp;Anchorage, Alaska 99507</span>
-    </div>
-    <div class="lg-5">
-        <h3>Office Hours</h3>
-        <div class="row">
-            <div class="col-2 pt-2">
-                <i class="far fa-clock fa-2x"></i>
-            </div>
-            <div class="col-10">
-                <p class="ml-4">Monday – Friday<br>9:00 am – 5:00 pm</p>
-            </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <h3>General Inquiries</h3>
+             <p><a href="tel:907.868.2688" class="text-warning"><i class="fas fa-phone"></i>&nbsp;&nbsp;907.868.2688</a></p>
+             <p><a href="mailto:info@aspencreekalaska.com" class="text-warning"><i class="fas fa-envelope"></i></i>&nbsp;&nbsp;info@aspencreekalaska.com</a></p>
+             <p><i class="fas fa-map-marked-alt"></i><span class="ml-1">&nbsp;5915 Petersburg Street</span><br><span class="ml-4">&nbsp;Anchorage, Alaska 99507</span>
         </div>
-        
+        <div class="lg-5">
+            <h3>Office Hours</h3>
+            <div class="row">
+                <div class="col-2 pt-2">
+                    <i class="far fa-clock fa-2x"></i>
+                </div>
+                <div class="col-10">
+                    <p class="ml-4">Monday – Friday<br>9:00 am – 5:00 pm</p>
+                </div>
+            </div>
+            
+        </div>
     </div>
-</div>
 
 
 

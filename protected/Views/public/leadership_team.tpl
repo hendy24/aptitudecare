@@ -1,10 +1,11 @@
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-xl text-center">
-			<img src="{$IMAGES}/leadership-team.jpg" alt="" class="img-fluid">	
+			<img src="{$IMAGES}/staff/leadership-team.jpg" alt="" class="img-fluid">	
 		</div>
 	</div>
-
+</div>
+<div class="container">
 	<h1 class="text-center">Leadership Team</h1>
 	
 	<div class="team-section">
@@ -102,9 +103,9 @@
 			<div class="col-xl text-justify">
 				<img src="{$IMAGES}/staff/melissa_tanner.jpg" alt="" class="float-left rounded">
 				<h2>Melissa Tanner <br><small>Clinical Coordinator</small></h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quo sed aliquam eligendi, quaerat, repudiandae quibusdam, modi neque repellat in vitae eaque ipsum rem quidem ratione cupiditate esse? Inventore, magni.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id quam soluta qui quo placeat, voluptatibus est aut beatae nostrum odio modi, maxime pariatur, sunt repellat eum adipisci, consectetur. Corrupti, nihil!</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis porro maxime tenetur molestias ab reprehenderit modi odio exercitationem dolorum. Exercitationem tenetur odio culpa reprehenderit ratione, vitae possimus, asperiores animi ullam?</p>
+				<p>My name is Melissa Tanner. I was born and raised in Western Nebraska, in a small country town. I had the privilege of growing up with a large extended family that enjoyed spending time together. My grandparent’s house was a go to location for the whole family. We referred to their place as “The Farm” and everyone would get together for every holiday, birthday, and many warm summer days. There were so many acres, animals, and cousins to play with. Growing up in a loving  and wonderful family made life amazing. Everyone was welcome at Grandma’s house, especially if you didn’t have a family of your own. I came by my need to help others naturally. My mother and grandmother are both social workers and foster parents.  My grandma Stout was a nurse and both of my brothers are police officers. I was blessed to be raised by such wonderful parents, who taught me that hard work and dedication pay off. My father is a truck driver so I believe I got my love to travel from him. I have been to all 50 states, most multiple times.</p>
+				<p>I didn’t see it at the time, but looking back I would say that God was leading me to the medical field. I got my Certified Nursing Assistant license when I was 16 and started working at a small nursing home outside of North Platte, Nebraska. We moved to Alaska and I continued my medical career here over the years. I have worked in many different settings; home health, hospitals, assisted living, and nursing homes. I was blessed with a handsome baby boy that became my whole world. After seven years in Alaska we moved back to Nebraska to be on “The Farm” with my grandma. Sometimes the soul needs to feel the comforts of home to reset and revive itself. I met my wonderful husband and his three little boys and just absolutely fell head over heels for those four. We were blessed with another little boy and my life then changed. I put my career on hold and became a stay at home mom to raise our wonderful boys. We picked up and moved to Georgia and took on the adventure of a new business. Soon our youngest made his appearance into the bright world. A few years passed and the boys were growing so fast, Riley (17), Joel (15), Gavin (15), Sylar (9), Tripp (4), and Titan (2). I loved being a stay at home mom and being there for my boys but my purpose to care for the elderly was calling me, so we made the decision to move to Alaska.</p>
+				<p>Beth, a long time friend and coworker, asked me if I would be interested in joining the Aspen Creek Team. I started working as a caregiver but because of my dedication and hard work I was quickly promoted to be the Clinical Coordinator.</p>
 			</div>
 		</div>
 	</div>
