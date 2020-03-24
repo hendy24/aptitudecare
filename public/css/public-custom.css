@@ -8649,6 +8649,24 @@ footer ul.nav a:hover {
 .team-section p {
   text-align: justify;
 }
+.team-section .card {
+  margin: 0 auto;
+  border-radius: 0px;
+  border: 0;
+}
+.team-section .card-header:hover {
+  background: #f8f8f8;
+}
+.team-section .card-header {
+  background: #ffffff;
+  border: none;
+}
+.team-section .card button {
+  background: #ffffff;
+  width: 100%;
+  border: none;
+  text-decoration: none;
+}
 
 /******* /Leadership Page ***********/
 /******* Menu Page ***********/

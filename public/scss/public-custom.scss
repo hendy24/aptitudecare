@@ -395,6 +395,28 @@ footer {
 	p {
 		text-align: justify;
 	}
+
+	.card {
+		margin: 0 auto;
+		border-radius: 0px;
+		border: 0;
+	}
+
+	.card-header:hover {
+		background: #f8f8f8;
+	}
+
+	.card-header {
+		background: #ffffff;
+		border: none;
+	}
+
+	.card button {
+		background: #ffffff;
+		width: 100%;
+		border: none;
+		text-decoration: none;
+	}
 }
 
 
