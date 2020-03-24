@@ -3,7 +3,7 @@
 class PublicDisplayController extends DietaryController {
 
 	public $template = "public";
-	public $allow_access = array('index', 'no_access');
+	public $allow_access = true;
 
 
 
@@ -19,6 +19,7 @@ class PublicDisplayController extends DietaryController {
  *
  */
 	public function index() {
+
 		// need to allow access to this page when user is not logged it.
 		$user = auth()->getRecord();
 

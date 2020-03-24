@@ -77,10 +77,12 @@ class BlogController extends MainPageController {
 		$post->content = input()->content;
 		$post->user_id = auth()->getRecord()->id;
 
-		if (input()->published == 1) {
-			$post->date_published = mysql_date();
-		} else {
-			$post->date_published = null;
+		if ($post->date_published == null) {
+			if (input()->published == 1) {
+				$post->date_published = mysql_date();
+			} else {
+				$post->date_published = null;
+			}		
 		}
 
 		if ($post->save()) {

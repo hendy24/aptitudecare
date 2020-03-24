@@ -6,12 +6,12 @@
 			<h2><a class="text-dark" href="{$SITE_URL}/blog/post/{$post->public_id}">{$post->title}</a></h2>
 		</div>
 		<div class="col-4">
-			<p class="text-right">{$post->date_published|date_format:"%A, %B %e, %Y"}</p>
+			<p class="text-right">{$post->date_published|date_format:"%D"}</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12">
-			{$post->content|truncate:2500 nofilter}
+			{$post->content|truncate:600 nofilter}
 			<a class="text-dark" href="{$SITE_URL}/blog/post/{$post->public_id}"> Read more...</a>
 		</div>
 	</div>

@@ -81,7 +81,6 @@ class MainPageController extends MainController {
 			// if there is module set then set it to the session
 			session()->setModule($this->module);
 		}
-
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
 
@@ -107,7 +106,7 @@ class MainPageController extends MainController {
 	private function setContent() {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
-		if ($this->module != "") {			
+		if ($this->module != "") {	
 			if (file_exists(MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
 				smarty()->assign('content', MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl');
 			} else {
