@@ -21,11 +21,16 @@
 
 <body>
 
-	<div class="containter-fluid mx-4 text-center">
-		<div class="row mr-3">
-			<div class="col-lg-12 col-sm-7 text-right">
+	<div class="containter-fluid text-center">
+		<div class="row position-absolute" style="left: 2rem; top: 2rem;">
+			<div class="col-5">
+				<img src="{$IMAGES}/aspencreek-logo-white.png" class="img-fluid"  alt="">
+			</div>	
+		</div>
+		<div class="row position-absolute" style="top: 2rem; right: 0;">
+			<div class="col">
 				<div id="date"><span id="clock">&nbsp;</span></div>
-			</div>		
+			</div>	
 		</div>
 		{include file=$content}
 

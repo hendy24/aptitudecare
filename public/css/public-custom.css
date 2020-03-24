@@ -8242,32 +8242,60 @@ body {
   font-weight: 400;
 }
 
+.text-6 {
+  font-size: 0.6rem;
+}
+
+.text-8 {
+  font-size: 0.8rem;
+}
+
+.text-10 {
+  font-size: 1rem;
+}
+
 .text-12 {
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 
 .text-14 {
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .text-16 {
-  font-size: 16px;
+  font-size: 1.6rem;
 }
 
 .text-18 {
-  font-size: 18px;
+  font-size: 1.8rem;
 }
 
 .text-20 {
-  font-size: 20px;
+  font-size: 2rem;
 }
 
 .text-22 {
-  font-size: 22px;
+  font-size: 2.2rem;
 }
 
 .text-24 {
-  font-size: 24px;
+  font-size: 2.4rem;
+}
+
+.text-26 {
+  font-size: 2.6rem;
+}
+
+.text-28 {
+  font-size: 2.8rem;
+}
+
+.text-30 {
+  font-size: 3rem;
+}
+
+.text-32 {
+  font-size: 3.2rem;
 }
 
 .text-strong {

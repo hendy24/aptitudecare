@@ -8239,10 +8239,16 @@ h3 {
   max-height: 150px;
 }
 
+.datetime {
+  position: absolute;
+  float: right;
+}
+
 /******* Imported from public_styles.css ************/
 /* Public page layout */
 html {
   height: 100%;
+  margin: 2rem;
   /*margin-bottom: 15px;*/
 }
 
@@ -8257,12 +8263,8 @@ body {
 p {
   margin: 0;
   text-align: center;
-  font-size: 1.35rem;
-  line-height: 2.5rem;
-}
-
-p.time {
-  margin: 3px 0 8px 0;
+  font-size: 1rem;
+  line-height: 2rem;
 }
 
 h1, h2, h3 {
@@ -8271,13 +8273,14 @@ h1, h2, h3 {
 
 h1 {
   font-family: "Rock Salt", cursive;
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 h2 {
   margin: 0;
   text-align: center;
-  font-size: 2.2rem;
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 h3 {
@@ -8289,8 +8292,8 @@ h3 {
 }
 
 h4 {
-  font-size: 1rem;
-  margin: 0.75rem 0;
+  font-size: 0.75rem;
+  margin: 1rem 0;
 }
 
 .text-grey {
@@ -8425,13 +8428,6 @@ h4 {
 #headerLogo {
   float: left;
   margin-left: 5px;
-}
-
-#date {
-  font-size: 20px;
-  color: #ffffff;
-  float: right;
-  margin-right: 5px;
 }
 
 #header {

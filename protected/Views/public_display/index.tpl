@@ -1,29 +1,17 @@
 <!-- modules/Dietary/Views/public/index.tpl -->
 
-<div id="transitionDiv">
- 		
-	<!-- logo -->
-	
-	<!-- /logo -->
-
+<div id="transitionDiv">	
 
 	<!-- Main menu content page -->
 	<div id="panel-0" class="rotatingPage">
 
 		<div class="row">
-			<!-- logo -->
-			<div class="col-4 logo">
-				<img src="{$IMAGES}/aspencreek-logo-white.png" class="img-fluid"  alt="">
-			</div>
-			<!-- /logo -->
-
 			<!-- featured menu heading -->
-			<div class="col mt-5">
+			<div class="col-12 mt-5">
 				<h1 class="text-white">Daily Specials</h1>
 			</div>
-			<div class="col"></div>
-			<!-- /featured menu heading -->
 		</div>
+			<!-- /featured menu heading -->
 
 		<!-- menu content -->
 		<div class="row mt-5">
@@ -84,18 +72,11 @@
 	<div id="panel-1" class="rotatingPage" style="display: none;">
 
 		<div class="row">
-			<!-- logo -->
-			<div class="col-4">
-				<img src="{$IMAGES}/aspencreek-logo-white.png" class="img-fluid"  alt="">
-			</div>
-			<!-- /logo -->
-
 			<!-- weekly activities heading -->
-			<div class="col mt-5">
+			<div class="col-12 mt-5">
 				<h1>Weekly Activities</h1>
 			</div>
 			<!-- /weekly activities heading -->
-			<div class="col"></div>
 		</div>
 		
 
