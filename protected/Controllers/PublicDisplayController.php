@@ -1,6 +1,6 @@
 <?php
 
-class PublicDisplayController extends MainPageController {
+class PublicDisplayController extends DietaryController {
 
 	public $template = "public";
 	public $allow_access = true;
@@ -19,19 +19,6 @@ class PublicDisplayController extends MainPageController {
  *
  */
 	public function index() {
-
-		// need to allow access to this page when user is not logged it.
-		$user = auth()->getRecord();
-
-		// get the user agent
-		$ua = $_SERVER['HTTP_USER_AGENT'];
-		// set a warning variable to false be default
-		$warning = false;
-
-		// check if this is being displayed with a GoogleTV
-		if (strpos($ua, "GoogleTV") && strpos($ua, "i686")) {
-			$warning = true;
-		}
 
 		// get the location
 		if (isset (input()->location)) {

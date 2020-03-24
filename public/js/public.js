@@ -12,13 +12,13 @@ var errorStatus = 0;
  $(document).ready(function() {
 	//loadPage();  //Load the menu on the page load
 
-	$panels = $('#transitionDiv').children('.rotatingPage');
+	$panels = $('#transitionDiv').children('.rotatingPage');	
 	panelCount = $panels.length - 1;
-	
+
 	//setup debugger
 	$('.panelCount').html('panelCount = '+window.panelCount);
 	
-	setInterval(autoAdvance, 24000); // page rotates every 24 seconds
+	setInterval(autoAdvance, 5000); // page rotates every 24 seconds
 
 	//Tell javascript to call loadpage every X milliseconds
 	setInterval(loadPage, 900000); // 15 minute (900000) ms for production
@@ -70,8 +70,6 @@ function postLoad(response, status, xhr)
 function autoAdvance(){
 	// get all panels
 	$panels = $('.rotatingPage');
-
-	console.log($panels);
 	
 	// derive integer of the last page
 	var lastPanel = $panels.length - 1;
@@ -92,16 +90,20 @@ function autoAdvance(){
 		}
 	}
 
-	var delay = 3000;
+	var delay = 1000;
 	if (window.innerWidth <= 1024) {
 		delay = 0;
 	}
 	
 	// clean slate: hide all panels
-	$panels.fadeOut(delay);
+	$('#panel-' + currentPanel).fadeOut(delay);
+	// $('#panel-' + currentPanel).hide();
+
 	
 	// show the next panel
-	$('#panel-' + nextPanel).fadeIn(delay);
+	$('#panel-' + nextPanel).delay(delay).fadeIn(delay);
+	// $('#panel-' + nextPanel).show();
+
 	
 	// update global tracking var
 	currentPanel = nextPanel;
