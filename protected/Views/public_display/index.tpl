@@ -3,17 +3,23 @@
 <div id="transitionDiv">
  		
 	<!-- logo -->
-	<img src="{$IMAGES}/aspencreek-logo-white.png" class="img-fluid"  alt="">
+	
 	<!-- /logo -->
 
 
 	<!-- Main menu content page -->
+	<div class="row">
+		<div class="col-4 ml-5">
+			<img src="{$IMAGES}/aspencreek-logo-white.png" class="img-fluid"  alt="">
+		</div>
+	</div>
+
 	<div id="panel-0" class="rotatingPage">
 		
 		<!-- featured menu heading -->
 		<div class="row rotatingPage">
 			<div class="col-12 my-2">
-				<h1 class="text-white">Featured Menu</h1>
+				<h1 class="text-white">Daily Specials</h1>
 			</div>
 		</div>
 		<!-- /featured menu heading -->
@@ -22,7 +28,7 @@
 		<div class="row">
 			
 			<!-- breakfast -->
-			<div class="col-lg-4 col-sm-12 mb-4">
+			<div class="col mb-4">
 				<h2>Breakfast</h2>
 				<p class="text-14 time">{$meal[0]->start|date_format:"%l:%M %P"} - {$meal[0]->end|date_format:"%l:%M %P"}</p>
 				{foreach from=$menuItems[0]->content item=menu}
@@ -32,7 +38,7 @@
 			<!-- /breakfast -->
 
 			<!-- lunch -->
-			<div class="col-lg-4 col-sm-12 mb-4">
+			<div class="col mb-4">
 				<h2>Lunch</h2>
 				<p class="text-14 time">{$meal[1]->start|date_format:"%l:%M %P"} - {$meal[1]->end|date_format:"%l:%M %P"}</p>
 				{foreach from=$menuItems[1]->content item=menu}
@@ -42,7 +48,7 @@
 			<!-- /lunch -->
 
 			<!-- dinner -->
-			<div class="col-lg-4 col-sm-12 mb-4">
+			<div class="col mb-4">
 				<h2>Dinner</h2>
 				<p class="text-14 time">{$meal[2]->start|date_format:"%l:%M %P"} - {$meal[2]->end|date_format:"%l:%M %P"}</p>
 				{foreach from=$menuItems[2]->content item=menu}
