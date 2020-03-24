@@ -21,7 +21,7 @@
 
 <body>
 
-	<div class="containter-fluid text-center">
+	<div class="containter-fluid mx-4 text-center">
 		<div class="row mr-3">
 			<div class="col-lg-12 col-sm-7 text-right">
 				<div id="date"><span id="clock">&nbsp;</span></div>

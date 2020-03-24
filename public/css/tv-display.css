@@ -5,7 +5,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-@import url("https://fonts.googleapis.com/css?family=Josefin+Sans:100i,300,400,500,700|Tangerine&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans:100i,300,400,500,700|Rock+Salt&display=swap");
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -8235,10 +8235,8 @@ h3 {
     border: 1px solid #ddd !important;
   }
 }
-.tv-image {
-  background-image: url("../img/tv-display.png");
-  background-repeat: no-repeat;
-  background-position: center;
+.logo img {
+  max-height: 150px;
 }
 
 /******* Imported from public_styles.css ************/
@@ -8249,8 +8247,7 @@ html {
 }
 
 body {
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 20px;
+  font-family: "Rock Salt", cursive;
   font-weight: 300;
   color: #eee;
   background-color: #000;
@@ -8260,6 +8257,8 @@ body {
 p {
   margin: 0;
   text-align: center;
+  font-size: 1.35rem;
+  line-height: 2.5rem;
 }
 
 p.time {
@@ -8271,24 +8270,27 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-family: "Tangerine", cursive;
-  font-size: 4rem;
+  font-family: "Rock Salt", cursive;
+  font-size: 3rem;
 }
 
 h2 {
   margin: 0;
-  text-decoration: underline;
   text-align: center;
-  font-size: 22px;
+  font-size: 2.2rem;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 1.4rem;
   text-align: center;
   margin-bottom: 10px;
   margin-top: 5px;
   text-transform: uppercase;
-  text-decoration: underline;
+}
+
+h4 {
+  font-size: 1rem;
+  margin: 0.75rem 0;
 }
 
 .text-grey {
