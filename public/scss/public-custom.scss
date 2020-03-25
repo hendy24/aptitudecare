@@ -8,6 +8,33 @@ body {
 	font-weight: 400;
 }
 
+/******** color palette **********/
+$dark-blue: #213c60;
+$light-blue: #81b7e3;
+$dark-grey: #48484a;
+$light-grey: #c7c8ca;
+$white: #ffffff;
+$off-white: #f8f8f8;
+$black: #121212;
+
+.text-dark-blue { color: $dark-blue; }
+.text-light-blue { color: $light-blue; }
+.text-dark-grey { color: $dark-grey; }
+.text-light-grey { color: $light-grey; }
+.text-white { color: $white; }
+
+/******** /color palette **********/
+
+.btn-primary {
+	background: $light-blue;
+	border: none;
+}
+
+.btn-primary:hover {
+	background: $dark-blue;
+}
+
+
 .text-6 { font-size: 0.6rem; }
 .text-8 { font-size: 0.8rem; }
 .text-10 { font-size: 1.0rem; }
@@ -67,16 +94,16 @@ h2, h3, h4, h5 {
 }
 
 .dropdown-menu > a.dropdown-item {
-	color: #333333;
+	color: $dark-grey;
 }
 
 .dropdown-menu > a.dropdown-item:hover {
-	background: #333333;
-	color: #ffffff;
+	background: $dark-grey;
+	color: $white;
 }
 
 li.dropdown a, li.dropdown li a:visited {
-  color: #000;
+  color: $black;
 }
 
 h2 {
@@ -87,7 +114,7 @@ h2 {
 /***************** Multi-use classes **************/
 
 .text-shadow {
-	text-shadow: #000000 1px 1px;
+	text-shadow: $black 1px 1px;
 }
 
 
@@ -111,7 +138,7 @@ header .navbar-expand-md .navbar-nav .nav-link {
 	padding: 1.67rem 1.8rem;
 	font-size: 16px;
 	font-weight: 400;
-	color: #000000;
+	color: $black;
 	transition: all 0.5s ease-in-out;
 	min-height: 80px;
 }
@@ -135,33 +162,33 @@ nav {
 }
 
 a.dropdown-item, a.dropdown-item:visited {
-	color: #000000;
+	color: $black;
 }
 
 a.dropdown-item:hover,  {
-	color: #000000;
+	color: $black;
 
 }
 
 footer {
 	width: 100%;
-	background: #121212;	
+	background: $black;	
 
 	.social a {
-		color: #ffffff;
+		color: $white;
 	}
 
 	.social a:hover {
-		color: #ffffff;
+		color: $white;
 	}
 	ul.nav {	
 
 		a {
 			text-transform: uppercase;
-			color: #c8c8c8;	
+			color: $light-grey;	
 		}
 		a:hover {
-			color: #ffffff;
+			color: $white;
 		}
 	}	
 }
@@ -173,14 +200,17 @@ footer {
 }
 
 .footer-background > a {
-	text-decoration: underline;
+	text-decoration: none;
+}
+
+.copyright a:hover {
+	color: $light-grey;
+	text-decoration: none;
 }
 
 .address-area p {
 	font-weight: 500px;
-	line-height: 20px;
-	font-size: 14px;
-	color: #ffffff;
+	color: $white;
 }
 
 
@@ -229,7 +259,7 @@ footer {
 
 	p {
 		font-size: 1.5rem;
-		color: #000;
+		color: $black;
 		font-weight: 500px;
 		width: 558px;
 		max-width: 100%;
@@ -258,9 +288,15 @@ footer {
 
 	a h3 {
 		width: 100%;
-		color: #fff;
+		color: $white;
 		font-weight: 100;
 	}
+}
+
+.social {
+	text-align: right;
+	float: right;
+
 }
 
 /********** End Home Page *************************/
@@ -275,7 +311,7 @@ footer {
 	height: 600px;
 
 	h1 {
-		color: #ffffff;
+		color: $white;
 	}
 
 	a {
@@ -319,7 +355,7 @@ footer {
 
 	h5 {
 		z-index: 200;
-		color: #ffffff;
+		color: $white;
 		opacity: 1.0;
 		text-align: center;
 	}
@@ -376,11 +412,11 @@ footer {
 .card {
 	button {
 		font-size: 1.5rem;
-		color: #333333;
+		color: $dark-grey;
 	}
 
 	button:hover {
-		color: #000000;
+		color: $black;
 		text-decoration: none;
 	}
 }
@@ -403,16 +439,16 @@ footer {
 	}
 
 	.card-header:hover {
-		background: #f8f8f8;
+		background: $off-white;
 	}
 
 	.card-header {
-		background: #ffffff;
+		background: $white;
 		border: none;
 	}
 
 	.card button {
-		background: #ffffff;
+		background: $white;
 		width: 100%;
 		border: none;
 		text-decoration: none;
@@ -427,9 +463,18 @@ footer {
 /******* Menu Page ***********/
 
 .info-item {
-	background-color: #f8f8f8;
+	background-color: $off-white;
 	padding: 2rem auto;
 }
+
+.menu-page {
+	img {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+
 
 /******* /Menu Page ***********/
 
@@ -486,6 +531,40 @@ footer {
 
 /*********** Responsive styles ****************/
 @media(max-width: 767px){	
+
+
+	.c-slide-inner {
+		background-position: right bottom;
+	}
+
+	.social {
+		text-align: center;
+		float: left;
+		margin-top: 2rem;
+	}
+
+	.logo {
+		text-align: center;
+	}
+
+	.menu-page {
+		img {
+			margin: 0.25rem 0;
+		}
+}
+
+
+	.team-section {
+
+		h2 {
+			font-size: 2rem;
+		}
+
+		.text-20 {
+			font-size: 1rem;
+		}
+	}
+
 	h1 , .form_area_guide.section h2{
 		font-size: 34px;
 	}
@@ -557,11 +636,6 @@ footer {
 	 .navbar-nav {
 	 	margin-top: 15px;
 	 }
-	 .social-media ul{padding: 0;}
-	  .brand_footer {margin: 0;}
-	  .social-media ul li {
-		    margin-left: 20px;
-  	} 
 	 .ml-xs-0 {
 	 	margin-left: 0 !important;
 	 }
@@ -574,7 +648,7 @@ footer {
 	 	top: 100%;
 	 	left: 0;
 	 	width: 100%;
-	 	background: #fff;
+	 	background: $white;
 	 }
 	 .navbar{position: static;}
 	 .faq_section .card-header button {
@@ -647,7 +721,7 @@ footer {
 	 	top: 100%;
 	 	left: 0;
 	 	width: 100%;
-	 	background: #fff;
+	 	background: $white;
 	 }
 	 .navbar{position: static;}
 	 h1 , .form_area_guide.section h2{

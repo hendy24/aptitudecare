@@ -26,8 +26,14 @@
 			<div class="card">
 				<div class="card-header" id="heading1">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-						<img src="{$IMAGES}/staff/beth_rhoden.jpg" alt="" class="float-left rounded">
-						<h2 class="text-left">Beth Rhoden<br><span class="text-20">Executive Director</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/beth_rhoden.jpg" alt="" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Beth Rhoden<br><span class="text-20">Executive Director</span></h2>						
+							</div>
+						</div>
 					</button>
 				</div>
 				<div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#leadershipAccordion">
@@ -50,8 +56,14 @@
 			<div class="card">
 				<div class="card-header" id="heading2">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-						<img src="{$IMAGES}/staff/adrienne_bradley.jpg" alt="clinical director for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded">
-						<h2 class="text-left">Adrienne Bradley<br><span class="text-20">Clinical Director</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/adrienne_bradley.jpg" alt="clinical director for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Adrienne Bradley<br><span class="text-20">Clinical Director</span></h2>
+							</div>
+						</div>						
 					</button>
 				</div>
 				<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#leadershipAccordion">
@@ -71,8 +83,14 @@
 			<div class="card">
 				<div class="card-header" id="heading3">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-						<img src="{$IMAGES}/staff/stephanie_freeman.jpg" alt="business office manager for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded">
-						<h2 class="text-left">Stephanie Freeman<br><span class="text-20">Business Office Manager</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/stephanie_freeman.jpg" alt="business office manager for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Stephanie Freeman<br><span class="text-20">Business Office Manager</span></h2>
+							</div>
+						</div>						
 					</button>
 				</div>
 				<div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#leadershipAccordion">
@@ -89,8 +107,14 @@
 			<div class="card">
 				<div class="card-header" id="heading4">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-						<img src="{$IMAGES}/staff/anna_houser.jpg" alt="life enrichment director for elderly care center Alaska" class="float-left rounded">
-						<h2 class="text-left">Anna Houser<br><span class="text-20">Life Enrichment Director</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/anna_houser.jpg" alt="life enrichment director for elderly care center Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Anna Houser<br><span class="text-20">Life Enrichment Director</span></h2>
+							</div>
+						</div>						
 					</button>
 				</div>
 				<div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#leadershipAccordion">
@@ -109,8 +133,14 @@
 			<div class="card">
 				<div class="card-header" id="heading5">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-						<img src="{$IMAGES}/staff/jericho_mandani.jpg" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded">
-						<h2 class="text-left">Jericho Mandani<br><span class="text-20">Executive Chef</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/jericho_mandani.jpg" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Jericho Mandani<br><span class="text-20">Executive Chef</span></h2>
+							</div>
+						</div>						
 					</button>
 				</div>
 				<div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#leadershipAccordion">
@@ -130,8 +160,14 @@
 			<div class="card">
 				<div class="card-header" id="heading6">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-						<img src="{$IMAGES}/staff/tami_ochoa.jpg" alt="admissions coordinator for assisted living Anchorage, Alaska" class="float-left rounded">
-						<h2 class="text-left">Tami Ochoa<br><span class="text-20">Admissions Coordinator</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/tami_ochoa.jpg" alt="admissions coordinator for assisted living Anchorage, Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Tami Ochoa<br><span class="text-20">Admissions Coordinator</span></h2>
+							</div>
+						</div>						
 					</button>
 				</div>
 				<div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#leadershipAccordion">
@@ -150,8 +186,14 @@
 			<div class="card">
 				<div class="card-header" id="heading7">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
-						<img src="{$IMAGES}/staff/melissa_tanner.jpg" alt="clinical coordinator for senior living Anchorage, Alaska" class="float-left rounded">
-						<h2 class="text-left">Melissa Tanner<br><span class="text-20">Clinical Coordinator</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/melissa_tanner.jpg" alt="clinical coordinator for senior living Anchorage, Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Melissa Tanner<br><span class="text-20">Clinical Coordinator</span></h2>						
+							</div>
+						</div>					
 					</button>
 				</div>
 				<div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#leadershipAccordion">
@@ -169,8 +211,14 @@
 			<div class="card">
 				<div class="card-header" id="heading8">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
-						<img src="{$IMAGES}/staff/kemish_hendershot2.jpg" alt="coo for assisted living Anchorage, Alaska" class="float-left rounded">
-						<h2 class="text-left">Kemish W. Hendershot<br><span class="text-20">Chief Operating Officer/Owner</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/kemish_hendershot2.jpg" alt="coo for assisted living Anchorage, Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Kemish W. Hendershot<br><span class="text-20">Chief Operating Officer/Owner</span></h2>			
+							</div>
+						</div>
 					</button>
 				</div>
 				<div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#leadershipAccordion">
@@ -192,8 +240,14 @@
 			<div class="card">
 				<div class="card-header" id="heading8">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
-						<img src="{$IMAGES}/staff/doug_clegg.jpg" alt="ceo for assisted living Anchorage, Alaska" class="float-left rounded">
-						<h2 class="text-left">Douglas B. Clegg<br><span class="text-20">Chief Executive Officer/Owner &amp; Founder</span></h2>
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/doug_clegg.jpg" alt="ceo for assisted living Anchorage, Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Douglas B. Clegg<br><span class="text-20">Chief Executive Officer/Owner &amp; Founder</span></h2>
+							</div>
+						</div>						
 					</button>
 				</div>
 				<div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#leadershipAccordion">

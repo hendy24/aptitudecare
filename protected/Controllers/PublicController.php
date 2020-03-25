@@ -5,9 +5,10 @@ class PublicController extends MainPageController {
 	public $page = 'public';
 	public $template = 'website';
 	public $allow_access = true;
+	public $title = null;
 
 	public function index() {
-		
+		smarty()->assign('title', 'Assisted Living in Anchorage Alaska');
 	}
 
 	public function living_at_aspen_creek() {

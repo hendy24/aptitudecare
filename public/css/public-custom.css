@@ -8242,6 +8242,37 @@ body {
   font-weight: 400;
 }
 
+/******** color palette **********/
+.text-dark-blue {
+  color: #213c60;
+}
+
+.text-light-blue {
+  color: #81b7e3;
+}
+
+.text-dark-grey {
+  color: #48484a;
+}
+
+.text-light-grey {
+  color: #c7c8ca;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+/******** /color palette **********/
+.btn-primary {
+  background: #81b7e3;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #213c60;
+}
+
 .text-6 {
   font-size: 0.6rem;
 }
@@ -8344,16 +8375,16 @@ h2, h3, h4, h5 {
 }
 
 .dropdown-menu > a.dropdown-item {
-  color: #333333;
+  color: #48484a;
 }
 
 .dropdown-menu > a.dropdown-item:hover {
-  background: #333333;
+  background: #48484a;
   color: #ffffff;
 }
 
 li.dropdown a, li.dropdown li a:visited {
-  color: #000;
+  color: #121212;
 }
 
 h2 {
@@ -8362,7 +8393,7 @@ h2 {
 
 /***************** Multi-use classes **************/
 .text-shadow {
-  text-shadow: #000000 1px 1px;
+  text-shadow: #121212 1px 1px;
 }
 
 /************** All public pages ******************/
@@ -8384,7 +8415,7 @@ header .navbar-expand-md .navbar-nav .nav-link {
   padding: 1.67rem 1.8rem;
   font-size: 16px;
   font-weight: 400;
-  color: #000000;
+  color: #121212;
   transition: all 0.5s ease-in-out;
   min-height: 80px;
 }
@@ -8410,11 +8441,11 @@ nav {
 }
 
 a.dropdown-item, a.dropdown-item:visited {
-  color: #000000;
+  color: #121212;
 }
 
 a.dropdown-item:hover {
-  color: #000000;
+  color: #121212;
 }
 
 footer {
@@ -8429,7 +8460,7 @@ footer .social a:hover {
 }
 footer ul.nav a {
   text-transform: uppercase;
-  color: #c8c8c8;
+  color: #c7c8ca;
 }
 footer ul.nav a:hover {
   color: #ffffff;
@@ -8442,13 +8473,16 @@ footer ul.nav a:hover {
 }
 
 .footer-background > a {
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+.copyright a:hover {
+  color: #c7c8ca;
+  text-decoration: none;
 }
 
 .address-area p {
   font-weight: 500px;
-  line-height: 20px;
-  font-size: 14px;
   color: #ffffff;
 }
 
@@ -8497,7 +8531,7 @@ footer ul.nav a:hover {
 }
 .hero-slide-content p {
   font-size: 1.5rem;
-  color: #000;
+  color: #121212;
   font-weight: 500px;
   width: 558px;
   max-width: 100%;
@@ -8520,8 +8554,13 @@ footer ul.nav a:hover {
 }
 .call-to-action a h3 {
   width: 100%;
-  color: #fff;
+  color: #ffffff;
   font-weight: 100;
+}
+
+.social {
+  text-align: right;
+  float: right;
 }
 
 /********** End Home Page *************************/
@@ -8634,10 +8673,10 @@ footer ul.nav a:hover {
 /******* FAQ Page ***********/
 .card button {
   font-size: 1.5rem;
-  color: #333333;
+  color: #48484a;
 }
 .card button:hover {
-  color: #000000;
+  color: #121212;
   text-decoration: none;
 }
 
@@ -8675,6 +8714,11 @@ footer ul.nav a:hover {
   padding: 2rem auto;
 }
 
+.menu-page img {
+  margin: 0;
+  padding: 0;
+}
+
 /******* /Menu Page ***********/
 /******* Activities Page ***********/
 .activities p {
@@ -8702,6 +8746,31 @@ footer ul.nav a:hover {
 /******* Blog Page ***********/
 /*********** Responsive styles ****************/
 @media (max-width: 767px) {
+  .c-slide-inner {
+    background-position: right bottom;
+  }
+
+  .social {
+    text-align: center;
+    float: left;
+    margin-top: 2rem;
+  }
+
+  .logo {
+    text-align: center;
+  }
+
+  .menu-page img {
+    margin: 0.25rem 0;
+  }
+
+  .team-section h2 {
+    font-size: 2rem;
+  }
+  .team-section .text-20 {
+    font-size: 1rem;
+  }
+
   h1, .form_area_guide.section h2 {
     font-size: 34px;
   }
@@ -8792,18 +8861,6 @@ footer ul.nav a:hover {
     margin-top: 15px;
   }
 
-  .social-media ul {
-    padding: 0;
-  }
-
-  .brand_footer {
-    margin: 0;
-  }
-
-  .social-media ul li {
-    margin-left: 20px;
-  }
-
   .ml-xs-0 {
     margin-left: 0 !important;
   }
@@ -8817,7 +8874,7 @@ footer ul.nav a:hover {
     top: 100%;
     left: 0;
     width: 100%;
-    background: #fff;
+    background: #ffffff;
   }
 
   .navbar {
@@ -8919,7 +8976,7 @@ footer ul.nav a:hover {
     top: 100%;
     left: 0;
     width: 100%;
-    background: #fff;
+    background: #ffffff;
   }
 
   .navbar {

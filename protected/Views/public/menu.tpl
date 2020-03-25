@@ -1,3 +1,17 @@
+<div class="container-fluid menu-page">
+	<div class="row text-center">
+		<div class="col-lg-4 col-sm-12">
+			<img src="{$IMAGES}/food-entree.jpg" class="img-fluid" alt="">
+		</div>
+		<div class="col-lg-4 col-sm-12">
+			<img src="{$IMAGES}/food-fruit.jpg" class="img-fluid" alt="">
+		</div>
+		<div class="col-lg-4 col-sm-12">
+			<img src="{$IMAGES}/food-dessert.jpg" class="img-fluid" alt="">
+		</div>
+	</div>
+</div>
+
 <div class="container text-center">
 	<h1 class="info-title">Current Menu</h1>
 	<div class="row">
@@ -39,7 +53,7 @@
 	</div>
 	<div class="row new-section">
 		<div class="col-lg">
-			<p class="font-weight-bold">Guests are always welcome! Guest meals for the daily special are $10.</p>
+			<p class="font-weight-bold"></p>
 		</div>
 	</div>
 </div>

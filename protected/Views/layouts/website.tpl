@@ -26,7 +26,7 @@
     <script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
 
 
-    <title>Senior Living in Anchorage, AK | Aspen Creek </title>
+    <title>{$title} | Senior Living in Anchorage, AK </title>
 </head>
 
 <body>
@@ -133,10 +133,10 @@
 
             <!-- row 1 -->
             <div class="row py-5">
-                <div class="col-lg-8 col-sm-12">
+                <div class="col-lg-8 col-sm-12 logo">
                     <a href="/"><img class="img-fluid" src="{$IMAGES}/aspencreek-logo_white.png" alt="Aspen Creek White Logo senior living Anchorage, AK /assisted living Anchorage, AK /assisted living facility Anchorage, AK /senior care center Anchorage, Alaska elderly care Alaska/Elderly Care Center Alaska/elderly care Alaska/senior assistance Alaska" ></a>
                 </div>
-                <div class="social col-lg-4 col-sm-12 text-right">
+                <div class="social col-lg-4 col-sm-12">
                     <a href="https://www.facebook.com/aspencreekalaska" target="_blank"><i class="fab fa-facebook fa-2x ml-2"></i></a>
                     <a href="https://www.instagram.com/aspencreekalaska/" target="_blank"><i class="fab fa-instagram fa-2x ml-2"></i></a>
                     <a href="https://www.youtube.com/channel/UCeYE9V77h4y_NcM2EpjhvFQ?view_as=subscriber" target="_blank"><i class="fab fa-youtube fa-2x ml-2"></i></a>
@@ -179,8 +179,8 @@
                 </div>
             </div>
             <div class="row mt-2">
-                <div class="col-12 text-12 text-muted text-center">
-                    <p>All Content &copy; {$smarty.now|date_format:"%Y"} <a href="https://www.springcreek.co/" class="text-muted" target="new">Spring Creek Enterprise</a>. All Rights Reserved.</p>
+                <div class="col-12 text-12 text-dark-grey text-center copyright">
+                    <p>All Content &copy; {$smarty.now|date_format:"%Y"} <a href="https://www.springcreek.co/" class="text-dark-grey" target="new">Spring Creek Enterprise</a>. All Rights Reserved.</p>
                 </div>
             </div>
     </footer>

@@ -10,6 +10,7 @@ class BlogController extends MainPageController {
 
 
 	public function index() {
+		smarty()->assign('title', 'Blog');
 		$this->allow_access = true;
 		$posts = $this->loadModel('BlogPost')->fetchRecentPosts();
 
