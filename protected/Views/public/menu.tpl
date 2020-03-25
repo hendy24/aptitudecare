@@ -1,13 +1,13 @@
 <div class="container-fluid menu-page">
 	<div class="row text-center">
-		<div class="col-lg-4 col-sm-12">
-			<img src="{$IMAGES}/food-entree.jpg" class="img-fluid" alt="">
+		<div class="col-md-4 col-sm-12">
+			<img src="{$IMAGES}/food-entree.jpg" class="img-fluid float-md-right" alt="">
 		</div>
-		<div class="col-lg-4 col-sm-12">
+		<div class="col-md-4 col-sm-12">
 			<img src="{$IMAGES}/food-fruit.jpg" class="img-fluid" alt="">
 		</div>
-		<div class="col-lg-4 col-sm-12">
-			<img src="{$IMAGES}/food-dessert.jpg" class="img-fluid" alt="">
+		<div class="col-md-4 col-sm-12">
+			<img src="{$IMAGES}/food-dessert.jpg" class="img-fluid float-md-left" alt="">
 		</div>
 	</div>
 </div>
