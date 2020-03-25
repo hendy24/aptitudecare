@@ -19,7 +19,6 @@ class PublicDisplayController extends DietaryController {
  *
  */
 	public function index() {
-
 		// get the location
 		if (isset (input()->location)) {
 			$location = $this->loadModel("Location", input()->location);

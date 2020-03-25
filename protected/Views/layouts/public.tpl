@@ -56,4 +56,5 @@
 	<!-- div containing the red warning symbol -->
 	<div id="error" style="display:none;position:absolute;bottom:10px;left:20px;font-size: 2em;color:yellow;">&#x26A0;</div>
 </body>
+{include file=$jsfile}
 </html>

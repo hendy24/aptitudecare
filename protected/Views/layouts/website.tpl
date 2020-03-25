@@ -192,4 +192,5 @@
     <!-- /podium script -->  
     
 </body>
+{include file=$jsfile}
 </html>

@@ -106,17 +106,39 @@ class MainPageController extends MainController {
 	private function setContent() {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
+
+		
 		if ($this->module != "") {	
 			if (file_exists(MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
 				smarty()->assign('content', MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl');
+
+				// if the file exists, load the js file
+				if (file_exists(MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.js')) {
+					smarty()->assign('jsfile', MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.js');
+				}  else {
+					smarty()->assign('jsfile', VIEWS . DS . 'layouts' . DS . 'blank.js');
+				}
 			} else {
 				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
+
+				// look for js file
+				if (file_exists (VIEWS . DS . underscoreString($this->page) . '/' . $this->action . '.js')) {	
+					smarty()->assign('jsfile', VIEWS . DS . underscoreString($this->page) . '/' . $this->action . '.js');
+				} else {
+					smarty()->assign('jsfile', VIEWS . DS . 'layouts' . DS . 'blank.js');
+				}
 			}
 
 		//	If no module is set then we will get the content from the default view directory.
 		} else {
 			if (file_exists (VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.tpl')) {
 				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
+
+				if (file_exists (VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.js')) {
+					smarty()->assign('jsfile', VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.js');
+				} else {
+					smarty()->assign('jsfile', VIEWS . DS . 'layouts' . DS . 'blank.js');
+				}
 			} else {
 				smarty()->assign('content', "error/no-template.tpl");
 			}

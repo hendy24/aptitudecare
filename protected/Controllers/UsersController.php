@@ -28,7 +28,9 @@ class UsersController extends MainPageController {
 
 		input()->type = 'users';
 		// if the user is an NSD we only want to get other users who are NSD's, dietary staff, or activities coordinators
-		if (auth()->hasPermission('edit_users')) {
+		if (auth()->is_admin()) {
+			$users = $this->loadModel('User')->fetchAll();
+		} elseif (auth()->hasPermission('edit_users')) {
 			$users = $this->loadModel('User')->fetchManageData($location);
 		} elseif (auth()->hasPermission('edit_dietary_users')) { // otherwise we will get everyone at the facility (have to have permission to access this page)
 			$users = $this->loadModel('User')->fetchDietaryUsers($location);	

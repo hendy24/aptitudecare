@@ -81,4 +81,5 @@
 		    <p>Your session is about to timeout.  You will be automatically logged out in 1 minute. To remain logged in click the button below.</p>
 		</div> -->
 	</body>
+	{include file=$jsfile}
 </html>
