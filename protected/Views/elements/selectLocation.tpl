@@ -6,7 +6,7 @@
 	});
 </script>
 
-
+{if count($locations) > 1}
 <div class="dropdown">
 	<button class="btn btn-secondary dropdown-toggle" type="button" id="locationDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		{$location->name}
@@ -20,3 +20,4 @@
 	</div>
 	{/if}
 </div>
+{/if}

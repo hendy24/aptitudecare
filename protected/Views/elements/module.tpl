@@ -1,6 +1,5 @@
 {if count($modules) > 1}
 	<div class="dropdown">
-		<span>Module:</span>
 		<button class="btn btn-secondary dropdown-toggle" type="button" id="moduleDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			{$this->module}
 		</button>

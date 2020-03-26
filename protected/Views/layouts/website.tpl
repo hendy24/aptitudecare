@@ -173,7 +173,12 @@
                             <a href="{$SITE_URL}/careers" class="nav-link">Careers</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{$SITE_URL}/login" class="nav-link">Login</a>
+                            {if !$auth->isLoggedIn()}
+                                <a href="{$SITE_URL}/login" class="nav-link">Login</a>
+                            {else}
+                                <a href="{$SITE_URL}/login/logout" class="nav-link">Logout</a>
+                            {/if}
+                            
                         </li>
                     </ul>
                 </div>

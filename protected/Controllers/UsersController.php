@@ -35,7 +35,7 @@ class UsersController extends MainPageController {
 		} elseif (auth()->hasPermission('edit_dietary_users')) { // otherwise we will get everyone at the facility (have to have permission to access this page)
 			$users = $this->loadModel('User')->fetchDietaryUsers($location);	
 		} else {
-			session()->setFlash("You do not have permission to access this page", 'error');
+			session()->setFlash("You do not have permission to access this page", 'alert-warning');
 			$this->redirect();
 		}
 		
@@ -48,7 +48,7 @@ class UsersController extends MainPageController {
 	public function my_info() {
 		// prevent unauthorized access to this page...
 		if (!auth()->hasPermission("manage_users") && input()->id !== auth()->getRecord()->public_id) {
-			session()->setFlash("You do not have permission to access this page", 'error');
+			session()->setFlash("You do not have permission to access this page", 'alert-warning');
 			$this->redirect();
 		}
 		smarty()->assign('title', 'Edit User');
@@ -113,10 +113,10 @@ class UsersController extends MainPageController {
 
 		if ($user->save()) {
 			if (session()->default_module !== "Admission") {
-				session()->setFlash("Your account info has been saved", 'success');
+				session()->setFlash("Your account info has been saved", 'alert-success');
 				$this->redirect();
 			} else {
-				session()->setFlash("Could not save your account info", 'error');
+				session()->setFlash("Could not save your account info", 'alert-warning');
 				$this->redirect(input()->current_url);
 			}
 		}
@@ -191,7 +191,7 @@ class UsersController extends MainPageController {
 			if (input()->id != '') {
 				$user = $this->loadModel('User', input()->id);
 			} else {
-				session()->setFlash("Could not find the selected user", "error");
+				session()->setFlash("Could not find the selected user", "alert-warning");
 				$this->redirect(input()->currentUrl);
 			}
 		}
@@ -261,7 +261,7 @@ class UsersController extends MainPageController {
 	public function save_user() {
 
 		if (!auth()->hasPermission("add_user")) {
-			session()->setFlash("You do not have permission to add new users", 'error');
+			session()->setFlash("You do not have permission to add new users", 'alert-warning');
 			$this->redirect();
 		}
 
@@ -466,7 +466,7 @@ class UsersController extends MainPageController {
 				} 
 			}
 
-			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
+			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'alert-success');
 
 			if (isset ($userClinician)) {
 				$this->redirect(array('module' => 'HomeHealth', 'page' => 'clinicians', 'action' => 'manage', 'location' => input()->location_public_id));
@@ -476,7 +476,7 @@ class UsersController extends MainPageController {
 			
 
 		} else {
-			session()->setFlash("Could not save the user.  Please try again.", 'error');
+			session()->setFlash("Could not save the user.  Please try again.", 'alert-warning');
 			$this->redirect(input()->path);
 		}
 
@@ -547,7 +547,7 @@ class UsersController extends MainPageController {
 			}
 
 			if ($user->save()) {
-				session()->setFlash("The password has been changed for {$user->fullName()}", 'success');
+				session()->setFlash("The password has been changed for {$user->fullName()}", 'alert-success');
 				if (isset (input()->reset)) {
 					if ($user->default_module == 1) {
 						$this->redirect(array('module' => "Admission", 'user' => $user->public_id));

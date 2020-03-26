@@ -8234,32 +8234,82 @@ h3 {
     border: 1px solid #ddd !important;
   }
 }
+/******** color palette **********/
+.text-dark-blue {
+  color: #213c60;
+}
+
+.text-light-blue {
+  color: #81b7e3;
+}
+
+.text-dark-grey {
+  color: #48484a;
+}
+
+.text-light-grey {
+  color: #c7c8ca;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+/******** /color palette **********/
+.text-6 {
+  font-size: 0.6rem;
+}
+
+.text-8 {
+  font-size: 0.8rem;
+}
+
+.text-10 {
+  font-size: 1rem;
+}
+
 .text-12 {
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 
 .text-14 {
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .text-16 {
-  font-size: 16px;
+  font-size: 1.6rem;
 }
 
 .text-18 {
-  font-size: 18px;
+  font-size: 1.8rem;
 }
 
 .text-20 {
-  font-size: 20px;
+  font-size: 2rem;
 }
 
 .text-22 {
-  font-size: 22px;
+  font-size: 2.2rem;
 }
 
 .text-24 {
-  font-size: 24px;
+  font-size: 2.4rem;
+}
+
+.text-26 {
+  font-size: 2.6rem;
+}
+
+.text-28 {
+  font-size: 2.8rem;
+}
+
+.text-30 {
+  font-size: 3rem;
+}
+
+.text-32 {
+  font-size: 3.2rem;
 }
 
 .text-strong {
@@ -8268,6 +8318,31 @@ h3 {
 
 ul li {
   list-style-type: none;
+}
+
+.bootstrap-tagsinput {
+  background-color: #ffffff;
+  border: 1px solid #c7c8ca;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  display: block;
+  padding: 4px 6px;
+  color: #48484a;
+  vertical-align: middle;
+  border-radius: 4px;
+  max-width: 100%;
+  line-height: 22px;
+  cursor: text;
+}
+
+.bootstrap-tagsinput input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0 6px;
+  margin: 0;
+  width: auto;
+  max-width: inherit;
 }
 
 /**** Custom bootstrap styles ****/
@@ -8329,6 +8404,26 @@ h1 {
 
 .alert > ul li {
   list-style-type: none;
+}
+
+.manage-header {
+  background: #121212;
+  padding: 1rem 0;
+  color: #ffffff;
+  margin-top: 1rem;
+}
+
+.manage-body {
+  line-height: 3rem;
+  border-bottom: 1px solid #c7c8ca;
+}
+.manage-body .btn {
+  background: none;
+  border: 0;
+}
+.manage-body .btn:hover {
+  text-decoration: none;
+  color: #48484a;
 }
 
 /*

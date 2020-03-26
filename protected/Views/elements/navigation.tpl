@@ -4,25 +4,34 @@
 		<nav class="col-md-2 d-none d-md-block bg-dark sidebar">
 			<div class="sidebar-sticky">
 				<ul class="nav flex-column">
-					{if $session->getModule() == "HomeHealth"}
+					{if $session->getModule() == 'HomeHealth'}
 						<!-- Home health nav links -->
-						{$this->loadElement("homeHealthNav")}
+						{$this->loadElement('homeHealthNav')}
 						<!-- /home health nav links -->
-					{elseif $session->getModule() == "Admission"}
-						{$this->loadElement("admissionsNav")}
+					{elseif $session->getModule() == 'Admission'}
+						{$this->loadElement('admissionsNav')}
 					{/if}
-					{$this->loadElement("dietaryNav")}
-					{$this->loadElement("activitiesNav")}
-					<li class="nav-item">
-						<a href="#blogSection" class="nav-link dropdown-toggle" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="blogSection">Blog</a>
-						<div class="collapse" id="blogSection" data-parent="#sidebar-nav">
-							<ul class="nav flex-column ml-4">
-								<li class="nav-item"><a href="{$SITE_URL}/?page=blog&amp;action=manage" class="nav-link">Manage Posts</a></li>
-								<li class="nav-item"><a href="{$SITE_URL}/?page=blog&amp;action=edit" class="nav-link">New Post</a></li>
-							</ul>
-						</div>
-					</li>
-					{$this->loadElement("dataTab")}
+
+					<!-- dietary nav section -->
+					{if $auth->hasPermission('manage_menu')}
+						{$this->loadElement('dietaryNav')}
+					{/if}
+					<!-- /dietary nav section -->
+
+					<!-- activities nav section -->
+					{if $auth->hasPermission('manage_activities')}
+						{$this->loadElement('activitiesNav')}
+					{/if}
+					<!-- activities nav section -->
+
+					<!-- blog nav section -->
+					{if $auth->hasPermission('manage_blog')}
+						{$this->loadElement('blogNav')}
+					{/if}
+					<!-- /blog nav section -->
+
+
+					{$this->loadElement('dataTab')}
 				</ul>
 			</div>
 		</nav>

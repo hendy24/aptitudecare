@@ -167,22 +167,15 @@
 
 
 		<!-- buttons -->
-		<input type="button" class="btn btn-secondary" value="Cancel" onClick="history.go(-1);return true;">
-		<input class="btn btn-primary" type="submit" value="Save">
+		<div class="row">
+			<div class="col-sm-12 mt-4">
+				<button class="btn btn-primary float-right ml-2" type="submit">Save</button>	
+				<button type="button" class="btn btn-secondary float-right" onClick="history.go(-1);return true;">Cancel</button>
+			</div>
+		</div>
 		<!-- /buttons -->
 
 
 
 </div>
 <!-- /page container -->
-
-
-
-
-	<table class="form">	
-		<tr>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
-</form>`

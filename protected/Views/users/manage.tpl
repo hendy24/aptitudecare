@@ -1,53 +1,3 @@
-<script>
-	$(document).ready(function() {
-		$(".delete").click(function(e) {
-			e.preventDefault();
-			var dataRow = $(this).parent().parent();
-			var item = $(this);
-			$("#dialog").dialog({
-				buttons: {
-					"Confirm": function() {
-						var row = item.children().next($(".public-id"));
-						var id = row.val();
-							
-						$.ajax({
-							type: 'post',
-							url: SITE_URL,
-							data: {
-								page: "users",
-								action: 'delete_user',
-								id: id,
-							},
-							success: function() {
-								dataRow.fadeOut("slow");
-							}
-						});
-						$(this).dialog("close");
-
-					},
-					"Cancel": function() {
-						$(this).dialog("close");
-					}
-				}
-			});
-		});
-
-		$(".order").click(function(e) {
-			e.preventDefault();
-			var order = $(this).next("input").val();
-			console.log
-			window.location = SITE_URL + "/?page=data&action=manage&type=" + $("#page").val() + "&orderBy=" + order;
-		});
-
-
-		$("#locations").change(function() {
-			window.location = SITE_URL + "/?page=users&action=manage&location=" + $("#locations option:selected").val();
-		});
-
-	});
-</script>
-
-
 <div class="container manage-users-page">
 	
 	<!-- top navigation -->
@@ -55,19 +5,21 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-4">
 			<div id="locations" class="input-group">
-				<select name="location" id="location" class="custom-select">
-				{foreach $locations as $location}
-					<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
-				{/foreach}
-				{foreach $areas as $area}
-					<option value="{$area->public_id}" {if $area->public_id == $location_id} selected{/if}><h1>{$area->name}</h1></option>
-				{/foreach}
-				</select>
+				{if count($locations) > 1}
+					<select name="location" id="location" class="form-control">
+					{foreach $locations as $location}
+						<option value="{$location->public_id}" {if $location->public_id == $location_id} selected{/if}><h1>{$location->name}</h1></option>
+					{/foreach}
+					{foreach $areas as $area}
+						<option value="{$area->public_id}" {if $area->public_id == $location_id} selected{/if}><h1>{$area->name}</h1></option>
+					{/foreach}
+					</select>
+				{/if}
 			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="col-lg-12">
-				<a class="btn btn-primary float-right" href="{$SITE_URL}/?page=users&amp;action=user&amp;type=add&amp;location={$location_id}">Add New</a>
+				<a class="btn btn-primary text-white float-right" href="{$SITE_URL}/?page=users&amp;action=user&amp;type=add&amp;location={$location_id}">Add New</a>
 			</div>
 
 		</div>

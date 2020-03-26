@@ -73,7 +73,7 @@
 		</ul>
 	</div>
 </li>
-{if $auth->hasPermission('view_photos')}
+<!-- {if $auth->hasPermission('view_photos')}
 <li class="nav-item ml-4">
 	<a href="#photosSection" class="nav-link dropdown-toggle" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="photosSection">Photos</a>
 	<div class="collapse" id="photosSection" data-parent="#sidebar-nav">
@@ -90,4 +90,4 @@
 	</div>
 </li>
 {/if}
-
+ -->

@@ -9,13 +9,22 @@ class BlogController extends MainPageController {
 	public $allow_access = false;
 
 
+
 	public function index() {
+
+		if (auth()->isLoggedIn()) {
+			$this->redirect(array('page' => 'blog', 'action' => 'manage'));
+		}
+		
 		smarty()->assign('title', 'Blog');
 		$this->allow_access = true;
 		$posts = $this->loadModel('BlogPost')->fetchRecentPosts();
 
 		smarty()->assign('posts', $posts);
 	}
+
+
+
 
 	public function post() {
 		$this->allow_access = true;
@@ -29,9 +38,13 @@ class BlogController extends MainPageController {
 		smarty()->assign('post', $post);
 	}
 
+
+
+
 	public function posts() {
 		pr (input()); exit;
 	}
+
 
 
 	public function manage() {
@@ -40,6 +53,9 @@ class BlogController extends MainPageController {
 
 		smarty()->assign('blogPosts', $posts);
 	}
+
+
+
 
 	public function edit() {
 		if (!auth()->getRecord()) {
@@ -56,10 +72,21 @@ class BlogController extends MainPageController {
 			$post = $this->loadModel('BlogPost');
 		}
 
+		// get categories
+		$categories = $this->loadModel('BlogCategory')->fetchAll();
+
+		// get tags
+		$tags = $this->loadModel('BlogTag')->fetchTags($post->id);
+
 		// assign the object to smarty to use in the view page
 		smarty()->assign('post', $post);
-
+		smarty()->assign('categories', $categories);
+		smarty()->assign('tags', $tags);
 	}
+
+
+
+
 
 	public function save() {
 		if (isset (input()->id)) {
@@ -86,9 +113,13 @@ class BlogController extends MainPageController {
 			}		
 		}
 
+		if (input()->category != null) {
+			$post->category_id = input()->category;
+		}
+
 		if ($post->save()) {
-			session()->setFlash('The post was saved', 'alert-success');
-			$this->redirect(SITE_URL . DS . 'blog/manage');
+				session()->setFlash('The post was saved', 'alert-success');
+				$this->redirect(SITE_URL . DS . 'blog/manage');			
 		} else {
 			session()->setFlash('The post was not saved', 'alert-danger');
 			$this->redirect(input()->current_url);
