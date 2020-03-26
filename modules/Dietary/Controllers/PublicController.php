@@ -50,6 +50,11 @@ class PublicController extends DietaryController {
 		} else {
 			// check access to the page based on the IP address
 			$current_ip = $_SERVER['REMOTE_ADDR'];
+			
+			//check if we are being proxied
+			if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)){
+				$current_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			}
 			$ip_address = $this->loadModel('IpAddress')->fetchByIp($current_ip);
 			if (empty($ip_address)) {
 				$this->redirect(array("module" => "Dietary", "page" => "public", "action" => "no_access"));
