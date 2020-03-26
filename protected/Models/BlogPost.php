@@ -21,4 +21,15 @@ class BlogPost extends AppModel {
 		return $pagination->paginate($sql, $params, $this, $page, 5);
 
 	}
+
+
+	public function fetchByKeyword($keyword) {
+		$tag = $this->loadTable('BlogTag');
+		$tagLink = $this->loadTable('BlogPostTagLink');
+
+		// $sql = "SELECT post.id AS post_id, post.public_id, post.title, post.content, tag.id AS tag_id, tag.name AS tag_name FROM {$this->tableName()} AS post INNER JOIN {$tagLink->tableName()} AS tagLink ON tagLink.blog_post_id = post.id INNER JOIN {$tag->tableName()} AS tag on tag.id = tagLink.blog_tag_id WHERE tag.name LIKE ':keyword' AND post.date_published IS NOT NULL ORDER BY post.date_published ASC";
+		$params[':keyword'] = '%' . $keyword . '%';
+
+		return $this->fetchAll();
+	}
 }

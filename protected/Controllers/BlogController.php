@@ -3,7 +3,7 @@
 class BlogController extends MainPageController {
 
 	public $page = 'blog';
-	public $template = 'website';
+	public $template = 'blog';
 	// access to pages is blocked by default
 	// if access is needed it will have to be allowed inside the method
 	public $allow_access = false;
@@ -42,7 +42,13 @@ class BlogController extends MainPageController {
 
 
 	public function posts() {
-		pr (input()); exit;
+		$this->allow_access = true;
+		$keyword = end(explode('/', input()->url));
+		
+		// get posts with the search term
+		$posts = $this->loadModel('BlogPost')->fetchByKeyword($keyword);
+		smarty()->assign('posts', $posts);
+		smarty()->assign('keyword', strtoupper($keyword));
 	}
 
 

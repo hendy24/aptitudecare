@@ -8420,6 +8420,7 @@ h1 {
 .manage-body .btn {
   background: none;
   border: 0;
+  color: #121212;
 }
 .manage-body .btn:hover {
   text-decoration: none;

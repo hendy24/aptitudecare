@@ -8333,6 +8333,12 @@ body {
   font-weight: bold;
 }
 
+/******* COVID-19 message **********/
+#covid-19-message a {
+  width: 100%;
+  height: 100%;
+}
+
 .container {
   margin: 1rem auto 5rem auto;
 }
