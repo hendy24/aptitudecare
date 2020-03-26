@@ -198,7 +198,7 @@ table.bev-table {
 }
 
 .menu-content {
-  font-size: 10pt;
+  font-size: 10.2pt;
   float: left;
   width: 33%;
   max-width: 33%;
@@ -218,7 +218,7 @@ table.bev-table {
 .menu-info {
   text-align: center;
   font-weight: bold;
-  font-size: 10pt;
+  font-size: 13.5pt;
   margin-top: 4px;
 }
 
@@ -244,6 +244,11 @@ table.bev-table {
   width: 100%;
   clear: both;
 }
+.menu-alts p{
+  font-size:1.3em !important;
+  font-weight: lighter !important;
+}
+
 div.menu-content:nth-child(1) span:nth-last-of-type(1){
 	font-size:1.4em;
 }

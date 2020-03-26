@@ -26,23 +26,22 @@
 	<div class="row">
 		<hr>
 		<div class="col-xs-12 menu-info">
-			When a guest will be joining you for a meal, please provide the kitchen with a 2 hour notice. Thank You!
-			If the daily special doesn't appeal to you today, please choose from the following alternate selections
+			<span>If the daily special doesn't appeal to you today, please choose from the following alternate selections:</span>
 		</div>
 	</div>
 
-	<div class="row">
+{*	<div class="row">
 		<div class="col-xs-12">
 			<h2>Alternate Menu</h2>
 		</div>
-	</div>
+	</div>*}
 
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-xs-12 menu-alts">
 			<p>{$alternates->content}</p>
 		</div>
 	</div>
-	<div class="row">
+{*	<div class="row">
 		<div class="col-xs-12">
 			<h2>Beverage Options</h2>
 		</div>
@@ -53,10 +52,10 @@
 			{$bev->name}
 		</div>
 		{/foreach}
-	</div>
-	<div class="row">
+	</div>*}
+{*	<div class="row">
 		<div class="col-xs-12 menu-info">
 			<p>Please contact the Nutrition Services Director, <strong>{$nsd->name}</strong> for any questions or comments.</p>
 		</div>
-	</div>
+	</div>*}
 </div>
