@@ -43,12 +43,14 @@ class BlogController extends MainPageController {
 
 	public function posts() {
 		$this->allow_access = true;
-		$keyword = end(explode('/', input()->url));
-		
+		$tag = input()->url;
+		$keyword = explode('/', $tag);
+		$tag_name = end($keyword);
+
 		// get posts with the search term
-		$posts = $this->loadModel('BlogPost')->fetchByKeyword($keyword);
+		$posts = $this->loadModel('BlogPost')->fetchByTag($tag_name);
 		smarty()->assign('posts', $posts);
-		smarty()->assign('keyword', strtoupper($keyword));
+		smarty()->assign('keyword', ucfirst($tag_name));
 	}
 
 

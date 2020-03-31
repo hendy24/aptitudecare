@@ -8719,6 +8719,10 @@ footer ul.nav a:hover {
   background-color: #f8f8f8;
   padding: 2rem auto;
 }
+.info-item p {
+  line-height: 1.75rem;
+  margin: 0 auto;
+}
 
 .menu-page img {
   margin: 0;

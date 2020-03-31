@@ -476,6 +476,11 @@ footer {
 .info-item {
 	background-color: $off-white;
 	padding: 2rem auto;
+
+	p {
+		line-height: 1.75rem;
+		margin: 0 auto;
+	}
 }
 
 .menu-page {
