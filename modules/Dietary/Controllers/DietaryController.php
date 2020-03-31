@@ -48,8 +48,10 @@ class DietaryController extends MainPageController {
 		}
 		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
+		$count = count($rooms);
 
 		smarty()->assign('currentPatients', $currentPatients);
+		smarty()->assign('count', count($rooms)/2);
 		smarty()->assign('modEnabled', $modEnabled);
 	}
 

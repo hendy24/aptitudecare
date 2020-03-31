@@ -5,63 +5,36 @@
 			window.location.href = SITE_URL + "/?module=Dietary&location=" + location;
 		});
 
+
+
+
+		$('#deleteModal').on('show.bs.modal', function(e) {
+
+			var button = $(e.relatedTarget);
+			var publicId = button.data('publicid');
+
+			$('#delete').click(function() {
+				$.ajax({
+					type: 'post',
+					url: SITE_URL,
+					data: {
+						page: "Schedules",
+						action: 'dischargePatient',
+						id: publicId,
+					},
+					success: function(e) {
+						$('#deleteModal').modal('hide');
+						window.location.replace(SITE_URL + '/?module=Dietary');
+					}
+				});
+			});
+		});
+
 		$(".add-patient").on("click", function (e) {
 			e.preventDefault();
 			var roomNumber = $(this).next().val();
 			var location = $("#location").val();
 			window.location.href = SITE_URL + "/?module=Dietary&page=patient_info&action=add_patient&location=" + location + "&number=" + roomNumber;
-		});
-
-		$(".delete-patient").on("change", function() {
-			$(".add-patient").on("click", function (e) {
-				e.preventDefault();
-				var roomNumber = $(this).next().val();
-				var location = $("#location").val();
-				window.location.href = SITE_URL + "/?module=Dietary&page=patient_info&action=add_patient&location=" + location + "&number=" + roomNumber;
-			});
-		});
-
-		$(".delete-patient").on("click", function(e) {
-			e.preventDefault();
-			var deleteClass = $(this).children("img").attr("class");
-			var dataRow = $(this).parent().parent();
-			var item = $(this);
-			$("#dialog").dialog({
-				buttons: {
-					"Confirm": function() {
-						var row = item.children().next($(".public-id"));
-						var roomNumber = item.find(".room-number").val();
-						var id = row.val();
-
-						$.ajax({
-							type: 'post',
-							url: SITE_URL,
-							data: {
-								page: "Schedules",
-								action: 'dischargePatient',
-								id: id,
-							},
-							success: function() {
-								$("."+deleteClass).empty();
-								$("."+deleteClass).first().html('<input type="button" class="add-patient" value="Add Patient"><input type="hidden" class="room" value="' + roomNumber + '">');
-								//Have to rebind add-patient
-								$(".add-patient").on("click", function (e) {
-									e.preventDefault();
-									var roomNumber = $(this).next().val();
-									var location = $("#location").val();
-									window.location.href = SITE_URL + "/?module=Dietary&page=patient_info&action=add_patient&location=" + location + "&number=" + roomNumber;
-								});
-								// need to add back in the add patient option
-							}
-						});
-						$(this).dialog("close");
-
-					},
-					"Cancel": function() {
-						$(this).dialog("close");
-					}
-				}
-			});
 		});
 
 
@@ -94,11 +67,5 @@
 		});
 
 	});
-
-
-	$('#deleteModal').on('shown.bs.modal', function () {
-		$('#myInput').trigger('focus')
-	})
-
 
 </script>
