@@ -78,7 +78,6 @@ class PublicDisplayController extends DietaryController {
 		$alternates = $this->loadModel("Alternate")->fetchOne(null, array("location_id" => $location->id));
 
 		smarty()->assign('menu', $menu);
-		smarty()->assign('warning', $warning);
 		smarty()->assign('meal', $meal);
 		smarty()->assignByRef('menuItems', $menuItems);
 		smarty()->assignByRef("alternates", $alternates);

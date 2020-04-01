@@ -165,12 +165,12 @@ class ReportsController extends DietaryController {
 		$modEnabled = ModuleEnabled::isAdmissionsEnabled($location->id);
 		smarty()->assign('modEnabled', $modEnabled);
 
+		$is_pdf = false;
 		if (!auth()->isLoggedIn()) {
+			$this->allow_access = true;
 			$this->template = "pdf";
 			$is_pdf = true;
-		} else {
-			$is_pdf = false;
-		}
+		} 
 
 		if (isset (input()->orderby)) {
 			$order_by = input()->orderby;
@@ -194,6 +194,7 @@ class ReportsController extends DietaryController {
 
 	public function allergies() {
 		if (!auth()->isLoggedIn()) {
+			$this->allow_access = true;
 			$this->template = "pdf";
 			$is_pdf = true;
 		} else {

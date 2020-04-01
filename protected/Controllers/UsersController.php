@@ -228,18 +228,18 @@ class UsersController extends MainPageController {
 			$location_options = $this->loadModel('Location')->fetchHomeHealthLocations($additional_locations);
 		}
 
-		smarty()->assignByRef('available_locations', $location_options);
+		smarty()->assign('available_locations', $location_options);
 		
 
 		// Get available modules
-		smarty()->assignByRef('available_modules', $this->loadModel('Module')->fetchAll());
+		smarty()->assign('available_modules', $this->loadModel('Module')->fetchAll());
 
 		// fetch the modules to which the user has access
-		smarty()->assignByRef('assigned_modules', $this->loadModel('UserModule')->fetchAssignedModules($user->id));
+		smarty()->assign('assigned_modules', $this->loadModel('UserModule')->fetchAssignedModules($user->id));
 
 
 		//	Get Groups
-		smarty()->assignByRef('groups', $this->loadModel('Group')->fetchAll());
+		smarty()->assign('groups', $this->loadModel('Group')->fetchAll());
 
 		// fetch the user assigned groups
 		smarty()->assign('user_groups', $this->loadModel('UserGroup')->fetchAssignedGroups($user->id));
@@ -247,7 +247,7 @@ class UsersController extends MainPageController {
 		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
 		smarty()->assign('clinicianTypes', $clinicianTypes);
 
-		smarty()->assignByRef('user', $user);
+		smarty()->assign('user', $user);
 	}
 
 

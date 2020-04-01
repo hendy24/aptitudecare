@@ -1,0 +1,3 @@
+<script>
+	$('.datepicker').pickadate();
+</script>
