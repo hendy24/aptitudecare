@@ -138,7 +138,7 @@ class PatientInfoController extends DietaryController {
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
 		} else {
-			session()->setFlash("Could not find the patient.", 'error');
+			session()->setFlash("Could not find the patient.", 'warning');
 			$this->redirect(input()->currentUrl);
 		}
 		$patientDiet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
@@ -467,7 +467,7 @@ class PatientInfoController extends DietaryController {
 			session()->setFlash(array("Diet Info was saved for {$patient->fullName()}", $feedback), "success");
 			$this->redirect(array("module" => "Dietary", "page" => "Dietary", "location" => $location->public_id));
 		} else {
-			session()->setFlash($feedback, "error");
+			session()->setFlash($feedback, "warning");
 			$this->redirect(input()->currentUrl);
 		}
 

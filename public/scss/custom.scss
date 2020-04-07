@@ -167,6 +167,17 @@ h1 {
   }
 }
 
+.form-header {
+  background: $dark-grey;
+  padding: 0.15rem 0.75rem;
+  color: $white;
+  margin: 2.0rem 0 0.75rem 0;
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
 /*
  * Sidebar
  */
@@ -266,4 +277,45 @@ a, a:visited {
   a {
     color: $white;
   }
+}
+
+
+
+/*
+ * Diet Page
+ *
+ */
+
+
+.diet {
+
+
+     .card-header {
+          background: none;
+          border: none;
+          margin-left: 0;
+          padding-left: 0;
+
+          h2 {
+               margin-left: 0;
+               font-weight: bold;
+          }
+
+          button {
+               background: none;
+               font-weight: bold;
+               width: 100%;
+               text-align: left;
+          }
+
+          .btn-link {
+               text-decoration: none;
+               color: $dark-grey;
+          }
+
+          .btn-link:hover {
+               color: $black;
+          }
+          
+     }
 }

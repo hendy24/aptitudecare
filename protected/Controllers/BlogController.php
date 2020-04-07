@@ -31,7 +31,7 @@ class BlogController extends MainPageController {
 		if (isset (input()->id) && input()->id !== null) {
 			$post = $this->loadModel('BlogPost', input()->id);
 		} else {
-			session()->setFlash('We are sorry. We could not find the blog post you are looking for', 'alert-danger');
+			session()->setFlash('We are sorry. We could not find the blog post you are looking for', 'danger');
 			$this->redirect(SITE_URL);
 		}
 
@@ -104,7 +104,7 @@ class BlogController extends MainPageController {
 		}
 		
 		if (input()->title == null) {
-			session()->setFlash('Please enter a post title', 'alert-danger');
+			session()->setFlash('Please enter a post title', 'danger');
 			$this->redirect(input()->current_url);
 		} else {
 			$post->title = input()->title;
@@ -126,10 +126,10 @@ class BlogController extends MainPageController {
 		}
 
 		if ($post->save()) {
-				session()->setFlash('The post was saved', 'alert-success');
+				session()->setFlash('The post was saved', 'success');
 				$this->redirect(SITE_URL . DS . 'blog/manage');			
 		} else {
-			session()->setFlash('The post was not saved', 'alert-danger');
+			session()->setFlash('The post was not saved', 'danger');
 			$this->redirect(input()->current_url);
 		}
 
@@ -140,14 +140,14 @@ class BlogController extends MainPageController {
 			$post = $this->loadModel('BlogPost', input()->id);
 
 			if ($post->delete()) {
-				session()->setFlash('The blog post was deleted', 'alert-success');
+				session()->setFlash('The blog post was deleted', 'success');
 				return true;
 			} else {
-				session()->setFlash('Could not delete the post', 'alert-danger');
+				session()->setFlash('Could not delete the post', 'danger');
 				return false;
 			}
 		} else {
-			session()->setFlash('Could not delete the post', 'alert-danger');
+			session()->setFlash('Could not delete the post', 'danger');
 			return false;
 		}
 

@@ -8427,6 +8427,16 @@ h1 {
   color: #48484a;
 }
 
+.form-header {
+  background: #48484a;
+  padding: 0.15rem 0.75rem;
+  color: #ffffff;
+  margin: 2rem 0 0.75rem 0;
+}
+.form-header h2 {
+  font-size: 1.5rem;
+}
+
 /*
  * Sidebar
  */
@@ -8520,6 +8530,34 @@ a, a:visited {
  */
 .thead-dark a {
   color: #ffffff;
+}
+
+/*
+ * Diet Page
+ *
+ */
+.diet .card-header {
+  background: none;
+  border: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.diet .card-header h2 {
+  margin-left: 0;
+  font-weight: bold;
+}
+.diet .card-header button {
+  background: none;
+  font-weight: bold;
+  width: 100%;
+  text-align: left;
+}
+.diet .card-header .btn-link {
+  text-decoration: none;
+  color: #48484a;
+}
+.diet .card-header .btn-link:hover {
+  color: #121212;
 }
 
 /*# sourceMappingURL=custom.css.map */

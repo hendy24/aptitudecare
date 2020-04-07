@@ -1,4 +1,5 @@
 <div class="container">
+	{if $auth->isLoggedIn()}
 	<div class="row">
         <div class="col-2"></div>
         <div class="col-8">
@@ -13,6 +14,7 @@
                {/if}
           </div>
     </div>
+    {/if}
 
 	<input type="hidden" id="location" name="location" value="{$location->public_id}">
 	<input type="hidden" id="current-url" name="current_url" value="{$current_url}">

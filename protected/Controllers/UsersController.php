@@ -107,7 +107,7 @@ class UsersController extends MainPageController {
 		}
 		
 		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);			
 		}	
 
@@ -178,7 +178,7 @@ class UsersController extends MainPageController {
 			smarty()->assign('existing', false);
 
 			if (!auth()->hasPermission("add_user")) {
-				session()->setFlash("You do not have permission to add new users.", 'error');
+				session()->setFlash("You do not have permission to add new users.", 'warning');
 				$this->redirect();
 			}
 			$user = $this->loadModel("User");
@@ -331,7 +331,7 @@ class UsersController extends MainPageController {
 
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);
 		}
 
@@ -536,7 +536,7 @@ class UsersController extends MainPageController {
 
 
 			if (!empty ($error_messages)) {
-				session()->setFlash($error_messages, 'error');
+				session()->setFlash($error_messages, 'warning');
 				$this->redirect(input()->path);
 			}
 

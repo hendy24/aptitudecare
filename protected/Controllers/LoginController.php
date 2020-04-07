@@ -59,7 +59,7 @@ class LoginController extends MainPageController {
 			
 			// If error messages, then set messages and redirect back to login page
 			if (!empty($error_messages)) {
-				session()->setFlash($error_messages, 'error');
+				session()->setFlash($error_messages, 'warning');
 				$this->redirect(input()->path);
 			}			
 			
@@ -79,7 +79,7 @@ class LoginController extends MainPageController {
 				
 				
 			} else { // send them back to the login page with an error
-				session()->setFlash(array('Could not authenticate the user'), 'error');
+				session()->setFlash(array('Could not authenticate the user'), 'warning');
 				$this->redirect(input()->path);
 			}
 					

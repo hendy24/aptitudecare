@@ -89,7 +89,7 @@ class PhysiciansController extends MainPageController {
 	public function submitAdd() {
 		if (!auth()->hasPermission('manage_physicians')) {
 			$error_messages[] = "You do not have permission to add new physicians";
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'danger');
 			$this->redirect();
 		}
 
@@ -149,7 +149,7 @@ class PhysiciansController extends MainPageController {
 		
 		//	Breakpoint
 		if (!empty($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);
 		}
 

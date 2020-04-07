@@ -28,7 +28,14 @@
 
 		<script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
 
-		<script>var SITE_URL = '{$SITE_URL}';</script>
+		<script>
+			var SITE_URL = '{$SITE_URL}';
+			$(document).ready(function() {
+				$('.alert-success').delay(8000).fadeOut();
+				$('.alert-warning').delay(8000).fadeOut();
+			});
+			
+		</script>
 
 	</head>
 	<body>
@@ -59,10 +66,12 @@
 				{if $flashMessages}
 				<div class="row mx-4">
 					{foreach $flashMessages as $class => $message}
-					<div class="col-12 text-center alert {$class}" role="alert">
+					<div class="col-12 text-center alert-{$class}" role="alert">
+						<ul>
 						{foreach $message as $m}
-							{$m}
+							<li>{$m}</li>
 						{/foreach}
+						</ul>
 					</div>
 					{/foreach}
 				</div>
