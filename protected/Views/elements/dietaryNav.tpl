@@ -50,18 +50,18 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=adaptive_equipment&amp;location={$location->public_id}">Adaptive Equipment</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=allergies&amp;location={$location->public_id}">Allergies</a>
-			</li>
-			<li class="nav-item">
+			</li> -->
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=beverages&amp;location={$location->public_id}">Beverages</a>
-			</li>
+			</li> -->
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=diet_census&amp;location={$location->public_id}">Diet Census</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}">Snack Report</a>
-			</li>
+			</li> -->
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=menu&amp;action=print_menu&amp;location={$location->public_id}&amp;pdf=true" target="_blank">Weekly Menu</a>
 			</li>

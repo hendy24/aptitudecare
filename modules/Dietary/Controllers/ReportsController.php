@@ -286,6 +286,7 @@ class ReportsController extends DietaryController {
 		if (!auth()->isLoggedIn()) {
 			$this->template = "pdf";
 			$is_pdf = true;
+			$this->allow_access = true;
 		} else {
 			$is_pdf = false;
 		}
@@ -296,7 +297,8 @@ class ReportsController extends DietaryController {
 			$location = $this->getLocation();
 		}
 
-		$current_patients = $this->loadModel('PatientAdaptEquip')->fetchByLocation($location);
+
+		$current_patients = $this->loadModel('PatientAdaptEquip')->fetchAEByLocation($location);
 		smarty()->assignByRef('patients', $current_patients);
 		smarty()->assign('isPDF', $is_pdf);
 	}
