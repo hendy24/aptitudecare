@@ -45,7 +45,7 @@
     <header>
         <div class="container-fluid">
             <nav class="navbar navbar-expand-xl navbar-light bg-light">
-                <a class="navbar-brand" href="/"><img src="{$IMAGES}/aspencreek-logo.png" alt="assisted living Anchorage, AK"></a>
+                <a class="navbar-brand" href="/"><img src="{$IMAGES}/aspencreek-logo.svg" alt="assisted living Anchorage, AK"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -185,7 +185,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12 text-12 text-dark-grey text-center copyright">
-                    <p>All Content &copy; {$smarty.now|date_format:"%Y"} <a href="https://www.springcreek.co/" class="text-dark-grey" target="new">Spring Creek Enterprise</a>. All Rights Reserved.</p>
+                    <p>All Content &copy; {$smarty.now|date_format:"%Y"} <a href="https://www.springcreekenterprise.com/" class="text-dark-grey" target="new">Spring Creek Enterprise</a>. All Rights Reserved.</p>
                 </div>
             </div>
     </footer>

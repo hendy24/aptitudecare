@@ -1,7 +1,7 @@
 <div class="container print-menu">
 	<div class="row">
 		<div class="col-xs-12">
-			<h1 class="print-menu">{$location->name} Dining Services</h1>
+			<h1 class="print-menu">{$location->name}</h1>
 		</div>
 	</div>
 

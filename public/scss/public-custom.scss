@@ -164,6 +164,13 @@ header .navbar li {
 	padding: 0.75rem;
 }
 
+.navbar-brand {
+	img {
+		width: 80%;
+	}
+}
+
+
 .dropdown-menu {
 	width: 16em;
 }
@@ -569,6 +576,13 @@ footer {
 		}
 }
 
+	.navbar-brand {
+		img {
+			width: 50%;
+		}
+	}
+
+
 
 	.team-section {
 
@@ -732,6 +746,12 @@ footer {
 	 	padding: 10px 0;
 
 	 }
+	 .navbar-brand {
+		img {
+			width: 65%;
+		}
+	}
+
 	 .navbar-collapse  {
 	 	position: absolute;
 	 	top: 100%;

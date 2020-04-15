@@ -124,7 +124,7 @@ class MenuController extends DietaryController {
 		// set the menu item id
 		if ($menuChange) {
 			$menuItem->menu_item_id = $origMenuItem->menu_item_id;
-		} else {
+		} elseif (input()->menu_type == "MenuItem") {
 			$menuItem->menu_item_id = $origMenuItem->id;
 		}
 
@@ -139,6 +139,7 @@ class MenuController extends DietaryController {
 
 		// set the user info who made the change
 		$menuItem->user_id = auth()->getRecord()->id;
+
 
 		if ($menuItem->save()) {
 			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'alert-success');
@@ -355,6 +356,7 @@ class MenuController extends DietaryController {
 
 	public function print_menu() {
 		$this->template = "pdf";
+		$this->allow_access = true;
 		smarty()->assign('title', "Current Menu");
 
 		// Get the selected facility. If no facility has been selected return the users' default location
