@@ -290,6 +290,7 @@ class MenuController extends DietaryController {
 	public function meal_order_form() {
 
 		$this->template = "pdf";
+		$this->allow_access = true;
 
 		smarty()->assign('title', "Meal Order Form");
 

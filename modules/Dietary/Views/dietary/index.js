@@ -38,10 +38,11 @@
 		});
 
 
-		$("#tray-card-select-date").on("click", function(e) {
-			e.preventDefault();
+		$("#selectDateModal").on('show.bs.modal', function(e) {
+			var button = $(e.relatedTarget);
+
 			var url = $(this).attr("href");
-			$("#tray-card-dialog").dialog({
+			$("#selectDateModal").dialog({
 				buttons: {
 					"Submit": function() {
 						var selectedDate = $("#selected-date").val();

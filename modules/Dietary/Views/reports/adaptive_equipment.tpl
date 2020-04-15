@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-2 text-right">     
       <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=adaptive_equipment&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
-        <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
+        <i class="fas fa-print fa-2x"></i>
       </a>
     </div>
   </div>

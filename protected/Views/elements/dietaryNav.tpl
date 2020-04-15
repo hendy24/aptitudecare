@@ -30,9 +30,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}/?module={$this->getModule()}&amp;page=info&amp;action=manage">Manage Menus</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=facility_menus">Facility Menus</a>
-			</li>
+			</li> -->
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=corporate_menus">Corporate Menus</a>
 			</li>

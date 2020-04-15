@@ -9,7 +9,7 @@
 			</div>
 			<div class="modal-body">
 				<p>Select the date for which you would like to print the tray cards.</p>
-				<input type="text" id="selected-date" class="date-picker">
+				<input type="text" id="selected-date" class="datepicker">
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-danger" id="deletePost" type="button">Select</button>

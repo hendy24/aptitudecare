@@ -1,5 +1,5 @@
 
-<div class="container mt-4">
+<div class="container">
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 text-center">
 			{$this->loadElement("selectLocation")}
@@ -12,21 +12,15 @@
 		
 
 		<div class="col-lg-8 col-md-6 col-sm-12 mt-1 text-sm-left">
-			<a id="tray-card-select-date"
-				href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true"
+			<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true"
 				class="btn btn-primary float-md-right" target="_blank">Tray Cards</a>
 		</div>
 		<div class="col-lg-2 text-sm-left mt-1">
-			<a id="meal-order-form-select-date"
-				href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true"
+			<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true"
 				class="btn btn-primary float-md-left" target="_blank">Meal Order Forms</a>
 		</div>		
 	</div>
-</div>
 
-
-
-<div class="container width-80 mt-5">
 	<h1 class="text-center">Current Residents</h1>
 	<input type="hidden" id="location" value="{$location->public_id}">
 	<input type="hidden" name="currentUrl" value="{$current_url}">

@@ -1,42 +1,23 @@
-<script>
-	$(document).ready(function() {
-		$("#menu").change(function() {
-			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=corporate_menus&menu=" + $("option:selected", this).val();
-		});
-	});
-</script>
-
-<div id="page-header">
-	<div id="action-left">
-		{$this->loadElement("module")}
+<div class="container">
+	
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<h1>{$selectedMenu->name} Menu</h1>
+		</div>
+		<div class="col-md-2">
+			<select name="menu" id="menu" class="form-control">
+				<option value="">Select a menu...</option>
+				{foreach from=$menus item=menu key=key name=menu}
+					<option value="{$menu->public_id}" {if $selectedMenu && $selectedMenu->id == $menu->id} selected{/if}>{$menu->name}</option>
+				{/foreach}
+			</select>	
+		</div>
 	</div>
-	<div id="center-title">
-		<h1>{$selectedMenu->name} Menu</h1>
-	</div>
-	<div id="action-right">
-		<select name="menu" id="menu">
-			<option value="">Select a menu...</option>
-			{foreach from=$menus item=menu key=key name=menu}
-				<option value="{$menu->public_id}" {if $selectedMenu && $selectedMenu->id == $menu->id} selected{/if}>{$menu->name}</option>
-			{/foreach}
-		</select>	
-	</div>
-</div>
 
 
 
-<div id="page-header">
-	<div id="action-left">
-		<a href="{$SITE_URL}/?module=Dietary&amp;page=info&amp;action=create" class="button">Create Menu</a>
-		<a href="{$SITE_URL}/?module={$this->getModule()}&amp;page=info&amp;action=manage" class="button">Manage Menus</a>
-	</div>
-</div>
-
-
-
-
-<div id="menu">
-	<table id="menu-table">
+	<table class="table">
 		{foreach from=$menuItems item="menuItem" name="menuItems"}	
 
 		{if $smarty.foreach.menuItems.first}
@@ -55,8 +36,8 @@
 						{/foreach}
 						</ul>
 					</div>
-					<div class="menu-edit-button">
-						<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit_corporate_menu&amp;menu={$selectedMenu->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;page_count={$pagination->current_page}" class="button">Edit</a>
+					<div class="text-right">
+						<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=edit_corporate_menu&amp;menu={$selectedMenu->public_id}&amp;type={$menuItem->type}&amp;id={$menuItem->public_id}&amp;page_count={$pagination->current_page}" class="btn-table">Edit</a>
 					</div>
 				</div>
 			</td>
@@ -74,8 +55,13 @@
 	</table>
 
 	{if isset ($pagination)}
-		{$url = "{$SITE_URL}?module=Dietary&page=dietary&action=corporate_menus&menu={$selectedMenu->id}"}
-		{include file="elements/pagination.tpl"}	
+	<div class="row text-center">
+		<div class="col-12">
+			{$url = "{$SITE_URL}?module=Dietary&page=dietary&action=corporate_menus&menu={$selectedMenu->id}"}
+			{include file="elements/pagination.tpl"}
+		</div>
+	</div>			
 	{/if}
+
 
 </div>
