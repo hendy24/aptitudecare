@@ -1,30 +1,3 @@
-<script>
-	$(document).ready(function() {
-		$("#location").change(function() {
-			var location = $("#location option:selected").val();
-			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=current&location=" + location;
-		});
-
-		$("#print-menu-select-date").on("click", function(e){
-			e.preventDefault();
-			var location = $("#location option:selected").val();
-			var url = SITE_URL + '?module=Dietary&page=menu&action=print_menu&location=' + location;
-			console.log(url);
-
-			$('#menu-date-dialog').dialog({
-				buttons: {
-					"Submit": function() {
-						var selectedDate = $("#selected-date").val();
-						window.open(url + '&weekSeed=' + selectedDate + '&pdf=true', '_blank');
-						$(this).dialog("close");
-					}
-				}
-			});
-
-		});
-	});
-</script>
-
 <div class="container mt-4">
 	<div class="row">
 		<div class="col-lg-4 col-sm-12">
@@ -99,7 +72,7 @@
 	<h2 class="text-center mt-5 pb-2">Menu Color Legend</h2>
 		<div class="row">
 			<div class="col-lg-1 bg-warning"></div>
-			<div class="col-lg-11">Menu Items with this background color have been edited at a corporate level. These changes are <strong>permanent</strong> and will display each time the menu starts over.</div>
+			<div class="col-lg-11">Menu Items with this font color have been edited at a corporate level. These changes are <strong>permanent</strong> and will display each time the menu starts over.</div>
 		</div>
 		<div class="row mt-2">
 			<div class="col-lg-1 bg-primary"></div>

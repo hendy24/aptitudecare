@@ -15,9 +15,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=public_page_items&amp;location={$location->public_id}">Public Page Items</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?module={$this->getModule()}&amp;page=info&amp;action=beverages&amp;location={$location->public_id}">Beverage List</a>
-			</li>
+			</li> -->
 			<li class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}?page=public-display&amp;location={$location->public_id}" target="_blank">Preview Public Page</a>
 			</li>
