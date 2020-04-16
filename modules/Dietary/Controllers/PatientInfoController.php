@@ -939,5 +939,13 @@ class PatientInfoController extends DietaryController {
 	}
 
 
+	public function fetchAllergies() {
+		$allergies = $this->loadModel('Allergies')->fetchAll();
+
+		pr ($allergies); exit;
+
+		json_return($allergies);
+	}
+
 
 }

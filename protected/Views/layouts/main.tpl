@@ -8,19 +8,20 @@
 		<!-- CSS Files -->
 		<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="{$CSS}/custom.css">
+		<link rel="stylesheet" href="{$VENDORS}/fastselect/dist/fastselect.min.css" rel="stylesheet">
 		
-		<link rel="stylesheet" href="{$SITE_URL}/datepicker/lib/themes/default.css">
-		<link rel="stylesheet" href="{$SITE_URL}/datepicker/lib/themes/default.date.css">
-		<link rel="stylesheet" href="{$SITE_URL}/datepicker/lib/themes/default.time.css">
-		<link rel="stylesheet" type="text/css" href="{$VENDORS}/jQuery-Tags-Input/dist/jquery.tagsinput.min.css">
+		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.css">
+		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.date.css">
+		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.time.css">
 	
 		<script src="{$JS}/jquery-3.4.1.min.js" type="text/javascript"></script>
+		<script src="{$VENDORS}/fastselect/dist/fastselect.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="{$SITE_URL}/datepicker/lib/picker.js"></script>
-		<script src="{$SITE_URL}/datepicker/lib/picker.date.js"></script>
-		<script src="{$SITE_URL}/datepicker/lib/picker.time.js"></script>
-		<script src="{$VENDORS}/jQuery-Tags-Input/dist/jquery.tagsinput.min.js"></script>
+		<script src="{$VENDORS}/datepicker/lib/picker.js"></script>
+		<script src="{$VENDORS}/datepicker/lib/picker.date.js"></script>
+		<script src="{$VENDORS}/datepicker/lib/picker.time.js"></script>
+		
 
 		<!-- WYSIWYG script -->
 		<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>

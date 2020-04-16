@@ -40,8 +40,15 @@
 		<div class="row">
 			<div class="col-lg-6 col-md-12">
 				<label for="food-allergies">Food Allergies:</label>
-				<input type="text" value="" name="allergies" id="food-allergies" class="form-control">
-			</div>
+				<select class="multipleSelect form-control" multiple name="language">
+					<option value="Anchorage">Anchorage</option>
+					<option value="Boise">Boise</option>
+					<option value="Salt Lake City">Salt Lake City</option>
+					<option value="Phoenix">Phoenix</option>
+					<option value="Denver">Denver</option>
+				</select>
+<!-- 				<input type="text" multiple value="" name="allergies" id="food-allergies" class="form-control tagsInput" data-user-option-allowed="true" data-url="{$SITE_URL}/?page=patient_info&amp;action=fetch_allergies">
+ -->			</div>
 			<div class="form-group col-lg-6 col-md-12">
 				<label for="food-dislikes">Food dislikes or intolerances:</label>
 				<input type="text" value="" name="dislikes" id="dislikes" class="form-control">

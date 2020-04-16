@@ -1,6 +1,11 @@
 
 <script>
+     
+
      $(document).ready(function() {
+
+          $('.multipleSelect').fastselect();
+
           // add minus icon for collapse element which is open by default
           $(".collapse.show").each(function() {
                $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
@@ -13,30 +18,9 @@
                $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
           });
 
-
-
-          $("#food-allergies").tagsInput({
-               'height': '2.5rem',
-               'width': '100%',
-               'defaultText': '',
-               'onChange': function() {
-                    var patientId = $("#patient-id").val();
-                    var allergyName = ui.tagLabel;
-                    $.post(SITE_URL, {
-                         page: "PatientInfo",
-                         action: "deleteItem",
-                         patient: patientId,
-                         name: allergyName,
-                         type: "allergy"
-                         }, function (e) {
-                         console.log(e);
-                         }, "json"
-                    );
-               },
-          });
-
-
      });
+
+    
 
 
      // var snackTime = null;

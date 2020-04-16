@@ -5,6 +5,19 @@
 			window.location.href = SITE_URL + "/?module=Dietary&page=info&action=current&location=" + location;
 		});
 
+		$('.datepicker').pickadate();
+
+		$('.print').on('click', function(e) {
+			e.preventDefault();
+			var selectedDate = $('.datepicker').val();
+			var location = $('#location').val();
+			
+			//var location = $("#location option:selected").val();
+			var url = SITE_URL + '?module=Dietary&page=menu&action=print_menu&location=' + location;
+			window.open(url + '&weekSeed=' + selectedDate + '&pdf=true', '_blank');
+			$(this).dialog("close");
+		});
+
 		$("#print-menu-select-date").on("click", function(e){
 			e.preventDefault();
 			var location = $("#location option:selected").val();
@@ -23,4 +36,7 @@
 
 		});
 	});
+
+	
+
 </script>
