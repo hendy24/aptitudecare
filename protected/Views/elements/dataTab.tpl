@@ -20,7 +20,7 @@
 			</li>
 			{/if}
 			{if $auth->hasPermission("manage_users")}
-			<li class="nav-item">
+			<li id="users" class="nav-item">
 				<a class="nav-link" href="{$SITE_URL}/?page=users&amp;action=manage">Users</a>
 			</li>
 			{/if}

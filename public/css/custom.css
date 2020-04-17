@@ -8320,6 +8320,13 @@ ul li {
   list-style-type: none;
 }
 
+li.active {
+  background: #ffffff;
+}
+li.active a.nav-link, li.active a.nav-link:visited {
+  color: #121212;
+}
+
 .bootstrap-tagsinput {
   background-color: #ffffff;
   border: 1px solid #c7c8ca;

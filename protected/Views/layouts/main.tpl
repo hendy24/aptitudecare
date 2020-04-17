@@ -35,7 +35,13 @@
 			$(document).ready(function() {
 				$('.alert-success').delay(8000).fadeOut();
 				$('.alert-warning').delay(8000).fadeOut();
+
+				// show collapsible content when page is selected
+				var pathname = window.location.pathname;
+				console.log(pathname);
 			});
+
+
 			
 		</script>
 
@@ -94,5 +100,9 @@
 		    <p>Your session is about to timeout.  You will be automatically logged out in 1 minute. To remain logged in click the button below.</p>
 		</div> -->
 	</body>
-	{include file=$jsfile}
+	<script>
+		$(document).ready(function() {
+			{include file=$jsfile}
+		});
+	</script>
 </html>

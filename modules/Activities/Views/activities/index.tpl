@@ -1,33 +1,4 @@
-<style>
-	h2, input {
-		display: inline;
-	}
-	.cal-icon {
-		margin-top: 10px;
-		position: absolute;
-	}
-	div.date-header {
-		text-align: center;
-		margin: auto;
-	}
-</style>
-<script>
-	$(function() {
-		$("#datepicker").datepicker({
-			showOn: "button",
-			buttonImage: "{$IMAGES}/calendar.png",
-			buttonImageOnly: true
-		});
-	});
-	
-	$(document).ready(function() {
-		$("#datepicker").change(function() {
-			window.location = SITE_URL + "/?module=Activities&date=" + $(this).val();
-		});
-	});
-</script>
-
-<div class="container my-5">
+<div class="container">
 
 	<!-- Navigation buttons -->
 	<div class="row">
@@ -42,15 +13,13 @@
 			<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=print_activities&amp;location={$location->public_id}&amp;date={$startDate}&amp;pdf=true" target="_blank" class="btn btn-primary pull-right">Print activities</a>
 		</div>
 	</div>
-</div>
 
-<div class="container my-5">
 	<h1>Activities</h1>
 	<div class="row">
 		<div class="col-12 text-center">
-			<a href="{$SITE_URL}/?module=Activities&amp;date={$previousWeek}&amp;location={$location->public_id}"><i class="fas fa-arrow-alt-circle-left fa-2x mr-2"></i></a>
-			<span class="text-24 align-top">{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"}</span>
-			<a href="{$SITE_URL}/?module=Activities&amp;date={$nextWeek}&amp;location={$location->public_id}"><i class="fas fa-arrow-alt-circle-right fa-2x ml-2"></i></a>
+			<a href="{$SITE_URL}/?module=Activities&amp;date={$previousWeek}&amp;location={$location->public_id}"><i class="fas fa-arrow-alt-circle-left m-2"></i></a>
+			<span class="text-14 align-top">{$startDate|date_format: "%A, %B %e, %Y"} - {$endDate|date_format: "%A, %B %e, %Y"}</span>
+			<a href="{$SITE_URL}/?module=Activities&amp;date={$nextWeek}&amp;location={$location->public_id}"><i class="fas fa-arrow-alt-circle-right m-2"></i></a>
 		</div>
 	</div>
 

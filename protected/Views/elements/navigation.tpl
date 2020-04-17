@@ -13,19 +13,19 @@
 					{/if}
 
 					<!-- dietary nav section -->
-					{if $auth->hasPermission('manage_menu')}
+					{if $session->getModule() == 'Dietary'}
 						{$this->loadElement('dietaryNav')}
 					{/if}
 					<!-- /dietary nav section -->
 
 					<!-- activities nav section -->
-					{if $auth->hasPermission('manage_activities')}
+					{if $session->getModule() == 'Activities'}
 						{$this->loadElement('activitiesNav')}
 					{/if}
 					<!-- activities nav section -->
 
 					<!-- blog nav section -->
-					{if $auth->hasPermission('manage_blog')}
+					{if $session->getModule() == 'Blog'}
 						{$this->loadElement('blogNav')}
 					{/if}
 					<!-- /blog nav section -->

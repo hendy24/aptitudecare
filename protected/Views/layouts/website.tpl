@@ -25,6 +25,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
     <script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
     <script src="{$JS}/website.js"></script>
+    <script>
+        var SITE_URL = '{$SITE_URL}';
+        $(document).ready(function() {
+            $('.alert-success').delay(8000).fadeOut();
+            $('.alert-warning').delay(8000).fadeOut();
+        });
+        
+    </script>
     
     <title>{$title} | Senior Living in Anchorage, AK </title>
 </head>
@@ -199,7 +207,6 @@
 </body>
 <script>
     {include file=$jsfile}
-    }
 </script>
 
 </html>

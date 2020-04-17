@@ -40,6 +40,16 @@ ul li {
 }
 
 
+li.active {
+  background: $white;
+
+  a.nav-link, a.nav-link:visited {
+    color: $black;
+  }
+}
+
+
+
 .bootstrap-tagsinput {
     background-color: $white;
     border: 1px solid $light-grey;

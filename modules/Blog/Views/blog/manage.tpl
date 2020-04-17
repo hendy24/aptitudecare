@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		<div class="col-lg-2"></div>
+		<div class="col-lg-2">{$this->loadElement("module")}</div>
 		<div class="col-lg-8">
 			<h1 class="text-center">Manage Posts</h1>
 		</div>
