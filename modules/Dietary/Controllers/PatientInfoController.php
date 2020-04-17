@@ -174,9 +174,9 @@ class PatientInfoController extends DietaryController {
 
 		// set allergies array
 		$allergiesArray = array();	
+		$this->loadModel('PatientFoodInfo')->deleteFoodInfoItems($patient->id, 'allergy');
 		if (!empty (input()->allergies)) {
 			//delete all allergies before saving new ones
-			$this->loadModel('PatientFoodInfo')->deleteFoodInfoItems($patient->id, 'allergy');
 			foreach (input()->allergies as $item) {
 				$foodInfo = $this->loadModel("PatientFoodInfo");
 
@@ -191,9 +191,9 @@ class PatientInfoController extends DietaryController {
 
 		// set dislikes array
 		$dislikesArray = array();
+		$this->loadModel('PatientFoodInfo')->deleteFoodInfoItems($patient->id, 'dislike');
 		if (!empty (input()->dislikes)) {
-			//delete all dislikes before saving new ones
-			$this->loadModel('PatientFoodInfo')->deleteFoodInfoItems($patient->id, 'dislike');
+			//delete all dislikes before saving new ones 
 			foreach (input()->dislikes as $item) {
 				//$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $item);
 				$foodInfo = $this->loadModel('PatientFoodInfo');

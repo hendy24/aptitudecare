@@ -317,6 +317,15 @@ footer {
 
 }
 
+.services {
+
+	a {
+		margin: 0;
+		text-decoration: none;
+		color: $black;
+	}
+}
+
 /********** End Home Page *************************/
 
 
@@ -470,6 +479,10 @@ footer {
 		width: 100%;
 		border: none;
 		text-decoration: none;
+	}
+
+	.card-body {
+		margin: 0 1.45em;
 	}
 }
 

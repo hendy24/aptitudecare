@@ -1,5 +1,4 @@
 {literal}
-<script>
 
       //      var options = $.get(SITE_URL, {
      //        page: "PatientInfo",
@@ -487,5 +486,4 @@
      //    }
 
      // });
-</script>
 {/literal}

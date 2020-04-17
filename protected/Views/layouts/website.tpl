@@ -79,7 +79,7 @@
                             
                             <div class="dropdown-menu" aria-labelledby="meetTheTeamDropdown">
                                 <a class="dropdown-item" href="{$SITE_URL}/leadership-team">Leadership Team</a>
-                                <a class="dropdown-item" href="{$SITE_URL}/caregiving-team">Caregiving Team</a>
+                                <a class="dropdown-item" href="{$SITE_URL}/care-team">Care Team</a>
                             </div>
                         </li>
                         <!-- /meet the team dropdown -->

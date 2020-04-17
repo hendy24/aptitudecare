@@ -43,18 +43,25 @@
 <!-- /virtual tours --> 
 
 <!-- services -->
-<div class="container my-5">
+<div class="container my-5 services">
     <div class="row">
         <div class="col-md-4 text-center">
             <img src="{$IMAGES}/tray.png" class="pb-4" alt="">
             <h4>FINE DINING</h4>
             <p>Our award winning Executive Chef creates beautifully presented, delicious, and nutritious meals every day and our dietitian is available to help with any dietary restrictions.</p>  
         </div>
+
+        
         <div class="col-md-4 text-center">
-            <img src="{$IMAGES}/24-7.png" class="pb-4" alt="24-hour elder care anchorage ak">
-            <h4>24-HOUR COMPASSIONATE <br>CARE</h4>
-            <p>We are extremely selective during our interview and hiring process. Our caregivers are the best of the best, always delivering exceptional and compassionate caregiving.</p>
+            <a href="{$SITE_URL}/care-team">
+                <img src="{$IMAGES}/24-7.png" class="pb-4" alt="24-hour elder care anchorage ak">
+                <h4>24-HOUR COMPASSIONATE <br>CARE</h4>
+                <p>We are extremely selective during our interview and hiring process. Our Care Partners are the best of the best, always delivering exceptional and compassionate caregiving.</p>
+            </a>
         </div>
+        
+
+
         <div class="col-md-4 text-center">
             <img src="{$IMAGES}/yoga.png" class="pb-4" alt="wellness in anchorage alaska assisted living">
             <h4>TOTAL WELLNESS</h4>
@@ -91,7 +98,7 @@
 <!-- tv commercial -->
 <div class="container my-5">
     <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/395595132" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/5Rjo1T-DM5M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 </div>
 <!-- /tv commercial -->

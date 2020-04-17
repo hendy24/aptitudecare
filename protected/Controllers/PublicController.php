@@ -19,7 +19,7 @@ class PublicController extends MainPageController {
 
 	}
 
-	public function caregiving_team() {
+	public function care_team() {
 
 	}
 

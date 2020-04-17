@@ -7,27 +7,27 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Baloo+Da+2|Josefin+Sans:100i,300,400,500,700|Raleway&display=swap");
 :root {
-  --blue: #007bff;
-  --indigo: #6610f2;
-  --purple: #6f42c1;
-  --pink: #e83e8c;
-  --red: #dc3545;
-  --orange: #fd7e14;
-  --yellow: #ffc107;
-  --green: #28a745;
-  --teal: #20c997;
-  --cyan: #17a2b8;
-  --white: #fff;
-  --gray: #6c757d;
-  --gray-dark: #343a40;
-  --primary: #007bff;
-  --secondary: #6c757d;
-  --success: #28a745;
-  --info: #17a2b8;
-  --warning: #ffc107;
-  --danger: #dc3545;
-  --light: #f8f9fa;
-  --dark: #343a40;
+  --color-blue: #007bff;
+  --color-indigo: #6610f2;
+  --color-purple: #6f42c1;
+  --color-pink: #e83e8c;
+  --color-red: #dc3545;
+  --color-orange: #fd7e14;
+  --color-yellow: #ffc107;
+  --color-green: #28a745;
+  --color-teal: #20c997;
+  --color-cyan: #17a2b8;
+  --color-white: #fff;
+  --color-gray: #6c757d;
+  --color-gray-dark: #343a40;
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-info: #17a2b8;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -8438,6 +8438,10 @@ header .navbar li {
   padding: 0.75rem;
 }
 
+.navbar-brand img {
+  width: 80%;
+}
+
 .dropdown-menu {
   width: 16em;
 }
@@ -8567,6 +8571,12 @@ footer ul.nav a:hover {
 .social {
   text-align: right;
   float: right;
+}
+
+.services a {
+  margin: 0;
+  text-decoration: none;
+  color: #121212;
 }
 
 /********** End Home Page *************************/
@@ -8712,6 +8722,9 @@ footer ul.nav a:hover {
   border: none;
   text-decoration: none;
 }
+.team-section .card-body {
+  margin: 0 1.45em;
+}
 
 /******* /Leadership Page ***********/
 /******* Menu Page ***********/
@@ -8772,6 +8785,10 @@ footer ul.nav a:hover {
 
   .menu-page img {
     margin: 0.25rem 0;
+  }
+
+  .navbar-brand img {
+    width: 50%;
   }
 
   .team-section h2 {
@@ -8979,6 +8996,10 @@ footer ul.nav a:hover {
 
   header {
     padding: 10px 0;
+  }
+
+  .navbar-brand img {
+    width: 65%;
   }
 
   .navbar-collapse {
