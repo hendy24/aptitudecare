@@ -10,8 +10,7 @@ class BlogController extends MainPageController {
 
 
 
-	public function index() {
-
+	public function index() {		
 		if (auth()->isLoggedIn()) {
 			$this->redirect(array('page' => 'blog', 'action' => 'manage'));
 		}

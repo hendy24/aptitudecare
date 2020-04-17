@@ -17,9 +17,9 @@ class MainPageController extends MainController {
  * 	NOTE: Need to check security on these pages as users who are not logged in could actually access these pages.
  *
  */
-	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu", "print_activities", "public");
-	}
+	// public function allow_access() {
+	// 	return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu", "print_activities", "public");
+	// }
 
 
 /*

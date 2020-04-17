@@ -8755,14 +8755,16 @@ footer ul.nav a:hover {
 }
 
 /******* /Contact Page ***********/
-/******* Blog Page ***********/
-.blog h2 {
-  margin-top: 0;
+/******* News Page ***********/
+.news h2 {
+  margin: 0;
+  font-size: 1.8rem;
 }
-.blog .row {
-  margin: 2rem auto;
+.news .news-title-row {
+  border-top: 1px solid #c7c8ca;
+  padding: 2rem 0;
 }
-.blog p {
+.news p {
   text-align: justify;
 }
 

@@ -53,8 +53,7 @@
 			<a href="/" class="navbar-brand col-sm-6 col-md-2 mr-0"><img class="img-fluid" src="{$IMAGES}/aspencreek-logo_white.png" alt="Aspen Creek Black Logo"></a>
 			<ul class="navbar-nav px-3">
 				<li class="nav-item text-nowrap text-white">
-					{if $auth->isLoggedIn()}Hello, {$auth->fullName()} &nbsp;|&nbsp;
-					<a href="{$SITE_URL}/login/logout" class="text-white">Logout</a>{/if}
+					{if $auth->isLoggedIn()}Hello, {$auth->fullName()} &nbsp;|&nbsp; <a href="{$SITE_URL}" target="_blank" class="text-white">Public Page</a> &nbsp;|&nbsp; <a href="{$SITE_URL}/login/logout" class="text-white">Logout</a>{/if}
 				</li>
 			</ul>
 		</nav>
