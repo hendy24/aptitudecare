@@ -27,7 +27,7 @@ class PatientSpecialReq extends Dietary {
 			return $result;
 		}
 
-		return false;
+		return array();
 	}
 
 
@@ -44,12 +44,12 @@ class PatientSpecialReq extends Dietary {
 		}
 	}
 
-	public function deleteSpecialReq($patient_id, $spec_req_name, $meal) {
+	public function deleteSpecialReq($patient_id, $spec_req_id, $meal) {
 		$special_req = $this->loadTable("SpecialReq");
-		$sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND special_req_id = (SELECT id FROM {$special_req->tableName()} WHERE name = :spec_req_name) AND meal = :meal";
+		$sql = "DELETE FROM {$this->tableName()} WHERE patient_id = :patient_id AND special_req_id = :spec_req_id AND meal = :meal";
 		$params = array(
 			":patient_id" => $patient_id,
-			":spec_req_name" => $spec_req_name,
+			":spec_req_id" => $spec_req_id,
 			":meal" => $meal
 		);
 

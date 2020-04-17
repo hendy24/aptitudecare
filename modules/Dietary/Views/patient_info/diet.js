@@ -1,10 +1,106 @@
-
+{literal}
 <script>
-     
+
+      //      var options = $.get(SITE_URL, {
+     //        page: "PatientInfo",
+     //        action: "fetchOptions",
+     //        type: type
+     //        }, function(data) {
+     //          $.each(data, function(key, value) {
+     //            choices = value.name;
+     //            runLog();
+     //          });
+     //        }, "json"
+     //      );
+     //      return array;
+     //    }
+    
 
      $(document).ready(function() {
 
-          $('.multipleSelect').fastselect();
+          $('#food-allergies').selectize({
+               delimiter: ',',
+               load: function(query, callback) {
+                    var patientId = $('.patient-id').val();
+                    $.ajax({
+                         url: SITE_URL,
+                         page: 'patientInfo',
+                         action: 'fetchAllergies',
+                         patientId: patientId,
+                         type: 'GET',
+                         error: function() {
+                              console.log('failed');
+                         }, 
+                         success: function(response) {
+                              console.log(response);
+                              callback({value: response.id, text: response.name});
+                         }
+                    });
+               },               
+               create: function (input, callback) {
+                    console.log($(this).parent().next('input:hidden').attr('name'));
+                    $.post(SITE_URL, {
+                         page: 'patient_info',
+                         action: 'addAllergy',
+                         name: input,
+                    },
+                    function(response) {
+                         console.log(response);
+                         callback({value: response.id, text: response.name});
+                    }, 'json');
+
+
+               }
+
+          });
+
+          $('#food-dislikes').selectize({
+               delimiter: ',',
+               load: function(query, callback) {
+                    var patientId = $('.patient-id').val();
+                    $.get(SITE_URL, {
+                         page: 'patientInfo',
+                         action: 'fetchDislikes',
+                         patientId: patientId
+                    },
+                    function(response, callback) {
+                         console.log(response);
+                         callback({value: response.id, text: response.name});
+                    }
+                    );
+               },
+               create: function (input, callback) {
+                    console.log($(this).parent().next('input:hidden').attr('name'));
+                    $.post(SITE_URL, {
+                         page: 'patient_info',
+                         action: 'addDislike',
+                         name: input,
+                    },
+                    function(response) {
+                         console.log(response);
+                         callback({value: response.id, text: response.name});
+                    }, 'json');
+
+
+               }
+
+          });
+
+          $('.special-request').selectize({
+               create: function(input, callback) {
+                    $.post(SITE_URL, {
+                         page: 'patientInfo',
+                         action: 'addSpecialRequest',
+                         name: input,
+                    },
+                    function(response) {
+                         callback({value: response.id, text: response.name});
+                    }, 'json');
+               }
+          });
+
+          $('.beverages').selectize();
+
 
           // add minus icon for collapse element which is open by default
           $(".collapse.show").each(function() {
@@ -392,3 +488,4 @@
 
      // });
 </script>
+{/literal}

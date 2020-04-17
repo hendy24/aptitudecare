@@ -15,7 +15,7 @@ class PatientFoodInfo extends Dietary {
 			return $result;
 		}
 
-		return false;
+		return array();
 	}
 
 
@@ -42,7 +42,7 @@ class PatientFoodInfo extends Dietary {
 			return $result;
 		}
 
-		return false;
+		return array();
 
 	}
 
@@ -63,18 +63,15 @@ class PatientFoodInfo extends Dietary {
 	}
 
 
-	public function deleteFoodInfoItem($patient_id, $name, $type = false) {
+	public function deleteFoodInfoItems($patient_id, $type = false) {
 		if ($type == "allergy") {
 			$params[":allergy"] = 1;
-			$joinedTable = $this->loadTable("Allergy");
 		} elseif ($type == "dislike") {
 			$params[":allergy"] = 0;
-			$joinedTable = $this->loadTable("Dislike");
 		}
 
-		$sql = "DELETE FROM {$this->tableName()} WHERE {$this->tableName()}.patient_id = :patient_id AND {$this->tableName()}.allergy = :allergy AND (SELECT id FROM {$joinedTable->tableName()} WHERE name = :name) = {$this->tableName()}.food_id";
+		$sql = "DELETE FROM {$this->tableName()} WHERE {$this->tableName()}.patient_id = :patient_id AND {$this->tableName()}.allergy = :allergy";
 		$params[":patient_id"] = $patient_id;
-		$params[":name"] = $name;
 
 		if ($this->deleteQuery($sql, $params)) {
 			return true;

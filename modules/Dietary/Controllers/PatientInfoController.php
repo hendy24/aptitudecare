@@ -27,30 +27,38 @@ class PatientInfoController extends DietaryController {
 		// get the diet info for the selected patient
 		$patientInfo = $this->loadModel('PatientInfo')->fetchDietInfo($patient->id);
 
-		// fetch the allergies, dislikes and snacks
-		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
-		$dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
+		// fetch all allergies
+		$allergies = $this->loadModel('Allergy')->fetchAll();		
+		//fetch all dislike options
+		$dislikes = $this->loadModel('Dislike')->fetchAll();
+
+		// fetch resident specific allergies and dislikes
+		$patientAllergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
+		$patientDislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
 
 		// Fetch snacks for each time of day
 		$am_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "am");
 		$pm_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "pm");
 		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
 
+		// fetch all special request options
+		$specialRequests = $this->loadModel('SpecialReq')->fetchAll();
 
-		// fetch special requests
+		// fetch patient special requests
 		$breakfast_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 1);
 		$lunch_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 2);
 		$dinner_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 3);
 
+		// fetch all beverage options
+		$beverages = $this->loadModel('Beverage')->fetchAll();
 
 		// Fetch beverages for each meal
 		$breakfast_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 1);
 		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 2);
 		$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 3);
 
-		$adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
-		$supplements = $this->loadModel("PatientSupplement")->fetchPatientSupplement($patient->id);
-
+		// $adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
+		// $supplements = $this->loadModel("PatientSupplement")->fetchPatientSupplement($patient->id);
 
 
 		// NOTE: The three foreach loops below to get data for the page view could be consolidated and called
@@ -101,22 +109,25 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
-
-		smarty()->assignByRef('patient', $patient);
-		smarty()->assignByRef('patientInfo', $patientInfo);
-		smarty()->assignByRef('allergies', $allergies);
-		smarty()->assignByRef('dislikes', $dislikes);
-		smarty()->assignByRef('adaptEquip', $adapt_equip);
-		smarty()->assignByRef('breakfast_spec_req', $breakfast_spec_req);
-		smarty()->assignByRef('lunch_spec_req', $lunch_spec_req);
-		smarty()->assignByRef('dinner_spec_req', $dinner_spec_req);
-		smarty()->assignByRef('breakfast_beverages', $breakfast_beverages);
-		smarty()->assignByRef('lunch_beverages', $lunch_beverages);
-		smarty()->assignByRef('dinner_beverages', $dinner_beverages);
-		smarty()->assignByRef('supplements', $supplements);
-		smarty()->assignByRef('am_snacks', $am_snacks);
-		smarty()->assignByRef('pm_snacks', $pm_snacks);
-		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
+		smarty()->assign('patient', $patient);
+		smarty()->assign('patientInfo', $patientInfo);
+		smarty()->assign('allergies', $allergies);
+		smarty()->assign('dislikes', $dislikes);
+		smarty()->assign('patientAllergies', $patientAllergies);
+		smarty()->assign('patientDislikes', $patientDislikes);
+		// smarty()->assign('adaptEquip', $adapt_equip);
+		smarty()->assign('specialRequests', $specialRequests);
+		smarty()->assign('breakfast_spec_req', $breakfast_spec_req);
+		smarty()->assign('lunch_spec_req', $lunch_spec_req);
+		smarty()->assign('dinner_spec_req', $dinner_spec_req);
+		smarty()->assign('beverages', $beverages);
+		smarty()->assign('breakfast_beverages', $breakfast_beverages);
+		smarty()->assign('lunch_beverages', $lunch_beverages);
+		smarty()->assign('dinner_beverages', $dinner_beverages);
+		// smarty()->assign('supplements', $supplements);
+		smarty()->assign('am_snacks', $am_snacks);
+		smarty()->assign('pm_snacks', $pm_snacks);
+		smarty()->assign('bedtime_snacks', $bedtime_snacks);
 
 
 		smarty()->assign("dietOrder", $order_array);
@@ -162,15 +173,16 @@ class PatientInfoController extends DietaryController {
 		}*/
 
 		// set allergies array
-		$allergiesArray = array();
+		$allergiesArray = array();	
 		if (!empty (input()->allergies)) {
+			//delete all allergies before saving new ones
+			$this->loadModel('PatientFoodInfo')->deleteFoodInfoItems($patient->id, 'allergy');
 			foreach (input()->allergies as $item) {
-				$allergy = $this->loadModel("Allergy")->fetchByName($item);
-				$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $allergy->id);
+				$foodInfo = $this->loadModel("PatientFoodInfo");
 
 				if ($foodInfo->patient_id == "") {
 					$foodInfo->patient_id = $patient->id;
-					$foodInfo->food_id = $allergy->id;
+					$foodInfo->food_id = $item;
 					$foodInfo->allergy = true;
 					$allergiesArray[] = $foodInfo;
 				}
@@ -180,13 +192,15 @@ class PatientInfoController extends DietaryController {
 		// set dislikes array
 		$dislikesArray = array();
 		if (!empty (input()->dislikes)) {
+			//delete all dislikes before saving new ones
+			$this->loadModel('PatientFoodInfo')->deleteFoodInfoItems($patient->id, 'dislike');
 			foreach (input()->dislikes as $item) {
-				$dislike = $this->loadModel("Dislike")->fetchByName($item);
-				$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $dislike->id);
+				//$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $item);
+				$foodInfo = $this->loadModel('PatientFoodInfo');
 
 				if ($foodInfo->patient_id == "") {
 					$foodInfo->patient_id = $patient->id;
-					$foodInfo->food_id = $dislike->id;
+					$foodInfo->food_id = $item;
 					$foodInfo->allergy = false;
 					$dislikesArray[] = $foodInfo;
 				}
@@ -194,51 +208,50 @@ class PatientInfoController extends DietaryController {
 		}
 
 		// set adaptive equipment array
-		$adaptEquipArray = array();
-		if (!empty (input()->adaptEquip)) {
-			foreach (input()->adaptEquip as $item) {
-				$adaptEquip = $this->loadModel("AdaptEquip")->fetchByName($item);
-				$patientAdaptEquip = $this->loadModel("PatientAdaptEquip")->fetchByPatientAndAdaptEquipId($patient->id, $adaptEquip->id);
+		// $adaptEquipArray = array();
+		// if (!empty (input()->adaptEquip)) {
+		// 	foreach (input()->adaptEquip as $item) {
+		// 		$adaptEquip = $this->loadModel("AdaptEquip")->fetchByName($item);
+		// 		$patientAdaptEquip = $this->loadModel("PatientAdaptEquip")->fetchByPatientAndAdaptEquipId($patient->id, $adaptEquip->id);
 
-				if ($patientAdaptEquip->patient_id == "") {
-					$patientAdaptEquip->patient_id = $patient->id;
-					$patientAdaptEquip->adapt_equip_id = $adaptEquip->id;
-					$adaptEquipArray[] = $patientAdaptEquip;
-				}
-			}
-		}
+		// 		if ($patientAdaptEquip->patient_id == "") {
+		// 			$patientAdaptEquip->patient_id = $patient->id;
+		// 			$patientAdaptEquip->adapt_equip_id = $adaptEquip->id;
+		// 			$adaptEquipArray[] = $patientAdaptEquip;
+		// 		}
+		// 	}
+		// }
 
 		$spec_reqs_array = array();
-		if (!empty (input()->breakfast_specialrequest)) {
-			foreach (input()->breakfast_specialrequest as $item) {
-				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
+		if (!empty (input()->breakfast_special_requests)) {
+			foreach (input()->breakfast_special_requests as $item) {
 				$deleteSpecialReq = $this->loadModel("PatientSpecialReq")->deleteSpecialReqs($patient->id, $item, 1);
 				$patient_spec_req = $this->loadModel("PatientSpecialReq");
 				$patient_spec_req->patient_id = $patient->id;
-				$patient_spec_req->special_req_id = $spec_req->id;
+				$patient_spec_req->special_req_id = $item;
 				$patient_spec_req->meal = 1;
 				$spec_reqs_array[] = $patient_spec_req;
 
 			}
 		}
-		if (!empty (input()->lunch_specialrequest)) {
-			foreach (input()->lunch_specialrequest as $item) {
-				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
+		if (!empty (input()->lunch_special_requests)) {
+			foreach (input()->lunch_special_requests as $item) {
+				$deleteSpecialReq = $this->loadModel("PatientSpecialReq")->deleteSpecialReqs($patient->id, $item, 2);
 				$patient_spec_req = $this->loadModel("PatientSpecialReq");
 				$patient_spec_req->patient_id = $patient->id;
-				$patient_spec_req->special_req_id = $spec_req->id;
+				$patient_spec_req->special_req_id = $item;
 				$patient_spec_req->meal = 2;
 				$spec_reqs_array[] = $patient_spec_req;
 
 			}
 		}
 
-		if (!empty (input()->dinner_specialrequest)) {
-			foreach (input()->dinner_specialrequest as $item) {
-				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
+		if (!empty (input()->dinner_special_requests)) {
+			foreach (input()->dinner_special_requests as $item) {
+				$deleteSpecialReq = $this->loadModel("PatientSpecialReq")->deleteSpecialReqs($patient->id, $item, 3);
 				$patient_spec_req = $this->loadModel("PatientSpecialReq");
 				$patient_spec_req->patient_id = $patient->id;
-				$patient_spec_req->special_req_id = $spec_req->id;
+				$patient_spec_req->special_req_id = $item;
 				$patient_spec_req->meal = 3;
 				$spec_reqs_array[] = $patient_spec_req;
 
@@ -250,13 +263,12 @@ class PatientInfoController extends DietaryController {
 		$beveragesArray = array();
 		if (!empty (input()->breakfast_beverages)) {
 			foreach (input()->breakfast_beverages as $item) {
-				$beverage = $this->loadModel("Beverage")->fetchByName($item);
 				$deletePatientBeverages = $this->loadModel("PatientBeverage")->deletePatientBevs($patient->id);
 
 				// create new empty array
 				$patientBeverage = $this->loadModel("PatientBeverage");
 				$patientBeverage->patient_id = $patient->id;
-				$patientBeverage->beverage_id = $beverage->id;
+				$patientBeverage->beverage_id = $item;
 				$patientBeverage->meal = 1;
 				$beveragesArray[] = $patientBeverage;
 			}
@@ -265,10 +277,9 @@ class PatientInfoController extends DietaryController {
 		// set beverages array
 		if (!empty (input()->lunch_beverages)) {
 			foreach (input()->lunch_beverages as $item) {
-				$beverage = $this->loadModel("Beverage")->fetchByName($item);
 				$patientBeverage = $this->loadModel("PatientBeverage");
 				$patientBeverage->patient_id = $patient->id;
-				$patientBeverage->beverage_id = $beverage->id;
+				$patientBeverage->beverage_id = $item;
 				$patientBeverage->meal = 2;
 				$beveragesArray[] = $patientBeverage;
 			}
@@ -277,29 +288,28 @@ class PatientInfoController extends DietaryController {
 		// set beverages array
 		if (!empty (input()->dinner_beverages)) {
 			foreach (input()->dinner_beverages as $item) {
-				$beverage = $this->loadModel("Beverage")->fetchByName($item);
 				$patientBeverage = $this->loadModel("PatientBeverage");
 				$patientBeverage->patient_id = $patient->id;
-				$patientBeverage->beverage_id = $beverage->id;
+				$patientBeverage->beverage_id = $item;
 				$patientBeverage->meal = 3;
 				$beveragesArray[] = $patientBeverage;
 			}
 		}
 
 		// set supplements array
-		$supplementsArray = array();
-		if (!empty (input()->supplements)) {
-			foreach (input()->supplements as $item) {
-				$supplement = $this->loadModel("Supplement")->fetchByName($item);
-				$patientSupplement = $this->loadModel("PatientSupplement")->fetchByPatientAndSupplementId($patient->id, $supplement->id);
+		// $supplementsArray = array();
+		// if (!empty (input()->supplements)) {
+		// 	foreach (input()->supplements as $item) {
+		// 		$supplement = $this->loadModel("Supplement")->fetchByName($item);
+		// 		$patientSupplement = $this->loadModel("PatientSupplement")->fetchByPatientAndSupplementId($patient->id, $supplement->id);
 
-				if ($patientSupplement->patient_id == "") {
-					$patientSupplement->patient_id = $patient->id;
-					$patientSupplement->supplement_id = $supplement->id;
-					$supplementsArray[] = $patientSupplement;
-				}
-			}
-		}
+		// 		if ($patientSupplement->patient_id == "") {
+		// 			$patientSupplement->patient_id = $patient->id;
+		// 			$patientSupplement->supplement_id = $supplement->id;
+		// 			$supplementsArray[] = $patientSupplement;
+		// 		}
+		// 	}
+		// }
 
 
 		// set diet_order array
@@ -938,13 +948,55 @@ class PatientInfoController extends DietaryController {
 		return false;
 	}
 
+	public function fetch_allergies() {
+		if (input()->patientId != null) {
+			json_return ($this->loadModel("PatientFoodInfo")->fetchPatientDislikes(input()->patientId));
+		}
 
-	public function fetchAllergies() {
-		$allergies = $this->loadModel('Allergies')->fetchAll();
+		return false;
+	}
 
-		pr ($allergies); exit;
 
-		json_return($allergies);
+	public function add_allergy() {
+		if (input()->name != null) {
+			$allergy = $this->loadModel('Allergy');
+			$allergy->name = input()->name;
+			if ($allergy->save()) {
+				json_return($allergy);
+			}
+		}
+	}
+
+	public function fetch_dislikes() {
+		if (input()->patientId != null) {
+			json_return ($this->loadModel("PatientFoodInfo")->fetchPatientAllergies(input()->patientId));
+		}
+
+		return false;
+	}
+
+	public function add_dislike() {
+		if (input()->name != null) {
+			$dislike = $this->loadModel('Dislike');
+			$dislike->name = input()->name;
+			if ($dislike->save()) {
+				json_return($dislike);
+			}
+		}
+
+		return false;
+	}
+
+	public function add_special_request() {
+		if (input()->name != null) {
+			$sr = $this->loadModel('SpecialReq');
+			$sr->name = input()->name;
+			if ($sr->save()) {
+				json_return($sr);
+			}
+		}
+
+		return false;
 	}
 
 

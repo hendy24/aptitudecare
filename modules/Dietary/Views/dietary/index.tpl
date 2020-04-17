@@ -13,11 +13,11 @@
 
 		<div class="col-lg-8 col-md-6 col-sm-12 mt-1 text-sm-left">
 			<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true"
-				class="btn btn-primary float-md-right" target="_blank">Tray Cards</a>
+				class="btn btn-primary float-md-right text-white" target="_blank">Tray Cards</a>
 		</div>
 		<div class="col-lg-2 text-sm-left mt-1">
 			<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true"
-				class="btn btn-primary float-md-left" target="_blank">Meal Order Forms</a>
+				class="btn btn-primary float-md-left text-white" target="_blank">Meal Order Forms</a>
 		</div>		
 	</div>
 
@@ -52,8 +52,8 @@
 		            <button class="btn text-right" type="button" id="patientDietInfoDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tools"></i></button>
 		            <div class="dropdown-menu" aria-labelledby="patientDietInfoDropdown">
 		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=diet&amp;patient={$patient->public_id}" class="dropdown-item">Edit Diet</a>
-		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;patient={$patient->public_id}&amp;location={$location->public_id}&amp;pdf=true" class="dropdown-item">Current Tray Card</a>
-		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$location->public_id}" class="dropdown-item">Selected Tray Card</a>
+		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;patient={$patient->public_id}&amp;location={$location->public_id}&amp;pdf=true" target="_blank" class="dropdown-item">Current Tray Card</a>
+		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$location->public_id}" id="selected-traycard" class="dropdown-item">Selected Tray Card</a>
 		            </div>
 		          </div>
 		        </td>

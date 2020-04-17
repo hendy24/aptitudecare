@@ -38,20 +38,31 @@
 			<h2>Diet Info</h2>
 		</div>
 		<div class="row">
+
 			<div class="col-lg-6 col-md-12">
-				<label for="food-allergies">Food Allergies:</label>
-				<select class="multipleSelect form-control" multiple name="language">
-					<option value="Anchorage">Anchorage</option>
-					<option value="Boise">Boise</option>
-					<option value="Salt Lake City">Salt Lake City</option>
-					<option value="Phoenix">Phoenix</option>
-					<option value="Denver">Denver</option>
+				<label for="food-allergies">Food Allergies:</label>		
+				<select id="food-allergies" name="allergies[]" multiple>
+					{foreach from=$allergies item="allergy"}
+					<option value="{$allergy->id}"
+						{foreach from=$patientAllergies item='pa'}
+							{if $allergy->id == $pa->id} selected{/if}
+						{/foreach}>{$allergy->name}
+					</option>
+					{/foreach}
 				</select>
-<!-- 				<input type="text" multiple value="" name="allergies" id="food-allergies" class="form-control tagsInput" data-user-option-allowed="true" data-url="{$SITE_URL}/?page=patient_info&amp;action=fetch_allergies">
- -->			</div>
+			</div>
+			
 			<div class="form-group col-lg-6 col-md-12">
 				<label for="food-dislikes">Food dislikes or intolerances:</label>
-				<input type="text" value="" name="dislikes" id="dislikes" class="form-control">
+				<select id="food-dislikes" name="dislikes[]" multiple>
+					{foreach from=$dislikes item="dislike"}
+					<option value="{$dislike->id}"
+						{foreach from=$patientDislikes item='pd'}
+							{if $dislike->id == $pd->id} selected{/if}
+						{/foreach}>{$dislike->name}</option>
+					{/foreach}
+				</select>
+				<input type="hidden" name="dislike">
 			</div>
 
 		</div>
@@ -60,19 +71,19 @@
 
 
 		<!-- Adaptive Equipment Section -->
-		<div class="form-row">
+<!-- 		<div class="form-row">
 			<div class="form-group col-lg-6 col-md-12">
 				<label for="adaptive-equipment">Adaptive Equipment:</label>
 				<input type="text" value="" name="adaptive_equipment" id="adaptive-equipment" class="form-control">
-			</div>
+			</div> -->
 
 			<!-- Supplements Section -->
-			<div class="form-group col-lg-6 col-md-12">
+<!-- 			<div class="form-group col-lg-6 col-md-12">
 				<label for="supplements">Supplements:</label>
 				<input type="text" value="" name="supplements" id="supplements" class="form-control">
 			</div>
 				
-		</div>
+		</div> -->
 
 
 		
@@ -89,15 +100,43 @@
 						<div class="row">
 							<div class="col-md-4">
 								<label for="breakfast-special-requests">Breakfast</label>
-								<input type="text" name="breakfast_special_requests" id="breakfast-special-requests" class="form-control">
+								<select name="breakfast_special_requests[]" id="breakfast-special-requests" class="special-request" multiple>
+									{foreach from=$specialRequests item="sr"}
+									<option 
+										value="{$sr->id}"
+										{foreach from=$breakfast_spec_req item="bsr"}
+											{if $sr->id == $bsr->id} selected{/if}
+										{/foreach}
+									>{$sr->name}</option>
+									{/foreach}
+								</select>
+								
 							</div>
 							<div class="col-md-4">
 								<label for="lunch-special-requests">Lunch</label>
-								<input type="text" name="lunch_special_requests" id="lunch-special-requests" class="form-control">
+								<select name="lunch_special_requests[]" id="lunch-special-requests" class="special-request" multiple>
+									{foreach from=$specialRequests item="sr"}
+									<option 
+										value="{$sr->id}"
+										{foreach from=$lunch_spec_req item="lsr"}
+											{if $sr->id == $lsr->id} selected{/if}
+										{/foreach}
+									>{$sr->name}</option>
+									{/foreach}
+								</select>
 							</div>
 							<div class="col-md-4">
 								<label for="dinner-special-requests">Dinner</label>
-								<input type="text" name="dinner_special_requests" id="dinner-special-requests" class="form-control">
+								<select name="dinner_special_requests[]" id="dinner-special-requests" class="special-request" multiple>
+									{foreach from=$specialRequests item="sr"}
+									<option 
+										value="{$sr->id}"
+										{foreach from=$dinner_spec_req item="dsr"}
+											{if $sr->id == $dsr->id} selected{/if}
+										{/foreach}
+									>{$sr->name}</option>
+									{/foreach}
+								</select>
 							</div>
 
 						</div>
@@ -119,15 +158,39 @@
 						<div class="row">
 							<div class="col-md-4">
 								<label for="breakfast-beverages">Breakfast</label>
-								<input type="text" name="breakfast_beverages" id="breakfast-beverages" class="form-control">
+								<select name="breakfast_beverages[]" id="breakfast-beverages" class="beverages" multiple>
+									{foreach from=$beverages item="bev"}
+									<option value="{$bev->id}"
+										{foreach from=$breakfast_beverages item="bb"}
+											{if $bev->id == $bb->beverage_id} selected {/if}
+										{/foreach}
+									>{$bev->name}</option>
+									{/foreach}
+								</select>
 							</div>
 							<div class="col-md-4">
 								<label for="lunch-beverages">Lunch</label>
-								<input type="text" name="lunch_beverages" id="lunch-beverages" class="form-control">
+								<select name="lunch_beverages[]" id="lunch-beverages" class="beverages" multiple>
+									{foreach from=$beverages item="bev"}
+									<option value="{$bev->id}"
+										{foreach from=$lunch_beverages item="lb"}
+											{if $bev->id == $lb->beverage_id} selected {/if}
+										{/foreach}
+									>{$bev->name}</option>
+									{/foreach}
+								</select>
 							</div>
 							<div class="col-md-4">
 								<label for="dinner-beverages">Dinner</label>
-								<input type="text" name="dinner_beverages" id="dinner-beverages" class="form-control">
+								<select name="dinner_beverages[]" id="dinner-beverages" class="beverages" multiple>
+									{foreach from=$beverages item="bev"}
+									<option value="{$bev->id}"
+										{foreach from=$dinner_beverages item="db"}
+											{if $bev->id == $db->beverage_id} selected {/if}
+										{/foreach}
+									>{$bev->name}</option>
+									{/foreach}
+								</select>
 							</div>
 
 						</div>
@@ -138,7 +201,7 @@
 			<!-- /beverages section -->
 
 			<!-- snacks section -->
-			<div class="card">
+<!-- 			<div class="card">
 				<div class="card-header" id="heading3">
 					<h2 class="mb-0">
 						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3"><i class="fa fa-plus mr-3"></i>Snacks</button>
@@ -165,7 +228,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- /snacks section -->
+ -->			<!-- /snacks section -->
 		</div>
 
 

@@ -5,6 +5,8 @@
 			window.location.href = SITE_URL + "/?module=Dietary&location=" + location;
 		});
 
+		$('#selected-traycard').datepicker();
+
 
 
 
