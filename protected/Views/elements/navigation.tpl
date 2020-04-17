@@ -2,6 +2,7 @@
 <div class="container" id="sidebar-nav">
 	<div class="row">
 		<nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+
 			<div class="sidebar-sticky">
 				<ul class="nav flex-column">
 					{if $session->getModule() == 'HomeHealth'}

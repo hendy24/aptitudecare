@@ -6,7 +6,7 @@ class NewsController extends MainPageController {
 	public $template = 'website';
 	// access to pages is blocked by default
 	// if access is needed it will have to be allowed inside the method
-	public $allow_access = false;
+	public $allow_access = true;
 
 
 

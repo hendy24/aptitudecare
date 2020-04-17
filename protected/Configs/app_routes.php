@@ -5,6 +5,7 @@
 	// Set module variable to false
 	$module = false;
 
+
 	// If the variables are available from a post request, use them...
 	if (isset(input()->module)) {
 		// Set module

@@ -2,75 +2,26 @@
 
 class BlogController extends MainPageController {
 
+	public $module = 'Blog';
 	public $page = 'blog';
-	public $template = 'blog';
+	public $template = 'main';
 	// access to pages is blocked by default
 	// if access is needed it will have to be allowed inside the method
 	public $allow_access = false;
 
 
 
-	public function index() {		
-		if (auth()->isLoggedIn()) {
-			$this->redirect(array('page' => 'blog', 'action' => 'manage'));
-		}
-		
-		smarty()->assign('title', 'Blog');
-		$this->allow_access = true;
-		$posts = $this->loadModel('BlogPost')->fetchRecentPosts();
-
-		smarty()->assign('posts', $posts);
-	}
-
-
-
-
-	public function post() {
-		$this->allow_access = true;
-		if (isset (input()->id) && input()->id !== null) {
-			$post = $this->loadModel('BlogPost', input()->id);
-		} else {
-			session()->setFlash('We are sorry. We could not find the blog post you are looking for', 'danger');
-			$this->redirect(SITE_URL);
-		}
-
-		smarty()->assign('post', $post);
-	}
-
-
-
-
-	public function posts() {
-		$this->allow_access = true;
-		$tag = input()->url;
-		$keyword = explode('/', $tag);
-		$tag_name = end($keyword);
-
-		// get posts with the search term
-		$posts = $this->loadModel('BlogPost')->fetchByTag($tag_name);
-		smarty()->assign('posts', $posts);
-		smarty()->assign('keyword', ucfirst($tag_name));
-	}
-
-
-
-	public function manage() {
-		$this->template = 'main';
+	public function index() {
 		$posts = $this->loadModel('BlogPost')->fetchAll();
 
 		smarty()->assign('blogPosts', $posts);
 	}
 
 
-
-
 	public function edit() {
 		if (!auth()->getRecord()) {
 			$this->redirect(SITE_URL);
 		}
-
-		$this->template = 'main';
-
 
 		// if there is an id in the url then we are editing an existing post
 		if (isset(input()->id) && input()->id !== null) {
@@ -85,10 +36,14 @@ class BlogController extends MainPageController {
 		// get tags
 		$tags = $this->loadModel('BlogTag')->fetchTags($post->id);
 
+		// get tags assigned to this post
+		$blogTags = $this->loadModel('BlogPostTagLink')->fetchExistingTags($post->id);
+
 		// assign the object to smarty to use in the view page
 		smarty()->assign('post', $post);
 		smarty()->assign('categories', $categories);
 		smarty()->assign('tags', $tags);
+		smarty()->assign('blogTags', $blogTags);
 	}
 
 
@@ -124,9 +79,24 @@ class BlogController extends MainPageController {
 			$post->category_id = input()->category;
 		}
 
+		$tagArray = array();
+		// delete all existing tags first
+		$this->loadModel('BlogPostTagLink')->deleteTags($post->id);
+		if (!empty (input()->blog_tags)) {
+			foreach (input()->blog_tags as $id) {
+				$postTag = $this->loadModel('BlogPostTagLink');
+				$postTag->blog_post_id = $post->id;
+				$postTag->blog_tag_id = $id;
+				$tagArray[] = $postTag;
+			}
+		}
+
 		if ($post->save()) {
-				session()->setFlash('The post was saved', 'success');
-				$this->redirect(SITE_URL . DS . 'blog/manage');			
+			foreach ($tagArray as $tag) {
+				$tag->save();
+			}
+			session()->setFlash('The post was saved', 'success');
+			$this->redirect(SITE_URL . DS . '?module=Blog&amp;page=blog');			
 		} else {
 			session()->setFlash('The post was not saved', 'danger');
 			$this->redirect(input()->current_url);

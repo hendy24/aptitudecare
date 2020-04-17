@@ -36,7 +36,17 @@
 
 		<!-- tags -->
 		<div class="form-group">
-			<input type="text" value="" name="tags" id="tags" class="form-control">
+			<label for="blog-tags">Blog Tags</label>
+			<select name="blog_tags[]" id="blog-tags" multiple>
+				{foreach from=$tags item="tag"}
+				<option 
+					value="{$tag->id}"
+					{foreach from=$blogTags item="bt"}
+						{if $tag->id == $bt->blog_tag_id} selected{/if}
+					{/foreach}
+				>{$tag->name}</option>
+				{/foreach}
+			</select>
 		</div>
 		<!-- /tags -->
 
@@ -49,8 +59,8 @@
 		
 
 		<!-- buttons -->
-		<button type="submit" class="btn btn-primary button float-right">Save</button>
-		<a href="{$SITE_URL}/?page=blog&amp;action=manage" type="button" class="btn btn-secondary button float-right text-white">Cancel</a>
+		<button type="submit" class="btn btn-primary ml-2 float-right">Save</button>
+		<button class="btn btn-secondary float-right" type="button" onclick="history.go(-1)">Cancel</button>
 		<button type="button" class="btn btn-danger button" data-toggle="modal" data-target="#deleteModal">Delete</button>	
 		<!-- /buttons -->
 	</form>

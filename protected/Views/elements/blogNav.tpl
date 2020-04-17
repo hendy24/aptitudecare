@@ -1,8 +1,8 @@
 <li id="manage-posts" class="nav-item">
-	<a href="{$SITE_URL}/?page=blog&amp;action=manage" class="nav-link"><i class="fas fa-tasks"></i> Manage Posts</a>
+	<a href="{$SITE_URL}/?module=Blog&amp;page=blog" class="nav-link"><i class="fas fa-tasks"></i> Manage Posts</a>
 </li>
 <li id="new-post" class="nav-item">
-	<a href="{$SITE_URL}/?page=blog&amp;action=edit" class="nav-link"><i class="fas fa-blog"></i> New Post</a>
+	<a href="{$SITE_URL}/?module=Blog&amp;page=blog&amp;action=edit" class="nav-link"><i class="fas fa-blog"></i> New Post</a>
 </li>
 
 <!-- <li class="nav-item">

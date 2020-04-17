@@ -8767,6 +8767,16 @@ footer ul.nav a:hover {
 .news p {
   text-align: justify;
 }
+.news .recent-news ul.nav li {
+  margin: 0.1em 0;
+  line-height: 1rem;
+}
+.news .recent-news ul.nav a {
+  color: #81b7e3;
+}
+.news .recent-news ul.nav a:hover {
+  color: #213c60;
+}
 
 /******* Blog Page ***********/
 /*********** Responsive styles ****************/

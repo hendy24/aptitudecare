@@ -8,6 +8,7 @@
  **/
 class ActivitiesController extends MainPageController {
 
+	public $module = 'Activities';
 	public $page = 'activities';
 	public $template = 'main';
 	public $allow_access = false;

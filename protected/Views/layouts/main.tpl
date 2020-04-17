@@ -71,7 +71,7 @@
 				
 				<!-- flash messages ------>
 				{if $flashMessages}
-				<div class="row mx-4">
+				<div class="row mx-4 p-4 flash-message">
 					{foreach $flashMessages as $class => $message}
 					<div class="col-12 text-center alert-{$class}" role="alert">
 						<ul>

@@ -4,7 +4,7 @@
 class DietaryController extends MainPageController {
 
 	// protected $template = "dietary";
-	public $module = "Dietary";
+	public $module = 'Dietary';
 	protected $navigation = 'dietary';
 	protected $searchBar = 'dietary';
 	protected $helper = 'DietaryMenu';

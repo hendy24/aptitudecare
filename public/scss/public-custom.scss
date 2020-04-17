@@ -557,9 +557,24 @@ footer {
 		text-align: justify;
 	}
 
-}
+	.recent-news {
+	
+		ul.nav {
 
-.recent-news {
+			li {
+				margin: 0.1em 0;
+				line-height: 1rem;
+			}
+		
+			a {
+				color: $light-blue;
+			}
+			
+			a:hover {
+				color: $dark-blue;
+			}
+		}
+	}
 
 }
 

@@ -17,4 +17,24 @@
 			return false;
 		}
 
+
+		public function fetchExistingTags($blog_id) {
+			$sql = "SELECT * FROM {$this->tableName()} WHERE {$this->tableName()}.blog_post_id = :blog_post_id";
+			$params[":blog_post_id"] = $blog_id;
+
+			return $this->fetchAll($sql, $params);
+		}
+
+		public function deleteTags($blog_id) {
+			$sql = "DELETE FROM {$this->tableName()} WHERE {$this->tableName()}.blog_post_id = :blog_post_id";
+			$params[":blog_post_id"] = $blog_id;
+
+			if ($this->deleteQuery($sql, $params)) {
+				return true;
+			}
+
+			return false;
+		}
+
+
 	}
