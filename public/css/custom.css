@@ -8582,4 +8582,12 @@ a, a:visited {
   color: #121212;
 }
 
+/*
+ * Edit Blog Post Page
+ *
+ */
+.edit-post .form-group {
+  margin: 25px 0;
+}
+
 /*# sourceMappingURL=custom.css.map */

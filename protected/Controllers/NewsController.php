@@ -15,7 +15,10 @@ class NewsController extends MainPageController {
 		$this->allow_access = true;
 		$posts = $this->loadModel('BlogPost')->fetchRecentPosts();
 
+		$categories = $this->loadModel('BlogCategory')->countPosts();
+
 		smarty()->assign('posts', $posts);
+		smarty()->assign('categories', $categories);
 	}
 
 
@@ -24,7 +27,7 @@ class NewsController extends MainPageController {
 	public function post() {
 		$this->allow_access = true;
 		if (isset (input()->id) && input()->id !== null) {
-			$post = $this->loadModel('BlogPost', input()->id);
+			$post = $this->loadModel('BlogPost')->fetchPost(input()->id);
 		} else {
 			session()->setFlash('We are sorry. We could not find the blog post you are looking for', 'danger');
 			$this->redirect(SITE_URL);
@@ -37,15 +40,34 @@ class NewsController extends MainPageController {
 
 
 	public function posts() {
-		$this->allow_access = true;
-		$tag = input()->url;
-		$keyword = explode('/', $tag);
-		$tag_name = end($keyword);
+		
+		if (isset (input()->keyword)) {
+			$keyword = input()->keyword;
+			$search_type = 'tag';
+			$search_word = $keyword;
+		} else {
+			$tag = input()->url;
+			$keyword = explode('/', $tag);
+			$search_type = $keyword[2];
+			$search_word = end($keyword);
+		}
+		
+		
 
 		// get posts with the search term
-		$posts = $this->loadModel('BlogPost')->fetchByTag($tag_name);
+		if ($search_type == 'tag') {
+			$posts = $this->loadModel('BlogPost')->fetchByTag($search_word);
+		} else {
+			$posts = $this->loadModel('BlogPost')->fetchByCategory($search_word);
+		}
+
+		$categories = $this->loadModel('BlogCategory')->countPosts();
+
+		
 		smarty()->assign('posts', $posts);
-		smarty()->assign('keyword', ucfirst($tag_name));
+		smarty()->assign('keyword', ucfirst($search_word));
+		smarty()->assign('categories', $categories);
+
 	}
 
 

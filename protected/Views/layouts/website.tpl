@@ -41,7 +41,7 @@
     <!-- covid-19 message -->
     <div id="covid-19-message" class="sticky-top">
         <div id="inner-message" class="alert alert-warning">
-            <a href="{$SITE_URL}/blog/posts/covid-19">
+            <a href="{$SITE_URL}/news/posts/covid-19">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <p class="text-center">Updates on how we are protecting our residents from COVID-19</p>
             </a>

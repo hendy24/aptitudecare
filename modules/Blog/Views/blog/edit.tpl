@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container edit-post">
 	<h1 class="text-center">{if $post->id}Edit{else}New{/if} Post</h1>
 
-	<form name="save" method="post" action="{$SITE_URL}">
+	<form name="save" method="post" action="{$SITE_URL}" enctype="multipart/form-data">
 		<input type="hidden" name="page" value="blog">
 		<input type="hidden" name="action" value="save">
 		<input type="hidden" name="id" id="public-id" value="{$post->public_id}">
@@ -21,6 +21,13 @@
 			<textarea class="form-control" name="content" id="summernote">{$post->content}</textarea>
 		</div>
 		<!-- /blog content -->
+
+		<!-- cover image -->
+		<div class="custom-file my-2">
+			<input type="file" name="cover_image" class="custom-file-input" id="cover-image">
+			<label class="custom-file-label" for="cover-image">Upload a Cover Image</label>
+		</div>
+		<!-- /cover image -->
 
 		<!-- categories -->
 		<div class="form-group">

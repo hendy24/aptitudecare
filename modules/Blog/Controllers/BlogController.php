@@ -34,7 +34,7 @@ class BlogController extends MainPageController {
 		$categories = $this->loadModel('BlogCategory')->fetchAll();
 
 		// get tags
-		$tags = $this->loadModel('BlogTag')->fetchTags($post->id);
+		$tags = $this->loadModel('BlogTag')->fetchAll();
 
 		// get tags assigned to this post
 		$blogTags = $this->loadModel('BlogPostTagLink')->fetchExistingTags($post->id);
@@ -51,6 +51,7 @@ class BlogController extends MainPageController {
 
 
 	public function save() {
+
 		if (isset (input()->id)) {
 			$post = $this->loadModel('BlogPost', input()->id);
 		} else {
@@ -79,22 +80,41 @@ class BlogController extends MainPageController {
 			$post->category_id = input()->category;
 		}
 
-		$tagArray = array();
-		// delete all existing tags first
-		$this->loadModel('BlogPostTagLink')->deleteTags($post->id);
-		if (!empty (input()->blog_tags)) {
-			foreach (input()->blog_tags as $id) {
-				$postTag = $this->loadModel('BlogPostTagLink');
-				$postTag->blog_post_id = $post->id;
-				$postTag->blog_tag_id = $id;
-				$tagArray[] = $postTag;
+
+		// create a cover image object
+		$cover_image = $this->loadModel('BlogCoverImage');
+		// upload the cover image
+		if (!empty($_FILES)) {
+			foreach ($_FILES as $k => $v) {
+				if ($k !== 'files') {
+					$file_type = $k;
+				}
+				 
+			}
+
+			$cover_image->filename = $_FILES[$file_type]["name"];
+
+			if ($this->upload_file($file_type)) {
+				$cover_image->save();
+
+				// add the cover image id to the blog post
+				$post->cover_image_id = $cover_image->id;
 			}
 		}
 
+
 		if ($post->save()) {
-			foreach ($tagArray as $tag) {
-				$tag->save();
+			// delete all existing tags first
+			$this->loadModel('BlogPostTagLink')->deleteTags($post->id);
+			if (!empty (input()->blog_tags)) {
+				foreach (input()->blog_tags as $id) {
+					$postTag = $this->loadModel('BlogPostTagLink');
+					$postTag->blog_post_id = $post->id;
+					$postTag->blog_tag_id = $id;
+					$postTag->save();
+				}
 			}
+
 			session()->setFlash('The post was saved', 'success');
 			$this->redirect(SITE_URL . DS . '?module=Blog&amp;page=blog');			
 		} else {
