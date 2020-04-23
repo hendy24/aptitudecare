@@ -93,7 +93,7 @@ class BlogController extends MainPageController {
 
 			$cover_image->filename = $_FILES[$keyname]["name"];
 
-			if ($this->upload_file($_FILES, $keyname, 'cover-images')) {
+			if ($this->upload_file($_FILES, $keyname)) {
 				$cover_image->save();
 
 				// add the cover image id to the blog post

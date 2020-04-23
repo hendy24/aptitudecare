@@ -1,6 +1,6 @@
 {if $post->filename}
 <div class="container-fluid">	
-	<img src="{$SITE_URL}/uploads/{$post->filename}" alt="" class="img-fluid">
+	<img src="{$AWS_IMAGES}/cover_image/{$post->filename}" alt="" class="img-fluid">
 </div>
 {/if}
 

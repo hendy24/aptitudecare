@@ -30,7 +30,7 @@ class BlogPost extends AppModel {
 		$pagination = new Paginator();
 		$pagination->default_ipp = 5;
 		$pagination->items_total = $count->posts;
-		return $pagination->paginate($sql, $params, $this, $page, 5);
+		return $pagination->paginate($sql, $params, $this, $page);
 
 	}
 

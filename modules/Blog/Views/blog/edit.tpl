@@ -2,6 +2,7 @@
 	<h1 class="text-center">{if $post->id}Edit{else}New{/if} Post</h1>
 
 	<form name="save" method="post" action="{$SITE_URL}" enctype="multipart/form-data">
+		<input type="hidden" name="module" value="blog">
 		<input type="hidden" name="page" value="blog">
 		<input type="hidden" name="action" value="save">
 		<input type="hidden" name="id" id="public-id" value="{$post->public_id}">

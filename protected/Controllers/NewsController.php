@@ -12,8 +12,14 @@ class NewsController extends MainPageController {
 
 	public function index() {	
 		smarty()->assign('title', 'News');
-		$this->allow_access = true;
-		$posts = $this->loadModel('BlogPost')->fetchRecentPosts();
+		
+		if (isset (input()->page_count)) {
+			$page = input()->page_count;
+		} else {
+			$page = 1;
+		}
+
+		$posts = $this->loadModel('BlogPost')->fetchRecentPosts($page);
 
 		$categories = $this->loadModel('BlogCategory')->countPosts();
 
