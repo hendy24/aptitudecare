@@ -39,5 +39,15 @@
 		{$this->loadElement('blogSearch')}
 	</div>
 
+	{if isset ($pagination)}
+	<div class="row text-center">
+		<div class="col-12">
+			{$url = "{$SITE_URL}"}
+			{include file="elements/pagination.tpl"}
+		</div>
+	</div>			
+	{/if}
+
+
 	
 </div>

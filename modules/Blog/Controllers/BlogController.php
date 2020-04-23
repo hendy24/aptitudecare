@@ -80,28 +80,26 @@ class BlogController extends MainPageController {
 			$post->category_id = input()->category;
 		}
 
-
 		// create a cover image object
 		$cover_image = $this->loadModel('BlogCoverImage');
 		// upload the cover image
 		if (!empty($_FILES)) {
 			foreach ($_FILES as $k => $v) {
 				if ($k !== 'files') {
-					$file_type = $k;
+					$keyname = $k;
 				}
 				 
 			}
 
-			$cover_image->filename = $_FILES[$file_type]["name"];
+			$cover_image->filename = $_FILES[$keyname]["name"];
 
-			if ($this->upload_file($file_type)) {
+			if ($this->upload_file($_FILES, $keyname, 'cover-images')) {
 				$cover_image->save();
 
 				// add the cover image id to the blog post
 				$post->cover_image_id = $cover_image->id;
 			}
 		}
-
 
 		if ($post->save()) {
 			// delete all existing tags first
