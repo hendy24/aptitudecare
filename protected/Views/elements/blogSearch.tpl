@@ -1,9 +1,5 @@
 	<div class="col-sm-4 recent-news">
-		<form action="{$SITE_URL}" class="form-inline my-lg-0">
-			<input type="hidden" name="page" value="news">
-			<input type="hidden" name="action" value="posts">
-			<input type="hidden" name="type" value="tag">
-
+		<form action="{$SITE_URL}/news/posts/" class="form-inline my-lg-0">
 			<input type="search" name="keyword" class="form-control mr-2" placeholder="Search" aria-label="Search">
 			<button class="btn btn-primary my-sm-0" type="submit">Search</button>
 		</form>

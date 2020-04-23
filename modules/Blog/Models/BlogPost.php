@@ -61,19 +61,19 @@ class BlogPost extends AppModel {
 		$tagLink = $this->loadTable('BlogPostTagLink');
 		$images = $this->loadTable('BlogCoverImage');
 
+		$params[":keyword"] = "%{$keyword}%";
+
 		// Get the total number of posts
-		$sql = "SELECT count(id) AS posts 
+		$sql = "SELECT count(post.id) AS posts 
 				FROM {$this->tableName()} AS post 
 				INNER JOIN {$tagLink->tableName()} AS tagLink 
 					ON tagLink.blog_post_id = post.id 
 				INNER JOIN {$tag->tableName()} AS tag 
 					ON tag.id = tagLink.blog_tag_id 
-				LEFT JOIN {$images->tableName()} AS img 
-					ON img.id =post.cover_image_id 
 				WHERE tag.name LIKE :keyword 
 					AND post.date_published IS NOT NULL"; 
 
-		$count = $this->fetchOne($sql);
+		$count = $this->fetchOne($sql, $params);
 
 		$sql = "SELECT 
 					post.id AS post_id, 
@@ -95,12 +95,12 @@ class BlogPost extends AppModel {
 					AND post.date_published IS NOT NULL 
 				ORDER BY post.date_published DESC";
 
-		$params[':keyword'] = "%{$keyword}%";
+		
 
 		$pagination = new Paginator();
 		$pagination->default_ipp = 5;
 		$pagination->items_total = $count->posts;
-		return $pagination->paginate($sql, $params, $this, $page, 5);
+		return $pagination->paginate($sql, $params, $this, $page);
 
 	}
 

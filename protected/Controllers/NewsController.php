@@ -31,7 +31,6 @@ class NewsController extends MainPageController {
 
 
 	public function post() {
-		$this->allow_access = true;
 		if (isset (input()->id) && input()->id !== null) {
 			$post = $this->loadModel('BlogPost')->fetchPost(input()->id);
 		} else {
@@ -57,6 +56,13 @@ class NewsController extends MainPageController {
 			$search_type = $keyword[2];
 			$search_word = end($keyword);
 		}
+
+		if (isset (input()->page_count)) {
+			$page = input()->page_count;
+		} else {
+			$page = 1;
+		}
+
 		
 		
 
