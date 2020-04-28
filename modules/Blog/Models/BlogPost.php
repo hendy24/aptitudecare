@@ -4,7 +4,7 @@ class BlogPost extends AppModel {
 
 	protected $table = 'blog_post';
 
-	public function fetchRecentPosts($page = false) {
+	public function fetchRecentPosts($page = false, $items_per_page = 5, $published = true) {
 
 		$images = $this->loadTable('BlogCoverImage');
 
@@ -16,19 +16,27 @@ class BlogPost extends AppModel {
 		$params = array();
 
 		$sql = "SELECT 
-					{$this->tableName()}.id, 
-					{$this->tableName()}.public_id,
-					{$images->tableName()}.filename,
-					{$this->tableName()}.title,
-					{$this->tableName()}.content,
-					{$this->tableName()}.date_published
-				FROM {$this->tableName()} 
-				LEFT JOIN {$images->tableName()} 
-					ON {$images->tableName()}.id = {$this->tableName()}.cover_image_id 
-				WHERE date_published IS NOT NULL ORDER BY date_published DESC";
+					post.id, 
+					post.public_id,
+					images.filename,
+					post.title,
+					post.content,
+					post.date_published";
+					if (!$published) {
+						$sql .= ", post.datetime_created";
+					}
+		$sql .= " FROM {$this->tableName()} AS post
+				LEFT JOIN {$images->tableName()} AS images
+					ON images.id = post.cover_image_id";
+		if ($published) {
+			$sql .= "WHERE date_published IS NOT NULL ORDER BY date_published DESC";
+		} else {
+			$sql .= " ORDER BY datetime_created DESC ";
+		}
+		
 
 		$pagination = new Paginator();
-		$pagination->default_ipp = 5;
+		$pagination->default_ipp = $items_per_page;
 		$pagination->items_total = $count->posts;
 		return $pagination->paginate($sql, $params, $this, $page);
 

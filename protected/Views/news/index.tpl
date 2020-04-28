@@ -14,10 +14,8 @@
 					<img src="{$AWS_IMAGES}/cover_image/{$post->filename}" alt="" class="img-fluid">
 				</div>
 			</div>
-			<div class="row">
-			{else}
-			<div class="row news-title-row">
 			{/if}
+			<div class="row">
 				<div class="col-9 mt-5">
 					<h2><a class="text-dark" href="{$SITE_URL}/news/post/{$post->public_id}">{$post->title}</a></h2>
 				</div>
@@ -25,7 +23,7 @@
 					<p class="text-right">{$post->date_published|date_format:"%D"}</p>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row last-row">
 				<div class="col-12">
 					{$post->content|truncate:200 nofilter} <br><br>
 					<a class="text-dark float-right mb-5" href="{$SITE_URL}/news/post/{$post->public_id}"> Read more...</a>

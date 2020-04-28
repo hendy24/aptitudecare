@@ -12,7 +12,12 @@ class BlogController extends MainPageController {
 
 
 	public function index() {
-		$posts = $this->loadModel('BlogPost')->fetchAll();
+		if (isset (input()->page_count)) {
+			$page_count = input()->page_count;
+		} else {
+			$page_count = 1;
+		}
+		$posts = $this->loadModel('BlogPost')->fetchRecentPosts($page_count, 10, false);
 
 		smarty()->assign('blogPosts', $posts);
 	}
@@ -68,12 +73,12 @@ class BlogController extends MainPageController {
 		$post->content = input()->content;
 		$post->user_id = auth()->getRecord()->id;
 
-		if ($post->date_published == null) {
-			if (input()->published == 1) {
+		if (isset (input()->published)) {
+			if ($post->date_published == null) {
 				$post->date_published = mysql_date();
-			} else {
-				$post->date_published = null;
-			}		
+			}
+		} else {
+			$post->date_published = null;
 		}
 
 		if (input()->category != null) {
@@ -83,7 +88,7 @@ class BlogController extends MainPageController {
 		// create a cover image object
 		$cover_image = $this->loadModel('BlogCoverImage');
 		// upload the cover image
-		if (!empty($_FILES)) {
+		if ($_FILES['cover_image']['name'] != null) {
 			foreach ($_FILES as $k => $v) {
 				if ($k !== 'files') {
 					$keyname = $k;
@@ -114,7 +119,7 @@ class BlogController extends MainPageController {
 			}
 
 			session()->setFlash('The post was saved', 'success');
-			$this->redirect(SITE_URL . DS . '?module=Blog&amp;page=blog');			
+			$this->redirect(SITE_URL . DS . '?module=Blog&page=blog');			
 		} else {
 			session()->setFlash('The post was not saved', 'danger');
 			$this->redirect(input()->current_url);

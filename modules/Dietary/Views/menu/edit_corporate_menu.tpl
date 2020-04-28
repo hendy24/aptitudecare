@@ -2,6 +2,7 @@
 	<h1>Edit Menu Item</h1>
 
 	<form name="edit" id="edit" method="post" action="{$SITE_URL}">
+		<input type="hidden" name="module" value="Dietary">
 		<input type="hidden" name="page" value="menu" />
 		<input type="hidden" name="action" value="edit_corporate_menu" />
 		<input type="hidden" name="path" value="{$current_url}" />	

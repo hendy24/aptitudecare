@@ -16,6 +16,7 @@
 
 
 	<form id="start-date" name="start_date" method="post" action="{$SITE_URL}">
+		<input type="hidden" name="module" value="Dietary">
 		<input type="hidden" name="page" value="info">
 		<input type="hidden" name="action" value="submitStartDate">
 		<input type="hidden" name="location" value="{$location->public_id}">

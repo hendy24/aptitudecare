@@ -85,7 +85,7 @@ class MenuController extends DietaryController {
 
 		// get the location
 		if (input()->location == "") {
-			session()->setFlash("No facility menu was selected. Please try again.", 'alert-danger');
+			session()->setFlash("No facility menu was selected. Please try again.", 'warning');
 			$this->redirect();
 		} else {
 			$location = $this->loadModel('Location', input()->location);
@@ -94,10 +94,10 @@ class MenuController extends DietaryController {
 		// if reset is not empty then delete the menu mod item
 		if (isset (input()->reset)) {
 			if ($menuItem->delete()) {
-				session()->setFlash("The menu changes have been deleted and the menu has been reset to the original menu items.", 'alert-success');
+				session()->setFlash("The menu changes have been deleted and the menu has been reset to the original menu items.", 'success');
 				$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
 			} else {
-				session()->setFlash("Could not reset the menu changes. Please try again", 'alert-danger');
+				session()->setFlash("Could not reset the menu changes. Please try again", 'warning');
 				$this->redirect(input()->path);
 			}
 		}
@@ -115,7 +115,7 @@ class MenuController extends DietaryController {
 
 		// if there was no reason for a menu change entered throw an error
 		if (input()->reason == "") {
-			session()->setFlash("You must enter the reason for the menu change.", 'alert-danger');
+			session()->setFlash("You must enter the reason for the menu change.", 'warning');
 			$this->redirect(input()->path);
 		} else {
 			$menuItem->reason = input()->reason;
@@ -142,10 +142,10 @@ class MenuController extends DietaryController {
 
 
 		if ($menuItem->save()) {
-			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'alert-success');
+			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'success');
 			$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
 		} else {
-			session()->setFlash("Could not save the menu information. Please try again.", 'alert-danger');
+			session()->setFlash("Could not save the menu information. Please try again.", 'danger');
 			$this->redirect(input()->path);
 		}
 

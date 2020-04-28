@@ -3,6 +3,7 @@
 	<h1>Edit the Menu for {$date|date_format:"%A, %B %e, %Y"}</h1>
 
 	<form name="edit" id="edit" method="post" action="{$SITE_URL}">
+		<input type="hidden" name="module" value="Dietary">
 		<input type="hidden" name="page" value="menu" />
 		<input type="hidden" name="action" value="submit_edit" />
 		<input type="hidden" name="path" value="{$current_url}" />	

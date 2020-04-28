@@ -548,9 +548,10 @@ footer {
 		font-size: 1.8rem;
 	}
 
-	.news-title-row {
-		border-top: 1px solid $light-grey;
-		padding: 2rem 0;
+	.last-row {
+		border-bottom: 1px solid $light-grey;
+		padding-top: 1rem;
+		margin-bottom: 2rem;
 	}
 
 	p {

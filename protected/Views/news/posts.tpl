@@ -25,13 +25,12 @@
 					<p class="text-right">{$post->date_published|date_format:"%D"}</p>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-5">
 				<div class="col-12">
 					{$post->content|truncate:200 nofilter} <br><br>
 					<a class="text-dark float-right" href="{$SITE_URL}/news/post/{$post->public_id}"> Read more...</a>
 				</div>
 			</div>
-			<hr width="100%">
 			{/foreach}
 			{else}
 			<p>We are sorry!</p>

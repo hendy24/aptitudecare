@@ -1,6 +1,7 @@
 <h1>Create a New Menu</h1>
 
 <form action="{$SITE_URL}" class="form">
+	<input type="hidden" name="module" value="Dietary">
 	<input type="hidden" name="page" value="info">
 	<input type="hidden" name="action" value="save_create">
 	<input type="hidden" name="current_url" value="{$current_url}">

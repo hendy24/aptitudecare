@@ -16,19 +16,19 @@
 		</div>
 		<!-- /title -->
 
-		<!-- blog content -->
-		<div class="form-group">
-			<label for="summernote">Content</label>
-			<textarea class="form-control" name="content" id="summernote">{$post->content}</textarea>
-		</div>
-		<!-- /blog content -->
-
 		<!-- cover image -->
 		<div class="custom-file my-2">
 			<input type="file" name="cover_image" class="custom-file-input" id="cover-image">
 			<label class="custom-file-label" for="cover-image">Upload a Cover Image</label>
 		</div>
 		<!-- /cover image -->
+
+		<!-- blog content -->
+		<div class="form-group">
+			<label for="summernote">Content</label>
+			<textarea class="form-control" name="content" id="summernote">{$post->content}</textarea>
+		</div>
+		<!-- /blog content -->
 
 		<!-- categories -->
 		<div class="form-group">

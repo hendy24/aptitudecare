@@ -9,6 +9,7 @@
 	
 
 	<form name="welcome_info" id="welcome-info" method="post" action="{$SITE_URL}">
+		<input type="hidden" name="module" value="Dietary">
 		<input type="hidden" name="page" value="info">
 		<input type="hidden" name="action" value="submitWelcomeInfo">
 		<input type="hidden" name="location_detail_id" value="{$menuGreeting->id}">
