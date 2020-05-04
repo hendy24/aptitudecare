@@ -12,7 +12,7 @@ class NewsController extends MainPageController {
 
 	public function index() {	
 		smarty()->assign('title', 'News');
-		
+
 		if (isset (input()->page_count)) {
 			$page = input()->page_count;
 		} else {
@@ -20,7 +20,6 @@ class NewsController extends MainPageController {
 		}
 
 		$posts = $this->loadModel('BlogPost')->fetchRecentPosts($page);
-
 		$categories = $this->loadModel('BlogCategory')->countPosts();
 
 		smarty()->assign('posts', $posts);

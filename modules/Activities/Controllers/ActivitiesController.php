@@ -104,6 +104,7 @@ class ActivitiesController extends MainPageController {
 
 
 	public function save_activity() {
+
 		if (input()->activity_id != "") {
 			$activity = $this->loadModel('Activity', input()->activity_id);
 			$activity_schedule = $this->loadModel('ActivitySchedule')->fetchSchedule($activity->id);

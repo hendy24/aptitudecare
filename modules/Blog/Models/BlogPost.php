@@ -29,12 +29,11 @@ class BlogPost extends AppModel {
 				LEFT JOIN {$images->tableName()} AS images
 					ON images.id = post.cover_image_id";
 		if ($published) {
-			$sql .= "WHERE date_published IS NOT NULL ORDER BY date_published DESC";
+			$sql .= " WHERE date_published IS NOT NULL ORDER BY date_published DESC";
 		} else {
 			$sql .= " ORDER BY datetime_created DESC ";
 		}
 		
-
 		$pagination = new Paginator();
 		$pagination->default_ipp = $items_per_page;
 		$pagination->items_total = $count->posts;

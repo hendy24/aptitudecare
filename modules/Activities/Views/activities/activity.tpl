@@ -2,6 +2,7 @@
 	<h1>{$headerTitle}</h1>
 
 	<form action="{$SITE_URL}" method="post">
+		<input type="hidden" name="module" value="Activities">
 		<input type="hidden" name="page" value="activities">
 		<input type="hidden" name="action" value="save_activity">
 		<input type="hidden" name="location" value="{$location->public_id}">
