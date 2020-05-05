@@ -1,6 +1,6 @@
 {if $auth->hasPermission('edit_data')}
 <li class="nav-item" aria-labelledby="dataDropdown">
-	<a href="#dataSection" class="nav-link dropdown-toggle" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="dataSection">Data</a>
+	<a href="#dataSection" class="nav-link dropdown-toggle" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="dataSection"><i class="fas fa-database"></i> Data</a>
 	<div class="collapse" id="dataSection" data-parent="#sidebar-nav">
 		<ul class="nav flex-column ml-4">			
 			{if $this->getModule() == "Admissions" || $this->getModule() == "HomeHealth"}

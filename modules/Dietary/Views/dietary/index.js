@@ -3,7 +3,9 @@ $("#location").change(function() {
 	window.location.href = SITE_URL + "/?module=Dietary&location=" + location;
 });
 
+$(".show").removeClass("show");
 $(".active").removeClass("active");
+$("#dietarySection").addClass("show");
 $("#current-residents").addClass("active");
 
 $('#deleteModal').on('show.bs.modal', function(e) {

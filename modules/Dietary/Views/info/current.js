@@ -5,6 +5,7 @@ $("#location").change(function() {
 
 $(".active").removeClass("active");
 $(".show").removeClass("show");
+$("#dietarySection").addClass("show");
 $("#infoSection").addClass("show");
 $("#current-menu").addClass("active");
 

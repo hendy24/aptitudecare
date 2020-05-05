@@ -5,28 +5,28 @@
 
 			<div class="sidebar-sticky">
 				<ul class="nav flex-column">
-					{if $session->getModule() == 'HomeHealth'}
+					{if $auth->hasModuleAccess('HomeHealth')}
 						<!-- Home health nav links -->
 						{$this->loadElement('homeHealthNav')}
 						<!-- /home health nav links -->
-					{elseif $session->getModule() == 'Admission'}
+					{elseif $auth->hasModuleAccess('Admissions')}
 						{$this->loadElement('admissionsNav')}
 					{/if}
 
 					<!-- dietary nav section -->
-					{if $session->getModule() == 'Dietary'}
+					{if $auth->hasModuleAccess('Dietary')}
 						{$this->loadElement('dietaryNav')}
 					{/if}
 					<!-- /dietary nav section -->
 
 					<!-- activities nav section -->
-					{if $session->getModule() == 'Activities'}
+					{if $auth->hasModuleAccess('Activities')}
 						{$this->loadElement('activitiesNav')}
 					{/if}
 					<!-- activities nav section -->
 
 					<!-- blog nav section -->
-					{if $session->getModule() == 'Blog'}
+					{if $auth->hasModuleAccess('Blog')}
 						{$this->loadElement('blogNav')}
 					{/if}
 					<!-- /blog nav section -->

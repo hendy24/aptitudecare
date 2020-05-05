@@ -8472,7 +8472,6 @@ a.button:hover {
   /* Behind the navbar */
   padding: 100px 0 0;
   /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
   line-height: 1em;
 }
 

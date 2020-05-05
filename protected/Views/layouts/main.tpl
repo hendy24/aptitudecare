@@ -47,7 +47,6 @@
 
 	</head>
 	<body>
-
 		<!-- top navigation bar -->	
 		<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow sticky-top">
 			<a href="/" class="navbar-brand col-sm-6 col-md-2 mr-0"><img class="img-fluid" src="{$IMAGES}/aspencreek-logo_white.png" alt="Aspen Creek Black Logo"></a>

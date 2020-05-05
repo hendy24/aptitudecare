@@ -1,1 +1,0 @@
-<li><a href="{$SITE_URL}/">Home</a></li>

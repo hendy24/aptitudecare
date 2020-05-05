@@ -1,5 +1,6 @@
 $(".active").removeClass("active");
 $(".show").removeClass("show");
+$("#dietarySection").addClass("show");
 $("#reportsSection").addClass("show");
 $("#diet-census").addClass("active");
 
