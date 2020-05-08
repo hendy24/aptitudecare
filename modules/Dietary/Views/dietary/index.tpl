@@ -6,19 +6,14 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-2 col-md-6 col-sm-12 mt-1 text-left">
-			{$this->loadElement("module")}
-		</div>
-		
-
-		<div class="col-lg-8 col-md-6 col-sm-12 mt-1 text-sm-left">
+		<div class="col-lg-2 mt-1">
 			<a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;location={$location->public_id}&amp;patient=all&amp;pdf=true"
-				class="btn btn-primary float-md-right text-white" target="_blank">Tray Cards</a>
+				class="btn btn-primary text-white" target="_blank">Tray Cards</a>
 		</div>
-		<div class="col-lg-2 text-sm-left mt-1">
+		<div class="col-lg-10 mt-1">
 			<a href="{$SITE_URL}/?module=Dietary&amp;page=menu&amp;action=meal_order_form&amp;location={$location->public_id}&amp;pdf=true"
-				class="btn btn-primary float-md-left text-white" target="_blank">Meal Order Forms</a>
-		</div>		
+				class="btn btn-primary text-white" target="_blank">Meal Order Forms</a>
+		</div>
 	</div>
 
 	<h1 class="text-center">Current Residents</h1>

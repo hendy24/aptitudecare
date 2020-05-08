@@ -5,7 +5,7 @@
 		<ul class="nav flex-column ml-4">			
 			{if $this->getModule() == "Admissions" || $this->getModule() == "HomeHealth"}
 			<li class="nav-item">
-				<a class="nav-link" href="{$SITE_URL}/?page=case_managers&amp;action=manage">Case Managers</a>
+				<a class="nav-link" href="{$SITE_URL}/?page=case_managers&amp;action=manage">Care Coordinators</a>
 			</li>
 			{if $auth->hasPermission("manage_home_health_clinicians")}
 			<li class="nav-item">

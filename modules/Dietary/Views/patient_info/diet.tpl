@@ -3,10 +3,11 @@
 
 
 	<form class="form" action="{$SITE_URL}" method="post">
-		<input type="hidden" name="page" value="PatientInfo" />
-		<input type="hidden" name="action" value="saveDiet" />
-		<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}" />
-		<input type="hidden" name="path" value="{$current_url}" />
+		<input type="hidden" name="module" value="Dietary">
+		<input type="hidden" name="page" value="PatientInfo">
+		<input type="hidden" name="action" value="saveDiet">
+		<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}">
+		<input type="hidden" name="path" value="{$current_url}">
 
 		<div class="row form-header">
 			<h2>Patient Info</h2>
