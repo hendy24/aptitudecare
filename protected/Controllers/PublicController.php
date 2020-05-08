@@ -28,7 +28,18 @@ class PublicController extends MainPageController {
 	}
 
 	public function resident_application() {
+		// fetch care needs
+		$care_needs = $this->loadModel('Needs')->fetchAll();
+		smarty()->assign('care_needs', $care_needs);
 
+		// fetch dementia levels
+		$dementia = $this->loadModel('Dementia')->fetchAll();
+		smarty()->assign('dementia', $dementia);
+	}
+
+	public function save_application() {
+		pr (input());
+		exit;
 	}
 
 	public function faq() {

@@ -8397,6 +8397,13 @@ h2 {
   margin: 25px 0;
 }
 
+form .row {
+  margin-top: 2rem;
+}
+form label {
+  font-weight: bold;
+}
+
 /***************** Multi-use classes **************/
 .text-shadow {
   text-shadow: #121212 1px 1px;
@@ -8780,6 +8787,15 @@ footer ul.nav a:hover {
 }
 
 /******* Blog Page ***********/
+/******* Resident Application *************/
+#mh-diagnosis-row {
+  display: none;
+}
+
+#dependency-explanation-row {
+  display: none;
+}
+
 /*********** Responsive styles ****************/
 @media (max-width: 767px) {
   .c-slide-inner {

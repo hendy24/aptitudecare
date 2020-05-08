@@ -121,6 +121,17 @@ h2 {
 	margin: 25px 0;
 }
 
+form {
+
+	.row {
+		margin-top: 2rem;
+	}
+
+	label {
+		font-weight: bold;
+	}
+}
+
 
 /***************** Multi-use classes **************/
 
@@ -583,6 +594,15 @@ footer {
 
 /******* Blog Page ***********/
 
+
+/******* Resident Application *************/
+#mh-diagnosis-row {
+	display: none;
+}
+
+#dependency-explanation-row {
+	display: none;
+}
 
 
 

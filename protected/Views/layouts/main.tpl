@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="{$VENDORS}/microplugin/src/microplugin.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/sifter/sifter.min.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/selectize/dist/js/selectize.min.js"></script>
+		<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
 		
 
 		<!-- WYSIWYG script -->

@@ -15,15 +15,28 @@
     <link rel="stylesheet" href="{$CSS}/slick.css">
     <link rel="stylesheet" type="text/css" href="fonts/fonts.css">
     <!-- <link rel="stylesheet" type="text/css" href="{$CSS}/style.css"> -->
-    <link rel="stylesheet" type="text/css" href="{$CSS}/public-custom.css"> 
 
     <link href="{$JS}/lity-2.4.0/dist/lity.css" rel="stylesheet">
+    <link rel="stylesheet" href="{$VENDORS}/selectize/dist/css/selectize.default.css">
+    <link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.css">
+    <link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.date.css">
+    <link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.time.css">
+    <link rel="stylesheet" type="text/css" href="{$CSS}/public-custom.css"> 
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="{$JS}/lity-2.4.0/dist/lity.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
     <script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.js"></script>
+    <script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.date.js"></script>
+    <script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.time.js"></script>
+    <script type="text/javascript" src="{$VENDORS}/microplugin/src/microplugin.js"></script>
+    <script type="text/javascript" src="{$VENDORS}/sifter/sifter.min.js"></script>
+    <script type="text/javascript" src="{$VENDORS}/selectize/dist/js/selectize.min.js"></script>
+    <script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
+
     <script src="{$JS}/website.js"></script>
     <script>
         var SITE_URL = '{$SITE_URL}';
@@ -85,7 +98,7 @@
                     <a href="https://www.facebook.com/aspencreekalaska" target="_blank"><i class="fab fa-facebook fa-2x ml-2"></i></a>
                     <a href="https://www.instagram.com/aspencreekalaska/" target="_blank"><i class="fab fa-instagram fa-2x ml-2"></i></a>
                     <a href="https://www.youtube.com/channel/UCeYE9V77h4y_NcM2EpjhvFQ?view_as=subscriber" target="_blank"><i class="fab fa-youtube fa-2x ml-2"></i></a>
-                    <a href="https://vimeo.com/user100366085"><i class="fab fa-vimeo fa-2x ml-2"></i></a>
+                    <a href="https://vimeo.com/user100366085" target="_blank"><i class="fab fa-vimeo fa-2x ml-2"></i></a>
                 </div>
             </div>
             <!-- /row 1 -->
