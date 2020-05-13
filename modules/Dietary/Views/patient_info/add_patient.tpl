@@ -2,6 +2,7 @@
 	<h1>Add New Patient</h1>
 
 	<form action="{$SITE_URL}" method="post">
+		<input type="hidden" name="module" value="Dietary">
 		<input type="hidden" name="page" value="patientInfo">
 		<input type="hidden" name="action" value="saveAddPatient">
 		<input type="hidden" name="location" value="{$location->id}">

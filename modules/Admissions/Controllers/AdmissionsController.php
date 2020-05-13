@@ -32,9 +32,33 @@ class AdmissionsController extends MainPageController {
 	 *
 	 */
 	public function new_prospect() {
-
+		$timeframe = $this->loadModel('Timeframe')->fetchAll();
+		smarty()->assign('timeframe', $timeframe);
 	}
 
+
+
+			
+	/* 
+	 * Resident Profile page
+	 *
+	 */
+	public function profile() {
+		if (isset (input()->id)) {
+			if (input()->id != null) {
+				$prospect = $this->loadModel('Prospect', input()->id);
+			}
+		} else {
+			session()->setFlash("Could not find the prospect. Please try again.", 'warning');
+			$this->redirect(SITE_URL . "/?module=Admissions");
+		}
+
+		$timeframe = $this->loadModel('Timeframe')->fetchAll();
+
+		// assign smarty objects
+		smarty()->assign('timeframe', $timeframe);
+		smarty()->assign('prospect', $prospect);
+	}
 
 
 	/* 
@@ -42,12 +66,11 @@ class AdmissionsController extends MainPageController {
 	 *
 	 */
 	public function save_prospect() {
-		$resident = $this->loadModel('Patient');
 		$prospect = $this->loadModel('Prospect');
 		
 		// save the first name
 		if (input()->first_name != null) {
-			$resident->first_name = input()->first_name;
+			$prospect->first_name = input()->first_name;
 		} else {
 			session()->setFlash("Please enter a first name", 'danger');
 			$this->redirect(input()->current_url);
@@ -55,7 +78,7 @@ class AdmissionsController extends MainPageController {
 
 		// save the last name
 		if (input()->last_name != null) {
-			$resident->last_name = input()->last_name;
+			$prospect->last_name = input()->last_name;
 		} else {
 			session()->setFlash("Please enter a last name", 'danger');
 			$this->redirect(input()->current_url);
@@ -63,12 +86,12 @@ class AdmissionsController extends MainPageController {
 
 		// save the email address
 		if (input()->email_address != null) {
-			$resident->email_address = input()->email_address;
+			$prospect->email = input()->email_address;
 		} 
 
 		// save the phone number
 		if (input()->phone != null) {
-			$resident->phone = input()->phone;
+			$prospect->phone = input()->phone;
 		} else {
 			session()->setFlash("Please enter a phone number", 'danger');
 			$this->redirect(input()->current_url);			
@@ -77,37 +100,14 @@ class AdmissionsController extends MainPageController {
 		// set admission date based on estimated timeline
 		if (input()->timeframe != null) {
 			$prospect->timeframe = input()->timeframe;
-
-			if (input()->timeframe == "1-2_weeks") {
-				$prospect->admit_date = date("Y-m-d", strtotime("now + 14 days"));
-			}
-
-			if (input()->timeframe == "2-4_weeks") {
-				$prospect->admit_date = date("Y-m-d", strtotime("now + 28 days"));
-			}
-
-			if (input()->timeframe == "1-2_months") {
-				$prospect->admit_date = date("Y-m-d", strtotime("now + 60 days"));
-			}
-
-			if (input()->timeframe == "2-6_months") {
-				$prospect->admit_date = date("Y-m-d", strtotime("now + 180 days"));
-			}
-
-			if (input()->timeframe == "6+_months") {
-				$prospect->admit_date = date("Y-m-d", strtotime("now + 200 days"));
-			}
 		}
 
 		// make the prospect active
 		$prospect->active = 1;
 
-		if ($resident->save()) {
-			$prospect->patient = $resident->id;
-			if ($prospect->save()) {
-				session()->setFlash("{$resident->first_name} {$resident->last_name} was created as a new prospect", 'success');	
-				$this->redirect(SITE_URL . "/?module=Admissions");		
-			}
+		if ($prospect->save()) {
+			session()->setFlash("{$prospect->first_name} {$prospect->last_name} was created as a new prospect", 'success');	
+			$this->redirect(SITE_URL . "/?module=Admissions");		
 		}
 
 	}

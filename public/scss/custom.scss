@@ -360,3 +360,27 @@ a, a:visited {
     margin: 25px 0;
   }
 }
+
+
+/*
+ * Current Prospects page
+ *
+ */
+
+table.prospects {
+
+  a.btn {
+    background-color: $dark-blue;
+    color: $white;
+  }
+
+  a.btn:hover {
+    background-color: $light-blue;
+  }
+
+  td.main-contact p {
+    margin: 0;
+    padding: 0;
+
+  }  
+}

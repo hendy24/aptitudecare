@@ -67,11 +67,11 @@
     <!-- page body -->
     {if $flashMessages}
     <div class="container">
-        <div class="row mx-4">
+        <div class="row mx-4 p-4 flash-message">
         {foreach $flashMessages as $class => $message}
-            <div class="col-12 text-center alert {$class}" role="alert">
+            <div class="col-12 text-center alert-{$class}" role="alert">
                 {foreach $message as $m}
-                {$m}
+                    <li>{$m}</li>
                 {/foreach}
             </div>
         {/foreach}

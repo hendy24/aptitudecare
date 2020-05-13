@@ -27,11 +27,9 @@
 		<div class="form-group">
 			<select name="timeframe" id="timeframe" class="form-control">
 				<option value="">Select a timeframe for admission...</option>
-				<option value="1-2_weeks">1-2 Weeks</option>
-				<option value="2-4_weeks">2-4 Weeks</option>
-				<option value="1-2_months">1-2 Months</option>
-				<option value="2-6_months">2-6 Months</option>
-				<option value="6+_months">6+ Months</option>
+				{foreach from=$timeframe item='t'}
+				<option value="{$t->id}">{$t->name}</option>
+				{/foreach}
 			</select>
 		</div>
 

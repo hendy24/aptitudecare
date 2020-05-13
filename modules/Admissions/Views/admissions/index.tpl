@@ -12,32 +12,35 @@
 
 	<h1>Current Prospects</h1>
 	<div class="table-responsive">
-		<table class="table table-striped">
+		<table class="table table-striped prospects">
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">Name</th>
+					<th scope="col">Resident Name</th>
 					<th scope="col">Phone</th>
 					<th scope="col">Email</th>
+					<th scope="col">Main Contact</th>
 					<th scope="col">Timeframe</th>
-					<th scopte="col">Admission Date</th>
 					<th scope="col">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
 				{foreach from=$prospects item="p"}
 					<tr>
-						<td>{$p->last_name}, {$p->first_name}</td>
-						<td>{$p->phone}</td>
-						<td>{$p->email_address}</td>
+						<td>{$p->last_name}, {$p->first_name}</a></td>
+						<td><a href="tel:{$p->phone}">{$p->phone}</a></td>
+						<td><a href="mailto:{$p->email}">{$p->email}</a></td>
+						<td class="main-contact">
+							<p>{$p->contact_name}</p>
+							<p class="text-8"><a href="tel:{$p->contact_phone}">{$p->contact_phone}</a></p>
+							<p class="text-8"><a href="mailto:{$p->contact_email}">{$p->contact_email}</a></p>
+						</td>						
 						<td>{$p->timeframe}</td>
-						<td></td>
 						<td>
 							<div class="dropdown">
 							    <button class="btn text-right" type="button" id="prospectsInfoDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tools"></i></button>
 							    <div class="dropdown-menu" aria-labelledby="prospectdInfoDropdown">
-							        <a href="{$SITE_URL}" class="dropdown-item">Edit</a>
-							        <a href="{$SITE_URL}" target="_blank" class="dropdown-item"></a>
-							        <a href="" class="dropdown-item"></a>
+							        <a href="{$SITE_URL}/?module=Admissions&amp;page=admissions&amp;action=profile&amp;id={$p->public_id}" class="dropdown-item">Prospect Profile</a>
+							        <a href="{$SITE_URL}/?module=Admissions&page=assessments&action=schedule&id={$p->public_id}" class="dropdown-item">Schedule Assessment</a>
 							    </div>
 							</div>
 						</td>

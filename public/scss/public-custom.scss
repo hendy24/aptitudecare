@@ -127,8 +127,9 @@ form {
 		margin-top: 2rem;
 	}
 
-	label {
-		font-weight: bold;
+	p {
+		margin: 0;
+		padding: 0;
 	}
 }
 
@@ -143,6 +144,10 @@ form {
 
 
 /************** All public pages ******************/
+#debug {
+	position: relative;
+}
+
 header {
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
@@ -596,13 +601,36 @@ footer {
 
 
 /******* Resident Application *************/
-#mh-diagnosis-row {
-	display: none;
+
+#resident-application {
+
+	h2 {
+		font-size: 2rem;
+		margin-top: 3rem;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	#mh-diagnosis-row {
+		display: none;
+	}
+
+	#dependency-explanation-row {
+		display: none;
+	}
+
+	#self-manage {
+		display: none;
+	}
+
+	#wandering {
+		display: none;
+	}
+
 }
 
-#dependency-explanation-row {
-	display: none;
-}
+
+
 
 
 

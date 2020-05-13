@@ -1,3 +1,1 @@
-<script>
-	$('.datepicker').pickadate();
-</script>
+$('.datepicker').pickadate();

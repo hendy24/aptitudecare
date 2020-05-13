@@ -12,7 +12,7 @@ class Prospect extends Admission {
 	 *
 	 */
 	public function fetchProspects($date = false) {
-		$patient = $this->loadTable('Patient');
+		$timeframe = $this->loadTable('Timeframe');
 
 		if ($date) {
 			$params[":date"] = mysql_date($date);
@@ -21,17 +21,20 @@ class Prospect extends Admission {
 		}
 		
 		$sql = "SELECT 
-				patient.first_name,
-				patient.last_name,
-				patient.email_address,
-				patient.phone,
-				prospect.timeframe,
-				prospect.admit_date,
+				prospect.first_name,
+				prospect.last_name,
+				prospect.public_id,
+				prospect.email,
+				prospect.phone,
+				prospect.contact_name,
+				prospect.contact_phone,
+				prospect.contact_email,
+				timeframe.name as timeframe,
 				prospect.follow_up_date
 				FROM {$this->tableName()} as prospect
-				INNER JOIN {$patient->tableName()} as patient ON patient.id = prospect.patient
+				INNER JOIN {$timeframe->tableName()} as timeframe ON timeframe.id = prospect.timeframe
 				WHERE prospect.active = 1
-				ORDER BY prospect.admit_date ASC
+				ORDER BY timeframe.id ASC
 				";
 
 

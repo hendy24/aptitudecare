@@ -8593,4 +8593,20 @@ a, a:visited {
   margin: 25px 0;
 }
 
+/*
+ * Current Prospects page
+ *
+ */
+table.prospects a.btn {
+  background-color: #213c60;
+  color: #ffffff;
+}
+table.prospects a.btn:hover {
+  background-color: #81b7e3;
+}
+table.prospects td.main-contact p {
+  margin: 0;
+  padding: 0;
+}
+
 /*# sourceMappingURL=custom.css.map */

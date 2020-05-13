@@ -162,32 +162,6 @@
 			<!-- /jericho mandani -->
 
 
-			<!-- tami ochoa -->
-			<div class="card">
-				<div class="card-header" id="heading6">
-					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-						<div class="row">
-							<div class="col-lg-3 col-sm-12">
-								<img src="{$IMAGES}/staff/tami_ochoa.jpg" alt="admissions coordinator for assisted living Anchorage, Alaska" class="float-left rounded">
-							</div>
-							<div class="col-lg-9 col-sm-12">
-								<h2 class="text-left">Tami Ochoa<br><span class="text-20">Admissions Coordinator</span></h2>
-							</div>
-						</div>						
-					</button>
-				</div>
-				<div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#leadershipAccordion">
-					<div class="card-body">
-						<p>Born and raised in Alaska. As an adolescent we lived here in Anchorage and traveled with my father to different cities and towns during the summer while he was in charge of building many of the roads in Alaska for the Department of Transportation. During these years I was blessed to watch my parents support each other and show me how love and compassion can see you through good times as well as trials. We also had a strong presence of faith in our home then and to this day. My life was formed by love, compassion, belief that everyone is special and we all need to be take care of each other no matter what the differences may be in our lives. I have always cherished these teachings and have had the dream of being able to give back just a small amount of these gifts to everyone I meet.</p>
-						<p>My early adult years were spent married and raising my children. As long as I can remember I have wanted to take care of people. To bring happiness, ease their pain, share their joys, and comfort them in their sorrows. Naturally once my children were grown and all in school I decided to pursue a career in the medical field.</p>
-						<p>I worked for 19+ years in Skilled Nursing and loved being the one people came to when they needed love, help, comfort and care. A year ago my life changed, I was at a crossroad in my career, I took a break from Skilled Nursing and then I was approached to join this team at Aspen Creek Senior Living. Their vision was also mine. Compassion, Love, Giving, and Creating a place where people who need help can live and age in place.</p>
-						<p>I am blessed again in my life to be surrounded by people who have the Compassion, Love and a Genuine dream to Care for our Seniors and all of the residents in our community that are in need of assistance. We are here to enrich lives, share stories, enable dreams, allow families to become family again and allow us to care for their loved ones.</p>
-					</div>
-				</div>
-			</div>
-			<!-- /tami ochoa -->
-
-
 			<!-- melissa tanner -->
 			<div class="card">
 				<div class="card-header" id="heading7">

@@ -1,7 +1,51 @@
+<div class="container-fluid">
+    <img src="{$IMAGES}/seward.jpg" class="img-fluid" alt="Seward, Alaska">
+</div>
 <div class="container contact">
+    
+    <h1 class="text-center">Contact Us</h1>
 
-    <iframe src="https://forms.monday.com/forms/embed/3b010bd6e04089d7066b6ef6337fbdb3" width="100%" height="1040" style="border:0px"></iframe>
+    <form action="{$SITE_URL}/submit-contact-form/">
 
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label for="name">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" rows="10" class="form-control" required></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-right">
+                <button class="btn btn-primary" type="submit">Send Message</button>
+            </div>
+        </div>
+
+    </form>
 
     <div class="row">
         <div class="col-lg-7">
@@ -20,7 +64,7 @@
                     <p class="ml-4">Monday – Friday<br>9:00 am – 5:00 pm</p>
                 </div>
             </div>
-            
+            ç
         </div>
     </div>
 
