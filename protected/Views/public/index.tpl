@@ -5,7 +5,7 @@
         <div class="container-fluid pl-5">
             <h1>Senior Living. Redefined.</h1>
             <p>Aspen Creek is changing what Senior Living means for Alaskans. Assisted Living at Aspen Creek Senior Living is not only about compassionate care and healthy lifestyles, it is about community.</p>
-            <a class="btn btn-primary" href="{$SITE_URL}/contact">Get more Info</a>
+            <a class="btn btn-primary" href="{$SITE_URL}/virtual-visit">Take a Virtual Visit</a>
         </div>
     </div>
 </div>

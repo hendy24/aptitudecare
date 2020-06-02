@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2 class="text-center">We strive for 5-Star standards of excellence in all our of services.</h2>
+            <h2 class="text-center">We strive for 5-Star standards of excellence in all our services.</h2>
         </div>
     </div>
 

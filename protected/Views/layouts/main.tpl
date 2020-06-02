@@ -8,6 +8,7 @@
 		<!-- CSS Files -->
 		<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="{$CSS}/custom.css">
+		<link href="{$JS}/lity-2.4.0/dist/lity.css" rel="stylesheet">
 		<link rel="stylesheet" href="{$VENDORS}/selectize/dist/css/selectize.default.css">
 		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.css">
 		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.date.css">
@@ -15,6 +16,7 @@
 	
 		<script src="{$JS}/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="{$JS}/lity-2.4.0/dist/lity.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.date.js"></script>
@@ -22,8 +24,7 @@
 		<script type="text/javascript" src="{$VENDORS}/microplugin/src/microplugin.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/sifter/sifter.min.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/selectize/dist/js/selectize.min.js"></script>
-		<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>
-		
+		<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>		
 
 		<!-- WYSIWYG script -->
 		<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
@@ -42,6 +43,24 @@
 				console.log(pathname);
 			});
 
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip()
+			});
+
+			function getUrlParameter(sParam) {
+			    var sPageURL = window.location.search.substring(1),
+			        sURLVariables = sPageURL.split('&'),
+			        sParameterName,
+			        i;
+
+			    for (i = 0; i < sURLVariables.length; i++) {
+			        sParameterName = sURLVariables[i].split('=');
+
+			        if (sParameterName[0] === sParam) {
+			            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+			        }
+			    }
+			};
 
 			
 		</script>
@@ -49,7 +68,7 @@
 	</head>
 	<body>
 		<!-- top navigation bar -->	
-		<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow sticky-top">
+		<nav class="navbar flex-md-nowrap p-0 shadow sticky-top">
 			<a href="/" class="navbar-brand col-sm-6 col-md-2 mr-0"><img class="img-fluid" src="{$IMAGES}/aspencreek-logo_white.png" alt="Aspen Creek Black Logo"></a>
 			<ul class="navbar-nav px-3">
 				<li class="nav-item text-nowrap text-white">

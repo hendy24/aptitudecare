@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid text-center">
     <img src="{$IMAGES}/seward.jpg" class="img-fluid" alt="Seward, Alaska">
 </div>
 <div class="container contact">

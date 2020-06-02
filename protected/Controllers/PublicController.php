@@ -28,6 +28,16 @@ class PublicController extends MainPageController {
 	}
 
 
+
+			
+	/* 
+	 * Virtual Visit
+	 *
+	 */
+	public function virtual_visit() {
+		
+	}
+
 			
 	/* 
 	 * Leadership Team page
@@ -66,21 +76,18 @@ class PublicController extends MainPageController {
 	 */
 	public function submit_contact_form() {
 		$data = array();
-		$feedback = array();
 
 		// contact name
 		if (input()->name != null) {
 			$data['post']['name'] = input()->name;
-		} else {
-			$feedback[] = "Please enter your name";
-		}
+		} 
 
 		// contact email
 		if (input()->email != null) {
 			$data['post']['email'] = input()->email;
-		} else {
-			$feedback[] = "Please enter your email address";
-		}
+		} 
+
+		$data['post']['subject'] = "Aspen Creek Website Message";
 
 		// contact message
 		if (input()->message != null) {
@@ -89,20 +96,13 @@ class PublicController extends MainPageController {
 				"Phone: " . input()->phone . "\n" . 
 				"Email: " . input()->email . "\n" .
 				"Message: \n" . input()->message;
-		} else {
-			$feedback[] = "Please enter your email address";
-		}
-
-		if (!empty ($feedback)) {
-			session()->setFlash($feedback, 'danger');
-			$this->redirect(SITE_URL . DS . 'contact');
-		}
+		} 
 
 
 		// send the email
 		if ($this->sendEmail($data)) {
 			session()->setFlash("Your message was sent. We will be in contact soon!", 'success');
-			$this->redirect();
+			$this->redirect(SITE_URL);
 		} else {
 			session()->setFlash("We could not send your message. Please try again.", 'success');
 			$this->redirect(SITE_URL . DS . 'contact');
@@ -327,6 +327,20 @@ class PublicController extends MainPageController {
 						$care_needs->save();
 					}
 				} 
+
+				// send an email notification
+				$data = array();
+				$data['post']['subject'] = "New Resident Aplication";
+
+				// contact message
+				$data['post']['message_body'] = 
+					"Name: " . $prospect->first_name . " " . $prospect->last_name . "\n" .
+					"Phone: " . $prospect->phone . "\n" . 
+					"Email: " . $prospect->email . "\n" .
+					"Message: \n" . "There is a new resident application waiting for you!";
+
+				$this->sendEmail($data);
+
 			} else {
 				$alert = "Could not submit the application. Please try again.";
 			}
@@ -440,5 +454,123 @@ class PublicController extends MainPageController {
 		smarty()->assign('count', 0);
 
 	}
+
+
+	/* 
+	 * Tour form
+	 *
+	 */
+	public function tour_form() {
+		$this->allow_access = true;
+		$this->template = 'blank';
+
+		$timeframe = $this->loadModel('Timeframe')->fetchAll();
+		smarty()->assign('timeframe', $timeframe);
+
+		$contact_type = $this->loadModel('ContactType')->fetchAll();
+		smarty()->assign('contact_type', $contact_type);
+
+		$referral_source = $this->loadModel('ReferralSource')->fetchAll();
+		smarty()->assign('referral_source', $referral_source);
+
+		$payor_source = $this->loadModel('PayorSource')->fetchAll();
+		smarty()->assign('payor_source', $payor_source);
+			
+		
+	}
+
+
+			
+	/* 
+	 * Submit Tour Form
+	 *
+	 */
+	public function submit_tour_form() {
+		$prospect = $this->loadModel('Prospect');
+		$contact = $this->loadModel('Contact');
+		$contact_link = $this->loadModel('ContactLink');
+		
+		
+
+		if (input()->resident_first_name != null) {
+			$prospect->first_name = input()->resident_first_name;
+		}
+
+		if (input()->resident_last_name != null) {
+			$prospect->last_name = input()->resident_last_name;
+		}
+	
+		if (input()->resident_email != null) {
+			$prospect->email = input()->resident_email;
+		}
+
+		if (input()->resident_phone != null) {
+			$prospect->phone = input()->resident_phone;
+		}
+
+		if (input()->timeframe != null) {
+			$prospect->timeframe = input()->timeframe;
+		}
+
+		if (input()->payor_source != null) {
+			$prospect->payor_source = input()->payor_source;
+		}
+
+		// primary contact
+		if (input()->contact_first_name != null) {
+			$contact->first_name = input()->contact_first_name;
+		}
+
+		if (input()->contact_last_name != null) {
+			$contact->last_name = input()->contact_last_name;
+		}
+
+		if (input()->contact_email != null) {
+			$contact->email = input()->contact_email;
+		}
+
+		if (input()->contact_phone != null) {
+			$contact->phone = input()->contact_phone;
+		}
+
+		if (input()->contact_type != null) {
+			$contact_link->contact_type = input()->contact_type;
+		}
+
+		if (input()->referral_source != null) {
+			$prospect->referral_source = input()->referral_source;
+		}
+
+		$prospect->active = 0;
+
+		$feedback = array();
+
+		// save contact and prospect
+		if ($contact->save()) {
+			if ($prospect->save()) {
+				// set data for contact link now that it is saved
+				$contact_link->contact = $contact->id;
+				$contact_link->prospect = $prospect->id;
+
+				if ($contact_link->save()) {
+					session()->setFlash("Thank you! Your information was sent!", 'success');
+					$this->redirect(SITE_URL . '/tour-form');
+				} else {
+					$feedback[] = "We were not able to save the information. Please try again.";
+				}
+
+			} else {
+				$feedback[] = "We were not able to save the potential resident information. Please try again.";
+			}
+		} else {
+			$feedback[] = "We were not able to save the contact information. Please try again.";
+		}
+		
+		session()->setFlash($feedback, 'danger');
+		$this->redirect(SITE_URL . '/tour-form');
+
+
+	}
+
 
 }

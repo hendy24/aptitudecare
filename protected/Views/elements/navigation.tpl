@@ -1,7 +1,7 @@
 
 <div class="container" id="sidebar-nav">
 	<div class="row">
-		<nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+		<nav class="col-md-2 d-none d-md-block sidebar">
 
 			<div class="sidebar-sticky">
 				<ul class="nav flex-column">

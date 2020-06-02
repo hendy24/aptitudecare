@@ -3,16 +3,16 @@
 /******** color palette **********/
 $dark-blue: #213c60;
 $light-blue: #81b7e3;
-$dark-grey: #48484a;
-$light-grey: #c7c8ca;
+$dark-gray: #48484a;
+$light-gray: #c7c8ca;
 $white: #ffffff;
 $off-white: #f8f8f8;
 $black: #121212;
 
 .text-dark-blue { color: $dark-blue; }
 .text-light-blue { color: $light-blue; }
-.text-dark-grey { color: $dark-grey; }
-.text-light-grey { color: $light-grey; }
+.text-dark-gray { color: $dark-gray; }
+.text-light-gray { color: $light-gray; }
 .text-white { color: $white; }
 
 /******** /color palette **********/
@@ -48,15 +48,27 @@ li.active {
   }
 }
 
+.alert-success {
+  padding-top: 1rem;
+}
+
+.alert-danger {
+  padding-top: 1rem;
+}
+
+.alert-warning {
+  padding-top: 1rem;
+}
+
 
 
 .bootstrap-tagsinput {
     background-color: $white;
-    border: 1px solid $light-grey;
+    border: 1px solid $light-gray;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     display: block;
     padding: 4px 6px;
-    color: $dark-grey;
+    color: $dark-gray;
     vertical-align: middle;
     border-radius: 4px;
     max-width: 100%;
@@ -86,10 +98,30 @@ li.active {
 
 /**** Custom bootstrap styles ****/
 
+.btn-primary {
+  background-color: $light-blue;
+  border-color: $light-blue;
+}
+
+.btn-primary:hover {
+  background-color: $dark-blue;
+  border-color: $dark-blue;
+}
+
+table {
+  thead, thead.thead-dark {
+    background: $light-blue;
+    color: $off-white;
+  }
+}
 
 h1 {
 	margin: 15px 0;
 	text-align: center;
+}
+
+.navbar {
+  background: $dark-blue;
 }
 
 .nav {
@@ -179,7 +211,7 @@ a.button:hover {
 
 .manage-body {
   line-height: 3rem;
-  border-bottom: 1px solid $light-grey;
+  border-bottom: 1px solid $light-gray;
 
   .btn {
     background: none;
@@ -189,12 +221,12 @@ a.button:hover {
 
   .btn:hover {
     text-decoration: none;
-    color: $dark-grey;
+    color: $dark-gray;
   }
 }
 
 .form-header {
-  background: $dark-grey;
+  background: $dark-gray;
   padding: 0.15rem 0.75rem;
   color: $white;
   margin: 2.0rem 0 0.75rem 0;
@@ -208,6 +240,39 @@ i.fas {
   width: 1.25rem;
 }
 
+.autocomplete-suggestions {
+  border: 1px solid $light-gray;
+  background: $white;
+  overflow: auto;
+  padding: 4px 6px;
+}
+
+.autocomplete-suggestion {
+  padding: 2px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.autocomplete-selected {
+  background: $light-gray;
+}
+
+.autocomplete-suggestions strong {
+  font-weight: normal;
+  color: $dark-gray;
+}
+
+.autocomplete-group {
+  padding: 2px 5px;
+}
+
+.autocomplete-groups strong {
+  display: block;
+  border-bottom: 1px solid $black;
+}
+
+
+
 /*
  * Sidebar
  */
@@ -220,6 +285,7 @@ i.fas {
 	z-index: 100; /* Behind the navbar */
 	padding: 100px 0 0; /* Height of navbar */
 	line-height: 1em;
+  background: $dark-blue;
 }
 
 .sidebar .nav-link {
@@ -338,7 +404,7 @@ a, a:visited {
 
           .btn-link {
                text-decoration: none;
-               color: $dark-grey;
+               color: $dark-gray;
           }
 
           .btn-link:hover {
@@ -346,6 +412,43 @@ a, a:visited {
           }
           
      }
+}
+
+
+/*
+ * Profile page
+ *
+ */
+#profile {
+  
+  .card {
+    border: none;
+
+  }
+
+  .card-header {
+    padding: 0.25rem;
+    background: $white;
+    color: $black;
+    border: none;
+    outline: none;
+    margin: 0.75rem 0 0rem 0;
+
+    button {
+      font-size: 1.5rem;
+    }
+
+    .btn-link {
+      text-decoration: none;
+      color: $black;
+    }
+
+    .btn-link:hover {
+      color: $light-gray;
+    }
+
+  }
+
 }
 
 
@@ -383,4 +486,41 @@ table.prospects {
     padding: 0;
 
   }  
+}
+
+
+/*
+ * Contact Info Section
+ *
+ */
+
+table.contact-info {
+
+  p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2rem;
+  }
+
+  thead {
+    background: $light-gray;
+    color: $black;
+    border: none;
+  }
+}
+
+
+/*
+ * Tour form
+ *
+ */
+
+.tour-form {
+
+  h2 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: $light-blue;
+  }
 }

@@ -41,11 +41,25 @@
     <script>
         var SITE_URL = '{$SITE_URL}';
         $(document).ready(function() {
-            $('.alert-success').delay(8000).fadeOut();
-            $('.alert-warning').delay(8000).fadeOut();
+            $('#flashMessages').delay(8000).fadeOut();
         });
         
     </script>
+
+    {if $GOOGLE_ANALYTICS}
+    {literal}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126621302-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-126621302-2');
+    </script>
+    {/literal}
+    {/if}
+
     
     <title>{$title} | Senior Living in Anchorage, AK </title>
 </head>
@@ -66,7 +80,7 @@
 
     <!-- page body -->
     {if $flashMessages}
-    <div class="container">
+    <div id="flashMessages" class="container">
         <div class="row mx-4 p-4 flash-message">
         {foreach $flashMessages as $class => $message}
             <div class="col-12 text-center alert-{$class}" role="alert">

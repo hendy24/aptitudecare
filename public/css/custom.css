@@ -8243,11 +8243,11 @@ h3 {
   color: #81b7e3;
 }
 
-.text-dark-grey {
+.text-dark-gray {
   color: #48484a;
 }
 
-.text-light-grey {
+.text-light-gray {
   color: #c7c8ca;
 }
 
@@ -8327,6 +8327,18 @@ li.active a.nav-link, li.active a.nav-link:visited {
   color: #121212;
 }
 
+.alert-success {
+  padding-top: 1rem;
+}
+
+.alert-danger {
+  padding-top: 1rem;
+}
+
+.alert-warning {
+  padding-top: 1rem;
+}
+
 .bootstrap-tagsinput {
   background-color: #ffffff;
   border: 1px solid #c7c8ca;
@@ -8362,9 +8374,28 @@ li.active a.nav-link, li.active a.nav-link:visited {
 }
 
 /**** Custom bootstrap styles ****/
+.btn-primary {
+  background-color: #81b7e3;
+  border-color: #81b7e3;
+}
+
+.btn-primary:hover {
+  background-color: #213c60;
+  border-color: #213c60;
+}
+
+table thead, table thead.thead-dark {
+  background: #81b7e3;
+  color: #f8f8f8;
+}
+
 h1 {
   margin: 15px 0;
   text-align: center;
+}
+
+.navbar {
+  background: #213c60;
 }
 
 .nav li {
@@ -8464,6 +8495,37 @@ i.fas {
   width: 1.25rem;
 }
 
+.autocomplete-suggestions {
+  border: 1px solid #c7c8ca;
+  background: #ffffff;
+  overflow: auto;
+  padding: 4px 6px;
+}
+
+.autocomplete-suggestion {
+  padding: 2px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.autocomplete-selected {
+  background: #c7c8ca;
+}
+
+.autocomplete-suggestions strong {
+  font-weight: normal;
+  color: #48484a;
+}
+
+.autocomplete-group {
+  padding: 2px 5px;
+}
+
+.autocomplete-groups strong {
+  display: block;
+  border-bottom: 1px solid #121212;
+}
+
 /*
  * Sidebar
  */
@@ -8477,6 +8539,7 @@ i.fas {
   padding: 100px 0 0;
   /* Height of navbar */
   line-height: 1em;
+  background: #213c60;
 }
 
 .sidebar .nav-link {
@@ -8586,6 +8649,32 @@ a, a:visited {
 }
 
 /*
+ * Profile page
+ *
+ */
+#profile .card {
+  border: none;
+}
+#profile .card-header {
+  padding: 0.25rem;
+  background: #ffffff;
+  color: #121212;
+  border: none;
+  outline: none;
+  margin: 0.75rem 0 0rem 0;
+}
+#profile .card-header button {
+  font-size: 1.5rem;
+}
+#profile .card-header .btn-link {
+  text-decoration: none;
+  color: #121212;
+}
+#profile .card-header .btn-link:hover {
+  color: #c7c8ca;
+}
+
+/*
  * Edit Blog Post Page
  *
  */
@@ -8607,6 +8696,32 @@ table.prospects a.btn:hover {
 table.prospects td.main-contact p {
   margin: 0;
   padding: 0;
+}
+
+/*
+ * Contact Info Section
+ *
+ */
+table.contact-info p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2rem;
+}
+table.contact-info thead {
+  background: #c7c8ca;
+  color: #121212;
+  border: none;
+}
+
+/*
+ * Tour form
+ *
+ */
+.tour-form h2 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #81b7e3;
 }
 
 /*# sourceMappingURL=custom.css.map */
