@@ -1,10 +1,15 @@
   <div class="traycard-column{if $k == 2} last-table{/if}">
     <table class="table traycard{if $k == 2} last-table{/if}">
+     <tablebody>
       <tr>
         <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
       </tr>
       <tr>
-        <td colspan="2" class="text-strong text-18 text-center">{$item->meal_name}</td>
+        <td colspan="2" class="text-strong text-18 text-center">
+{foreach from=$item->dietOrderIcons key=k2 item=foo}
+		<img src="{$IMAGES}/iddsi/{$foo}" style="height:34px;">
+{/foreach}
+		{$item->meal_name}</td>
       </tr>
       {if $item->birthday}
       <tr>
@@ -43,9 +48,20 @@
         <td class="text-strong tc-label">Beverages:</td>
         <td>{$item->beverages|default:"None"}</td>
       </tr>
-      <tr class="spacer">
-        <td colspan="2">&nbsp;</td>
-      </tr>
+      <tr class="spacer" style="height:10px">
+        {*Works fine in chrome, not in webkit2pdf*}
+        {*<td colspan="2"><div style="position:absolute;width:33.3%;padding-right:.6in;display:flex;justify-content:space-between;"><img src="https://iddsi.org/wp-content/uploads/2018/08/IDDSI-Triangle-Icon-Labels-Triangles-6.jpg" style="display:inline-block;text-align:left;width:150px;"><img src="https://iddsi.org/wp-content/uploads/2018/08/IDDSI-Triangle-Icon-Labels-Triangles-6.jpg" style="display:inline-block;width:150px;"></div></td>*}
+		<td colspan="2">
+			<div style="position:absolute;width:33.3%;padding-right:.3in;padding-left:-.15in;">
+{if !empty($item->iddsi_food)}
+				<img src="{$IMAGES}/iddsi/{$item->iddsi_food}" style="display:block;height:72px;float:left;">
+{/if}
+{if !empty($item->iddsi_liqu)}
+				<img src="{$IMAGES}/iddsi/{$item->iddsi_liqu}" style="display:block;height:72px;float:right;">
+{/if}
+			</div>
+		</td>
+      </tr> 
       <tr>
         <td colspan="2" class="text-center text-18">{$selectedDate|date_format}</td>
       </tr>
@@ -85,5 +101,7 @@
         <td class="text-center text-strong">Table: {$item->table_number}</td>
       </tr>
       {/if}
+     </tablebody>
     </table>
   </div>
+  
