@@ -31,7 +31,8 @@ class Beverage extends Dietary {
 				SELECT dpi.patient_id FROM dietary_patient_info as dpi
 				INNER JOIN admit_schedule sch ON sch.patient_id = dpi.patient_id 
 				WHERE dpi.location_id = :location_id AND ((sch.status = 'Approved' AND (sch.datetime_discharge IS NULL OR sch.datetime_discharge >= :date)) OR (sch.status = 'Discharged' AND sch.datetime_discharge >= :date)))
-			GROUP BY pb.meal, bev.id ORDER BY pb.meal";
+			GROUP BY pb.meal, bev.id
+			ORDER BY pb.meal, bev.name";
 
     $params[":location_id"] = $location->id;
     $params[":date"] = $date;
