@@ -553,11 +553,22 @@ class PatientInfoController extends DietaryController {
 		// this page will always create a PDF
 		$this->template = 'pdf';
 		
+		// get date from the url
+		$_dateStart = "";
+		$_month_day = "";
+		if(isset(input()->date) && input()->date != ""){
+			$_dateStart = date('Y-m-d', strtotime(input()->date));
+			$_month_day = date('m-d', strtotime(input()->date));
+		} else{
+			$_dateStart = date('Y-m-d', strtotime('now'));
+			$_month_day = date('m-d', strtotime('now'));
+		}
+		
 		if(isset(input()->pdf2) && input()->pdf2 == true) {
 			$this->template = "pdf2";
 			$this->landscape_array = true;
 			$this->margins = 0;
-			@$this->pdfName = "meal_tray_cards_".date("Y-m-d", strtotime(input()->date)).".pdf";
+			@$this->pdfName = "meal_tray_cards_".$_dateStart.".pdf";
 		}
 		// fetch the location
 		$location = $this->getLocation();
@@ -613,16 +624,9 @@ class PatientInfoController extends DietaryController {
 		
 		//print_r($tray_card_info);
 		
-		$_dateStart = "";
 
-		// get date from the url
-		if(isset(input()->date) && input()->date != ""){
-			$_dateStart = date('Y-m-d', strtotime(input()->date));
-			$_month_day = date('m-d', strtotime(input()->date));
-		} else{
-			$_dateStart = date('Y-m-d', strtotime('now'));
-			$_month_day = date('m-d', strtotime('now'));
-		}
+
+
 
 		/*
 		// get the meal id from the url
@@ -643,6 +647,86 @@ class PatientInfoController extends DietaryController {
 		
 		//$meals = array(1,2,3);
 		foreach ($tray_card_info as $key => $tci) {
+			//$tci->iddsi_food = "FOOD!"; 
+			//$tci->iddsi_liqu = "LIQUID!";
+			
+			//process texture into icons:
+			$food_temp = null;
+			$liqu_temp = null;
+			if(strpos($tci->textures, "Liquidised") !== false)
+			{
+				$food_temp = "Down_3_Liquidized.png";
+			} elseif(strpos($tci->textures, "Puree") !== false)
+			{
+				$food_temp = "Down_4_Pureed.png";
+			}elseif(strpos($tci->textures, "Minced & Moist") !== false)
+			{
+				$food_temp = "Down_5_Minced_Moist.png";
+			}elseif(strpos($tci->textures, "Soft & Bite Sized") !== false)
+			{
+				$food_temp = "Down_6_Soft_Bite-Sized.png";
+			}elseif(strpos($tci->textures, "Easy to Chew") !== false)
+			{
+				$food_temp = "Down_7_RegularEC.png";
+			}elseif(strpos($tci->textures, "Regular") !== false)
+			{
+				$food_temp = "Down_7_Regular.png";
+			}
+			
+			if(strpos($tci->textures, "Thin") !== false)
+			{
+				$liqu_temp = "0_Thin.png";
+			} elseif(strpos($tci->textures, "Slightly Thick") !== false)
+			{
+				$liqu_temp = "1_SlightlyThick.png";
+			}elseif(strpos($tci->textures, "Mildly Thick") !== false)
+			{
+				$liqu_temp = "2_Midly_Thick.png";
+			}elseif(strpos($tci->textures, "Moderately Thick") !== false)
+			{
+				$liqu_temp = "3_Moderately_Thick.png";
+			}elseif(strpos($tci->textures, "Extremely Thick") !== false)
+			{
+				$liqu_temp = "4_Extremely_Thick.png";
+			}
+			
+			if($food_temp !== null)
+				$tci->iddsi_food = $food_temp;
+			if($liqu_temp !== null)
+				$tci->iddsi_liqu = $liqu_temp;
+			
+			//process diet orders to icons
+			$tci->dietOrderIcons = array();
+			if(strpos($tci->diet_orders, "AHA/Cardiac") !== false)
+			{
+				$tci->dietOrderIcons[] = "heart.png";
+			}
+			if(strpos($tci->diet_orders, "RCS") !== false)
+			{
+				$tci->dietOrderIcons[] = "sugar.png";
+			}
+			if(strpos($tci->diet_orders, "Gluten Restricted") !== false)
+			{
+				$tci->dietOrderIcons[] = "glutenRestricted.png";
+			}
+			if(strpos($tci->diet_orders, "Fortified/High Calorie") !== false)
+			{
+				$tci->dietOrderIcons[] = "fortified.png";
+			}
+			if(strpos($tci->diet_orders, "Renal") !== false)
+			{
+				$tci->dietOrderIcons[] = "renal.png";
+			}
+			if(strpos($tci->diet_orders, "2 gram Na") !== false)
+			{
+				$tci->dietOrderIcons[] = "salt.png";
+			}
+			if(strpos($tci->diet_orders, "No Added Salt") !== false)
+			{
+				$tci->dietOrderIcons[] = "salt.png";
+			}
+			//smarty()->assign('dietIcons', $dietOrderIcons);
+			
 			//var_dump($tci);
 			//die();
 			for ($i=0;$i<3;$i++) {
