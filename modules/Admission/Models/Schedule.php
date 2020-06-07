@@ -23,4 +23,20 @@ class Schedule extends Admission {
 		return false;
 	}
 	
+	public function move($location_id, $patient_id, $old_number, $new_number) {
+		$sql = "UPDATE admit_schedule AS s 
+INNER JOIN admit_room AS r ON s.room_id = r.id
+SET room_id = (SELECT id FROM admit_room WHERE location_id = :location_id AND number = :new_number)
+WHERE :new_number IN (SELECT number from admit_room WHERE location_id = :location_id) AND r.number = :old_number AND patient_id = :patient_id AND s.location_id = :location_id AND (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now()) OR (s.status = 'Discharged' AND s.datetime_discharge >= now()));";
+		$params[":location_id"] = $location_id;
+		$params[":patient_id"] = $patient_id;
+		$params[":old_number"] = $old_number;
+		$params[":new_number"] = $new_number;
+		
+		if ($this->update($sql, $params)) {
+			return true;
+		}
+		return false;
+	}
+	
 }
