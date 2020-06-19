@@ -16,18 +16,6 @@
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
-    <script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
-    <script>
-        var SITE_URL = '{$SITE_URL}';
-        $(document).ready(function() {
-            $('#flashMessages').delay(8000).fadeOut();
-        });
-        
-    </script>
-
     {if $GOOGLE_ANALYTICS}
     {literal}
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -149,10 +137,26 @@
     <!-- podium script -->
     <script defer src="https://connect.podium.com/widget.js#API_TOKEN=5a2423dd-edc2-41e3-abef-c417d13b723f" id="podium-widget" data-api-token="5a2423dd-edc2-41e3-abef-c417d13b723f"></script>
     <!-- /podium script -->  
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
+    <script src="https://kit.fontawesome.com/5df6dcce04.js" crossorigin="anonymous"></script>
+    <script>
+        var SITE_URL = '{$SITE_URL}';
+        $(document).ready(function() {
+            $('#flashMessages').delay(8000).fadeOut();
+        });
+        
+    </script>
+
+
+    <script>
+        {include file=$jsfile}
+    </script>
+
     
 </body>
-<script>
-    {include file=$jsfile}
-</script>
+
 
 </html>

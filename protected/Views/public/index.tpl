@@ -22,7 +22,9 @@
     </div>
     <div class="row pb-5">
         <div class="col-12">
-            <p class="h3 text-center">Aspen Creek was designed to provide life-changing experiences for each of our Seniors, their families, and all who choose to be a part of the Community.</p>
+            <p class="h3 text-center">Aspen Creek was designed to provide life-changing experiences for each of our Seniors, their families, and all who choose to be a part of our Senior Care Center Community in Anchorage Alaska.</p>
+            <p class="h3 text-center">Senior Care in Alaska is about more than just having a beautiful environment for our Seniors to receive care with their activities of daily living. It is about creating relationships, making memories with family members and with friends, old and new. It is about living life and enjoying each day to the fullest.</p>
+            <p class="h3 text-center">These relationships that are strengthened and created affect more than just our residents, they have lasting impact on all of those who take time to appreciate the legacies our Seniors contribute to our society.</p>
         </div>
     </div>
 </div>
@@ -56,7 +58,7 @@
             <a href="{$SITE_URL}/care-team">
                 <img src="{$IMAGES}/24-7.png" class="pb-4" alt="24-hour elder care anchorage ak">
                 <h4>24-HOUR COMPASSIONATE <br>CARE</h4>
-                <p>We are extremely selective during our interview and hiring process. Our Care Partners are the best of the best, always delivering exceptional and compassionate caregiving.</p>
+                <p>We are extremely selective during our interview and hiring process. Our Care Partners are the best of the best, always delivering exceptional and compassionate caregiving. We take great pride in the opportunity we have to provide senior assistance in Alaska.</p>
             </a>
         </div>
         
@@ -88,7 +90,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <p>As an assisted living community in Anchorage, we provide assistance with activities of daily living such as bathing, dressing, medication reminders, and so forth and while we always provide all our services with compassion and to five-star standards those are just services we provide, just things we “do”. Our mission goes much deeper than providing exceptional care. Our focus is on the total wellness of each of our residents encompassing their physical, social, spiritual, and intellectual well-being. Everything we have created at Aspen Creek from our building to our fine-dining and activity programs are connected to each resident at an individual level.</p>
+            <p>As an assisted living community in Anchorage, we provide senior assistance in Alaska with activities of daily living such as bathing, dressing, medication reminders, and so forth and while we always provide all our services with compassion and to five-star standards those are just services we provide, just things we “do”. Our mission goes much deeper than providing exceptional care. Our focus is on the total wellness of each of our residents encompassing their physical, social, spiritual, and intellectual well-being. Everything we have created at Aspen Creek from our building to our fine-dining and activity programs are connected to each resident at an individual level.</p>
         </div>
     </div>
 </div>
