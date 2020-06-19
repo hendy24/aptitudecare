@@ -40,7 +40,7 @@
 		      {foreach from=$currentPatients key=k item=patient name=count}
 		        <td value="{$patient->number}">{$patient->number}</td>
 
-		        {if get_class($patient) == "Patient"}
+		        {if get_class($patient) == "Client"}
 		        <td>{$patient->last_name}, {$patient->first_name}</td>
 		        <td>
 		          <div class="dropdown">

@@ -1,16 +1,10 @@
 <div id="profile" class="container ">
 	<h1>{$prospect->first_name} {$prospect->last_name}</h1>
 
-	<form action="{$SITE_URL}" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="Admissions">
-		<input type="hidden" name="page" value="admissions">
-		<input type="hidden" name="action" value="save_profile">
-		<input type="hidden" name="id" value="{$prospect->public_id}">
-		<input type="hidden" name="pipeline" value="{$pipeline}">
-
-		<div id="accordion">
-
-
+	<div id="accordion">
+		<form action="{$SITE_URL}/?module=Admissions&page=profiles&action=save_profile&id={$prospect->public_id}" enctype="multipart/form-data">
+			<input type="hidden" id="prospect" value="{$prospect->public_id}">
+		
 			<!-- resident info -->
 			<div class="card">
 				<div class="card-header" id="headingOne">
@@ -141,11 +135,11 @@
 			  		<div class="row">
 			  			<div class="col-sm-12 col-md-6">
 			  				<div class="form-group">
-			  				    <label for="religion-preference">Religion Preference</label>
-			  				    <select name="religion_preference" id="religion-preference" class="form-control">
+			  				    <label for="religion">Religion Preference</label>
+			  				    <select name="religion" id="religion" class="form-control">
 			  				        <option value=""></option>
-			  				        {foreach from=$religion_preferences item="rp"}
-			  				        <option value="{$rp->id}" {if $prospect->religion_preference == $rp->id} selected{/if}>{$rp->name}</option>
+			  				        {foreach from=$religion item="r"}
+			  				        <option value="{$r->id}" {if $prospect->religion == $r->id} selected{/if}>{$r->name}</option>
 			  				        {/foreach}
 			  				    </select>
 			  				</div>
@@ -188,41 +182,27 @@
 			
 				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
 			  		<div class="card-body">
-			  			<div class="row mb-3">
-							<div class="col-12 text-white">
-								<button type="button" id="addContact" class="modal-webpage btn btn-primary" data-toggle="modal" data-remote="{$SITE_URL}/?module=Admissions&amp;page=admissions&amp;action=add_contact&amp;prospect_id={$prospect->public_id}&amp;pipeline={$pipeline}" data-target="#addNewContact">Add New Contact</a>
-							</div>
-						</div>
-
 
 						<table class="table contact-info">
 							<thead>
 								<th>&nbsp;</th>
 								<th>Name</th>
-								<th>Contact</th>
-								<th>Address</th>
 								<th>Contact Type</th>
 								<th>&nbsp;</th>
 							</thead>
-							<tbody>						
+							<tbody id="contact-table-body">						
 								{foreach from=$contacts item="c"}
 								<tr>
 									<td>
-										{if $c->primary_contact}<i class="fas fa-hospital-user" data-toggle="tooltip" data-placement="top" title="Primary Contact"></i>{/if}
+										{if $c->primary_contact}<i class="fas fa-hospital-user" data-toggle="tooltip" data-placement="top" title="Primary Contact"></i><input type="hidden" name="contact[$k][poa]" value="1">{/if}
 										{if $c->poa}<i class="fas fa-balance-scale-left" data-toggle="tooltip" data-placement="top" title="Power of Attorney"></i>{/if}
 									</td>
-									<td>{$c->first_name} {$c->last_name}</td>
 									<td>
-										<p><a href="tel:{$c->phone}">{$c->phone}</a></p>
-										<p><a href="mailto:{$c->email}">{$c->email}</a></p>
-									</td>
-									<td>
-										<p>{$c->address}</p>
-										<p>{$c->city}, {$c->state} {$c->zip}</p>
+										<a tabindex="0" role="button" class="btn" data-toggle="popover" data-trigger="focus" title="Contact Info" data-content="<strong>Phone:</strong>{$c->phone} <br><strong>Email:</strong> {$c->email}" data-html="true">{$c->first_name} {$c->last_name}</a>
 									</td>
 									<td>{$c->contact_type}</td>
-									<td>
-										<button type="button" class="modal-webpage btn" data-toggle="modal" data-remote="{$SITE_URL}/?module=Admissions&amp;page=admissions&amp;action=resident_contact&amp;prospect_id={$prospect->public_id}&amp;contact_id={$c->public_id}&contact_link={$c->contact_link}&amp;pipeline={$pipeline}" data-target="#addNewContact"><i class="fas fa-user-edit"></i></button>
+									<td class="text-right">
+										<button type="button" class="modal-webpage btn" data-toggle="modal" data-remote="{$SITE_URL}/?module=Admissions&amp;page=admissions&amp;action=resident_contact&amp;prospect_id={$prospect->public_id}&amp;contact_id={$c->public_id}&contact_link={$c->contact_link}" data-target="#addNewContact"><i class="fas fa-user-edit"></i></button>
 										<a class="btn delete" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-user-minus"></i></a>
 										<input type="hidden" class="prospect-id" value="{$prospect->public_id}">
 										<input type="hidden" class="contact-id" value="{$c->public_id}">
@@ -233,7 +213,7 @@
 							</tbody>
 
 						</table>
-
+						{$this->loadElement('addContact')}
 			  		</div>
 				</div>
 			</div>
@@ -276,8 +256,9 @@
 				</div>
 			</div> -->
 									
+		</form>
 
-
+		<form id="fileForm" enctype="multipart/form-data">
 			<!-- files -->
 			<div class="card">
 				<div class="card-header" id="headingThree">
@@ -290,6 +271,26 @@
 			
 				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
 			  		<div id="file-card" class="card-body">
+						<div class="row justify-content-center">
+							<div class="col">
+					  			<table id="prospect-files" class="table table-striped">
+					  				<thead>
+					  					<tr>
+					  						<th colspan="2" class="text-center">Current Files</th>
+					  					</tr>
+					  				</thead>
+					  				<tbody id="file-table-row">
+					  					{foreach from=$files item=file}
+					  					<tr>
+											<td>{$file->name}</td>
+											<td class="text-right"><a href="{$AWS}/client_files/{$file->file_name}" target="_blank"><i class="fas fa-file fa-2x"></i></a></td>
+										</tr>
+					  					{/foreach}
+					  				</tbody>
+					  			</table>
+					  		</div>
+					  	</div>
+
 			  			<div class="row file-select">
 			  				<div class="col-sm-12 col-md-4">
 			  					<div class="form-group">
@@ -303,19 +304,19 @@
 			  				</div>
 			  				<div class="col-sm-10 col-md-7">
 								<div class="custom-file">
-									<input type="file" name="file[]" class="custom-file-input">
-									<label for="" class="custom-file-label">Choose File</label>
+									<input type="file" name="file" id="file" class="custom-file-input">
+									<label for="file" class="custom-file-label">Choose File</label>
 								</div>			  					
 			  				</div>
 			  				<div class="col-sm-2 col-md-1">
-			  					<button type="button" class="btn btn-primary add-file active-button"><i class="fa fa-plus"></i></button>
+			  					<button type="button" id="addFile" class="btn btn-primary active-button">Upload</button>
 			  				</div>
 			  			</div>
 			  		</div>
 				</div>
 			</div>		
 			<!-- /files -->
-
+		</form>
 		</div>
 
 				
@@ -331,3 +332,5 @@
 
 {$this->loadElement('deleteModal')}
 {$this->loadElement('webpageModal', "")}
+
+<script src="https://github.com/pipwerks/PDFObject/blob/master/pdfobject.min.js"></script>

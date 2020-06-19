@@ -118,9 +118,9 @@ class PublicController extends MainPageController {
 	 */
 	public function resident_application() {
 		if (isset (input()->id)) {
-			$prospect = $this->loadModel('Prospect', input()->id);
+			$prospect = $this->loadModel('Client', input()->id);
 		} else {
-			$prospect = $this->loadModel('Prospect');
+			$prospect = $this->loadModel('Client');
 		}
 
 		// fetch care needs
@@ -154,10 +154,20 @@ class PublicController extends MainPageController {
 		// if there is an id in the url this is an already existing prospect
 		// otherwise create an empty prospect object
 		if (isset (input()->id)) {
-			$prospect = $this->loadModel('Prospect', input()->id);
+			$prospect = $this->loadModel('Client', input()->id);
 		} else {
-			$prospect = $this->loadModel('Prospect');
+			$prospect = $this->loadModel('Client');
 		}
+
+		$schedule = $this->loadModel('Schedule');
+		
+		$contact = $this->loadModel('Contact');
+		$contact_link = $this->loadModel('ContactLink');
+
+		// set location to Aspen Creek
+		// this will need to be update when additional locations are possible
+		$location = 26;
+		
 		
 		// load the assessment object
 		$assessment = $this->loadModel('Assessment');
@@ -165,29 +175,36 @@ class PublicController extends MainPageController {
 		// contact info
 
 		// contact name
-		if (input()->contact_name != null) {
-			$prospect->contact_name = input()->contact_name;
+		if (input()->contact_first_name != null) {
+			$contact->first_name = input()->contact_first_name;
 		} else {
 			$feedback[] = "Please enter a contact name";
 		}
 
+		if (input()->contact_last_name != null) {
+			$contact->last_name = input()->contact_last_name;
+		} else {
+			$feedback[] = "Please enter a contact name";
+		}
+
+
 		// contact type
 		if (input()->contact_type != null) {
-			$prospect->contact_type = input()->contact_type;
+			$contact_link->contact_type = input()->contact_type;
 		} else {
 			$feedback[] = "Please select a contact type";
 		}
 
 		// contact email 
 		if (input()->contact_email != null) {
-			$prospect->contact_email = input()->contact_email;
+			$contact->email = input()->contact_email;
 		} else {
 			$feedback[] = "Please enter a contact email address";
 		}
 
 		// phone 
 		if (input()->contact_phone != null) {
-			$prospect->contact_phone = input()->contact_phone;
+			$contact->phone = input()->contact_phone;
 		} else {
 			$feedback[] = "Please enter a contact phone number";
 		}
@@ -281,21 +298,19 @@ class PublicController extends MainPageController {
 
 		// set admission date based on estimated timeline
 		if (input()->timeframe != null) {
-			$prospect->timeframe = input()->timeframe;
+			$schedule->timeframe = input()->timeframe;
 		} else {
 			$feedback[] = "Please select an estimated timeframe in which assisted living services may be needed";
 		}
 
 		// primary care physician
-		if (input()->pcp_name != null) {
-			$prospect->pcp_name = input()->pcp_name;
-		}
+		// if (input()->pcp_name != null) {
+		// 	$prospect->pcp_name = input()->pcp_name;
+		// }
 
-		if (input()->pcp_phone != null) {
-			$prospect->pcp_phone = input()->pcp_phone;
-		}
-
-		$prospect->active = 1;
+		// if (input()->pcp_phone != null) {
+		// 	$prospect->pcp_phone = input()->pcp_phone;
+		// }
 
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'danger');
@@ -307,47 +322,68 @@ class PublicController extends MainPageController {
 		}
 
 		$alert = null;
+
 		// save the prospect info
 		if ($prospect->save()) {
-			
+			$contact_link->client = $prospect->id;
 
-			$alert = "Your application has been submitted. We will be in touch shortly!";
-			// save the admission after the prospect so we can use the newly created prospect id
-			$assessment->prospect_id = $prospect->id;
-			// save the admission
-			if ($assessment->save()) {
-				// care needs 
-				// this needs to happed after the prospect is saved so that we have an id to use
-				// for new residents.
-				if (!empty (input()->care_needs)) {
-					foreach (input()->care_needs as $need) {
-						$care_needs = $this->loadModel('NeedsPatientLink');
-						$care_needs->care_needs_id = $need;
-						$care_needs->prospect_id = $prospect->id;
-						$care_needs->save();
+			if ($contact->save()) {
+				$contact_link->contact = $contact->id;
+
+				if ($contact_link->save()) {
+					$alert = "Your application has been submitted. We will be in touch shortly!";
+
+					// save the admission after the prospect so we can use the newly created prospect id
+					$assessment->prospect_id = $prospect->id;
+					// save the admission
+					if ($assessment->save()) {
+						// care needs 
+						// this needs to happed after the prospect is saved so that we have an id to use
+						// for new residents.
+						if (!empty (input()->care_needs)) {
+							foreach (input()->care_needs as $need) {
+								$care_needs = $this->loadModel('NeedsPatientLink');
+								$care_needs->care_needs_id = $need;
+								$care_needs->prospect_id = $prospect->id;
+								$care_needs->save();
+							}
+						} 
+						$schedule->client = $prospect->id;
+						$schedule->location = $location;
+						// set status as a prospect
+						$schedule->status = 2;
+
+						$schedule->save();
+
+						// send an email notification
+						$data = array();
+						$data['post']['subject'] = "New Resident Aplication";
+
+						// contact message
+						$data['post']['message_body'] = 
+							"Name: " . $prospect->first_name . " " . $prospect->last_name . "\n" .
+							"Phone: " . $prospect->phone . "\n" . 
+							"Email: " . $prospect->email . "\n" .
+							"Message: \n" . "There is a new resident application waiting for you!";
+
+						$this->sendEmail($data);
+
+					} else {
+						$alert = "Could not submit the application. Please try again.";
 					}
-				} 
-
-				// send an email notification
-				$data = array();
-				$data['post']['subject'] = "New Resident Aplication";
-
-				// contact message
-				$data['post']['message_body'] = 
-					"Name: " . $prospect->first_name . " " . $prospect->last_name . "\n" .
-					"Phone: " . $prospect->phone . "\n" . 
-					"Email: " . $prospect->email . "\n" .
-					"Message: \n" . "There is a new resident application waiting for you!";
-
-				$this->sendEmail($data);
-
+				
+				}
 			} else {
-				$alert = "Could not submit the application. Please try again.";
+				$alert = "Could not submit the form. Please try again";
 			}
 
-			session()->setFlash($alert, 'success');
-			$this->redirect(SITE_URL);
+		} else {
+			$alert = "Could not send the application. Please try again.";
 		}
+
+		session()->setFlash($alert, 'success');
+		$this->redirect(SITE_URL);
+
 		
 	}
 
@@ -486,9 +522,11 @@ class PublicController extends MainPageController {
 	 *
 	 */
 	public function submit_tour_form() {
-		$prospect = $this->loadModel('Prospect');
+		$prospect = $this->loadModel('Client');
 		$contact = $this->loadModel('Contact');
 		$contact_link = $this->loadModel('ContactLink');
+		$schedule = $this->loadModel('Schedule');
+		$location = $this->getLocation();
 		
 		
 
@@ -509,7 +547,7 @@ class PublicController extends MainPageController {
 		}
 
 		if (input()->timeframe != null) {
-			$prospect->timeframe = input()->timeframe;
+			$schedule->timeframe = input()->timeframe;
 		}
 
 		if (input()->payor_source != null) {
@@ -541,7 +579,15 @@ class PublicController extends MainPageController {
 			$prospect->referral_source = input()->referral_source;
 		}
 
-		$prospect->active = 0;
+		// set the admit status to "Lead"
+		$schedule->status = 1;
+
+		// set location
+		$schedule->location = $location->id;
+
+		// set first contact date
+		$schedule->datetime_first_contact = mysql_date();
+		
 
 		$feedback = array();
 
@@ -550,13 +596,18 @@ class PublicController extends MainPageController {
 			if ($prospect->save()) {
 				// set data for contact link now that it is saved
 				$contact_link->contact = $contact->id;
-				$contact_link->prospect = $prospect->id;
+				$contact_link->client = $prospect->id;
+				
 
 				if ($contact_link->save()) {
-					session()->setFlash("Thank you! Your information was sent!", 'success');
-					$this->redirect(SITE_URL . '/tour-form');
-				} else {
-					$feedback[] = "We were not able to save the information. Please try again.";
+					$schedule->client = $prospect->id;
+
+					if ($schedule->save()) {
+						session()->setFlash("Thank you! Your information was sent!", 'success');
+						$this->redirect(SITE_URL . '/tour-form');
+					} else {
+						$feedback[] = "We were not able to save the information. Please try again.";
+					}
 				}
 
 			} else {

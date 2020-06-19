@@ -18,7 +18,7 @@ class PatientInfoController extends DietaryController {
 
 		// fetch the patient info from the id in the url
 		if (isset (input()->patient) && input()->patient != "") {
-			$patient = $this->loadModel('Patient', input()->patient);
+			$patient = $this->loadModel('Client', input()->patient);
 		} else {
 			session()->setFlash("Could not find the selected patient, please try again", 'error');
 			$this->redirect();

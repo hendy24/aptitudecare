@@ -15,9 +15,10 @@
 		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.time.css">
 	
 		<script src="{$JS}/jquery-3.4.1.min.js" type="text/javascript"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
 		<script src="{$JS}/lity-2.4.0/dist/lity.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="{$VENDORS}/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+		<script src="{$VENDORS}/jQuery-Autocomplete/dist/jquery.autocomplete.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.date.js"></script>
 		<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.time.js"></script>
@@ -34,6 +35,7 @@
 
 		<script>
 			var SITE_URL = '{$SITE_URL}';
+			var AWS = '{$AWS}';
 			$(document).ready(function() {
 				$('.alert-success').delay(8000).fadeOut();
 				$('.alert-warning').delay(8000).fadeOut();

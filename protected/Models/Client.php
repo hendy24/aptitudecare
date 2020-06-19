@@ -1,8 +1,8 @@
 <?php
 
-class Patient extends AppData {
+class Client extends AppData {
 
-	protected $table = 'patient';
+	protected $table = 'client';
 
 	// this function will get the current home health patients
 	public function fetchCurrentPatients($location, $order_by = false) {
@@ -67,7 +67,7 @@ class Patient extends AppData {
 	public function fetchPatients($location_id) {
 		$schedule = $this->loadTable("Schedule");
 		$room = $this->loadTable("Room");
-		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE s.location_id = :location_id AND s.status = 'Approved' AND (s.datetime_discharge >= :datetime OR s.datetime_discharge IS NULL)";
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.client = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room WHERE s.location = :location_id AND (s.datetime_discharge >= :datetime OR s.datetime_discharge IS NULL)";
 		$params[":location_id"] = $location_id;
 		$params["datetime"] = mysql_date() . " 23:59:59";
 		return $this->fetchAll($sql, $params);
@@ -76,7 +76,7 @@ class Patient extends AppData {
 	public function fetchPatientById($patient_id) {
 		$schedule = $this->loadTable("Schedule");
 		$room = $this->loadTable("Room");
-		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location_id, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.patient_id = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE p.public_id = :patient_id";
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.client = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE p.public_id = :patient_id";
 		$params[":patient_id"] = $patient_id;
 		return $this->fetchOne($sql, $params);
 	}
@@ -282,5 +282,68 @@ class Patient extends AppData {
 		}
 	}
 
+	/* 
+	 * Fetch all current prospects
+	 *
+	 */
+	public function fetchProspects($filter_by, $sort_by = false) {
+		$timeframe = $this->loadTable('Timeframe');
+		$contact_link = $this->loadTable('ContactLink');
+		$contact = $this->loadTable('Contact');
+		$location = $this->loadTable('Location');
+		$schedule = $this->loadTable('Schedule');
+		$room = $this->loadTable('Room');
+		$status = $this->loadTable('Status');
+
+		// if ($date) {
+		// 	$params[":date"] = mysql_date($date);
+		// } else {
+		// 	$params[":date"] = date('Y-m-d', strtotime("now"));
+		// }
+
+		$params = array(
+			":status" => $filter_by
+		);
+		
+		$sql = "SELECT 
+				client.id,
+				client.public_id,
+				client.first_name,
+				client.last_name,
+				client.email,
+				client.phone,
+				schedule.timeframe,
+				contact.first_name as contact_first_name,
+				contact.last_name as contact_last_name,
+				contact.email as contact_email,
+				contact.phone as contact_phone,
+				room.number,
+				status.name as status,
+				schedule.datetime_admit
+				FROM {$this->tableName()} as client
+				INNER JOIN {$schedule->tableName()} as schedule ON schedule.client = client.id
+				INNER JOIN {$timeframe->tableName()} as timeframe ON timeframe.id = schedule.timeframe
+				INNER JOIN {$status->tableName()} as status ON status.id = schedule.status
+				LEFT JOIN (SELECT client, contact, {$contact_link->tableName()}.primary_contact FROM {$contact_link->tableName()} WHERE {$contact_link->tableName()}.primary_contact = 1) cl ON cl.client = client.id
+				LEFT JOIN {$contact->tableName()} as contact ON contact.id = cl.contact AND cl.primary_contact = 1
+				LEFT JOIN {$room->tableName()} as room ON room.id = schedule.room
+				WHERE status.description = :status";
+
+				if ($sort_by) {
+					if ($sort_by == 'room') {
+						$sql .= " ORDER BY number ASC";
+					} elseif ($sort_by == 'contact') {
+						$sql .= " ORDER BY contact_last_name ASC";
+					} elseif ($sort_by == 'resident_name') {
+						$sql .= " ORDER BY last_name ASC";
+					} else {
+						$sql .= " ORDER BY timeframe.id ASC";
+					}					
+				} else {
+					$sql .=" ORDER BY timeframe.id ASC";
+				}
+				
+		return $this->fetchAll($sql, $params);
+	}
 
 }

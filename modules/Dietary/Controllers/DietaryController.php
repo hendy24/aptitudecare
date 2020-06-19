@@ -44,11 +44,9 @@ class DietaryController extends MainPageController {
 			// if the locations is not using the admission dashboard then load the patients
 			// from ac_patient and dietary_patient_info tables
 			// fetch current patients
-			$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+			$scheduled = $this->loadModel("Client")->fetchPatients($location->id);
 		}
 		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
-
-		$count = count($rooms);
 
 		smarty()->assign('currentPatients', $currentPatients);
 		smarty()->assign('count', count($rooms)/2);

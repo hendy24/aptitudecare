@@ -134,7 +134,6 @@
 		var prospect = $("#prospect-id").val();
 		var contact = $("#contact-id").val();
 		var contactType = $("#contact-type :selected").val();
-		var pipeline = $("#pipeline").val();
 		var data = $("#residentContact").serialize();
 
 		$.post(SITE_URL, data, function (e) {

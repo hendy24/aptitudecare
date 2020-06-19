@@ -8385,7 +8385,7 @@ li.active a.nav-link, li.active a.nav-link:visited {
 }
 
 table thead, table thead.thead-dark {
-  background: #81b7e3;
+  background: #213c60;
   color: #f8f8f8;
 }
 
@@ -8707,11 +8707,6 @@ table.contact-info p {
   padding: 0;
   line-height: 1.2rem;
 }
-table.contact-info thead {
-  background: #c7c8ca;
-  color: #121212;
-  border: none;
-}
 
 /*
  * Tour form
@@ -8722,6 +8717,54 @@ table.contact-info thead {
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
   color: #81b7e3;
+}
+
+/*
+ * Assign Room
+ *
+ */
+#assign-room .form-check-input, #assign-room .form-check-label {
+  line-height: 1.5rem 0;
+}
+
+/*
+ * Prospects Page
+ *
+ */
+#prospects ul.nav {
+  margin-bottom: 1rem;
+}
+#prospects ul.nav a {
+  color: #121212;
+  padding: 8px 10px;
+}
+#prospects ul.nav a:hover {
+  color: #81b7e3;
+}
+#prospects ul.nav a.selected {
+  color: #ffffff;
+  background-color: #213c60;
+  border-radius: 4px;
+}
+#prospects table.prospects a.btn, #prospects table.prospects a.btn:visited, #prospects table.prospects a.btn:active {
+  background: none;
+  color: #121212;
+  border: none;
+  outline: none !important;
+  box-shadow: none;
+}
+#prospects table.prospects thead a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#prospect-files {
+  margin-bottom: 2rem;
+}
+#prospect-files .prospect-file-row {
+  padding-top: 10px;
+  padding-bottom: 6px;
+  width: 60%;
 }
 
 /*# sourceMappingURL=custom.css.map */

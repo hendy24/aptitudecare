@@ -23,18 +23,34 @@ class AdmissionsController extends MainPageController {
 		$timeframe = $this->loadModel('Timeframe')->fetchAll();
 		smarty()->assign('timeframe', $timeframe);
 
-		if (isset (input()->pipeline)) {
-			if (input()->pipeline == 'leads') {
-				smarty()->assign('is_prospect', false);
-				$this->leads();
-			} elseif (input()->pipeline == 'prospects') {
-				smarty()->assign('is_prospect', true);
-				$this->prospects();
-			}
+		if (isset (input()->filterBy)) {
+			$filter_by = input()->filterBy;
 		} else {
-			smarty()->assign('is_prospect', true);
-			$this->prospects();
+			$filter_by = 'lead';
 		}
+		
+		smarty()->assign('activeTab', $filter_by);
+		
+		
+		$status = $this->loadModel('Status')->fetchAll();
+		smarty()->assign('status', $status);
+
+		if (isset (input()->sortBy)) {
+			$sort_by = input()->sortBy;
+		} else {
+			$sort_by = 'timeframe';
+		}
+		
+		// get the location
+		// if (isset (input()->location)) {
+		// 	$location = $this->loadModel('Location', input()->location);
+		// } else {
+		// 	$location = $this->getLocation();
+		// }
+
+		// get prospects list
+		$prospects = $this->loadModel('Client')->fetchProspects($filter_by, $sort_by);
+		smarty()->assign('prospects', $prospects);
 		
 	}
 
@@ -42,211 +58,219 @@ class AdmissionsController extends MainPageController {
 
 			
 	/* 
-	 * Prospects Page
-	 *
-	 */
-	public function prospects() {
-		smarty()->assign('title', "Current Prospects");
-
-		// get prospects list
-		$prospects = $this->loadModel('Prospect')->fetchProspects();
-
-		smarty()->assign('prospects', $prospects);
-		smarty()->assign('page_title',"Current Prospects");
-
-	}
-
-
-			
-	/* 
-	 * Leads Page
-	 *
-	 */
-	public function leads() {
-		// get prospects list
-		$prospects = $this->loadModel('Prospect')->fetchProspects(false);
-		smarty()->assign('prospects', $prospects);
-		smarty()->assign('page_title',"Current Leads");
-
-	}
-
-
-	/* 
 	 * New Prospect
 	 *
 	 */
-	public function new_lead() {
+	public function new_prospect() {
 		// fetch timeframe options
 		$timeframe = $this->loadModel('Timeframe')->fetchAll();
 		// fetch referral source options
 		$referral_sources = $this->loadModel('ReferralSource')->fetchAll();
 		// contact relationship
 		$contact_type = $this->loadModel('ContactType')->fetchAll();
+		$states = $this->loadModel('State')->fetchAll();
 
 
 		smarty()->assign('timeframe', $timeframe);
 		smarty()->assign('referral_sources', $referral_sources);
 		smarty()->assign('contact_type', $contact_type);
-
-	}
-
-
-
-			
-	/* 
-	 * Resident Profile page
-	 *
-	 */
-	public function profile() {
-		if (isset (input()->id)) {
-			if (input()->id != null) {
-				$prospect = $this->loadModel('Prospect', input()->id);
-			}
-		} else {
-			session()->setFlash("Could not find the prospect. Please try again.", 'warning');
-			$this->redirect(SITE_URL . "/?module=Admissions");
-		}
-
-		// fetch the resident contacts
-		$contacts = $this->loadModel('ContactLink')->fetchContacts($prospect->id);
-		// fetch contact types
-		$contact_type = $this->loadModel('ContactType')->fetchAll();
-		// fetch file types
-		$file_type = $this->loadModel('FileType')->fetchAll();
-		// fetch states
-		$states = $this->loadModel('State')->fetchAll();
-		// fetch religion preferences
-		$religion_preferences = $this->loadModel('ReligionPreference')->fetchAll();
-
-		// assign smarty objects
-		smarty()->assign('prospect', $prospect);
-		smarty()->assign('contacts', $contacts);
-		smarty()->assign('contact_type', $contact_type);
-		smarty()->assign('file_type', $file_type);
 		smarty()->assign('states', $states);
-		smarty()->assign('religion_preferences', $religion_preferences);
-		smarty()->assign('pipeline', input()->pipeline);
+		
+		
 	}
 
 
 
 			
 	/* 
-	 * Save Profile
+	 * Save Prospect
 	 *
 	 */
-	public function save_profile() {
-		if (input()->id != null) {
-			$prospect = $this->loadModel('Prospect', input()->id);
-		} else {
-			session()->setFlash("Could not save the profle", 'danger');
-			$this->redirect(array('module' => 'Admissions'));
-		}
+	public function save_prospect() {
 
+		pr (input()); exit;
+		$prospect = $this->loadModel('Client');
+		$contact = $this->loadModel('Contact');
+		$contact_link = $this->loadModel('ContactLink');
+		$schedule = $this->loadModel('Schedule');
+		$location = $this->getLocation();
 		
-		// save the first name
-		if (input()->first_name != null) {
-			$prospect->first_name = input()->first_name;
-		} else {
-			session()->setFlash("Please enter a first name", 'danger');
-			$this->redirect(input()->current_url);
+		
+
+		if (input()->resident_first_name != null) {
+			$prospect->first_name = input()->resident_first_name;
 		}
 
-		// save the last name
-		if (input()->last_name != null) {
-			$prospect->last_name = input()->last_name;
-		} else {
-			session()->setFlash("Please enter a last name", 'danger');
-			$this->redirect(input()->current_url);
+		if (input()->resident_last_name != null) {
+			$prospect->last_name = input()->resident_last_name;
+		}
+	
+		if (input()->resident_email != null) {
+			$prospect->email = input()->resident_email;
 		}
 
-		if (input()->address != null) {
-			$prospect->address = input()->address;
-		} 
-
-		if (input()->city != null) {
-			$prospect->city = input()->city;
-		} 
-
-		if (input()->state != null) {
-			$prospect->state = input()->state;
-		} 
-
-		if (input()->zip != null) {
-			$prospect->zip = input()->zip;
-		} 
-
-		if (input()->birthdate != null) {
-			$prospect->birthdate = mysql_date(input()->birthdate);
+		if (input()->resident_phone != null) {
+			$prospect->phone = input()->resident_phone;
 		}
 
-		if (input()->gender != null) {
-			$prospect->gender = input()->gender;
+		if (input()->timeframe != null) {
+			$schedule->timeframe = input()->timeframe;
 		}
 
-		// save the email address
-		if (input()->email_address != null) {
-			$prospect->email = input()->email_address;
-		} 
-
-		// save the phone number
-		if (input()->phone != null) {
-			$prospect->phone = input()->phone;
-		} else {
-			session()->setFlash("Please enter a phone number", 'danger');
-			$this->redirect(input()->current_url);			
+		if (input()->payor_source != null) {
+			$prospect->payor_source = input()->payor_source;
 		}
 
-		if (input()->veteran != null) {
-			$prospect->veteran = input()->veteran;
+		// primary contact
+		if (input()->contact_first_name != null) {
+			$contact->first_name = input()->contact_first_name;
 		}
 
-		if (input()->religion_preference != null) {
-			$prospect->religion_preference = input()->religion_preference;
-		}
-
-		if (input()->profession != null) {
-			$prospect->profession = input()->profession;
-		}
-
-		if (input()->profession != null) {
-			$prospect->profession = input()->profession;
-		}
-
-		if (input()->contact_name != null) {
-			$prospect->contact_name = input()->contact_name;
-		}
-
-		if (input()->background_info != null) {
-			$prospect->background_info = input()->background_info;
+		if (input()->contact_last_name != null) {
+			$contact->last_name = input()->contact_last_name;
 		}
 
 		if (input()->contact_email != null) {
-			$prospect->contact_email = input()->contact_email;
+			$contact->email = input()->contact_email;
 		}
 
 		if (input()->contact_phone != null) {
-			$prospect->contact_phone = input()->contact_phone;
+			$contact->phone = input()->contact_phone;
 		}
 
-		if (input()->pipeline == 'lead') {
-			$prospect->active = 0;
-		} elseif (input()->pipeline == 'prospect') {
-			$prospect->active = 1;
+		if (input()->contact_type != null) {
+			$contact_link->contact_type = input()->contact_type;
 		}
 
-
-		// save documents
-
-
-		if ($prospect->save()) {
-			session()->setFlash("{$prospect->first_name} {$prospect->last_name} was saved", 'success');	
-			$this->redirect(array('module' => "Admissions", 'page' => "admissions", 'action' => "index", 'pipeline' => input()->pipeline . "s"));		
+		if (input()->referral_source != null) {
+			$prospect->referral_source = input()->referral_source;
 		}
 
+		// set the admit status to "Lead"
+		$schedule->status = 1;
+
+		// set location
+		$schedule->location = $location->id;
+
+		// set first contact date
+		$schedule->datetime_first_contact = mysql_date();
+		
+
+		$feedback = array();
+
+		// save contact and prospect
+		if ($contact->save()) {
+			if ($prospect->save()) {
+				// set data for contact link now that it is saved
+				$contact_link->contact = $contact->id;
+				$contact_link->client = $prospect->id;
+				
+
+				if ($contact_link->save()) {
+					$schedule->client = $prospect->id;
+
+					if ($schedule->save()) {
+						session()->setFlash("Thank you! Your information was sent!", 'success');
+						$this->redirect(SITE_URL . '/?module=Admissions&page=admissions');
+					} else {
+						$feedback[] = "We were not able to save the information. Please try again.";
+					}
+				}
+
+			} else {
+				$feedback[] = "We were not able to save the potential resident information. Please try again.";
+			}
+		} else {
+			$feedback[] = "We were not able to save the contact information. Please try again.";
+		}
+		
+		session()->setFlash($feedback, 'danger');
+		$this->redirect(SITE_URL . '/?module=Admissions&page=admissions');
 
 	}
 
+
+
+
+			
+	/* 
+	 * Save new prospect
+	 *
+	 */
+	public function save_new_prospect() {
+
+		$prospect = $this->loadModel('Client');
+		$schedule = $this->loadModel('Schedule');
+		$location = $this->getLocation();
+
+		if (input()->first_name != null) {
+			$prospect->first_name = input()->first_name;
+		}
+
+		if (input()->last_name != null) {
+			$prospect->last_name = input()->last_name;
+		}
+	
+		if (input()->email != null) {
+			$prospect->email = input()->email;
+		}
+
+		if (input()->phone != null) {
+			$prospect->phone = input()->phone;
+		}
+
+		if (input()->timeframe != null) {
+			$schedule->timeframe = input()->timeframe;
+		}
+
+		if (input()->referral_source != null) {
+			$prospect->referral_source = input()->referral_source;
+		}
+		
+		$feedback = array();
+
+		// save contact and prospect
+		if ($prospect->save()) {
+			foreach(input()->contact as $c) {
+				$contact_link = $this->loadModel('ContactLink');
+				$contact_link->contact = $c['id'];
+				$contact_link->client = $prospect->id;
+				$contact_link->contact_type = $c['contact_type'];
+
+				if (isset ($c['poa'])) {
+					$contact_link->poa = 1;
+				}
+
+				if (isset ($c['primary_contact'])) {
+					$contact_link->primary_contact = 1;
+				}
+
+				$contact_link->save();
+			}	
+
+			$schedule->client = $prospect->id;
+			// set location
+			$schedule->location = $location->id;
+			// set first contact date
+			$schedule->datetime_first_contact = mysql_date();
+			$schedule->timeframe = input()->timeframe;	
+			// set the status as a new lead
+			$schedule->status = 1;	
+
+			if ($schedule->save()) {
+				session()->setFlash("{$prospect->first_name} {$prospect->last_name} was added as a new prospect.", 'success');
+				$this->redirect(SITE_URL . '/?module=Admissions&page=admissions');
+			} else {
+				$feedback[] = "We were not able to save the new prospect. Please try again.";
+			}
+		} else {
+			$feedback[] = "We were not able to save the new prospect. Please try again.";
+		}
+		
+		session()->setFlash($feedback, 'danger');
+		$this->redirect(SITE_URL . '/?module=Admissions&page=admissions');
+
+	}
 
 
 			
@@ -256,12 +280,15 @@ class AdmissionsController extends MainPageController {
 	 */
 	public function convert_to_prospect() {
 		if (input()->id != null) {
-			$prospect = $this->loadModel('Prospect', input()->id);
-			$prospect->active = 1;
+			$prospect = $this->loadModel('Client', input()->id);
+			$schedule = $this->loadModel('Schedule')->fetchSchedule($prospect->id);
+			// set the status as a prospect
+			$schedule->status = 2;
+			
 
-			if ($prospect->save()) {
+			if ($schedule->save()) {
 				session()->setFlash("{$prospect->first_name} {$prospect->last_name} was saved as a current prospect", 'success');
-				$this->redirect(array('module' => 'Admissions'));
+				$this->redirect(array('module' => 'Admissions', 'page' => 'admissions', 'action' => 'index', 'filterBy' => 'prospect'));
 			} else {
 				session()->setFlash("Could not make this lead a current prospect. Please try again.", 'danger');
 			}
@@ -278,13 +305,15 @@ class AdmissionsController extends MainPageController {
 	 */
 	public function change_timeframe() {
 		if (input()->id != null) {
-			$prospect = $this->loadModel('Prospect', input()->id);
+			$prospect = $this->loadModel('Client', input()->id);
+			
+			$schedule = $this->loadModel('Schedule')->fetchSchedule($prospect->id);
 
 			if (input()->timeframe != null) {
-				$prospect->timeframe = input()->timeframe;
+				$schedule->timeframe = input()->timeframe;
 			}
 
-			if ($prospect->save()) {
+			if ($schedule->save()) {
 				return true;
 			} 
 
@@ -307,7 +336,7 @@ class AdmissionsController extends MainPageController {
 	public function add_contact() {
 		$this->template = 'blank';
 
-		$prospect = $this->loadModel('Prospect', input()->prospect_id);
+		$prospect = $this->loadModel('Client', input()->prospect_id);
 		// fetch contact types
 		$contact_type = $this->loadModel('ContactType')->fetchAll();
 		// fetch states
@@ -318,7 +347,6 @@ class AdmissionsController extends MainPageController {
 
 
 		smarty()->assign('prospect', $prospect);
-		smarty()->assign('pipeline', input()->pipeline);
 	}
 
 			
@@ -331,9 +359,9 @@ class AdmissionsController extends MainPageController {
 
 
 		if (isset (input()->prospect_id)) {
-			$prospect = $this->loadModel('Prospect', input()->prospect_id);
+			$prospect = $this->loadModel('Client', input()->prospect_id);
 		} else {
-			$prospect = $this->loadModel('Prospect');
+			$prospect = $this->loadModel('Client');
 		}
 
 		if (isset (input()->contact_id)) {
@@ -378,9 +406,9 @@ class AdmissionsController extends MainPageController {
 
 		// if prospect_id is set then fetch the info from the db	
 		if (isset (input()->prospect_id)) {
-			$prospect = $this->loadModel('Prospect', input()->prospect_id);
+			$prospect = $this->loadModel('Client', input()->prospect_id);
 		} else {
-			$prospect = $this->loadModel('Prospect');	
+			$prospect = $this->loadModel('Client');	
 		}
 		
 		// if contact_id is set then fetch the info from the db	
@@ -466,7 +494,7 @@ class AdmissionsController extends MainPageController {
 			//$contact_link = $this->loadModel('ContactLink')->deleteCurrentLinks($contact->id, $prospect->id);
 
 			$contact_link->contact = $contact->id;
-			$contact_link->prospect = $prospect->id;
+			$contact_link->client = $prospect->id;
 			$contact_link->contact_type = input()->contact_type;
 
 			if ($contact_link->save()) {
@@ -497,7 +525,7 @@ class AdmissionsController extends MainPageController {
 	 *
 	 */
 	public function linkContact() {
-		$prospect = $this->loadModel('Prospect', input()->prospect);
+		$prospect = $this->loadModel('Client', input()->prospect);
 		$contact = $this->loadModel('Contact', input()->contact);
 		$contact_link = $this->loadModel('ContactLink')->findExisting($prospect, $contact, input()->contact_type);
 
@@ -514,6 +542,109 @@ class AdmissionsController extends MainPageController {
 		return false;
 	}
 
+
+
+
+			
+	/* 
+	 * Add new contact
+	 *
+	 */
+	public function addNewContact() {
+
+		$contact = $this->loadModel('Contact');
+
+		if (input()->first_name != null) {
+			$contact->first_name = input()->first_name;
+		}
+
+		if (input()->last_name != null) {
+			$contact->last_name = input()->last_name;
+		}
+
+		if (input()->email != null) {
+			$contact->email = input()->email;
+		}
+
+		if (input()->phone != null) {
+			$contact->phone = input()->phone;
+		}
+
+		if (input()->address != null) {
+			$contact->address = input()->address;
+		}
+
+		if (input()->city != null) {
+			$contact->city = input()->city;
+		}
+
+		if (input()->state != null) {
+			$contact->state = input()->state;
+		}
+
+		if ($contact->save()) {
+			json_return($contact);
+		}
+
+		return false;
+		
+	}
+
+			
+	/* 
+	 * Assign a Room
+	 *
+	 */
+	public function assign_room() {
+
+		$location = $this->getLocation();
+
+		// fetch already scheduled residents
+		$scheduled = $this->loadModel('Patient')->fetchPatients($location->id);
+
+		// get rooms
+		$rooms = $this->loadModel('Room')->fetchEmpty($location->id);
+
+		$current_residents = $this->loadModel('Room')->mergeRooms($rooms, $scheduled);
+
+
+		$rooms = array();
+		foreach ($current_residents as $resident) {
+			if (get_class($resident) == 'Room') {				
+				$rooms[] = $resident;
+			}
+		}
+		
+		if (input()->prospect != null) {
+			$prospect = $this->loadModel('Client', input()->prospect);	
+		} else {
+			session()->setFlash("Could not find the prospect.", 'danger');
+			$this->redirect(array('module' => "Admissions", 'page' => "admissions"));
+		}
+		
+		smarty()->assign('prospect', $prospect);
+		smarty()->assign('rooms', $rooms);
+
+	}
+
+	public function save_room_assignment() {
+		$location = $this->getLocation();
+
+		$schedule = $this->loadModel('Schedule');
+		$schedule->client = $this->loadModel('Client', input()->prospect)->id;
+		$schedule->room = input()->room;
+		$schedule->location = $location->id;
+		$schedule->status = 'Pending';
+		
+		
+		if ($schedule->save()) {
+			session()->setFlash("The room was assigned", 'success');
+		} else {
+			session()->setFlash("Could not assign the room", 'danger');
+		}
+
+		$this->redirect(array('module' => "Admissions", 'page' => "admissions", 'action' => "index"));
+	}
 
 
 			
@@ -535,7 +666,7 @@ class AdmissionsController extends MainPageController {
 	public function unlink_contact() {
 
 		if (input()->prospect) {
-			$prospect = $this->loadModel('Prospect', input()->prospect);	
+			$prospect = $this->loadModel('Client', input()->prospect);	
 		}
 		if (input()->contact) {
 			$contact = $this->loadModel('Contact', input()->contact);
@@ -550,10 +681,6 @@ class AdmissionsController extends MainPageController {
 		}
 
 		return false;
-	}
-
-
-
-			
+	}			
 
 }

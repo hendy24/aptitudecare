@@ -6,7 +6,6 @@
 	</div>
 
 	<input type="hidden" id="prospect" value="{$prospect->public_id}">
-	<input type="hidden" id="pipeline" value="{$pipeline}">
 
 	<div class="row">
 
@@ -45,7 +44,7 @@
 
 	<div class="row mb-5">
 		<div class="col-12 text-white text-center">
-			<button type="button" id="createContact" class="btn btn-primary" data-toggle="modal" data-remote="{$SITE_URL}/?module=Admissions&amp;page=admissions&amp;action=resident_contact&amp;prospect_id={$prospect->public_id}&amp;pipeline={$pipeline}" data-target="#createNewContact">Create a New Contact</button>
+			<button type="button" id="createContact" class="btn btn-primary" data-toggle="modal" data-remote="{$SITE_URL}/?module=Admissions&amp;page=admissions&amp;action=resident_contact&amp;prospect_id={$prospect->public_id}" data-target="#createNewContact">Create a New Contact</button>
 		</div>
 	</div>
 </div>
@@ -88,7 +87,6 @@
 		var prospect = $("#prospect").val();
 		var contact = $("#contact-id").val();
 		var contactType = $("#contact-type").val();
-		var pipeline = $("#pipeline").val();
 
 		$.post(SITE_URL, {
 			module: 'Admissions',

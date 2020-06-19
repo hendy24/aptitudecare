@@ -1,6 +1,6 @@
 <?php
 
-class ContactType extends Admission {
+class ContactType extends AppData {
   
   protected $table = 'contact_type';
   

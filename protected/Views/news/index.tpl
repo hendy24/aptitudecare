@@ -11,7 +11,7 @@
 			{if $post->filename !== null}
 			<div class="row">
 				<div class="col-12">
-					<img src="{$AWS_IMAGES}/cover_image/{$post->filename}" alt="" class="img-fluid">
+					<img src="{$AWS}/cover_image/{$post->filename}" alt="" class="img-fluid">
 				</div>
 			</div>
 			{/if}

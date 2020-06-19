@@ -5,7 +5,8 @@
         <div class="container-fluid pl-5">
             <h1>Senior Living. Redefined.</h1>
             <p>Aspen Creek is changing what Senior Living means for Alaskans. Assisted Living at Aspen Creek Senior Living is not only about compassionate care and healthy lifestyles, it is about community.</p>
-            <a class="btn btn-primary" href="{$SITE_URL}/virtual-visit">Take a Virtual Visit</a>
+            <a href="{$SITE_URL}/contact" class="btn btn-primary">Get more info</a>
+            <!-- <a class="btn btn-primary" href="{$SITE_URL}/virtual-visit">Take a Virtual Visit</a> -->
         </div>
     </div>
 </div>
@@ -32,7 +33,6 @@
     <div class="row">
         <div class="col-12 px-4">
             <div class="call-to-action">
-                       <!-- <a href="https://gapanorams.com/tour/aspencreek/" target="_blank" class="d-flex align-items-center">  -->
                 <a href="https://gapanorams.com/tour/aspencreek/" class="d-flex align-items-center" data-lity>
                     <h3>Click here to take a virtual tour.</h3>
                 </a>    
@@ -109,6 +109,7 @@
          <iframe class="embed_responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d36623.229586051166!2d-149.81794623140055!3d61.15637104241877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x56c897743c584f2b%3A0xa639396185109446!2s5915%20Petersburg%20St%2C%20Anchorage%2C%20AK%2099507%2C%20USA!5e0!3m2!1sen!2sin!4v1576504296729!5m2!1sen!2sin"></iframe> 
     </div>
 </div>
-<!-- /map -->
+
+<script src="{$JS}/lity-2.4.0/dist/lity.js"></script>
 
 

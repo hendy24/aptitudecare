@@ -1,14 +1,15 @@
 $(".show").removeClass("show");
 $(".active").removeClass("active");
 $("#admissionsSection").addClass("show");
+$("#prospects").addClass("active");
 
-var pipeline = getUrlParameter('pipeline');
-if (pipeline == 'leads') {
-	$("#leads").addClass("active");
-} else {
-	$("#current-prospects").addClass("active");
-}
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+});
 
+$(function () {
+  $('[data-toggle="popover"]').popover()
+});
 
 $(".timeframe").change(function() {
 	var residentID = $(this).siblings().val();
@@ -21,9 +22,11 @@ $(".timeframe").change(function() {
 		id: residentID,
 		timeframe: timeframe
 		}, function(e) {
+			//console.log(e);
 			location.reload();
 		});
 });
+
 
 
 

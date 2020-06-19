@@ -1,14 +1,8 @@
 $(".show").removeClass("show");
 $(".active").removeClass("active");
 $("#admissionsSection").addClass("show");
+$("#prospects").addClass("active");
 
-var pipeline = getUrlParameter('pipeline');
-if (pipeline == 'leads') {
-	$("#leads").addClass("active");
-} else if (pipeline == 'prospect') {
-	$("#current-prospects").addClass("active");
-
-}
 
 
 var getUrlParameter = function getUrlParameter(sParam) {

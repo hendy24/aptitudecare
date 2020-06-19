@@ -9,5 +9,6 @@ public/files/
 nossl-redir/index.php
 .vscode/sftp.json
 public/vendors/jQuery-Tags-Input/
+public/vendors/*
 .gitignore
 

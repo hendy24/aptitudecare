@@ -1,6 +1,6 @@
 <?php
 
-class Assessment extends Admission {
+class Assessment extends AppData {
 
 	protected $table = 'assessment';
 }

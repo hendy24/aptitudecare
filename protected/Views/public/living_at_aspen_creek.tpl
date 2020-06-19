@@ -108,7 +108,7 @@
 
                     <!-- dining room -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <a href="https://gapanorams.com/3d-model/ac-dining/fullscreen/?embedded/" data-lity data-lity-desc="Dining">
+                        <a href="https://gapanorams.com/3d-model/ac-dining/fullscreen/?embedded/" data-lity data-lity-desc="Dining" target="_blank">
                             <div class="tour-thumbnail thumbnail-2">
                                 <h5 class="text-centertext-shadow">Dining Room</h5>
                             </div>
@@ -118,7 +118,7 @@
                     
                     <!-- denali center -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                       <a href="https://gapanorams.com/3d-model/ac-denali/fullscreen/?embedded/" data-lity data-lity-desc="Denali Center">
+                       <a href="https://gapanorams.com/3d-model/ac-denali/fullscreen/?embedded/" data-lity data-lity-desc="Denali Center" target="_blank">
                             <div class="tour-thumbnail thumbnail-10">
                                 <h5 class="text-center align-center text-shadow">Denali Center</h5>
                             </div>
@@ -133,7 +133,7 @@
 
                     <!-- denali theater -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                         <a href="https://gapanorams.com/3d-model/ac-theatre/fullscreen/?embedded/" data-lity data-lity-desc="Denali Theater">
+                         <a href="https://gapanorams.com/3d-model/ac-theatre/fullscreen/?embedded/" data-lity data-lity-desc="Denali Theater" target="_blank">
                             <div class="tour-thumbnail thumbnail-11">
                                 <h5 class="text-center align-center text-shadow">Denali Theater</h5>
                             </div>
@@ -143,7 +143,7 @@
                     
                     <!-- discovery center -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <a href="https://gapanorams.com/3d-model/ac-discovery/fullscreen/?embedded/" data-lity>
+                        <a href="https://gapanorams.com/3d-model/ac-discovery/fullscreen/?embedded/" data-lity target="_blank">
                             <div class="tour-thumbnail thumbnail-3">
                                 <h5 class="text-center text-shadow">Discovery Center</h5>
                             </div>
@@ -153,7 +153,7 @@
 
                     <!-- salon -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                       <a href="https://gapanorams.com/3d-model/ac-salon/fullscreen/?embedded" data-lity data-lity-desc="Salon">
+                       <a href="https://gapanorams.com/3d-model/ac-salon/fullscreen/?embedded" data-lity data-lity-desc="Salon" target="_blank">
                             <div class="tour-thumbnail thumbnail-4">
                                 <h5 class="text-center align-center text-shadow">Salon</h5>
                             </div>
@@ -169,7 +169,7 @@
 
                     <!-- gym -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <a href="https://gapanorams.com/3d-model/ac-pt/fullscreen/?embedded/" data-lity data-lity-desc="Therapy Gym">
+                        <a href="https://gapanorams.com/3d-model/ac-pt/fullscreen/?embedded/" data-lity data-lity-desc="Therapy Gym" target="_blank">
                             <div class="tour-thumbnail thumbnail-5">
                                 <h5 class="text-center align-center text-shadow">Gym</h5>
                             </div>
@@ -179,7 +179,7 @@
 
                     <!-- studio suite -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <a href="https://gapanorams.com/3d-model/ac-studio/fullscreen/?embedded" data-lity data-lity-desc="Studio Suite">
+                        <a href="https://gapanorams.com/3d-model/ac-studio/fullscreen/?embedded" data-lity data-lity-desc="Studio Suite" target="_blank">
                             <div class="tour-thumbnail thumbnail-6">
                                 <h5 class="text-center align-center text-shadow">Studio Suite</h5>
                             </div>
@@ -189,7 +189,7 @@
 
                     <!-- corner suite -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                       <a href="https://gapanorams.com/3d-model/ac-1br-cs/fullscreen/?embedded/" data-lity data-lity-desc="One Bedroom Corner Suite">
+                       <a href="https://gapanorams.com/3d-model/ac-1br-cs/fullscreen/?embedded/" data-lity data-lity-desc="One Bedroom Corner Suite" target="_blank">
                             <div class="tour-thumbnail thumbnail-7">
                                 <h5 class="text-center align-center text-shadow">Corner Suite</h5>
                             </div>
@@ -205,7 +205,7 @@
                 <div class="row">
                     <!-- companion suite -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                         <a href="https://gapanorams.com/3d-model/ac-2br/fullscreen/?embedded/" data-lity data-lity-desc="Two Bedroom Companion Suite">
+                         <a href="https://gapanorams.com/3d-model/ac-2br/fullscreen/?embedded/" data-lity data-lity-desc="Two Bedroom Companion Suite" target="_blank">
                             <div class="tour-thumbnail thumbnail-8">
                                 <h5 class="text-center align-center text-shadow">Companion Suite</h5>
                             </div>

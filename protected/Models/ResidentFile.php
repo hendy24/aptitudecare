@@ -1,6 +1,6 @@
 <?php
 
-class ResidentFile extends Admission {
+class ResidentFile extends AppData {
 
 	protected $table = 'resident_file';
 	

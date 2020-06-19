@@ -110,7 +110,7 @@ li.active {
 
 table {
   thead, thead.thead-dark {
-    background: $light-blue;
+    background: $dark-blue;
     color: $off-white;
   }
 }
@@ -502,11 +502,6 @@ table.contact-info {
     line-height: 1.2rem;
   }
 
-  thead {
-    background: $light-gray;
-    color: $black;
-    border: none;
-  }
 }
 
 
@@ -522,5 +517,73 @@ table.contact-info {
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
     color: $light-blue;
+  }
+}
+
+
+/*
+ * Assign Room
+ *
+ */
+
+#assign-room {
+  .form-check-input, .form-check-label {
+    line-height: 1.5rem 0;
+  }
+}
+
+
+/*
+ * Prospects Page
+ *
+ */
+#prospects {
+
+  ul.nav {
+    margin-bottom: 1rem;
+
+    a {
+      color: $black;
+      padding: 8px 10px;
+    }
+
+    a:hover {
+      color: $light-blue;
+    }
+
+    a.selected {
+      color: $white;
+      background-color: $dark-blue;
+      border-radius: 4px;
+    }
+  }
+
+
+  table.prospects {
+    a.btn, a.btn:visited, a.btn:active {
+      background: none;
+      color: $black;
+      border: none;
+      outline: none !important;
+      box-shadow: none;
+    }
+
+    thead {
+      a {
+        color: $white;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+
+#prospect-files {
+  margin-bottom: 2rem;
+
+  .prospect-file-row {
+    padding-top: 10px;
+    padding-bottom: 6px;
+    width: 60%;
   }
 }

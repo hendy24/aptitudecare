@@ -5,10 +5,16 @@ class Schedule extends Admission {
 	protected $table = "schedule";
 
 
-	public function fetchByPatientId($patient_id) {
+	public function fetchByClientId($patient_id) {
 		$room = $this->loadTable("Room");
-		$sql = "SELECT s.*, r.number FROM {$this->tableName()} s INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE patient_id = :patient_id LIMIT 1";
+		$sql = "SELECT s.*, r.number FROM {$this->tableName()} s INNER JOIN {$room->tableName()} AS r ON r.id = s.room WHERE client = :patient_id LIMIT 1";
 		$params[":patient_id"] = $patient_id;
+		return $this->fetchOne($sql, $params);
+	}
+
+	public function fetchSchedule($client_id) {
+		$sql = "SELECT * FROM {$this->tableName()} WHERE client = :client LIMIT 1";
+		$params[":client"] = $client_id;
 		return $this->fetchOne($sql, $params);
 	}
 

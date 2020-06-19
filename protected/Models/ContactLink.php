@@ -1,7 +1,7 @@
 <?php
 
 
-class ContactLink extends Admission {
+class ContactLink extends AppData {
 
 	protected $table = 'contact_link';
 
@@ -13,33 +13,33 @@ class ContactLink extends Admission {
 	public function fetchContacts($prospectId) {
 		// need to link with other tables
 		$contact = $this->loadTable('Contact');
-		$prospect = $this->loadTable('Prospect');
+		$prospect = $this->loadTable('Client');
 		$contact_type = $this->loadTable('ContactType');
 
 		$params[":prospect_id"] = $prospectId;
 
 		$sql = "SELECT 
-					cl.public_id as contact_link,
-					cl.poa,
-					cl.primary_contact,
-					c.public_id,
-					c.first_name,
-					c.last_name,
-					c.email,
-					c.phone,
-					c.address,
-					c.city,
-					c.state,
-					c.zip,
-					ct.name as contact_type
-				FROM {$this->tableName()} as cl
-				INNER JOIN {$prospect->tableName()} as p 
-					ON p.id = cl.prospect
-				INNER JOIN {$contact->tableName()} as c 
-					ON c.id = cl.contact
-				INNER JOIN {$contact_type->tableName()} as ct 
-					ON ct.id = cl.contact_type
-				WHERE p.id = :prospect_id
+					contact_link.public_id as contact_link,
+					contact_link.poa,
+					contact_link.primary_contact,
+					contact.public_id,
+					contact.first_name,
+					contact.last_name,
+					contact.email,
+					contact.phone,
+					contact.address,
+					contact.city,
+					contact.state,
+					contact.zip,
+					contact_type.name as contact_type
+				FROM {$this->tableName()} as contact_link
+				INNER JOIN {$prospect->tableName()} as prospect 
+					ON prospect.id = contact_link.client
+				INNER JOIN {$contact->tableName()} as contact 
+					ON contact.id = contact_link.contact
+				INNER JOIN {$contact_type->tableName()} as contact_type 
+					ON contact_type.id = contact_link.contact_type
+				WHERE prospect.id = :prospect_id
 		";
 
 		return $this->fetchAll($sql, $params);
@@ -51,7 +51,7 @@ class ContactLink extends Admission {
 		$params[":contact_id"] = $contactId;
 		$params[":prospect_id"] = $prospectId;
 
-		$sql = "DELETE FROM {$this->tableName()} WHERE contact = :contact_id AND prospect = :prospect_id";
+		$sql = "DELETE FROM {$this->tableName()} WHERE contact = :contact_id AND client = :prospect_id";
 
 
 		$this->deleteQuery($sql, $params);
@@ -71,7 +71,7 @@ class ContactLink extends Admission {
 			$params[":contact_type"] = $contact_type;
 		}
 
-		$sql = "SELECT id FROM {$this->tableName()} WHERE prospect = :prospect AND contact = :contact";
+		$sql = "SELECT id FROM {$this->tableName()} WHERE client = :prospect AND contact = :contact";
 
 		if ($contact_type) {
 			$sql .= " AND contact_type = :contact_type";
@@ -92,7 +92,7 @@ class ContactLink extends Admission {
 			":contact_id" => $contact->id
 		);
 
-		$sql = "SELECT * FROM {$this->tableName()} as cl WHERE cl.prospect = :prospect_id AND cl.contact = :contact_id";
+		$sql = "SELECT * FROM {$this->tableName()} as cl WHERE cl.client = :prospect_id AND cl.contact = :contact_id";
 
 		return $this->fetchOne($sql, $params);
 	}
@@ -106,7 +106,7 @@ class ContactLink extends Admission {
 			":contact_link" => $contact_link
 		);
 
-		$sql = "DELETE from {$this->tableName()} WHERE id = :contact_link AND prospect = :prospect AND contact = :contact";
+		$sql = "DELETE from {$this->tableName()} WHERE id = :contact_link AND client = :prospect AND contact = :contact";
 
 		return $this->deleteQuery($sql, $params);
 
@@ -116,7 +116,7 @@ class ContactLink extends Admission {
 		$params[":prospect"] = $prospect;
 
 
-		$sql = "SELECT id FROM {$this->tableName()} WHERE prospect = :prospect AND";
+		$sql = "SELECT id FROM {$this->tableName()} WHERE client = :prospect AND";
 
 		if ($legal_authority == 'poa') {
 			$sql .= " poa = 1";

@@ -1,6 +1,6 @@
 <?php
 
-class PayorSource extends Admission {
+class PayorSource extends AppData {
 
 	protected $table = 'payor_source';
 	

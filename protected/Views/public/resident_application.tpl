@@ -7,19 +7,26 @@
         <h2>Contact Info</h2>
         <!-- Contact info -->
         <div class="row">    
-            <div class="col-sm-4 col-md-6">
+            <div class="col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label for="name">Contact Name</label>
-                    <input type="text" class="form-control" id="contact-name" name="contact_name" value="{$prospect->contact_name}" placeholder="Resident, relative or friend" required>
+                    <label for="name">Contact First Name</label>
+                    <input type="text" class="form-control" id="contact-first-name" name="contact_first_name" value="" required>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-6">
+            <div class="col-sm-4 col-md-4">
+                <div class="form-group">
+                    <label for="name">Contact Last Name</label>
+                    <input type="text" class="form-control" id="contact-last-name" name="contact_last_name" value="" required>
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-md-4">
                 <div class="form-group">
                     <label for="contact-type">Contact Relationship</label>
                     <select name="contact_type" id="contact-type" class="form-control" required>
                         <option value=""></option>
                         {foreach from=$contact_type item="ct"}
-                        <option value="$ct->id">{$ct->name}</option>
+                        <option value="{$ct->id}">{$ct->name}</option>
                         {/foreach}
                     </select>
                 </div>
@@ -244,7 +251,7 @@
         <!-- /amulatory -->
 
         <!-- pcp info -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-sm-7">
                 <div class="form-group">
                     <label for="pcp">Primary Care Physician</label>
@@ -257,7 +264,7 @@
                     <input type="text" class="form-control" id="pcp-phone" name="pcp_phone">
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- /pcp info -->
 
         <div class="row">
@@ -298,3 +305,12 @@
     </div>
 </div>
 <!-- /map -->
+
+<link rel="stylesheet" href="{$VENDORS}/selectize/dist/css/selectize.default.css">
+<script type="text/javascript" src="{$VENDORS}/microplugin/src/microplugin.js"></script>
+<script type="text/javascript" src="{$VENDORS}/sifter/sifter.min.js"></script>
+<script type="text/javascript" src="{$FRAMEWORK_JS}/jquery.maskedinput.min.js"></script>        
+<script type="text/javascript" src="{$VENDORS}/selectize/dist/js/selectize.min.js"></script>
+<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.js"></script>
+<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.date.js"></script>
+<script type="text/javascript" src="{$VENDORS}/datepicker/lib/picker.time.js"></script>
