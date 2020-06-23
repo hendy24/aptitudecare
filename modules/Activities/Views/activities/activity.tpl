@@ -144,8 +144,9 @@
 			type: 'post',
 			url: SITE_URL,
 			data: {
+				module: 'Activities',
 				page: 'activities',
-				action: 'deleteId',
+				action: 'deleteActivity',
 				id: id
 			}, success: function(response) {
 				window.location.href = SITE_URL + '/?module=Activities&page=activities';

@@ -9,7 +9,7 @@
 			{$this->loadElement("selectLocation")}
 		</div>
 		<div class="col-lg-4">
-			<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=activity&amp;type=new&amp;location={$location->public_id}" class="btn btn-primary pull-right">New Activity</a>
+			<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=activity&amp;type=new&amp;location={$location->public_id}" class="btn btn-primary pull-right text-white">New Activity</a>
 			<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=print_activities&amp;location={$location->public_id}&amp;date={$startDate}&amp;pdf=true" target="_blank" class="btn btn-primary pull-right">Print activities</a>
 		</div>
 	</div>
@@ -42,6 +42,11 @@
 					<td>{$activity->description}</td>
 					<td class="text-right">
 						<a href="{$SITE_URL}/?module=Activities&amp;page=activities&amp;action=activity&amp;type=edit&amp;id={$activity->public_id}" class="btn"><i class="far fa-edit"></i></a>
+						<!-- <a href="" value="{$activity->public_id}" data-toggle="modal" data-target="#deleteModal" class="delete">
+						<i class="fas fa-trash"></i>
+						<input type="hidden" name="public_id" class="public-id" value="{$activity->public_id}" /> -->
+					</a>
+
 					</td>
 				</tr>
 				{/foreach}
@@ -58,3 +63,6 @@
 			{/foreach}
 		</table>
 	</div>
+
+	{$this->loadElement("deleteModal")}
+	<script src="{$FRAMEWORK_JS}/jquery-ui-1.11.4.custom/jquery-ui.min.js" type="text/javascript"></script>

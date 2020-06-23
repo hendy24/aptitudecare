@@ -7,6 +7,7 @@
 
 		<!-- CSS Files -->
 		<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+		<script src="{$JS}/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="{$CSS}/custom.css">
 		<link href="{$JS}/lity-2.4.0/dist/lity.css" rel="stylesheet">
 		<link rel="stylesheet" href="{$VENDORS}/selectize/dist/css/selectize.default.css">
@@ -14,7 +15,6 @@
 		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.date.css">
 		<link rel="stylesheet" href="{$VENDORS}/datepicker/lib/themes/default.time.css">
 	
-		<script src="{$JS}/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
 		<script src="{$JS}/lity-2.4.0/dist/lity.js"></script>
 		<script src="{$VENDORS}/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>

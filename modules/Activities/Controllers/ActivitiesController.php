@@ -195,6 +195,26 @@ class ActivitiesController extends MainPageController {
 		}
 	}
 
+
+	public function deleteActivity() {
+		if (isset (input()->id)) {
+			$activity = $this->loadModel('Activity', input()->id);
+			$activitySchedule = $this->loadModel('ActivitySchedule')->fetchSchedule($activity->id);
+			if ($activitySchedule->delete()) {
+				if ($activity->delete()) {
+					return true;
+				}
+			} else {
+				return false;
+			}
+			
+		} else {
+			return false;
+		}
+
+	}
+
+
 	public function print_activities() {
 		// make this page a printable pdff
 		$this->template = 'pdf';
