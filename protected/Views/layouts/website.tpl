@@ -149,7 +149,7 @@
         });
         
     </script>
-
+    <script type="text/javascript" src="//tag.brandcdn.com/autoscript/aspencreekassistedliving_vdfsbk1rnvjqvda9/_.js"></script>
 
     <script>
         {include file=$jsfile}
