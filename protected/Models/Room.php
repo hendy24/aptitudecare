@@ -5,7 +5,7 @@ class Room extends Admission {
 	protected $table = "room";
 
 	public function fetchEmpty($location_id) {
-		$sql = "SELECT * FROM {$this->tableName()} WHERE location_id = :location_id ORDER BY number ASC";
+		$sql = "SELECT * FROM {$this->tableName()} WHERE location = :location_id ORDER BY number ASC";
 		$params[":location_id"] = $location_id;
 		return $this->fetchAll($sql, $params);
 	}

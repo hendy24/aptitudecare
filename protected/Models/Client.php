@@ -8,7 +8,7 @@ class Client extends AppData {
 	public function fetchCurrentPatients($location, $order_by = false) {
 		$schedule = $this->loadTable('HomeHealthSchedule');
 		$physician = $this->loadTable('Physician');
-		$sql = "SELECT p.*, s.`public_id` AS schedule_pubid, s.`referral_date`, s.`datetime_discharge`, CONCAT(physician.`last_name`, ', ', physician.`first_name`) AS physician_name FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.`patient_id` = p.`id` LEFT JOIN {$physician->tableName()} AS physician ON physician.`id` = s.`pcp_id` WHERE s.`status` = 'Approved' AND s.location_id IN (";
+		$sql = "SELECT p.*, s.`public_id` AS schedule_pubid, s.`referral_date`, s.`datetime_discharge`, CONCAT(physician.`last_name`, ', ', physician.`first_name`) AS physician_name FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.`patient_id` = p.`id` LEFT JOIN {$physician->tableName()} AS physician ON physician.`id` = s.`pcp_id` WHERE s.`status` = 'Approved' AND s.location IN (";
 
 
 		if (is_array($location)) {
@@ -64,11 +64,11 @@ class Client extends AppData {
 	 *
 	 * Used on (DietaryController.php => line 47)
 	 */
-	public function fetchPatients($location_id) {
+	public function fetchPatients($location) {
 		$schedule = $this->loadTable("Schedule");
 		$room = $this->loadTable("Room");
-		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.client = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room WHERE s.location = :location_id AND (s.datetime_discharge >= :datetime OR s.datetime_discharge IS NULL)";
-		$params[":location_id"] = $location_id;
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.client = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room WHERE s.location = :location AND (s.datetime_discharge >= :datetime OR s.datetime_discharge IS NULL)";
+		$params[":location"] = $location;
 		$params["datetime"] = mysql_date() . " 23:59:59";
 		return $this->fetchAll($sql, $params);
 	}
@@ -76,7 +76,7 @@ class Client extends AppData {
 	public function fetchPatientById($patient_id) {
 		$schedule = $this->loadTable("Schedule");
 		$room = $this->loadTable("Room");
-		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.client = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room_id WHERE p.public_id = :patient_id";
+		$sql = "SELECT p.*, s.id AS patient_admit_id, s.location, s.status, r.number FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON s.client = p.id INNER JOIN {$room->tableName()} AS r ON r.id = s.room WHERE p.public_id = :patient_id";
 		$params[":patient_id"] = $patient_id;
 		return $this->fetchOne($sql, $params);
 	}
@@ -88,7 +88,7 @@ class Client extends AppData {
 		$location = $this->loadTable("Location");
 		$schedule = $this->loadTable("HomeHealthSchedule");
 
-		$sql = "SELECT p.`public_id`, p.`last_name`, p.`first_name`, p.`middle_name`, p.`date_of_birth`, l.`name` AS location_name, s.`datetime_discharge`, s.`status` FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON p.`id`=s.`patient_id` INNER JOIN {$location->tableName()} AS l ON l.`id`=s.`location_id` WHERE p.`first_name` LIKE :first_name AND p.`last_name` LIKE :last_name";
+		$sql = "SELECT p.`public_id`, p.`last_name`, p.`first_name`, p.`middle_name`, p.`date_of_birth`, l.`name` AS location_name, s.`datetime_discharge`, s.`status` FROM {$this->tableName()} p INNER JOIN {$schedule->tableName()} AS s ON p.`id`=s.`client` INNER JOIN {$location->tableName()} AS l ON l.`id`=s.`location` WHERE p.`first_name` LIKE :first_name AND p.`last_name` LIKE :last_name";
 		if (input()->middle_name != '') {
 			$sql .= " AND p.`middle_name` LIKE :middle_name";
 			$params[":middle_name"] = "%" . $middle_name . "%";

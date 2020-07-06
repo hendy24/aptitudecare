@@ -46,6 +46,7 @@ class DietaryController extends MainPageController {
 			// fetch current patients
 			$scheduled = $this->loadModel("Client")->fetchPatients($location->id);
 		}
+
 		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 		smarty()->assign('currentPatients', $currentPatients);

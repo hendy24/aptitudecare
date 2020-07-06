@@ -68,7 +68,7 @@ class PatientDietOrder extends Dietary {
             FROM {$this->tableName()} pdo 
               INNER JOIN {$patient->tableName()} p ON p.id = pdo.patient_id 
               INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id 
-              INNER JOIN {$room->tableName()} r ON r.id = s.room_id 
+              INNER JOIN {$room->tableName()} r ON r.id = s.room 
               INNER JOIN {$patient_info->tableName()} pi ON pi.patient_id = p.id
             WHERE s.location_id = :location_id 
               AND (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= :now) AND s.location_id = :location_id)

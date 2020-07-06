@@ -26,7 +26,7 @@ class PatientInfo extends Dietary {
 
 	public function fetchTrayCardInfo($patient_id, $location_id) {
 		// connect to all the tables needed to get info for the tray card
-		$patient = $this->loadTable('Patient');
+		$patient = $this->loadTable('Client');
 		$schedule = $this->loadTable('Schedule');
 		$room = $this->loadTable('Room');
 		$patient_diet_order = $this->loadTable('PatientDietOrder');
@@ -57,7 +57,7 @@ class PatientInfo extends Dietary {
 				$sql .= " ta.number as table_number, ";
 			}
 				$sql .= " CONCAT (p.last_name, ', ', p.first_name) as patient_name,
-					p.date_of_birth,
+					p.birthdate,
 					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_order->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
 					(SELECT GROUP_CONCAT(t.name separator ', ') FROM {$texture->tableName()} AS t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = :patient_id) AS textures,
 					pi.portion_size,
@@ -69,16 +69,16 @@ class PatientInfo extends Dietary {
 
 				$sql .= " FROM {$this->tableName()} AS pi
 					INNER JOIN {$patient->tableName()} p ON p.id = pi.patient_id
-					INNER JOIN {$schedule->tableName()} s ON s.patient_id = pi.patient_id
-					INNER JOIN {$room->tableName()} r ON r.id = s.room_id";
+					INNER JOIN {$schedule->tableName()} s ON s.client = pi.patient_id
+					INNER JOIN {$room->tableName()} r ON r.id = s.room";
 				if ($location_id == 21) {
-					$sql .= " LEFT JOIN {$table->tableName()} AS ta ON ta.location_id = s.location_id LEFT JOIN {$table_room->tableName()} AS tr ON tr.table_id = ta.id";
+					$sql .= " LEFT JOIN {$table->tableName()} AS ta ON ta.location = s.location LEFT JOIN {$table_room->tableName()} AS tr ON tr.table_id = ta.id";
 				}
 
 
 				$sql .= " WHERE p.id = :patient_id";
 				if ($location_id == 21) {
-					$sql .= " AND s.location_id = :location_id";
+					$sql .= " AND s.location = :location_id";
 				}
 				if ($location_id == 21) {
 					$sql .= " GROUP BY ta.number";
@@ -130,7 +130,7 @@ class PatientInfo extends Dietary {
 				GROUP_CONCAT(a.name separator ', ') as allergy_name
 			FROM {$patient->tableName()} AS p
 			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
-			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
+			INNER JOIN {$room->tableName()} r ON r.id = s.room
 			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id
 			LEFT JOIN {$allergy->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 1
 			WHERE s.status = 'Approved'

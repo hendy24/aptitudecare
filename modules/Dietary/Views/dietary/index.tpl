@@ -48,7 +48,7 @@
 		            <div class="dropdown-menu" aria-labelledby="patientDietInfoDropdown">
 		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=diet&amp;patient={$patient->public_id}" class="dropdown-item">Edit Diet</a>
 		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;patient={$patient->public_id}&amp;location={$location->public_id}&amp;pdf=true" target="_blank" class="dropdown-item">Current Tray Card</a>
-		              <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$location->public_id}" id="selected-traycard" class="dropdown-item">Selected Tray Card</a>
+		              <!-- <a href="{$SITE_URL}/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$location->public_id}" id="selected-traycard" class="dropdown-item">Selected Tray Card</a> -->
 		            </div>
 		          </div>
 		        </td>

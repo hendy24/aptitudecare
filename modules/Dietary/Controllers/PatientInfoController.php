@@ -147,7 +147,7 @@ class PatientInfoController extends DietaryController {
 	public function save_diet() {
 		$feedback = array();
 		if (input()->patient != "") {
-			$patient = $this->loadModel("Patient", input()->patient);
+			$patient = $this->loadModel("Client", input()->patient);
 		} else {
 			session()->setFlash("Could not find the patient.", 'warning');
 			$this->redirect(input()->currentUrl);
@@ -532,14 +532,14 @@ class PatientInfoController extends DietaryController {
 				// if the locations is not using the admission dashboard then load the patients
 				// from ac_patient and dietary_patient_info tables
 				// fetch current patients
-				$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+				$scheduled = $this->loadModel("Client")->fetchPatients($location->id);
 			}
 
 			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 			$tray_card_info = array();
 		    foreach($currentPatients as $key => $patient){
-		    	if (get_class($patient) == "Patient") {
+		    	if (get_class($patient) == "Client") {
 		    		// fetch the traycard info for this patient
 		    		$tray_card_info[] = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id, $location->id);
 		    	}
@@ -547,10 +547,11 @@ class PatientInfoController extends DietaryController {
 
 		} else {
 			// fetch info for only the selected patient
-			$patient = $this->loadModel("Patient")->fetchPatientById(input()->patient);
+			$patient = $this->loadModel("Client")->fetchPatientById(input()->patient);
 			// fetch the patient's tray card info
 			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id, $location->id);
 		}
+
 
 		// get date from the url
 		if(isset(input()->date)){
@@ -598,7 +599,7 @@ class PatientInfoController extends DietaryController {
 						}
 					}
 
-					if ($tci['main_data']->date_of_birth != '' && date('m-d', strtotime($tci['main_data']->date_of_birth)) == $_month_day) {
+					if ($tci['main_data']->birthdate != '' && date('m-d', strtotime($tci['main_data']->birthdate)) == $_month_day) {
 						$tray_card_cols[$key][$i]->birthday = true;
 					} else {
 						$tray_card_cols[$key][$i]->birthday = false;
@@ -650,7 +651,7 @@ class PatientInfoController extends DietaryController {
 							$tray_card_cols[$i]->special_reqs .= $sr->name . ', ';
 						}
 					}
-					if (strtotime($tray_card_info['main_data']->date_of_birth) != "" && date('m-d', strtotime($tray_card_info['main_data']->date_of_birth)) == $_month_day) {
+					if (strtotime($tray_card_info['main_data']->birthdate) != "" && date('m-d', strtotime($tray_card_info['main_data']->birthdate)) == $_month_day) {
 						$tray_card_cols[$i]->birthday = true;
 					} else {
 						$tray_card_cols[$i]->birthday = false;
@@ -690,10 +691,11 @@ class PatientInfoController extends DietaryController {
 		// get the location
 		$location = $this->getLocation();
 
+
 		if (isset (input()->patient)) {
-			$patient = $this->loadModel('Patient', input()->patient);
+			$patient = $this->loadModel('Client', input()->patient);
 		} else {
-			$patient = $this->loadModel('Patient');
+			$patient = $this->loadModel('Client');
 		}
 
 		if (isset (input()->date)) {
@@ -703,12 +705,12 @@ class PatientInfoController extends DietaryController {
 		}
 
 		// check if the user has permission to access this module
-		if ($location->location_type != 1) {
-			$this->redirect();
-		}
+		// if ($location->location_type != 1) {
+		// 	$this->redirect();
+		// }
 		$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
 
-		$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+		$scheduled = $this->loadModel("Client")->fetchPatients($location->id);
 		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 		smarty()->assign('currentPatients', $currentPatients);
@@ -758,7 +760,7 @@ class PatientInfoController extends DietaryController {
  */
 	public function saveAddPatient() {
 		$feedback = array();
-		$patient = $this->loadModel("Patient");
+		$patient = $this->loadModel("Client");
 		if (input()->location != "") {
 			$location = $this->loadModel("Location", input()->location);
 		} else {
@@ -836,7 +838,7 @@ class PatientInfoController extends DietaryController {
 
 	public function deleteItem() {
 		if (input()->patient != "") {
-			$patient = $this->loadModel("Patient", input()->patient);
+			$patient = $this->loadModel("Client", input()->patient);
 		} else {
 			return false;
 		}

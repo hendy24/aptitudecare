@@ -100,7 +100,7 @@ class PatientSnack extends Dietary {
   INNER JOIN ac_dev.admit_schedule s ON s.patient_id = p.id
   inner join ac_dev.dietary_patient_snack e ON e.patient_id = p.id
   left join ac_dev.dietary_snack f on e.snack_id = f.id
-  left join ac_dev.admit_room g on s.room_id = g.id
+  left join ac_dev.admit_room g on s.room = g.id
   WHERE s.status='Approved'
   AND s.location_id = {$location->id}
   AND (s.datetime_discharge >= now() OR s.datetime_discharge IS NULL)
