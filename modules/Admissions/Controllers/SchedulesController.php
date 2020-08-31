@@ -1,17 +1,17 @@
 <?php
 
-class SchedulesController extends AdmissionController {
+class SchedulesController extends AdmissionsController {
 
 
 	public function dischargePatient() {
-		if (input()->id != "") {
-			$patient = $this->loadModel('Patient', input()->id);
+		if (isset (input()->id)) {
+			$client = $this->loadModel('Client', input()->id);
 			$schedule = $this->loadModel('Schedule');
-			if ($schedule->discharge($patient->id)) {
+			if ($schedule->discharge($client->id)) {
 				return true;
 			}
 			
-		}
+		} 
 
 		return false;
 	}

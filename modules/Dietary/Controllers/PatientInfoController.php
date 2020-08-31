@@ -774,7 +774,7 @@ class PatientInfoController extends DietaryController {
 			session()->setFlash("No room number was selected. Please try again", 'error');
 			$this->redirect(input()->currentUrl);
 		}
-
+		
 		if (input()->last_name != "") {
 			$patient->last_name = input()->last_name;
 		} else {
@@ -797,11 +797,11 @@ class PatientInfoController extends DietaryController {
 		if ($patient->save()) {
 			// if the patient info save is successful, then set the patient admit data and save it
 			$schedule = $this->loadModel("Schedule");
-			$schedule->patient_id = $patient->id;
-			$schedule->location_id = $location->id;
-			$schedule->room_id = $room->id;
+			$schedule->client = $patient->id;
+			$schedule->location = $location->id;
+			$schedule->room = $room->id;
 			$schedule->datetime_admit = mysql_date(input()->admit_date);
-			$schedule->status = "Approved";
+			$schedule->status = 7;
 
 
 			// set dietary patient info

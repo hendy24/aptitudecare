@@ -18,6 +18,7 @@ $('#deleteModal').on('show.bs.modal', function(e) {
 			type: 'post',
 			url: SITE_URL,
 			data: {
+				module: "Admissions",
 				page: "Schedules",
 				action: 'dischargePatient',
 				id: publicId,

@@ -18,7 +18,7 @@ class AdmissionsController extends MainPageController {
 	 *
 	 */
 	public function index() {
-
+		
 		// fetch timeframe options
 		$timeframe = $this->loadModel('Timeframe')->fetchAll();
 		smarty()->assign('timeframe', $timeframe);

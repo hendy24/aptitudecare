@@ -29,22 +29,15 @@ class Room extends Admission {
 			$which = $index[$number][0];
 			$idx = $index[$number][1];
 			$retval[] = ${$which}[$idx];
-		//	pr($index[$number][0]);
 		}
-		//pr($retval);
-		//exit;
 		return $retval;
 
 	}
 
 
 	public function getRoom($location_id, $number) {
-		$sql = "SELECT * FROM {$this->tableName()} WHERE location_id = :location_id AND number = :number";
+		$sql = "SELECT * FROM {$this->tableName()} WHERE location = :location_id AND number = :number";
 		$params = array(":location_id" => $location_id, ":number" => $number);
-
-		echo $sql;
-		pr ($params); 
-		exit;
 		
 		return $this->fetchOne($sql, $params);
 	}
