@@ -1,3 +1,14 @@
+function checkPrefCount()
+{
+	console.log("Current Count: " + $(".panel-group li.tagit-choice").length);
+	if($(".panel-group li.tagit-choice").length < 2)
+	{
+		$(".noPrefWarn").show();
+	} else {
+		$(".noPrefWarn").hide();
+	}
+}
+
 $(document).ready(function() {
 	
   if ($("#other-other-input").val() != "") {
@@ -47,6 +58,8 @@ $(document).ready(function() {
       showAutocompleteOnFocus: false,
       caseSensitive: false,
       allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
       beforeTagRemoved: function(event, ui){
         var patientId = $("patient-id").val();
         var Name = ui.tagLabel;
@@ -83,7 +96,8 @@ $("#allergies").tagit({
       showAutocompleteOnFocus: false,
       caseSensitive: false,
       allowSpaces: true,
-
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
       beforeTagRemoved: function(event, ui) {
       // if tag is removed, need to delete from the db
       var patientId = $("#patient-id").val();
@@ -108,6 +122,8 @@ $("#allergies").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -133,6 +149,8 @@ $("#adaptEquip").tagit({
       showAutocompleteOnFocus: false,
       caseSensitive: false,
       allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
       beforeTagAdded: checkChanges(),
       beforeTagRemoved: function(event, ui) {
       // if tag is removed, need to delete from the db
@@ -159,7 +177,8 @@ $("#supplements").tagit({
       showAutocompleteOnFocus: false,
       caseSensitive: false,
       allowSpaces: true,
-
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
       beforeTagRemoved: function(event, ui) {
       // if tag is removed, need to delete from the db
       var patientId = $("#patient-id").val();
@@ -186,6 +205,8 @@ $("#supplements").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -212,6 +233,8 @@ $("#supplements").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -238,6 +261,8 @@ $("#supplements").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -265,6 +290,8 @@ $("#supplements").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -291,6 +318,8 @@ $("#supplements").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -318,6 +347,8 @@ $("#supplements").tagit({
     showAutocompleteOnFocus: false,
     caseSensitive: false,
     allowSpaces: true,
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
     beforeTagRemoved: function(event, ui) {
         // if tag is removed, need to delete from the db
         var patientId = $("#patient-id").val();
@@ -344,7 +375,8 @@ $("#supplements").tagit({
         showAutocompleteOnFocus: false,
         caseSensitive: false,
         allowSpaces: true,
-
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
           beforeTagRemoved: function(event, ui) {
           // if tag is removed, need to delete from the db
           var patientId = $("#patient-id").val();
@@ -370,7 +402,8 @@ $("#supplements").tagit({
         showAutocompleteOnFocus: false,
         caseSensitive: false,
         allowSpaces: true,
-
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
           beforeTagRemoved: function(event, ui) {
           // if tag is removed, need to delete from the db
           var patientId = $("#patient-id").val();
@@ -396,7 +429,8 @@ $("#supplements").tagit({
         showAutocompleteOnFocus: false,
         caseSensitive: false,
         allowSpaces: true,
-
+	afterTagAdded: checkPrefCount,
+	afterTagRemoved: checkPrefCount,
           beforeTagRemoved: function(event, ui) {
           // if tag is removed, need to delete from the db
           var patientId = $("#patient-id").val();
@@ -468,4 +502,7 @@ $("#supplements").tagit({
 		checkChanges();
 	});
 	*/
+	
+	//check if they entered prefrences:
+	checkPrefCount();
 });
