@@ -1595,7 +1595,11 @@ li.permission-access a {
 	background-color: #f2f2f2;
 }
 
-#tray-card-dialog {
+#move-patient-dialog {
+	display: none;
+}
+
+#tray-card-dialog { 
 	display: none;
 }
 
