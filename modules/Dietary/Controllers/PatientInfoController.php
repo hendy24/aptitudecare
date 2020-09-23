@@ -15,7 +15,6 @@ class PatientInfoController extends DietaryController {
  */
 	public function diet() {
 		smarty()->assign('title', "Edit Diet");
-
 		// fetch the patient info from the id in the url
 		if (isset (input()->patient) && input()->patient != "") {
 			$patient = $this->loadModel('Patient', input()->patient);
@@ -23,84 +22,113 @@ class PatientInfoController extends DietaryController {
 			session()->setFlash("Could not find the selected patient, please try again", 'error');
 			$this->redirect();
 		}
+		
 
+		$PatientInfo_model =& $this->loadModel('PatientInfo');
 		// get the diet info for the selected patient
-		$patientInfo = $this->loadModel('PatientInfo')->fetchDietInfo($patient->id);
-
-		// fetch the allergies, dislikes and snacks
-		$allergies = $this->loadModel("PatientFoodInfo")->fetchPatientAllergies($patient->id);
-		$dislikes = $this->loadModel("PatientFoodInfo")->fetchPatientDislikes($patient->id);
-
-		// Fetch snacks for each time of day
-		$am_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "am");
-		$pm_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "pm");
-		$bedtime_snacks = $this->loadModel("PatientSnack")->fetchPatientSnacks($patient->id, "bedtime");
-
-
-		// fetch special requests
-		$breakfast_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 1);
-		$lunch_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 2);
-		$dinner_spec_req =  $this->loadModel("PatientSpecialReq")->fetchSpecialRequestsByPatient($patient->id, 3);
-
-
-		// Fetch beverages for each meal
-		$breakfast_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 1);
-		$lunch_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 2);
-		$dinner_beverages = $this->loadModel("PatientBeverage")->fetchPatientBeverage($patient->id, 3);
-
-		$adapt_equip = $this->loadModel("PatientAdaptEquip")->fetchPatientAdaptEquip($patient->id);
-		$supplements = $this->loadModel("PatientSupplement")->fetchPatientSupplement($patient->id);
-
-
-
-		// NOTE: The three foreach loops below to get data for the page view could be consolidated and called
-		// from a single private function
-
-
-		// Patient Diet Info (Diet Order)
-		$diet_order = $this->loadModel("PatientDietOrder")->fetchPatientDietOrder($patient->id);
+		$patientInfo = $PatientInfo_model->fetchDietInfo2($patient->id);
+		$location = $this->loadModel("Location", $patientInfo->location_id);
+		$atomicFetch = $PatientInfo_model->fetchTrayCardInfoByPatient($patient->id);
+		/*
+		echo "<pre>";
+		print_r($PatientInfo_model->fetchTrayCardInfoByPatient($patient->id));
+		die();*/
+		
+		//lookup array for variables later.
+		$meals = array(1=> 'breakfast', 2=> 'lunch', 3=> 'dinner');
+		
 		$order_array = array();
 		$order_array['standard'] = array();
 		$order_array['other'] = "";
-		if (!empty ($diet_order)) {
-			foreach ($diet_order as $order) {
-				$order_array['standard'][] .= $order->name;
-				if ($order->is_other) {
-					$order_array['other'] = $order->name;
-				}
-			}
-		}
-
-		// Patient textures
-		$patient_textures = $this->loadModel("PatientTexture")->fetchPatientTexture($patient->id);
+		
 		$texture_array = array();
 		$texture_array['standard'] = array();
 		$texture_array['other'] = "";
-
-		if (!empty ($patient_textures)) {
-			foreach ($patient_textures as $pt) {
-				$texture_array['standard'][] .= $pt->name;
-				if ($pt->is_other) {
-					$texture_array['other'] = $pt->name;
-				}
-			}
-		}
-
-		// Patient's other items
-		$patient_other = $this->loadModel("PatientOther")->fetchPatientOther($patient->id);
+		
 		$other_array = array();
 		$other_array["standard"] = array();
 		$other_array["other"] = "";
+		
+		foreach($atomicFetch as $k => $v)
+		{
+			/*
+		    [id] => 21
+			[name] => green beans
+			[meal] => 
+			[is_other] => 
+			[type] => allergy
+			[sort_index] => 
+			[cat_sort] => 0 */
+			//echo $v->id . "" . $v->name . "" . $v->meal . "" . $v->is_other . "" .  $v->type . "" .  $v->sort_index . "" . "<br/>\n";
+			switch($v->type) {
+				case 'allergy': 
+					$allergies[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				case 'dislike': 
+					$dislikes[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				case 'adapt_equip': 
+					$adapt_equip[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				case 'supplement': 
+					$supplements[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				case 'special_req':
+					${"{$meals[$v->meal]}_spec_req"}[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				case 'beverage': 
+					${"{$meals[$v->meal]}_beverages"}[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				//Snacks are ENUM in DB to be the same as variable names, but needed to sort on number later, to avoid adding a column I reused is_other....
+				case 'snack': 
+					${"{$v->is_other}_snacks"}[$k] = (object) array(
+						'id' 	=> $v->id,
+						'name'	=> $v->name,
+					);
+					break;
+				case 'order': 
+					if(!$v->is_other){
+						$order_array['standard'][] .= $v->name;
+					} else {
+						$order_array['other'] = $v->name;
+					}
+					break;
+				case 'liquid': //I query the db twice, so liquids belong in textures too.
+				case 'texture': 
+					if(!$v->is_other){
+						$texture_array['standard'][] .= $v->name;
+					} else {
+						$texture_array['other'] = $v->name;
+					}
+					break;
+				case 'other': 
+					if(!$v->is_other){
+						$other_array['standard'][] .= $v->name;
+					} else {
+						$other_array['other'] = $v->name;
+					}
+					break;
 
-		if (!empty ($patient_other)) {
-			foreach ($patient_other as $other) {
-				$other_array["standard"][] .= $other->name;
-				if ($other->is_other) {
-					$other_array["other"] = $other->name;
-				}
 			}
-		}
-
+		}		
 
 		smarty()->assignByRef('patient', $patient);
 		smarty()->assignByRef('patientInfo', $patientInfo);
@@ -117,11 +145,11 @@ class PatientInfoController extends DietaryController {
 		smarty()->assignByRef('am_snacks', $am_snacks);
 		smarty()->assignByRef('pm_snacks', $pm_snacks);
 		smarty()->assignByRef('bedtime_snacks', $bedtime_snacks);
-
+		smarty()->assign('selectedLocation', $location);
 
 		smarty()->assign("dietOrder", $order_array);
 		smarty()->assign("textures", $texture_array);
-		smarty()->assign("other", $other_array);
+		smarty()->assign("other", $other_array);		
 	}
 
 
@@ -134,6 +162,7 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function save_diet() {
+
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -161,6 +190,15 @@ class PatientInfoController extends DietaryController {
 		if (input()->weight != "") {
 			$patientDiet->weight = input()->weight;
 		}*/
+		
+		if (!empty(input()->table_number)) {
+			$patientDiet->table_number = input()->table_number;
+			$feedback[] = "Table Number Saved.";
+			
+		} else {
+			$patientDiet->table_number = null;
+		}
+
 
 
 		// set allergies array
@@ -331,6 +369,9 @@ class PatientInfoController extends DietaryController {
 		} else {
 			$feedback[] = "Diet order has not been entered";
 		}
+		
+		if (input()->puree !== null) {
+		}
 
 		// set texture array
 		$texture_entered = false;
@@ -340,24 +381,38 @@ class PatientInfoController extends DietaryController {
 				break;
 			}
 		}
+
+		if (input()->puree !== null) {
+			$texture_entered = true;
+		}
+		
 		if ($texture_entered) {
 			// check if the patient already has an "other" item saved.
 			// if there is something... delete it.
 			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
 			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
 
+			$puree_item = $this->loadModel("Texture")->fetchByName(input()->puree, false, false, true);
+			$patient_puree = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $puree_item->id);
+			if ($patient_puree->id == null) {
+				$patient_puree->texture_id = $puree_item->id;
+				$patient_puree->patient_id = $patient->id;
+				$patient_puree->save();
+			}
+
 			foreach (input()->texture as $item) {
 				if ($item != "") {
 					$texture_item = $this->loadModel("Texture")->fetchByName($item, true, true);
 					$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
+					if ($patientTexture->patient_id == "") {
+						$patientTexture->patient_id = $patient->id;
+						$patientTexture->texture_id = $texture_item->id;
+						$patientTextureArray[] = $patientTexture;
+					}
 				} else {
 					$feedback[] = "Diet texture has not been entered";
 				}
-				if ($patientTexture->patient_id == "") {
-					$patientTexture->patient_id = $patient->id;
-					$patientTexture->texture_id = $texture_item->id;
-					$patientTextureArray[] = $patientTexture;
-				}
+				
 			}
 		} else {
 			$feedback[] = "Diet texture has not been entered";
@@ -369,7 +424,7 @@ class PatientInfoController extends DietaryController {
 			$this->loadModel("PatientOther")->removeOtherItems($patient->id, 'Other');
 			$this->loadModel("PatientOther")->removePatientDietItems($patient->id);
 			foreach (input()->other as $item) {
-				$other_item = $this->loadModel("Other")->fetchByName($item, true, false);
+				$other_item = $this->loadModel("Other")->fetchByName($item, true, false, false);
 				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOtherId($patient->id, $other_item->id);
 
 				if ($patientOther->patient_id == "") {
@@ -497,9 +552,32 @@ class PatientInfoController extends DietaryController {
 	public function meal_tray_card() {
 		// this page will always create a PDF
 		$this->template = 'pdf';
+		
+		// get date from the url
+		$_dateStart = "";
+		$_month_day = "";
+		if(isset(input()->date) && input()->date != ""){
+			$_dateStart = date('Y-m-d', strtotime(input()->date));
+			$_month_day = date('m-d', strtotime(input()->date));
+		} else{
+			$_dateStart = date('Y-m-d', strtotime('now'));
+			$_month_day = date('m-d', strtotime('now'));
+		}
+		
+		if(isset(input()->pdf2) && input()->pdf2 == true) {
+			$this->template = "pdf2";
+			$this->landscape_array = true;
+			$this->margins = 0;
+			@$this->pdfName = "meal_tray_cards_".$_dateStart.".pdf";
+		}
 		// fetch the location
 		$location = $this->getLocation();
+		
+		// fetch data
+		@$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo(input()->patient, $location->id);
+		$tray_card_cols = array();
 
+		/*
 		// fetch data
 		if (input()->patient == "all") {
 			// need to fetch info for every patient in the building
@@ -542,61 +620,145 @@ class PatientInfoController extends DietaryController {
 			// fetch the patient's tray card info
 			$tray_card_info = $this->loadModel('PatientInfo')->fetchTrayCardInfo($patient->id, $location->id);
 		}
+		*/
+		
+		//print_r($tray_card_info);
+		
 
-		// get date from the url
-		if(isset(input()->date)){
-			$_dateStart = date('Y-m-d', strtotime(input()->date));
-			$_month_day = date('m-d', strtotime(input()->date));
-		} else{
-			$_dateStart = date('Y-m-d', strtotime('now'));
-			$_month_day = date('m-d', strtotime('now'));
-		}
 
+
+
+		/*
 		// get the meal id from the url
 		if (isset (input()->meal_id)) {
 			$meal_id = input()->meal_id;
 		} else {
 			$meal_id = "all";
-		}
+		}*/
 
-		$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
-		$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
-		$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
-		$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id, $meal_id);
+		//tray cards still loading lots of extra data.
+		//$menu = $this->loadModel('Menu')->fetchMenu($location->id, $_dateStart);
+		//$numDays = $this->loadModel('MenuItem')->fetchMenuDay($menu->menu_id);
+		//$startDay = round($this->dateDiff($menu->date_start, $_dateStart) % $numDays->count + 1);
+		//$menuItems = $this->loadModel('MenuItem')->fetchMenuItems($location->id, $_dateStart, $_dateStart, $startDay, $startDay, $menu->menu_id, $meal_id);
 
 
 		$meal_names = array(0 => "Breakfast", 1 => "Lunch", 2 => "Dinner");
-		$meals = array(1,2,3);
-		if (input()->patient == 'all') {
-			foreach ($tray_card_info as $key => $tci) {
-				for ($i=0;$i<3;$i++) {
+		
+		//$meals = array(1,2,3);
+		foreach ($tray_card_info as $key => $tci) {
+			//$tci->iddsi_food = "FOOD!"; 
+			//$tci->iddsi_liqu = "LIQUID!";
+			
+			//process texture into icons:
+			$food_temp = null;
+			$liqu_temp = null;
+			if(strpos($tci->textures, "Liquidised") !== false)
+			{
+				$food_temp = "Down_3_Liquidized.png";
+			} elseif(strpos($tci->textures, "Puree") !== false)
+			{
+				$food_temp = "Down_4_Pureed.png";
+			}elseif(strpos($tci->textures, "Minced & Moist") !== false)
+			{
+				$food_temp = "Down_5_Minced_Moist.png";
+			}elseif(strpos($tci->textures, "Soft & Bite Sized") !== false)
+			{
+				$food_temp = "Down_6_Soft_Bite-Sized.png";
+			}elseif(strpos($tci->textures, "Easy to Chew") !== false)
+			{
+				$food_temp = "Down_7_RegularEC.png";
+			}elseif(strpos($tci->textures, "Regular") !== false)
+			{
+				$food_temp = "Down_7_Regular.png";
+			}
+			
+			if(strpos($tci->textures, "Thin") !== false)
+			{
+				$liqu_temp = "0_Thin.png";
+			} elseif(strpos($tci->textures, "Slightly Thick") !== false)
+			{
+				$liqu_temp = "1_SlightlyThick.png";
+			}elseif(strpos($tci->textures, "Mildly Thick") !== false)
+			{
+				$liqu_temp = "2_Midly_Thick.png";
+			}elseif(strpos($tci->textures, "Moderately Thick") !== false)
+			{
+				$liqu_temp = "3_Moderately_Thick.png";
+			}elseif(strpos($tci->textures, "Extremely Thick") !== false)
+			{
+				$liqu_temp = "4_Extremely_Thick.png";
+			}
+			
+			if($food_temp !== null)
+				$tci->iddsi_food = $food_temp;
+			if($liqu_temp !== null)
+				$tci->iddsi_liqu = $liqu_temp;
+			
+			//process diet orders to icons
+			$tci->dietOrderIcons = array();
+			if(strpos($tci->diet_orders, "AHA/Cardiac") !== false)
+			{
+				$tci->dietOrderIcons[] = "heart.png";
+			}
+			if(strpos($tci->diet_orders, "RCS") !== false)
+			{
+				$tci->dietOrderIcons[] = "sugar.png";
+			}
+			if(strpos($tci->diet_orders, "Gluten Restricted") !== false)
+			{
+				$tci->dietOrderIcons[] = "glutenRestricted.png";
+			}
+			if(strpos($tci->diet_orders, "Fortified/High Calorie") !== false)
+			{
+				$tci->dietOrderIcons[] = "fortified.png";
+			}
+			if(strpos($tci->diet_orders, "Renal") !== false)
+			{
+				$tci->dietOrderIcons[] = "renal.png";
+			}
+			if(strpos($tci->diet_orders, "2 gram Na") !== false)
+			{
+				$tci->dietOrderIcons[] = "salt.png";
+			}
+			if(strpos($tci->diet_orders, "No Added Salt") !== false)
+			{
+				$tci->dietOrderIcons[] = "salt.png";
+			}
+			//smarty()->assign('dietIcons', $dietOrderIcons);
+			
+			//var_dump($tci);
+			//die();
+			for ($i=0;$i<3;$i++) {
+				if(isset(input()->meal_id) && "all" != strtolower(input()->meal_id)  && (input()->meal_id - 1) != $i)
+				{
+					continue;
+				}
+				
+				$tray_card_cols[$key][$i] = new stdClass();
+				$tray_card_cols[$key][$i]->meal_name = $meal_names[$i];
+				
+				$tray_card_cols[$key][$i]->beverages = "";
+				@$tray_card_cols[$key][$i]->beverages = $tci->{"beverages_".$i};
+				unset($tci->{"beverages_".$i});
+				
+				$tray_card_cols[$key][$i]->special_reqs = "";
+				@$tray_card_cols[$key][$i]->special_reqs = $tci->{"special_reqs_".$i};
+				unset($tci->{"special_reqs_".$i});					
+				
+				foreach ($tci as $k => $d) {
+					$tray_card_cols[$key][$i]->$k = $d;
+				}
 
-					$tray_card_cols[$key][$i] = new stdClass();
-					$tray_card_cols[$key][$i]->meal_name = $meal_names[$i];
-					foreach ($tci['main_data'] as $k => $d) {
-						$tray_card_cols[$key][$i]->$k = $d;
-					}
-					$tray_card_cols[$key][$i]->beverages = "";
-					foreach ($tci['items_by_meal']['beverages'] as $k => $b) {
-						if ($b->meal == $meals[$i]) {
-							$tray_card_cols[$key][$i]->beverages .= $b->name . ", ";
-						}
-					}
-					$tray_card_cols[$key][$i]->special_reqs = "";
-					foreach ($tci['items_by_meal']['special_reqs'] as $k => $sr) {
-						if ($sr->meal == $meals[$i]) {
-							$tray_card_cols[$key][$i]->special_reqs .= $sr->name . ", ";
-						}
-					}
-
-					if ($tci['main_data']->date_of_birth != '' && date('m-d', strtotime($tci['main_data']->date_of_birth)) == $_month_day) {
-						$tray_card_cols[$key][$i]->birthday = true;
-					} else {
-						$tray_card_cols[$key][$i]->birthday = false;
-					}
+				if (@$tci->date_of_birth != '' && date('m-d', strtotime($tci->date_of_birth)) == $_month_day) {
+					$tray_card_cols[$key][$i]->birthday = true;
+				} else {
+					$tray_card_cols[$key][$i]->birthday = false;
 				}
 			}
-			$all_tray_cards = true;
+		}
+			/*
+			//$all_tray_cards = true;
 		} else {
 			if ($meal_id != "all") {
 				$i = $meal_id -1;
@@ -655,12 +817,12 @@ class PatientInfoController extends DietaryController {
 				}
 			}
 			$all_tray_cards = false;
-		}
+		}*/
 		
 		smarty()->assign('trayCardCols', $tray_card_cols);
 		// smarty()->assign('patient', $patient);
 		smarty()->assign('selectedDate', $_dateStart);
-		smarty()->assign('allTrayCards', $all_tray_cards);
+		smarty()->assign('allTrayCards', true);
 		smarty()->assign('location', $location);
 	}
 
@@ -699,7 +861,7 @@ class PatientInfoController extends DietaryController {
 		}
 		$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
 
-		$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+		$scheduled = $this->loadModel("Patient")->fetchDietaryPatients($location->id);
 		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 
 		smarty()->assign('currentPatients', $currentPatients);
@@ -825,7 +987,7 @@ class PatientInfoController extends DietaryController {
 		json_return($options);
 	}
 
-
+	//AJAX END POINT
 	public function deleteItem() {
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -938,6 +1100,124 @@ class PatientInfoController extends DietaryController {
 		}
 
 		return false;
+	}
+	
+	//AJAX INPUT
+	//get next or previous room:	
+	public function switchPatientLookup() {
+		//echo "<pre>";
+		/*
+		for($i = 0; $i < 150; $i++)
+		{
+			echo "$i: ";
+			echo $i % 40;
+			echo "\n";
+		}*/
+		
+		if (!auth()->isLoggedIn()) {
+			$this->redirect(array("module" => "Dietary"));
+			die();
+		}
+			
+		//variables are missing and die.
+		if(!isset(input()->location) || !isset(input()->patient) || !isset(input()->direction))
+		{
+			die("ERROR: MISSING VARS");
+		}
+		$location = $this->getLocation();
+		
+		//Location good?
+		if($location == null)
+		{
+			die("ERROR: INVALID LOCATION");
+		}
+		
+		//Fetch patient list
+		$currentPatients = $this->loadModel("Patient")->fetchDietaryPatients($location->id);
+		
+		
+		$found = null;
+		
+		foreach($currentPatients as $k => $pt)
+		{
+			if($pt->public_id === input()->patient)
+			{
+				$found = $k;
+			}
+		}
+		
+		//print_r($currentPatients);
+		
+		if($found === null)
+		{
+			die("ERROR: INVALID PATIENT");
+		}
+		//echo "Found ID is: $found\n";
+		$newPotentialPublicID = $found;
+		
+		$counter = 0;
+		
+		
+		do {
+			$counter++;
+			//echo "Try Count: $counter\n";
+			if(input()->direction === " " || input()->direction == "up") //+ URL decodes to space.
+			{
+				//echo "Going up!\n";
+				$newPotentialPublicID = ($newPotentialPublicID + 1) % (count($currentPatients)-1);
+			} else if (input()->direction === "-" || input()->direction == "down") {
+				//echo "Going down!\n";
+				if($newPotentialPublicID <= 0)
+				{
+					$newPotentialPublicID = count($currentPatients) - 1;
+				} else {
+					$newPotentialPublicID = ($newPotentialPublicID - 1) % (count($currentPatients)-1);
+				}
+			}
+			//echo "Trying $newPotentialPublicID\n";
+			if($counter > count($currentPatients) + 5)
+			{
+				//that's enough sliding.
+				break;
+			}
+		} while(@$currentPatients[$newPotentialPublicID]->patient_admit_id == "");
+		
+		if($counter > count($currentPatients) + 5)
+		{
+			session()->setFlash("Unable to seek. Click below.", 'error');
+			$this->redirect(array("module" => "Dietary", "page" => "dietary", "location" => $location->public_id));
+			return;
+		}
+		
+		echo "Took $counter trys. ";
+		echo "\n";
+		echo "Found: $newPotentialPublicID\n";
+		echo "New Patient Name is: {$currentPatients[$newPotentialPublicID]->last_name}\n";
+		echo "New Public ID is: {$currentPatients[$newPotentialPublicID]->public_id}\n";
+		/*
+		
+		if(input()->direction === " " || input()->direction == "up") //+ URL decodes to space.
+		{
+			echo "Going up!\n";
+			if(isset($currentPatients[$found+1]))
+			{
+				echo "YES!";
+			}
+		} else if (input()->direction === "-" || input()->direction == "down") {
+			echo "Going down!\n";
+			if(isset($currentPatients[$found-1]))
+			{
+				echo "YES!". ($found-1);
+			}
+		}*/
+
+		$this->redirect(array("module" => "Dietary", "page" => "patient_info", "patient" =>  urlencode($currentPatients[$newPotentialPublicID]->public_id), "action" => "diet"));
+		
+		
+		$data = ""; //print_r($currentPatients, true);
+		
+		$this->template = 'ajax';
+		smarty()->assign('data', $data);
 	}
 
 

@@ -63,6 +63,7 @@ class ReportsController extends DietaryController {
 		smarty()->assignByRef("menuChanges", $menuChanges);
 		smarty()->assign("url", $url);
 		smarty()->assign("numDays", $days);
+		smarty()->assign("isPDF", false);
 
 	}
 
@@ -107,6 +108,7 @@ class ReportsController extends DietaryController {
 
 		smarty()->assignByRef('menuItems', $results);
 		smarty()->assign("numDays", $days);
+		smarty()->assign("isPDF", false);
 	}
 
 
@@ -143,6 +145,7 @@ class ReportsController extends DietaryController {
 		smarty()->assign('beverages', $bev_array);
 		smarty()->assign('location', $location);
 		smarty()->assign('isPDF', $is_pdf);
+		$this->pdfName = "beverages_".date("Y-m-d").".pdf";
 	}
 
 
@@ -183,6 +186,9 @@ class ReportsController extends DietaryController {
 		smarty()->assign('dietCensus', $diet_census);
 		smarty()->assign('pageUrl', $this->getUrl());
 		smarty()->assign('isPDF', $is_pdf);
+		$this->pdfName = "diet_census_".date("Y-m-d").".pdf";
+		$this->landscape_array = true;
+		//$this->otherPDFWebkit = "--disable-smart-shrinking";
 
 	}
 
@@ -193,6 +199,7 @@ class ReportsController extends DietaryController {
  */
 
 	public function allergies() {
+		//echo "JASON was here.";
 		if (!auth()->isLoggedIn()) {
 			$this->template = "pdf";
 			$is_pdf = true;
@@ -203,8 +210,12 @@ class ReportsController extends DietaryController {
 		smarty()->assign('title', "Allergy Report");
 		$location = $this->getLocation();
 		$currentPatients = $this->loadModel('PatientInfo')->fetchByLocation_allergy($location);
+		$currentPatientsDislikes = $this->loadModel('PatientInfo')->fetchByLocation_dislikes($location);
 		smarty()->assignByRef('patients', $currentPatients);
+		smarty()->assignByRef('patientsdislikes', $currentPatientsDislikes);
 		smarty()->assign('isPDF', $is_pdf);
+		$this->pdfName = "allergies_".date("Y-m-d").".pdf";
+		unset($this->landscape_array);
 	}
 
 
@@ -220,7 +231,19 @@ class ReportsController extends DietaryController {
 			$is_pdf = true;
 		} else {
 			$is_pdf = false;
+			$this->template = "pdf2";
+			$this->margins = 0;
+			if(isset(input()->pdf2))
+			{
+				smarty()->assign('pdf2', input()->pdf2);
+			} else {
+				smarty()->assign('pdf2', false);
+			}
+			$this->pdfName = "snack_labels_".date("Y-m-d").".pdf";
+			$this->otherPDFWebkit = "--disable-smart-shrinking --margin-top 12.7 --margin-bottom 10 --margin-left 6.35 --margin-right 6.35 --dpi 300";
 		}
+		
+		//$this->landscape_array = true;
 
 		smarty()->assign('title', "Snack Labels");
 		$location = $this->getLocation();
@@ -270,6 +293,7 @@ class ReportsController extends DietaryController {
 		smarty()->assign('snacks', $snacks);
 		smarty()->assign('location', $location);
 		smarty()->assign('isPDF', $is_pdf);
+		$this->pdfName = "snack_report_".date("Y-m-d").".pdf";
 
 	}
 
@@ -298,6 +322,7 @@ class ReportsController extends DietaryController {
 		$current_patients = $this->loadModel('PatientAdaptEquip')->fetchByLocation($location);
 		smarty()->assignByRef('patients', $current_patients);
 		smarty()->assign('isPDF', $is_pdf);
+		$this->pdfName = "adaptive_equipment_".date("Y-m-d").".pdf";
 	}
 
 

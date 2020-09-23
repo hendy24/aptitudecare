@@ -1,4 +1,40 @@
 $(document).ready(function() {
+	
+  if ($("#other-other-input").val() != "") {
+    $("#other-fluidRestriction-checkbox").prop('checked', true);
+  }
+  
+  $("#other-fluidRestriction-checkbox").change(function() {
+	  if (!$("#other-fluidRestriction-checkbox").prop('checked')) {
+		$("#other-other-input").val("");
+	  }
+  });
+  
+  $("#other-other-input").keyup(function() {
+	  if($("#other-other-input").val() == "") {
+		  $("#other-fluidRestriction-checkbox").prop('checked', false);
+	  } else {
+		  $("#other-fluidRestriction-checkbox").prop('checked', true);
+	  }
+  });
+  
+/*
+  if ($("#liquid-select").val() == "Other") {
+    $("#other-texture-input").show();
+  } else {
+    $("#other-texture-input").hide();
+  }
+  
+  $("#liquid-select").change(function() {
+    if ($("#liquid-select").val() == 'Other') {
+      $("#other-texture-input").show();
+    } else {
+      $("#other-texture-input").val('');
+      $("#other-texture-input").hide();
+    }
+  });
+  */
+  
   var snackTime = null;
   var thisFieldName = null;
 
@@ -97,7 +133,7 @@ $("#adaptEquip").tagit({
       showAutocompleteOnFocus: false,
       caseSensitive: false,
       allowSpaces: true,
-
+      beforeTagAdded: checkChanges(),
       beforeTagRemoved: function(event, ui) {
       // if tag is removed, need to delete from the db
       var patientId = $("#patient-id").val();
@@ -379,7 +415,6 @@ $("#supplements").tagit({
       }
       });
 
-
       function fetchOptions(type){
         var choices = "";
         var array = [];
@@ -400,5 +435,37 @@ $("#supplements").tagit({
         );
         return array;
       }
+	 
+	//have input boxes have the max length
+	$("ul > li.tagit-new").each(function() {
+		$(this).find("input").attr("maxlength", $(this).parent().attr("maxlength"));
+	});
+	
+	function checkChanges(){
+	}
+	/* //Don't yet have this working.
+	//unsaved changes messages.
+	var changeTimer;
+	function checkChanges()
+	{		  
+		if($loaded){
+			clearTimeout(changeTimer);
+			changeTimer = setTimeout(function() {
 
+				// Run code here, changes have "stopped"
+				console.log("running now");
+				$('.change-message').toggle($('form.form-inline').serialize() !== origForm);
+				
+			}, 250);
+		}
+	}
+
+	var $loaded = true;
+	var $form = $('form.form-inline'),
+    origForm = $form.serialize();
+
+	$('form.form-inline :input').on('change input', function() {
+		checkChanges();
+	});
+	*/
 });

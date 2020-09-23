@@ -9,6 +9,25 @@ class PatientInfo extends Dietary {
 		$sql = "SELECT pi.* FROM {$this->tableName()} pi WHERE pi.patient_id = :patientid LIMIT 1";
 		$params[":patientid"] = $patientid;
 		$result = $this->fetchOne($sql, $params);
+		if (!empty ($result)) {
+			return $result;
+		} else {
+			return $this;
+		}
+	}
+	
+	public function fetchDietInfo2($patientid) {
+		$schedule = $this->loadTable('Schedule');
+		$room = $this->loadTable('Room');
+		
+		$sql = "SELECT pi.*, r.number, r.location_id FROM {$this->tableName()} pi
+		LEFT JOIN {$schedule->tableName()} s ON s.patient_id = pi.patient_id
+		LEFT JOIN {$room->tableName()} r ON r.id = s.room_id
+		WHERE pi.patient_id = :patientid 
+		ORDER BY datetime_admit DESC
+		LIMIT 1";
+		$params[":patientid"] = $patientid;
+		$result = $this->fetchOne($sql, $params);
 
 		if (!empty ($result)) {
 			return $result;
@@ -24,7 +43,7 @@ class PatientInfo extends Dietary {
  * -------------------------------------------------------------------------
  */
 
-	public function fetchTrayCardInfo($patient_id, $location_id) {
+	public function fetchTrayCardInfo($patient_id, $location_id = NULL, $snacks = false) {
 		// connect to all the tables needed to get info for the tray card
 		$patient = $this->loadTable('Patient');
 		$schedule = $this->loadTable('Schedule');
@@ -40,55 +59,100 @@ class PatientInfo extends Dietary {
 		$dislike = $this->loadTable('Dislike');
 		$adapt_equip = $this->loadTable('AdaptEquip');
 		$patient_adapt_equip = $this->loadTable('PatientAdaptEquip');
+		$patient_special_req = $this->loadTable('PatientSpecialReq');
+		$special_req = $this->loadTable('SpecialReq');
+		$patient_beverage = $this->loadTable('PatientBeverage');
+		$beverage = $this->loadTable('Beverage');
 
-		if ($location_id == 21) {
-			$table = $this->loadTable("Table");
-			$table_room = $this->loadTable("TableRoom");
-		}
-
-
+		$params = array();
+		
 		// set params for the query
-		$params[":patient_id"] = $patient_id;
-		$params[":location_id"] = $location_id;
+		if(strtolower($patient_id) == "all" || $patient_id == NULL) {
+			//No extra, let's just keep the if statements the same
+		} else {
+			$params[":patient_id"] = $patient_id;
+		}
+		
+		if($location_id !== NULL) {
+			$params[":location_id"] = $location_id;
+		};
 
 		// fetch all the items from the disparate tables for the tray card
-		$sql = "SELECT r.number,";
-			if ($location_id == 21) {
-				$sql .= " ta.number as table_number, ";
+		$sql = "SELECT p.id, p.public_id, r.number, s.location_id, first_name, last_name, middle_name, pi.table_number,";
+		$sql .= " CONCAT (p.last_name, ', ', p.first_name) as patient_name,
+			p.date_of_birth,
+			(SELECT GROUP_CONCAT(di.name ORDER BY is_other, sort_index separator ', ') FROM {$diet_order->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = p.id AND di.name != 'Other') diet_orders,
+			(SELECT GROUP_CONCAT(t.name ORDER BY is_other, is_liquid, sort_index separator ', ') FROM {$texture->tableName()} AS t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = p.id) AS textures,
+			pi.portion_size,
+			(SELECT GROUP_CONCAT(a.name separator ', ') FROM {$allergy->tableName()} AS a INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = a.id WHERE pfi.patient_id = p.id AND pfi.allergy = 1) AS allergies,
+			(SELECT GROUP_CONCAT(o.name ORDER BY is_other, sort_index separator ', ') FROM {$other->tableName()} AS o INNER JOIN {$patient_other->tableName()} po ON po.other_id = o.id WHERE po.patient_id = p.id) AS orders,
+			(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = p.id) AS dislikes,
+			(SELECT GROUP_CONCAT(ae.name separator ', ') FROM {$adapt_equip->tableName()} AS ae INNER JOIN {$patient_adapt_equip->tableName()} pae ON pae.adapt_equip_id = ae.id WHERE pae.patient_id = p.id) AS adapt_equip,
+			(SELECT GROUP_CONCAT(b.name separator ', ') FROM {$beverage->tableName()} AS b INNER JOIN {$patient_beverage->tableName()} pb ON pb.beverage_id = b.id WHERE pb.patient_id = p.id AND meal = 1) AS beverages_0,
+			(SELECT GROUP_CONCAT(b.name separator ', ') FROM {$beverage->tableName()} AS b INNER JOIN {$patient_beverage->tableName()} pb ON pb.beverage_id = b.id WHERE pb.patient_id = p.id AND meal = 2) AS beverages_1,
+			(SELECT GROUP_CONCAT(b.name separator ', ') FROM {$beverage->tableName()} AS b INNER JOIN {$patient_beverage->tableName()} pb ON pb.beverage_id = b.id WHERE pb.patient_id = p.id AND meal = 3) AS beverages_2,
+			(SELECT GROUP_CONCAT(sr.name separator ', ') FROM {$special_req->tableName()} AS sr INNER JOIN {$patient_special_req->tableName()} psr ON psr.special_req_id = sr.id WHERE psr.patient_id = p.id AND meal = 1) AS special_reqs_0,
+			(SELECT GROUP_CONCAT(sr.name separator ', ') FROM {$special_req->tableName()} AS sr INNER JOIN {$patient_special_req->tableName()} psr ON psr.special_req_id = sr.id WHERE psr.patient_id = p.id AND meal = 2) AS special_reqs_1,
+			(SELECT GROUP_CONCAT(sr.name separator ', ') FROM {$special_req->tableName()} AS sr INNER JOIN {$patient_special_req->tableName()} psr ON psr.special_req_id = sr.id WHERE psr.patient_id = p.id AND meal = 3) AS special_reqs_2
+			
+			"; //PHP logic is 0,1,2 for meals vs db 1,2,3
+			
+			if($snacks){
+				$sql .= ",
+					(SELECT GROUP_CONCAT(ds.name separator ', ') FROM dietary_patient_snack ps INNER JOIN dietary_snack ds ON ds.id = ps.snack_id WHERE ps.patient_id = p.id AND time = 'am') AS snacks_am,
+					(SELECT GROUP_CONCAT(ds.name separator ', ') FROM dietary_patient_snack ps INNER JOIN dietary_snack ds ON ds.id = ps.snack_id WHERE ps.patient_id = p.id AND time = 'pm') AS snacks_pm,
+					(SELECT GROUP_CONCAT(ds.name separator ', ') FROM dietary_patient_snack ps INNER JOIN dietary_snack ds ON ds.id = ps.snack_id WHERE ps.patient_id = p.id AND time = 'bedtime') AS snacks_bedtime
+				";
 			}
-				$sql .= " CONCAT (p.last_name, ', ', p.first_name) as patient_name,
-					p.date_of_birth,
-					(SELECT GROUP_CONCAT(di.name separator ', ') FROM {$diet_order->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = :patient_id AND di.name != 'Other') diet_orders,
-					(SELECT GROUP_CONCAT(t.name separator ', ') FROM {$texture->tableName()} AS t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = :patient_id) AS textures,
-					pi.portion_size,
-					pi.special_requests,
-					(SELECT GROUP_CONCAT(a.name separator ', ') FROM {$allergy->tableName()} AS a INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = a.id WHERE pfi.patient_id = :patient_id AND pfi.allergy = 1) AS allergies,
-					(SELECT GROUP_CONCAT(o.name separator ', ') FROM {$other->tableName()} AS o INNER JOIN {$patient_other->tableName()} po ON po.other_id = o.id WHERE po.patient_id = :patient_id) AS orders,
-					(SELECT GROUP_CONCAT(d.name separator ', ') FROM {$dislike->tableName()} AS d INNER JOIN {$patient_food_info->tableName()} pfi ON pfi.food_id = d.id AND pfi.allergy = 0 WHERE pfi.patient_id = :patient_id) AS dislikes,
-					(SELECT GROUP_CONCAT(ae.name separator ', ') FROM {$adapt_equip->tableName()} AS ae INNER JOIN {$patient_adapt_equip->tableName()} pae ON pae.adapt_equip_id = ae.id WHERE pae.patient_id = :patient_id) AS adapt_equip";
 
-				$sql .= " FROM {$this->tableName()} AS pi
-					INNER JOIN {$patient->tableName()} p ON p.id = pi.patient_id
-					INNER JOIN {$schedule->tableName()} s ON s.patient_id = pi.patient_id
-					INNER JOIN {$room->tableName()} r ON r.id = s.room_id";
-				if ($location_id == 21) {
-					$sql .= " LEFT JOIN {$table->tableName()} AS ta ON ta.location_id = s.location_id LEFT JOIN {$table_room->tableName()} AS tr ON tr.table_id = ta.id";
-				}
+//patients won't show up unless they have an entry in the dietary_patient_info
+		$sql .= " FROM {$this->tableName()} AS pi
+			INNER JOIN {$patient->tableName()} p ON p.id = pi.patient_id
+			INNER JOIN {$schedule->tableName()} s ON s.patient_id = pi.patient_id
+			INNER JOIN {$room->tableName()} r ON r.id = s.room_id";
+			
+//use this if you don't want to pin to dietary_patient_info
+/*		$sql .= " FROM {$patient->tableName()} AS p
+			LEFT JOIN {$this->tableName()} pi ON p.id = pi.patient_id
+			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
+			INNER JOIN {$room->tableName()} r ON r.id = s.room_id";*/
+			
+			
+		$sql .= " WHERE"; 
+		
+		if($location_id !== NULL) {
+			$sql .= " s.location_id = :location_id AND";
+		}
+			
+		if(strtolower($patient_id) == "all" || $patient_id == NULL) {
+			$sql .= " (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now())
+												OR (s.status = 'Discharged' AND s.datetime_discharge >= now()))";
+		} else {
+			$sql .= "  p.public_id = :patient_id";
+		}
 
-
-				$sql .= " WHERE p.id = :patient_id";
-				if ($location_id == 21) {
-					$sql .= " AND s.location_id = :location_id";
-				}
-				if ($location_id == 21) {
-					$sql .= " GROUP BY ta.number";
-				} else {
-					$sql .= " ORDER BY r.number ASC";
-				}
+		if ($location_id == 21) {
+			$sql .= " ORDER BY pi.table_number ASC";
+		} else {
+			$sql .= " ORDER BY r.number ASC";
+		}
 
 		$tray_card_info = array();
-		$tray_card_info['main_data'] = $this->fetchOne($sql, $params);
-		$tray_card_info['items_by_meal'] = $this->fetchItemsByMeal($patient_id);
+		if(isset(input()->ForcePRODUCTION) && input()->ForcePRODUCTION == "rgbFBtfMwOm8n0pb9cQv")
+		{
+			//die("USE PRODUCTION!");
+			try {
+				@file_put_contents("/tmp/sql_query.txt", $sql, LOCK_EX);
+				db()->getConnection()->exec("use ac_ahc");
+				$tray_card_info = $this->fetchAll($sql, $params);
+				db()->getConnection()->exec("use ac_dev");
+			} catch (PDOException $e) {
+				echo $e;
+			}
+		} else {
+			$tray_card_info = $this->fetchAll($sql, $params);
+		}
+		
 		return $tray_card_info;
 	}
 
@@ -111,7 +175,38 @@ class PatientInfo extends Dietary {
 
 	}
 
+	//total rip off of fetchByLocation_allergy
+	public function fetchByLocation_dislikes($location) {
+		$dislike = $this->loadTable("Dislike");
+		$schedule = $this->loadTable("Schedule");
+		$room = $this->loadTable("Room");
+		$patient = $this->loadTable('Patient');
+		$pfi = $this->loadTable('PatientFoodInfo');
 
+		$sql = "SELECT
+				r.number,
+				p.id AS patient_id,
+				s.id AS schedule_id,
+				p.last_name,
+				p.first_name,
+				s.location_id,
+				GROUP_CONCAT(a.name separator ', ') as dislike_name
+			FROM {$patient->tableName()} AS p
+			INNER JOIN dietary_patient_info as dpi on dpi.patient_id = p.id
+			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
+			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
+			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id
+			INNER JOIN {$dislike->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 0
+			WHERE s.location_id = :location_id AND 
+			 (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now())
+              OR (s.status = 'Discharged' AND s.datetime_discharge >= now()))  
+			GROUP BY p.id
+			ORDER BY r.number ASC";
+
+		$params[":location_id"] = $location->id;
+		//$params[":current_date"] = mysql_date();
+		return $this->fetchAll($sql, $params);
+	}
 
 	public function fetchByLocation_allergy($location) {
 		$allergy = $this->loadTable("Allergy");
@@ -129,18 +224,19 @@ class PatientInfo extends Dietary {
 				s.location_id,
 				GROUP_CONCAT(a.name separator ', ') as allergy_name
 			FROM {$patient->tableName()} AS p
+			INNER JOIN dietary_patient_info as dpi on dpi.patient_id = p.id
 			INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id
 			INNER JOIN {$room->tableName()} r ON r.id = s.room_id
 			LEFT JOIN {$pfi->tableName()} pfi ON pfi.patient_id = p.id
-			LEFT JOIN {$allergy->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 1
-			WHERE s.status = 'Approved'
-			AND s.location_id = :location_id
-			AND (s.datetime_discharge >= :current_date OR s.datetime_discharge IS NULL)
+			INNER JOIN {$allergy->tableName()} a ON a.id = pfi.food_id AND pfi.allergy = 1
+			WHERE s.location_id = :location_id AND 
+			 (s.status = 'Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= now())
+              OR (s.status = 'Discharged' AND s.datetime_discharge >= now()))  
 			GROUP BY p.id
 			ORDER BY r.number ASC";
 
 		$params[":location_id"] = $location->id;
-		$params[":current_date"] = mysql_date();
+		//$params[":current_date"] = mysql_date();
 		return $this->fetchAll($sql, $params);
 
 
@@ -185,6 +281,33 @@ class PatientInfo extends Dietary {
 		$sql = "SELECT * FROM {$this->tableName()} WHERE patient_id = :patient_id AND location_id = :location_id";
 		$params = array(":patient_id" => $patient_id, ":location_id" => $location_id);
 		return $this->fetchOne($sql, $params);
+	}
+	
+	public function fetchTrayCardInfoByPatient($patient_id) {
+		$sql = '(SELECT da.id, da.name, null as meal, null as is_other, "allergy" as type, NULL as sort_index, 0 as cat_sort FROM dietary_patient_food_info pf INNER JOIN dietary_allergy da ON da.id = pf.food_id WHERE allergy = 1 AND patient_id = :pt_id)
+UNION
+(SELECT dd.id, dd.name, null as meal, null as is_other, "dislike" as type, NULL as sort_index, 1 as cat_sort FROM dietary_patient_food_info pf INNER JOIN dietary_dislike dd ON dd.id = pf.food_id WHERE allergy = 0 AND patient_id = :pt_id)
+UNION
+(SELECT de.id, de.name, null as meal, null as is_other, "adapt_equip" as type, NULL as sort_index, 2 as cat_sort FROM dietary_patient_adapt_equip pe INNER JOIN dietary_adapt_equip de on pe.adapt_equip_id = de.id WHERE patient_id = :pt_id)
+UNION
+(SELECT ds.id, ds.name, null as meal, null as is_other, "supplement" as type, NULL as sort_index, 3 as cat_sort FROM dietary_patient_supplement ps INNER JOIN dietary_supplement ds ON ds.id = ps.supplement_id WHERE patient_id = :pt_id)
+UNION
+(SELECT dr.id, dr.name, meal, null as is_other, "special_req" as type, NULL as sort_index, 4 as cat_sort FROM dietary_patient_special_req pr INNER JOIN dietary_special_req dr ON pr.special_req_id = dr.id WHERE patient_id = :pt_id)
+UNION
+(SELECT db.id, db.name, meal, null as is_other, "beverage" as type, NULL as sort_index, 5 as cat_sort FROM dietary_patient_beverage pb INNER JOIN dietary_beverage db ON db.id = pb.beverage_id WHERE patient_id = :pt_id)
+UNION
+(SELECT ds.id, ds.name, time+0 as meal, time as is_other, "snack" as type, NULL as sort_index, 6 as cat_sort FROM dietary_patient_snack ps INNER JOIN dietary_snack ds ON ds.id = ps.snack_id WHERE patient_id = :pt_id)
+UNION
+(SELECT do.id, do.name, null as meal, is_other, "order" as type, sort_index, 7 as cat_sort FROM dietary_patient_diet_order po INNER JOIN dietary_diet_order do ON do.id = po.diet_order_id WHERE patient_id = :pt_id)
+UNION
+(SELECT dt.id, dt.name, null as meal, is_other, "texture" as type, sort_index, 8 as cat_sort FROM dietary_patient_texture pt INNER JOIN dietary_texture dt ON dt.id = pt.texture_id WHERE is_liquid != 1 AND patient_id = :pt_id)
+UNION
+(SELECT dt.id, dt.name, null as meal, is_other, "liquid" as type, sort_index, 8 as cat_sort FROM dietary_patient_texture pt INNER JOIN dietary_texture dt ON dt.id = pt.texture_id WHERE is_liquid = 1 AND patient_id = :pt_id)
+UNION
+(SELECT dh.id, dh.name, null as meal, is_other, "other" as type, sort_index, 9 as cat_sort FROM dietary_patient_other ph INNER JOIN dietary_other dh ON dh.id = ph.other_id WHERE patient_id = :pt_id)
+ORDER BY cat_sort, type, meal, is_other, sort_index, id';
+		$params = array(":pt_id" => $patient_id);
+		return $this->fetchAll($sql, $params);
 	}
 
 }

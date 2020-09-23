@@ -4,19 +4,16 @@
   </div>
   <div id="center-title">
     <h1>Beverage Report</h1>
-    {if $isPDF}
-      <h2>{$smarty.now|date_format}</h2>
-    {/if}
   </div>
   <div id="action-right">
     {if $auth->isLoggedIn()}
-    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=beverages&amp;location={$location->public_id}&amp;pdf=true" target="_blank">
+    <a href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=beverages&amp;location={$location->public_id}&amp;pdf2=true" target="_blank">
       <img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
     </a>
     {/if}
   </div>
 </div>
-
+<h2 class="report_date">{$smarty.now|date_format}</h2>
 
 
   {foreach from=$beverages item=beverage key=meal}

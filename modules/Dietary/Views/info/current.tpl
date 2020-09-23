@@ -15,7 +15,7 @@
 				buttons: {
 					"Submit": function() {
 						var selectedDate = $("#selected-date").val();
-						window.open(url + '&weekSeed=' + selectedDate + '&pdf=true', '_blank');
+						window.open(url + '&weekSeed=' + selectedDate + '&pdf2=true', '_blank');
 						$(this).dialog("close");
 					}
 				}

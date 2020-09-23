@@ -22,7 +22,8 @@ class Texture extends Dietary {
 						WHEN t.is_other = 0 THEN t.name
 					END AS name,
 					t.is_other,
-					t.is_liquid
+					t.is_liquid,
+					t.is_puree
 				FROM {$this->tableName()} t
 				LEFT JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id AND pt.patient_id = :patient_id
 				GROUP BY t.id HAVING name IS NOT NULL";

@@ -34,20 +34,30 @@ class DietaryController extends MainPageController {
 		// NOTE: if a location is using the admission dashboard they should
 		// not have the ability to add or delete patients through the dietary
 		// app interface.
-		$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
+		
 		if ($modEnabled) {
+			$rooms = $this->loadModel("Room")->fetchEmpty($location->id);
 			// until the admission app is re-built and we move to a single database we need to fetch
 			// the data from the admission db and save to the master db
 			// IMPORTANT: Remove this after admission app is re-built in new framework!!!
 			$scheduled = $this->loadModel('AdmissionDashboard')->syncCurrentPatients($location->id);
+			$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
 		} else {
 			// if the locations is not using the admission dashboard then load the patients
 			// from ac_patient and dietary_patient_info tables
 			// fetch current patients
-			$scheduled = $this->loadModel("Patient")->fetchPatients($location->id);
+			//$scheduled = $this->loadModel("Patient")->fetchPatients($location->id); //this one didn't cross refrence the dietary_patient_info and thus the sync home health patients showed up.
+			$currentPatients = $this->loadModel("Patient")->fetchDietaryPatients($location->id);
 		}
-		$currentPatients = $this->loadModel("Room")->mergeRooms($rooms, $scheduled);
-
+		/*
+		$file_out = "";
+		foreach($currentPatients as $sc)
+		{
+			$file_out .= $sc->public_id . ", " . $sc->id . ", " . $sc->last_name . ", " . $sc->first_name . ", " . $sc->patient_admit_id . ", " . $sc->location_id . ", " . $sc->number . "\n";
+		}
+		
+		file_put_contents("/tmp/lastCurrentPateints", $file_out, LOCK_EX);
+		*/
 
 		smarty()->assign('currentPatients', $currentPatients);
 		smarty()->assign('modEnabled', $modEnabled);

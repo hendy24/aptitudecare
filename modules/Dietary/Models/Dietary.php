@@ -4,7 +4,7 @@ class Dietary extends AppModel {
 
 	protected $prefix = "dietary";
 
-	public function fetchByName($name = false, $save_other = false, $is_texture = false) {
+	public function fetchByName($name = false, $save_other = false, $is_texture = false, $is_puree = false) {
 		if ($name) {
 			$sql = "SELECT * FROM {$this->tableName()} WHERE name = :name LIMIT 1";
 			$params[":name"] = $name;
@@ -16,6 +16,7 @@ class Dietary extends AppModel {
 					$this->is_other = true;
 					if ($is_texture) {
 						$this->is_liquid = false;
+						$this->is_puree = false;
 					}
 				}
 				$this->save();

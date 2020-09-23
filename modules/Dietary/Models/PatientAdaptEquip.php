@@ -42,9 +42,10 @@ class PatientAdaptEquip extends Dietary {
               r.number, 
               GROUP_CONCAT(ae.name separator ', ') as ae_name
             FROM ac_patient AS p 
+			INNER JOIN dietary_patient_info as dpi on dpi.patient_id = p.id
             INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id 
             INNER JOIN {$room->tableName()} r ON r.id = s.room_id 
-            LEFT JOIN {$pae->tableName()} pae ON pae.patient_id = p.id
+            INNER JOIN {$pae->tableName()} pae ON pae.patient_id = p.id
             LEFT JOIN {$ae->tableName()} ae ON ae.id = pae.adapt_equip_id
             WHERE s.status='Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= :current_date) AND s.location_id = :location_id
             GROUP BY p.id

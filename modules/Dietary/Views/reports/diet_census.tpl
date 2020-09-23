@@ -16,14 +16,14 @@
 		<h1>Diet Census</h1>
 	</div>
   <div id="action-right">
-  	<a href="{$pageUrl}&amp;pdf=true" target="_blank">
+  	<a href="{$pageUrl}&amp;pdf2=true" target="_blank">
   		<img src="{$FRAMEWORK_IMAGES}/print.png" alt="">
   	</a>
   </div>
 </div>
 {/if}
 
-
+<h2 class="report_date">{$smarty.now|date_format}</h2>
 <input type="hidden" id="location" name="location" value="{$location->public_id}">
 <input type="hidden" id="current-url" name="current_url" value="{$current_url}">
 <table class="table">

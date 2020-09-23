@@ -1,0 +1,10 @@
+body {
+        transform: scale(1.41);
+        transform-origin: 0 0;
+        width: 1920px;
+        overflow: hidden;
+}
+#wrapper {
+        width: 1920px;
+        margin-left: 40px;
+}
