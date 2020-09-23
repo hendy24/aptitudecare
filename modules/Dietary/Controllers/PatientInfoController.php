@@ -162,7 +162,7 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function save_diet() {
-
+		print_r(input());
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -197,6 +197,30 @@ class PatientInfoController extends DietaryController {
 			
 		} else {
 			$patientDiet->table_number = null;
+		}
+
+		if (!empty(input()->diet_order_other)) {
+			$patientDiet->diet_info_other = input()->diet_order_other;
+			$feedback[] = "Other  Diet  Saved.";
+			
+		} else {
+			$patientDiet->diet_info_other = null;
+		}
+
+		if (!empty(input()->texture_other)) {
+			$patientDiet->texture_other = input()->texture_other;
+			$feedback[] = "Other Texture Saved.";
+			
+		} else {
+			$patientDiet->texture_other = null;
+		}
+
+		if (!empty(input()->fluid_other)) {
+			$patientDiet->fluid_other = input()->fluid_other;
+			$feedback[] = "Fluid Restriction Saved.";
+			
+		} else {
+			$patientDiet->fluid_other = null;
 		}
 
 
@@ -370,8 +394,8 @@ class PatientInfoController extends DietaryController {
 			$feedback[] = "Diet order has not been entered";
 		}
 		
-		if (input()->puree !== null) {
-		}
+		//if (input()->puree !== null) {
+		//}
 
 		// set texture array
 		$texture_entered = false;
@@ -382,9 +406,9 @@ class PatientInfoController extends DietaryController {
 			}
 		}
 
-		if (input()->puree !== null) {
-			$texture_entered = true;
-		}
+		//if (input()->puree !== null) {
+		//	$texture_entered = true;
+		//}
 		
 		if ($texture_entered) {
 			// check if the patient already has an "other" item saved.
@@ -392,13 +416,13 @@ class PatientInfoController extends DietaryController {
 			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
 			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
 
-			$puree_item = $this->loadModel("Texture")->fetchByName(input()->puree, false, false, true);
-			$patient_puree = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $puree_item->id);
-			if ($patient_puree->id == null) {
-				$patient_puree->texture_id = $puree_item->id;
-				$patient_puree->patient_id = $patient->id;
-				$patient_puree->save();
-			}
+			//$puree_item = $this->loadModel("Texture")->fetchByName(input()->puree, false, false, true);
+			//$patient_puree = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $puree_item->id);
+			//if ($patient_puree->id == null) {
+			//	$patient_puree->texture_id = $puree_item->id;
+			//	$patient_puree->patient_id = $patient->id;
+			//	$patient_puree->save();
+			//}
 
 			foreach (input()->texture as $item) {
 				if ($item != "") {
@@ -550,6 +574,10 @@ class PatientInfoController extends DietaryController {
  */
 
 	public function meal_tray_card() {
+		// if user is not authorized to access this page, then re-direct
+		if (!auth()->getRecord()) {
+			$this->redirect();
+		}
 		// this page will always create a PDF
 		$this->template = 'pdf';
 		
@@ -670,7 +698,7 @@ class PatientInfoController extends DietaryController {
 				$food_temp = "Down_7_RegularEC.png";
 			}elseif(strpos($tci->textures, "Regular") !== false)
 			{
-				$food_temp = "Down_7_Regular.png";
+				//$food_temp = "Down_7_Regular.png";
 			}
 			
 			if(strpos($tci->textures, "Thin") !== false)
@@ -986,6 +1014,7 @@ class PatientInfoController extends DietaryController {
 		$options = $this->loadModel($type)->fetchAll();
 		json_return($options);
 	}
+	
 
 	//AJAX END POINT
 	public function deleteItem() {
