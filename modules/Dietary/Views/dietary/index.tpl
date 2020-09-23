@@ -17,7 +17,7 @@
 			$(".add-patient").on("click", function (e) {
 				e.preventDefault();
 				var roomNumber = $(this).next().val();
-				var location = $("#location").val();
+				var location_public = $("#location").val();
 				window.location.href = SITE_URL + "/?module=Dietary&page=patient_info&action=add_patient&location=" + location + "&number=" + roomNumber;
 			});
 		});
@@ -76,6 +76,7 @@
 			var public_id = item.find(".public-id").val();
 			var roomNumber = item.find(".room-number").val();
 			var patientName = item.find(".patient-name").val();
+			var location_public = $("#location").val();
 			
 			console.log(public_id);
 			console.log(roomNumber);
@@ -121,11 +122,15 @@
 									id: public_id,
 									oldroom: roomNumber,
 									newroom: newRoom,
+									location: location_public
 								},
 								success: function() {
 									location.reload();
 							
-								}
+								},
+								error: function() {
+									location.reload();
+								},
 							});
 						}
 						$(this).dialog("close");
