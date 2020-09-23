@@ -3,7 +3,7 @@
 		$(".order").click(function(e) {
 			e.preventDefault();
 			var id = $(this).attr("id");
-			var url = SITE_URL + "/?module=Dietary&page=reports&action=diet_census&location=" + $("#location").val() + "&orderby=" + id;
+			var url = SITE_URL + "/?module=Dietary&page=reports&action=isolation&location=" + $("#location").val() + "&orderby=" + id;
 			window.location = url;
 		});
 	});
@@ -13,7 +13,7 @@
 <div id="page-header">
 	<div id="action-left">&nbsp;</div>
 	<div id="center-title">
-		<h1>Diet Census</h1>
+		<h1>Isolation Census</h1>
 	</div>
   <div id="action-right">
   	<a href="{$pageUrl}&amp;pdf2=true" target="_blank">
@@ -29,7 +29,7 @@
 <table class="table">
 	{if $isPDF}
 	<tr>
-		<td colspan=6 class="text-center"><h1>Diet Census for {$smarty.now|date_format}</h1></td>
+		<td colspan=7 class="text-center"><h1>Isolation Census for {$smarty.now|date_format}</h1></td>
 	</tr>
 	{/if}
 	<tr>
@@ -39,6 +39,7 @@
 		<th style="width: 200px;"><a href="" id="allergies" class="order">Allergies</a></th>
 		<th><a href="" id="texture" class="order">Texture</a></th>
 		<th><a href="" id="liquid_fluid_order" class="order">Liquid/Fluid/Orders</a></th>
+		<th style="width:300px;"><a href="" id="beverages" class="order">Beverages</a></th>
 	</tr>
 	{foreach from=$dietCensus item=diet}
 	<tr class="form-row">
@@ -47,7 +48,12 @@
 		<td>{$diet->diet_order}{if $diet->diet_info_other}, {$diet->diet_info_other}{/if}</td>
 		<td>{$diet->allergies}</td>
 		<td>{$diet->texture}{if $diet->texture_other}, {$diet->texture_other}{/if}</td>
-		<td>{$diet->liquid_fluid_order}{if $diet->fluid_other}, {$diet->fluid_other}{/if}</td>
+		<td>{$diet->liquid_fluid_order}{if $diet->diet_other}, {$diet->diet_other}{/if}{if $diet->fluid_other}, {$diet->fluid_other}{/if}</td>
+		<td>
+		{if $diet->beverages[1] != ""}<b>Breakfast:</b>{$diet->beverages[1]}<br/>{/if}
+		{if $diet->beverages[2] != ""}<b>Lunch:</b>{$diet->beverages[2]}<br/>{/if}
+		{if $diet->beverages[3] != ""}<b>Dinner:</b>{$diet->beverages[3]}<br/>{/if}
+		</td>
 	</tr>
 	{/foreach}
 </table>

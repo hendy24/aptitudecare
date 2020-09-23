@@ -10,7 +10,9 @@ class DietaryMenuHelper {
 		//$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=diet&amp;patient={$patient->public_id}\">Edit Diet</a></li>";
 		$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=meal_tray_card&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}&amp;pdf2=true\" target=\"_blank\">Current Tray Card</a></li>";
 		$options .= "<li><a href=\"/?module=Dietary&amp;page=patient_info&amp;action=traycard_options&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}\">Selected Tray Card</a></li>";
-		$options .= "<li><a href=\"#\" class=\"move-patient\">Change Room
+		$options .= "<li><a href=\"#\" class=\"move-patient\" style=\"padding-left: 0px;\">
+				<img src=\"".FRAMEWORK_IMAGES."/door_in.png\" class=\"{$k}\" style=\"position: relative;width: 15px;height: 15px;\" alt=\"\">
+				Change Room
 				<input type=\"hidden\" name=\"public_id\" class=\"public-id\" value=\"{$patient->public_id}\">
 				<input type=\"hidden\" name=\"room_number\" class=\"room-number\" value=\"{$patient->number}\">
 				<input type=\"hidden\" name=\"patient_name\" class=\"patient-name\" value=\"{$patient->last_name}, {$patient->first_name}\">

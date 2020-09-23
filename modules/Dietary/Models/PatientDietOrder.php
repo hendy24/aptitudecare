@@ -60,10 +60,15 @@ class PatientDietOrder extends Dietary {
               p.id, 
               p.public_id,
               r.number AS room, 
+			  pi.diet_info_other,
+			  pi.texture_other,
+			  pi.fluid_other,
               CONCAT(p.last_name, ', ', p.first_name) AS patient_name,
               (SELECT GROUP_CONCAT(do.name ORDER BY is_other, sort_index separator ', ') as diet_order FROM {$diet_order->tableName()} do INNER JOIN {$this->tableName()} pdo ON pdo.diet_order_id = do.id WHERE pdo.patient_id = p.id GROUP BY pdo.patient_id) AS diet_order,
               (SELECT GROUP_CONCAT(t.name ORDER BY is_other, sort_index separator ', ') as texture FROM {$texture->tableName()} t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE t.is_liquid = 0 AND t.is_other = 0 AND t.is_puree = 0 AND pt.patient_id = p.id GROUP BY pt.patient_id) AS texture,
               (SELECT GROUP_CONCAT(t.name ORDER BY is_other, is_liquid, sort_index separator ', ') as texture FROM {$texture->tableName()} t INNER JOIN {$patient_texture->tableName()} pt ON pt.texture_id = t.id WHERE pt.patient_id = p.id AND (is_liquid = 1 OR is_other = 1 OR is_puree = 1) GROUP BY pt.patient_id) AS liquid_fluid_order,
+              (SELECT GROUP_CONCAT(t.name ORDER BY is_other, sort_index separator ', ') as other FROM dietary_other t INNER JOIN dietary_patient_other pt ON pt.other_id = t.id WHERE pt.patient_id = p.id GROUP BY pt.patient_id) AS diet_other,
+              (SELECT GROUP_CONCAT(concat('[',meal,']'), t.name ORDER BY meal separator ', ') as beverage FROM dietary_beverage t INNER JOIN dietary_patient_beverage pt ON pt.beverage_id = t.id WHERE pt.patient_id = p.id GROUP BY pt.patient_id) AS beverages,
               (SELECT GROUP_CONCAT(a.name separator ', ') as patient_allergy FROM {$allergy->tableName()} a INNER JOIN {$food_info->tableName()} food_info ON a.id = food_info.food_id WHERE food_info.allergy = 1 AND food_info.patient_id = p.id GROUP BY food_info.patient_id) AS allergies
             FROM {$patient->tableName()} p
               INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id 

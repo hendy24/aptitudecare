@@ -8,6 +8,15 @@
 
 <h1 style="margin-top:0px">Edit Diet <span class="text-24">for</span> {$patient->fullName()}&nbsp;<span class="text-24">[{$patientInfo->number}]</span></h1>
 
+<style>
+.noPrefWarn {
+	background: #fed8b1;
+	margin: 2px auto;
+	padding: 5px 15px;
+	width: 100%;
+	text-align: center;
+}
+</style>
 
 <form class="form-inline" action="{$SITE_URL}" method="post">
 	<input type="hidden" name="page" value="PatientInfo" />
@@ -103,6 +112,10 @@
 		</ul>
 	</div>
 
+	<!-- Selective Warning -->
+	<div class="noPrefWarn" style="display:none;">
+		⚠️ Less than 2-3 preferences entered for this Guest!
+	</div>
 
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		<!-- Special Requests Section -->
@@ -289,7 +302,7 @@
 					Fortified/High Calorie
 			</label>
 		
-			<input type="text" name="diet_order[]" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
+			<input type="text" name="diet_order_other" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$patientInfo->diet_info_other}{$dietOrder['other']}">
 			
 		{else}
 			<label for="regular" class="checkbox-label">
@@ -324,8 +337,7 @@
 				<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
 				Fortified/High Calorie
 			</label>
-
-			<input type="text" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." style="width: 350px" value="{$dietOrder['other']}">
+			<input type="text" name="diet_order_other" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$patientInfo->diet_info_other}{$dietOrder['other']}">
 		{/if}
 	</div>
 
@@ -395,7 +407,7 @@
 			{* <option value="Other" {if in_array("Other Liquid", $textures['standard'])} selected{/if}>Other</option> *}
 		</select>
 		</label>
-		<input type="text" id="other-texture-input" maxlength="25" name="texture[]" size="45" class="other-input" placeholder="Enter other texture info... (25 character limit)" value="{$textures['other']}">
+		<input type="text" id="other-texture-input" maxlength="25" name="texture_other" size="45" class="other-input" placeholder="Enter other texture info... (25 character limit)" value="{$patientInfo->texture_other}{$textures['other']}">
 	</div>
 
 	<!-- Other Section -->
@@ -414,7 +426,7 @@
 			Fluid Restriction
 		</label>
 		<label class="checkbox-label">
-			<input type="text" id="other-other-input" name="other[]" maxlength="25" placeholder="Enter fluid restriction info... (25 character limit)" value="{$other['other']}">
+			<input type="text" id="other-other-input" name="fluid_other" maxlength="25" placeholder="Enter fluid restriction info... (25 character limit)" value="{$patientInfo->fluid_other}{$other['other']}">
 		</label>
 
 	<!-- Portion Size Section -->
@@ -431,7 +443,11 @@
 			Large
 		</label>
 	</div>
-
+	
+	<!-- Selective Warning -->
+	<div class="noPrefWarn" style="display:none;">
+		⚠️ Less than 2-3 preferences entered for this Guest!
+	</div>
 	<br>
 	<br>
 	<div class="text-right">

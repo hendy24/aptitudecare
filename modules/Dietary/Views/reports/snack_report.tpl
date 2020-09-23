@@ -1,4 +1,3 @@
-{if !$isPDF}
 <style>
 	.container{
 		width: 75%;
@@ -27,8 +26,82 @@
 	.tool-tip:hover .tooltiptext {
 		visibility: visible;
 	}
+	
+	.report_date span {
+		text-align: center;
+	}
+
+	.report_date input {
+		text-align: center;
+	}
+	
+@media print{
+.do-not-print {
+	display: none;
+}
 </style>
 
+{if !$isPDF}
+{literal}
+<script type="text/javascript">
+var snackOn = "";
+$(document).ready(function() {
+    //Loop through all Labels with class 'editable'.
+    $(".editable").each(function () {
+        //Reference the Label.
+        var label = $(this);
+		
+        //Add a TextBox next to the Label.
+        label.after("<input type = 'text' class = 'date-picker' style = 'display:block;display:none' />");
+        //Reference the TextBox.
+        var textbox = $(this).next();
+ 
+        //Set the name attribute of the TextBox.
+        //textbox[0].name = this.id.replace("lbl", "txt");
+        //console.log(textbox);
+ 
+        //Assign the value of Label to TextBox.
+        textbox.val(label.text());
+ 
+        //When Label is clicked, hide Label and show TextBox.
+        label.click(function () {
+            $(this).hide();
+            $(this).next().show();
+			//$(this).next().attr("style", "display: block; margin: 0 auto; text-align: center; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit;");
+            $(this).next().datepicker('show');
+        });
+ 
+        //When focus is lost from TextBox, hide TextBox and show Label.
+        textbox.focusout(function () {
+            $(this).hide();
+			$(this).prev().html($(this).val());
+            $(this).prev().show();
+        });
+    });
+	$('.date-picker').datepicker({
+		dateFormat: "M d, yy",
+		minDate: new Date(),
+		onSelect: function(dateText, inst) {
+			//$(this).prev()[0].childNodes[0].nodeValue = dateText;
+			$(this).prev().html(dateText);
+			snackOn = dateText;
+			console.log($(this).prev());
+		},
+	});
+	
+	$("#action-right > a").click(function(){
+		if(snackOn != "")
+		{
+			console.log($(this).attr("href")+"&date=" + snackOn);
+			window.open($(this).attr("href")+"&date=" + snackOn, '_blank');
+			return false;
+		} else {
+			return true;
+		}
+	});
+});
+</script>
+{/literal}
 <div id="page-header">
   <div id="action-left">
     &nbsp;
@@ -37,7 +110,6 @@
     <h1>Snack Report</h1>
   </div>
   <div id="action-right">
-    {if $auth->isLoggedIn()}
 	<a class="" href="{$SITE_URL}/?module=Dietary&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}&amp;pdf2=true" target="_blank" alt="Table">
       <img src="{$FRAMEWORK_IMAGES}/print.png" alt="Table">
     </a>
@@ -45,10 +117,13 @@
 	  <span class="tooltiptext">5160 Labels</span>
 	  <img src="{$FRAMEWORK_IMAGES}/print.png" alt="Labels">
 	</a>
-    {/if}
   </div>
 </div>
-<h2 class="report_date">{$smarty.now|date_format}</h2>
+{else}
+<h1>Snack Report</h1>
+{/if}
+
+<h2 class="report_date"><span class="editable">{if $printDate != ""}{$printDate|date_format}{else}{$smarty.now|date_format}{/if}</span><img src="{$FRAMEWORK_IMAGES}/edit.png" class="do-not-print"></h2>
 
 <div class="container">
   <form action="{$SITE_URL}" method="POST">
@@ -71,9 +146,9 @@
         <tr>
           <td>{$snack->number}</td>
           <td>{$snack->patient_name}</td>
-          <td>{$snack->diet}</td>
+          <td>{$snack->diet}{if $snack->diet_info_other}, {$snack->diet_info_other}{/if}</td>
           <td>{$snack->allergy}</td>
-          <td>{$snack->texture}</td>
+          <td>{$snack->texture}{if $snack->texture_other}, {$snack->texture_other}{/if}</td>
           <td>{$snack->name}</td>
           <td>{$snack->time}</td>
         </tr>
@@ -83,25 +158,3 @@
     </table>
   </form>
 </div>
-{else}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="{$CSS}/labels.css">
-</head>
-<body>
-  {foreach from=$snacks item=item key=time}
-    {foreach from=$item item=snack}
-      <div class="snack-label">
-        <strong>{$snack->number} - {$snack->patient_name}</strong><br />
-        <strong>Diet: {$snack->diet}</strong><br />
-        <strong>Allergies:</strong> {$snack->allergy}<br />
-        <strong>Snack</strong> {$snack->name} <strong>Time:</strong> {$snack->time}<br />
-      </div>
-    {/foreach}
-  {/foreach}
-</body>
-</html>
-{/if}
