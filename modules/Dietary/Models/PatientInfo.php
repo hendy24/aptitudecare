@@ -78,7 +78,7 @@ class PatientInfo extends Dietary {
 		};
 
 		// fetch all the items from the disparate tables for the tray card
-		$sql = "SELECT p.id, p.public_id, r.number, s.location_id, first_name, last_name, middle_name, pi.table_number,";
+		$sql = "SELECT p.id, p.public_id, r.number, s.location_id, first_name, last_name, middle_name, pi.table_number, pi.diet_info_other, pi.texture_other, pi.fluid_other, ";
 		$sql .= " CONCAT (p.last_name, ', ', p.first_name) as patient_name,
 			p.date_of_birth,
 			(SELECT GROUP_CONCAT(di.name ORDER BY is_other, sort_index separator ', ') FROM {$diet_order->tableName()} AS di INNER JOIN {$patient_diet_order->tableName()} dpi ON dpi.diet_order_id = di.id WHERE dpi.patient_id = p.id AND di.name != 'Other') diet_orders,
@@ -185,6 +185,7 @@ class PatientInfo extends Dietary {
 
 		$sql = "SELECT
 				r.number,
+				p.public_id,
 				p.id AS patient_id,
 				s.id AS schedule_id,
 				p.last_name,
@@ -217,6 +218,7 @@ class PatientInfo extends Dietary {
 
 		$sql = "SELECT
 				r.number,
+				p.public_id,
 				p.id AS patient_id,
 				s.id AS schedule_id,
 				p.last_name,
