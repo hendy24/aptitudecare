@@ -2,7 +2,7 @@
     <table class="table traycard{if $k == 2} last-table{/if}">
      <tablebody>
       <tr>
-        <td colspan="2" class="text-center text-20 text-strong">{$item->number} &mdash; {$item->patient_name}</td>
+        <td colspan="2" class="text-center text-20 text-strong">{if strpos($item->orders, "Isolation") !== false}✱{/if}{$item->number} &mdash; {$item->patient_name}</td>
       </tr>
       <tr>
         <td colspan="2" class="text-strong text-18 text-center">
@@ -18,7 +18,7 @@
       {/if}
       <tr>
         <td class="text-strong tc-label">Diet Order:</td>
-        <td>{$item->diet_orders}</td>
+        <td>{$item->diet_orders}{if $item->diet_info_other}, {$item->diet_info_other}{/if}</td>
       </tr>
       {if ($item->portion_size != "Regular")}
       <tr>
@@ -28,7 +28,7 @@
       {/if}
       <tr>
         <td class="text-strong tc-label">Texture:</td>
-        <td>{$item->textures}</td>
+        <td>{$item->textures}{if $item->texture_other}, {$item->texture_other}{/if}</td>
       </tr>
       <tr>
         <td class="text-strong tc-label">Adaptive Equipment:</td>
@@ -41,8 +41,11 @@
       </tr>
       {/if}
       <tr>
-        <td class="text-strong tc-label">Other:</td>
-        <td>{$item->orders}</td>
+        <td class="text-strong tc-label">Other:
+		{*{if strpos($item->orders, "Isolation") !== false}
+				🛡️ISOLATION
+		{/if}*}</td>
+        <td>{$item->orders}{if $item->fluid_other}, {$item->fluid_other}{/if}</td>
       </tr>
       <tr>
         <td class="text-strong tc-label">Beverages:</td>
