@@ -53,8 +53,8 @@
   {foreach from=$snacks item=item key=time}
     {foreach from=$item item=snack}
       <div class="label5160">
-        <strong class="line1">{$snack->number} - {$snack->patient_name} -  {$smarty.now|date_format:"%b %d"}</strong><br>
-        <strong>Diet:</strong> {$snack->diet}<br>
+        <strong class="line1">{$snack->number} - {$snack->patient_name} -  {if $printDate != ""}{$printDate|date_format:"%b %d"}{else}{$smarty.now|date_format:"%b %d"}{/if}</strong><br>
+        <strong>Diet:</strong> {$snack->diet}{if $snack->diet_info_other}, {$snack->diet_info_other}{/if}<br>
         {if !empty($snack->allergy)}
         <p class="allergy">Allergies:</p> {$snack->allergy}<br>
         {/if}
