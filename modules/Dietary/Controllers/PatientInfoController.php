@@ -162,7 +162,6 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function save_diet() {
-		print_r(input());
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
