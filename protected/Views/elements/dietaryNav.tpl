@@ -23,6 +23,8 @@
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=allergies&amp;location={$location->public_id}">Allergies/Dislikes</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=beverages&amp;location={$location->public_id}">Beverages</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=diet_census&amp;location={$location->public_id}">Diet Census</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=isolation&amp;location={$location->public_id}">Isolation Census</a></li>
+		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=special_requests&amp;location={$location->public_id}">Special Requests</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=reports&amp;action=snack_report&amp;location={$location->public_id}">Snack Report</a></li>
 		<li><a href="{$SITE_URL}?module={$this->getModule()}&amp;page=menu&amp;action=print_menu&amp;location={$location->public_id}&amp;pdf2=true" target="_blank">Weekly Menu</a></li>
 		{if $auth->hasPermission("create_menu")}
