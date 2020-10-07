@@ -4,6 +4,187 @@ class PatientInfo extends Dietary {
 
 	protected $table = 'patient_info';
 
+	/*
+	//type:
+			texture
+			beverage 		***meal 1, 2, 3
+			diet_order
+			food_info		***allergy 1-yes, 0-disklike
+			other
+			snack			***time: am, pm, bedtime
+			special_reqs	***meal 1, 2, 3
+			supplement
+			texture
+			
+	*/
+	//Helper function to allow array where in queries.
+	function bindParamArray($prefix, $values, &$bindArray, $delimiter=",")
+	{
+		$str = "";
+		foreach($values as $index => $value){
+			$str .= ":".$prefix.$index.$delimiter;
+			$bindArray[$prefix.$index] = $value;
+		}
+		return rtrim($str,$delimiter);     
+	}
+	
+	public function save_dietary_patient($patientid, $table, $optionsList, $flagName = "", $flag ="", $table2 =null, $special_id = null) {
+		$lfeedback = "$table: $flagName $flag";
+		$rowChangesNovel = null;
+		$rowChangeRemoved = null;
+		$rowChangeAdd = null;
+		
+		
+		//table2 is if like allergy
+		//Normal:
+		//dietary_texture
+		//dietary_patient_texture
+		//texture_id as the column
+		//
+		//Allergies:
+		//dietary_allergy
+		//dietary_patient_food_info
+		//food_id as the column
+		
+		if($table2 === null)
+		{
+			$table2 = $table;
+		}
+		if($special_id === null)
+		{
+			$special_id = "${table}_id";
+		}
+		
+		//echo "Patient id is $patientid!";
+		//echo "Working on $table!\n";
+		//echo "$patientid, $table, optionsList, $flagName, $flag, $table2, $special_id\n";
+		//update where to 
+		$optionsList = (array) $optionsList;
+		//array_walk($optionsList, function(&$x) {$x = "\"$x\"";});
+		//$optionsList = implode(', ', $optionsList);
+		
+		$params = array();
+		//echo "\n\n".$optionsList."\n\n";
+		//print_r($params);
+		$ids_from_helper = $this->bindParamArray("_id", $optionsList, $params, "),(");
+		//print_r($params);
+		
+		//if we are deleteing everything, we don't have to add to the database.
+		if(!empty($optionsList))
+		{
+			//add new items if any
+			$sql = "INSERT IGNORE INTO `dietary_${table}` (name) VALUES (${ids_from_helper})";
+			$conn = db()->getConnection();
+			$stmt = $conn->prepare($sql);
+			$stmt->execute($params);
+			//echo "statment0: $sql\n";
+			//echo "Row Count0: {$stmt->rowCount()}\n\n";
+			//print_r($stmt->errorCode());
+			//print_r($stmt->errorInfo());
+			$rowChangesNovel = $stmt->rowCount();
+			$lfeedback .= " Novel: {$stmt->rowCount()}";
+		} else {
+			//echo "statement0: skipped as options empty";
+		}
+		
+		//DELETE ITEMS no longer linked We do this even if empty list, but need the value of null, but use the optionsList to not to #3
+		$params = array();
+		//echo "\n\n".$optionsList."\n\n";
+		//print_r($params);
+		if(!empty($optionsList))
+		{
+			$ids_from_helper = $this->bindParamArray("_id", $optionsList, $params);
+		} else {
+			$ids_from_helper = $this->bindParamArray("_id", array(NULL), $params);
+		}
+		//print_r($params);
+		
+		
+		$sql ="DELETE FROM `dietary_patient_${table2}` WHERE `${special_id}` NOT IN (SELECT ID FROM `dietary_${table}` WHERE NAME IN (${ids_from_helper})) AND patient_id = :patient_id ";
+		if($flag !== "" && $flagName !== "")
+		{
+			$sql.= "AND `${flagName}` = :flag";
+			$params[":flag"] = $flag;
+		}
+		//echo "statment1: $sql\n\n";
+		//$params[":optionsList"] = $optionsList;
+		$params[":patient_id"] = $patientid;
+		//if ($this->deleteQuery($sql, $params)) {
+		//	echo "Query 1 True!\n";
+		//	//return true;
+		//}
+		$conn = db()->getConnection();
+		$stmt = $conn->prepare($sql);
+		$stmt->execute($params);
+		//echo "statment1: $sql\n";
+		//echo "Row Count1: {$stmt->rowCount()}\n\n";
+		$rowChangeRemoved = $stmt->rowCount();
+		$lfeedback .= " Removed: {$stmt->rowCount()}";
+		//print_r($stmt->errorCode());
+		//print_r($stmt->errorInfo());
+
+		
+		//Add new items to change, but no point if the new-s are emptys.
+		if(!empty($optionsList))
+		{
+			$params = array();
+			$ids_from_helper = $this->bindParamArray("_id", $optionsList, $params);
+
+			//update new & existing.
+			//$optionsList = array_walk($arr, function(&$x) {$x = "\"$x\"";});
+			//$optionsList = implode(', ', $optionsList);
+			//INSERT NEW AND SAME
+			// SELECT specifies the patient_id, and the meal
+			//INSERT IGNORE INTO dietary_patient_beverage 		(beverage_id, patient_id, meal) SELECT id, 1, 1 FROM dietary_beverage WHERE NAME IN ("1/2 apple", "1/2 glass milk")
+			$sql ="INSERT IGNORE INTO `dietary_patient_${table2}` (${special_id}, patient_id";
+			
+			if($flag !== "" && $flagName !== "")
+			{
+				$sql .= ", ${flagName})  SELECT id, :patient_id, :flag ";
+				$params[":flag"] = $flag;
+				
+			} else {
+				$sql .= ")  SELECT id, :patient_id ";
+			}
+			$sql .= " FROM dietary_${table} WHERE NAME IN (${ids_from_helper})";
+			
+			
+			//$params[":optionsList"] = $optionsList;
+			$params[":patient_id"] = $patientid;
+			//if ($this->update($sql, $params)) {
+			//	//return true;
+			//	echo "Query 2 True!\n";
+			//}
+			$conn = db()->getConnection();
+			$stmt = $conn->prepare($sql);
+			$stmt->execute($params);
+			//echo "statment2: $sql\n";
+			//echo "Row Count2: {$stmt->rowCount()}\n\n";
+			$rowChangesNew = $stmt->rowCount();
+			$lfeedback .= " Added: {$stmt->rowCount()}";
+			//print_r($stmt->errorCode());
+			//print_r($stmt->errorInfo());
+		}
+		
+		//$lfeedback .= "";
+		if(($rowChangesNovel === null && $rowChangeRemoved === 0 && $rowChangesNew === null))
+		{
+			//$lfeedback = "$table: $flagName $flag no changes made!";
+			$lfeedback = "";
+		} elseif($rowChangesNovel === null && $rowChangesNew === null) {
+			if($rowChangeRemoved > 0)
+			{
+				$lfeedback = "$table: $flagName $flag Deleted $rowChangeRemoved";
+			} else {
+				$lfeedback = "";
+			}
+		} elseif($rowChangesNovel === 0 && $rowChangeRemoved === 0 && $rowChangesNew === 0) {
+				$lfeedback = "";
+		}
+		
+		
+		return $lfeedback;
+	}
 
 	public function fetchDietInfo($patientid) {
 		$sql = "SELECT pi.* FROM {$this->tableName()} pi WHERE pi.patient_id = :patientid LIMIT 1";
