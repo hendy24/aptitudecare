@@ -13,7 +13,7 @@
 		</tr>
 		<tr>
 			<td>{$number}</td>
-			<td><input type="text" class="datepicker" name="admit_date" value="" required /></td>
+			<td><input type="text" class="datepicker" name="admit_date" value="" autocomplete="off" required /></td>
 		</tr>
 
 		<tr>
@@ -21,8 +21,8 @@
 			<td class="text-strong">First Name</td>
 		</tr>
 		<tr>
-			<td><input type="text" name="last_name" size="40"></td>
-			<td><input type="text" name="first_name" size="30"></td>
+			<td><input type="text" name="last_name" size="40" autocomplete="off"></td>
+			<td><input type="text" name="first_name" size="30" autocomplete="off"></td>
 		</tr>
 		<tr>
 			<td colspan="2">&nbsp;</td>
