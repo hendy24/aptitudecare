@@ -162,6 +162,9 @@ class PatientInfoController extends DietaryController {
  * -------------------------------------------------------------------------
  */
 	public function save_diet() {
+		//echo "<pre>";
+		//print_r(input());
+		//exit();
 		$feedback = array();
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
@@ -170,7 +173,8 @@ class PatientInfoController extends DietaryController {
 			$this->redirect(input()->currentUrl);
 		}
 
-		$patientDiet = $this->loadModel("PatientInfo")->fetchDietInfo($patient->id);
+		$patientInfo = $this->loadModel("PatientInfo");
+		$patientDiet = $patientInfo->fetchDietInfo($patient->id);
 		$patientDiet->patient_id = $patient->id;
 
 		$patient->first_name = input()->first_name;
@@ -180,15 +184,18 @@ class PatientInfoController extends DietaryController {
 		} else {
 			$patient->date_of_birth = null;
 		}
-
-		// if input fields are not empty then set the data
-/*		if (input()->height != "") {
-			$patientDiet->height = input()->height;
+		
+		$listofsubs = array("allergies", "dislikes", "adaptEquip", "supplements", "breakfast_specialrequest", "lunch_specialrequest", "dinner_specialrequest", "breakfast_beverages", "lunch_beverages", "dinner_beverages", "am", "pm", "bedtime", "diet_order", "texture", "other");
+		
+		
+		//surpress errors and make sure that save function runs with data that it can process.
+		foreach($listofsubs as $k => $formCategory)
+		{
+			if(empty(input()->$formCategory))
+			{
+				input()->$formCategory = array();
+			}
 		}
-
-		if (input()->weight != "") {
-			$patientDiet->weight = input()->weight;
-		}*/
 		
 		if (!empty(input()->table_number)) {
 			$patientDiet->table_number = input()->table_number;
@@ -221,336 +228,39 @@ class PatientInfoController extends DietaryController {
 		} else {
 			$patientDiet->fluid_other = null;
 		}
-
-
-
-		// set allergies array
-		$allergiesArray = array();
-		if (!empty (input()->allergies)) {
-			foreach (input()->allergies as $item) {
-				$allergy = $this->loadModel("Allergy")->fetchByName($item);
-				$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $allergy->id);
-
-				if ($foodInfo->patient_id == "") {
-					$foodInfo->patient_id = $patient->id;
-					$foodInfo->food_id = $allergy->id;
-					$foodInfo->allergy = true;
-					$allergiesArray[] = $foodInfo;
-				}
-			}
-		}
-
-		// set dislikes array
-		$dislikesArray = array();
-		if (!empty (input()->dislikes)) {
-			foreach (input()->dislikes as $item) {
-				$dislike = $this->loadModel("Dislike")->fetchByName($item);
-				$foodInfo = $this->loadModel("PatientFoodInfo")->fetchByPatientAndFoodId($patient->id, $dislike->id);
-
-				if ($foodInfo->patient_id == "") {
-					$foodInfo->patient_id = $patient->id;
-					$foodInfo->food_id = $dislike->id;
-					$foodInfo->allergy = false;
-					$dislikesArray[] = $foodInfo;
-				}
-			}
-		}
-
-		// set adaptive equipment array
-		$adaptEquipArray = array();
-		if (!empty (input()->adaptEquip)) {
-			foreach (input()->adaptEquip as $item) {
-				$adaptEquip = $this->loadModel("AdaptEquip")->fetchByName($item);
-				$patientAdaptEquip = $this->loadModel("PatientAdaptEquip")->fetchByPatientAndAdaptEquipId($patient->id, $adaptEquip->id);
-
-				if ($patientAdaptEquip->patient_id == "") {
-					$patientAdaptEquip->patient_id = $patient->id;
-					$patientAdaptEquip->adapt_equip_id = $adaptEquip->id;
-					$adaptEquipArray[] = $patientAdaptEquip;
-				}
-			}
-		}
-
-		$spec_reqs_array = array();
-		if (!empty (input()->breakfast_specialrequest)) {
-			foreach (input()->breakfast_specialrequest as $item) {
-				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
-				$deleteSpecialReq = $this->loadModel("PatientSpecialReq")->deleteSpecialReqs($patient->id, $item, 1);
-				$patient_spec_req = $this->loadModel("PatientSpecialReq");
-				$patient_spec_req->patient_id = $patient->id;
-				$patient_spec_req->special_req_id = $spec_req->id;
-				$patient_spec_req->meal = 1;
-				$spec_reqs_array[] = $patient_spec_req;
-
-			}
-		}
-		if (!empty (input()->lunch_specialrequest)) {
-			foreach (input()->lunch_specialrequest as $item) {
-				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
-				$patient_spec_req = $this->loadModel("PatientSpecialReq");
-				$patient_spec_req->patient_id = $patient->id;
-				$patient_spec_req->special_req_id = $spec_req->id;
-				$patient_spec_req->meal = 2;
-				$spec_reqs_array[] = $patient_spec_req;
-
-			}
-		}
-
-		if (!empty (input()->dinner_specialrequest)) {
-			foreach (input()->dinner_specialrequest as $item) {
-				$spec_req = $this->loadModel("SpecialReq")->fetchByName($item);
-				$patient_spec_req = $this->loadModel("PatientSpecialReq");
-				$patient_spec_req->patient_id = $patient->id;
-				$patient_spec_req->special_req_id = $spec_req->id;
-				$patient_spec_req->meal = 3;
-				$spec_reqs_array[] = $patient_spec_req;
-
-			}
-		}
-
-
-		// set beverages array
-		$beveragesArray = array();
-		if (!empty (input()->breakfast_beverages)) {
-			foreach (input()->breakfast_beverages as $item) {
-				$beverage = $this->loadModel("Beverage")->fetchByName($item);
-				$deletePatientBeverages = $this->loadModel("PatientBeverage")->deletePatientBevs($patient->id);
-
-				// create new empty array
-				$patientBeverage = $this->loadModel("PatientBeverage");
-				$patientBeverage->patient_id = $patient->id;
-				$patientBeverage->beverage_id = $beverage->id;
-				$patientBeverage->meal = 1;
-				$beveragesArray[] = $patientBeverage;
-			}
-		}
-
-		// set beverages array
-		if (!empty (input()->lunch_beverages)) {
-			foreach (input()->lunch_beverages as $item) {
-				$beverage = $this->loadModel("Beverage")->fetchByName($item);
-				$patientBeverage = $this->loadModel("PatientBeverage");
-				$patientBeverage->patient_id = $patient->id;
-				$patientBeverage->beverage_id = $beverage->id;
-				$patientBeverage->meal = 2;
-				$beveragesArray[] = $patientBeverage;
-			}
-		}
-
-		// set beverages array
-		if (!empty (input()->dinner_beverages)) {
-			foreach (input()->dinner_beverages as $item) {
-				$beverage = $this->loadModel("Beverage")->fetchByName($item);
-				$patientBeverage = $this->loadModel("PatientBeverage");
-				$patientBeverage->patient_id = $patient->id;
-				$patientBeverage->beverage_id = $beverage->id;
-				$patientBeverage->meal = 3;
-				$beveragesArray[] = $patientBeverage;
-			}
-		}
-
-		// set supplements array
-		$supplementsArray = array();
-		if (!empty (input()->supplements)) {
-			foreach (input()->supplements as $item) {
-				$supplement = $this->loadModel("Supplement")->fetchByName($item);
-				$patientSupplement = $this->loadModel("PatientSupplement")->fetchByPatientAndSupplementId($patient->id, $supplement->id);
-
-				if ($patientSupplement->patient_id == "") {
-					$patientSupplement->patient_id = $patient->id;
-					$patientSupplement->supplement_id = $supplement->id;
-					$supplementsArray[] = $patientSupplement;
-				}
-			}
-		}
-
-
-		// set diet_order array
-		$patientDietOrderArray = array();
-		if (!empty (input()->diet_order)) {
-			// check if the patient already has an "other" item saved.
-			// if there is something... delete it.
-			$this->loadModel("PatientDietOrder")->removeOtherItems($patient->id, 'DietOrder');
-			$this->loadModel("PatientDietOrder")->removePatientDietItems($patient->id);
-
-			//remove sepecial requests and beverages
-			$this->loadModel("PatientSpecialReq")->removePatientDietItems($patient->id);
-			$this->loadModel("PatientBeverage")->removePatientDietItems($patient->id);
-
-			foreach (input()->diet_order as $item) {
-				$diet_order = $this->loadModel("DietOrder")->fetchByName($item, true);
-				if (!empty ($diet_order)) {
-					$patientDietOrder = $this->loadModel("PatientDietOrder")->fetchByPatientAndDietOrderId($patient->id, $diet_order->id);
-
-					if ($patientDietOrder->patient_id == "") {
-						$patientDietOrder->patient_id = $patient->id;
-						$patientDietOrder->diet_order_id = $diet_order->id;
-						$patientDietOrderArray[] = $patientDietOrder;
-					}
-				}
-			}
-		} else {
-			$feedback[] = "Diet order has not been entered";
-		}
+		//Jason DB Save
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "allergy", input()->allergies, "allergy", 1, "food_info", "food_id");
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "dislike", input()->dislikes, "allergy", 0, "food_info", "food_id");
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "adapt_equip", input()->adaptEquip);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "supplement", input()->supplements);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "special_req", input()->breakfast_specialrequest, "meal", 1);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "special_req", input()->lunch_specialrequest, "meal", 2);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "special_req", input()->dinner_specialrequest, "meal", 3);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "beverage", input()->breakfast_beverages, "meal", 1);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "beverage", input()->lunch_beverages, "meal", 2);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "beverage", input()->dinner_beverages, "meal", 3);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "snack", input()->am, "time", "am");
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "snack", input()->pm, "time", "pm");
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "snack", input()->bedtime, "time", "bedtime");
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "diet_order", input()->diet_order);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "texture", input()->texture);
+		$feedback[] = $patientInfo->save_dietary_patient($patient->id, "other", input()->other);
 		
-		//if (input()->puree !== null) {
-		//}
-
-		// set texture array
-		$texture_entered = false;
-		foreach (input()->texture as $texture) {
-			if ($texture != "") {
-				$texture_entered = true;
-				break;
-			}
-		}
-
-		//if (input()->puree !== null) {
-		//	$texture_entered = true;
-		//}
 		
-		if ($texture_entered) {
-			// check if the patient already has an "other" item saved.
-			// if there is something... delete it.
-			$this->loadModel("PatientTexture")->removeOtherItems($patient->id, 'Texture');
-			$this->loadModel("PatientTexture")->removePatientDietItems($patient->id);
-
-			//$puree_item = $this->loadModel("Texture")->fetchByName(input()->puree, false, false, true);
-			//$patient_puree = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $puree_item->id);
-			//if ($patient_puree->id == null) {
-			//	$patient_puree->texture_id = $puree_item->id;
-			//	$patient_puree->patient_id = $patient->id;
-			//	$patient_puree->save();
-			//}
-
-			foreach (input()->texture as $item) {
-				if ($item != "") {
-					$texture_item = $this->loadModel("Texture")->fetchByName($item, true, true);
-					$patientTexture = $this->loadModel("PatientTexture")->fetchByPatientAndTextureId($patient->id, $texture_item->id);
-					if ($patientTexture->patient_id == "") {
-						$patientTexture->patient_id = $patient->id;
-						$patientTexture->texture_id = $texture_item->id;
-						$patientTextureArray[] = $patientTexture;
-					}
-				} else {
-					$feedback[] = "Diet texture has not been entered";
-				}
-				
-			}
-		} else {
-			$feedback[] = "Diet texture has not been entered";
-		}
-
-		// set other array
-		$patient_other_array = array();
-		if (!empty (input()->other)) {
-			$this->loadModel("PatientOther")->removeOtherItems($patient->id, 'Other');
-			$this->loadModel("PatientOther")->removePatientDietItems($patient->id);
-			foreach (input()->other as $item) {
-				$other_item = $this->loadModel("Other")->fetchByName($item, true, false, false);
-				$patientOther = $this->loadModel("PatientOther")->fetchByPatientAndOtherId($patient->id, $other_item->id);
-
-				if ($patientOther->patient_id == "") {
-					$patientOther->patient_id = $patient->id;
-					$patientOther->other_id = $other_item->id;
-					$patient_other_array[] = $patientOther;
-				}
-			}
-		} else {
-			$feedback[] = "Orders has not been entered";
-		}
-
 		if (!empty(input()->portion_size)) {
 			$patientDiet->portion_size = input()->portion_size;
 		} else {
 			$feedback[] = "Portion size has not been entered";
 		}
+		
+		$patientDiet->save();
+		$patient->save();
+		
+		//exit();
 
-		if (isset (input()->special_requests)) {
-			$patientDiet->special_requests = input()->special_requests;
-		}
-
-		$snackArray = array();
-		if (!empty(input()->am)) {
-			$snackArray[] = $this->saveFoodItems(input()->am, $patient->id, "am");
-		} else {
-			$feedback[] = "AM Snack has not been entered";
-		}
-
-		if (!empty(input()->pm)) {
-			$snackArray[] = $this->saveFoodItems(input()->pm, $patient->id, "pm");
-		} else {
-			$feedback[] = "PM Snack has not been entered";
-		}
-
-		if (!empty(input()->bedtime)) {
-			$snackArray[] = $this->saveFoodItems(input()->bedtime, $patient->id, "bedtime");
-		} else {
-			$feedback[] = "Bedtime Snack has not been entered";
-		}
-
-		// save the patient diet info
-		if ($patientDiet->save() && $patient->save()) {
-			// save the patient's allergies
-			foreach ($allergiesArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's diet info
-			foreach ($patientDietOrderArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's adapt equip info
-			foreach ($adaptEquipArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's beverage info
-			foreach ($beveragesArray as $item) {
-				$item->save();
-			}
-
-
-			// save the patient's special requests
-			foreach ($spec_reqs_array as $item) {
-				$item->save();
-			}
-
-
-			// save the patient's beverage info
-			foreach ($supplementsArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's texture info
-			foreach ($patientTextureArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's dislikes
-			foreach ($dislikesArray as $item) {
-				$item->save();
-			}
-
-			// save the patient's orders
-			foreach ($patient_other_array as $item) {
-				$item->save();
-			}
-			// save the patient's snacks. Snacks are very important, especially late at night when you are really hungry.
-			foreach ($snackArray as $item) {
-				foreach ($item as $i) {
-					$i->save();
-				}
-			}
-
-			$location = $this->loadModel("Location", $patientDiet->location_id);
-			session()->setFlash(array("Diet Info was saved for {$patient->fullName()}", $feedback), "success");
-			$this->redirect(array("module" => "Dietary", "page" => "Dietary", "location" => $location->public_id));
-		} else {
-			session()->setFlash($feedback, "error");
-			$this->redirect(input()->currentUrl);
-		}
+		$location = $this->loadModel("Location", $patientDiet->location_id);
+		session()->setFlash(array("Diet Info was saved for {$patient->fullName()}", $feedback), "success");
+		$this->redirect(array("module" => "Dietary", "page" => "Dietary", "location" => $location->public_id));
 
 	}
 
@@ -1017,6 +727,7 @@ class PatientInfoController extends DietaryController {
 
 	//AJAX END POINT
 	public function deleteItem() {
+		return;
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
 		} else {
