@@ -77,6 +77,50 @@
 			</div>
 			<!-- /shannon abrams -->
 
+			<!-- jenny finch -->
+			<div class="card">
+				<div class="card-header" id="heading10">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<!-- <img src="{$IMAGES}/staff/" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded"> -->
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Jenny Finch<br><span class="text-20">Business Office Manager</span></h2>
+							</div>
+						</div>						
+					</button>
+				</div>
+				<div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#leadershipAccordion">
+					<div class="card-body">
+						<p></p>
+					</div>
+				</div>
+			</div>
+			<!-- /jenny finch -->
+
+			<!-- robin fuentes -->
+			<div class="card">
+				<div class="card-header" id="heading5">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<!-- <img src="{$IMAGES}/staff/" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded"> -->
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Robin Fuentes<br><span class="text-20">Executive Chef</span></h2>
+							</div>
+						</div>						
+					</button>
+				</div>
+				<div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#leadershipAccordion">
+					<div class="card-body">
+						<p></p>
+					</div>
+				</div>
+			</div>
+			<!-- /robin fuentes -->
+
 
 
 			<!-- veronica pearson -->
@@ -108,27 +152,6 @@
 			<!-- /veronica pearson -->
 
 
-			<!-- robin fuentes -->
-			<div class="card">
-				<div class="card-header" id="heading5">
-					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-						<div class="row">
-							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded"> -->
-							</div>
-							<div class="col-lg-9 col-sm-12">
-								<h2 class="text-left">Robin Fuentes<br><span class="text-20">Executive Chef</span></h2>
-							</div>
-						</div>						
-					</button>
-				</div>
-				<div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#leadershipAccordion">
-					<div class="card-body">
-						<p></p>
-					</div>
-				</div>
-			</div>
-			<!-- /robin fuentes -->
 
 
 			<!-- ashley warfield -->
