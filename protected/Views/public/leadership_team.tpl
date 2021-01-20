@@ -1,10 +1,3 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-xl text-center">
-			<img src="{$IMAGES}/staff/leadership-team.jpg" alt="" class="img-fluid">	
-		</div>
-	</div>
-</div>
 <div class="container">
 	<h1 class="text-center">Leadership Team</h1>
 	
