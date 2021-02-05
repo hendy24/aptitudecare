@@ -68,6 +68,15 @@ class PublicController extends MainPageController {
 	}
 
 
+	/*
+	 * Schedule Visit
+	 *
+	 */
+	public function schedule_visit() {
+		
+	}
+
+
 
 			
 	/* 

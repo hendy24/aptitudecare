@@ -8767,6 +8767,10 @@ footer ul.nav a:hover {
 }
 
 /******* /Contact Page ***********/
+.schedule-visit {
+  height: 800px;
+}
+
 /******* News Page ***********/
 .news h2 {
   margin: 0;

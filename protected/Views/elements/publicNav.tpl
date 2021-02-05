@@ -45,8 +45,13 @@
                     <!-- /about dropdown -->
 
                     <!-- contact -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{$SITE_URL}/contact">Contact</a>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="contactDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CONTACT</a>
+
+                        <div class="dropdown-menu" aria-labelledby="contactDropdown">
+                            <a class="nav-link" href="{$SITE_URL}/contact">Contact Form</a>
+                            <a class="nav-link" href="{$SITE_URL}/schedule-visit">Schedule Visit</a>
+                        </div>
                     </li>
                     <!-- /contact -->
 
