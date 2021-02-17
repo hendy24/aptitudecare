@@ -1,6 +1,3 @@
-<div class="container-fluid">
-	<img src="{$IMAGES}/staff/caregiving-team.jpg" alt="" class="img-fluid">
-</div>
 <div class="container">	
 	<h1 class="text-center">Care Team</h1>
 	<p>We are extremely selective during our interview and hiring process. Our Care Partners play an active role in the daily lives of each of our residents far beyond the traditional caregiving role of assistance with routine activities of daily living. Our Care Partners are friends and confidants for each of those they lovingly and compassionately care for. Each Care Partner is involved with the resident's activities, nutrition, and total wellness. They are the best of the best, always delivering exceptional and compassionate caregiving.</p>

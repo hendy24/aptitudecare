@@ -18,6 +18,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{$SITE_URL}/living-at-aspen-creek">Living at Aspen Creek</a>
                             <a class="dropdown-item" href="{$SITE_URL}/faq">FAQ</a>
+                            <a class="dropdown-item" href="{$SITE_URL}/stories">Our Stories</a>
                         </div>       
                     </li>                     
                     <!-- /assisted living dropdown -->
