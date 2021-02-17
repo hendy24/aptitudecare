@@ -358,11 +358,13 @@ class UsersController extends MainPageController {
 
 
 			// Save the users additional locations
-			foreach (input()->additional_locations as $loc) {
-				$add_locations = $this->loadModel('UserLocation');
-				$add_locations->user_id = $user->id;
-				$add_locations->location_id = $loc; 	
-				$add_locations->save();
+			if (!empty (input()->additional_locations)) {
+				foreach (input()->additional_locations as $loc) {
+					$add_locations = $this->loadModel('UserLocation');
+					$add_locations->user_id = $user->id;
+					$add_locations->location_id = $loc; 	
+					$add_locations->save();
+				}
 			}
 
 			// If the user is a clinician, save it
@@ -414,57 +416,61 @@ class UsersController extends MainPageController {
 			
 
 			// Save the user to the admission dashboard
-			if ($user->default_module == 1 || $admission_access) {
-				$obj = new AdmissionDashboardUser;
 
-				// need to check for existing user in admission db
-				$siteUser = $obj->checkForExisting($user->public_id);
-				$siteUser->pubid = $user->public_id;
-				$siteUser->password = $user->password;
-				$siteUser->email = $user->email;
-				$siteUser->first = $user->first_name;
-				$siteUser->last = $user->last_name;
-				if ($user->phone != "") {
-					$siteUser->phone = $user->phone;
-				} else {
-					$siteUser->phone = "";
-				}
+
+			// This is no longer relevant... 2020-08-31 by kwh
+
+			// if ($user->default_module == 1 || $admission_access) {
+			// 	$obj = new AdmissionDashboardUser;
+
+			// 	// need to check for existing user in admission db
+			// 	$siteUser = $obj->checkForExisting($user->public_id);
+			// 	$siteUser->pubid = $user->public_id;
+			// 	$siteUser->password = $user->password;
+			// 	$siteUser->email = $user->email;
+			// 	$siteUser->first = $user->first_name;
+			// 	$siteUser->last = $user->last_name;
+			// 	if ($user->phone != "") {
+			// 		$siteUser->phone = $user->phone;
+			// 	} else {
+			// 		$siteUser->phone = "";
+			// 	}
 				
 
-				if ($user->group_id == 2) {
-					$siteUser->is_coordinator = 1;
-				} else {
-					$siteUser->is_coordinator = 0;
-				}
+			// 	if ($user->group_id == 2) {
+			// 		$siteUser->is_coordinator = 1;
+			// 	} else {
+			// 		$siteUser->is_coordinator = 0;
+			// 	}
 
-				if ($i > 1) {
-					$siteUser->module_access = 1;
-				} else {
-					$siteUser->module_access = 0;
-				}
+			// 	if ($i > 1) {
+			// 		$siteUser->module_access = 1;
+			// 	} else {
+			// 		$siteUser->module_access = 0;
+			// 	}
 
-				$siteUser->default_facility = $user->default_location;
-				$siteUser->timeout = 0;
+			// 	$siteUser->default_facility = $user->default_location;
+			// 	$siteUser->timeout = 0;
 				
-				$siteUser->save($siteUser, db()->dbname2);
+			// 	$siteUser->save($siteUser, db()->dbname2);
 
-				// Need to save additional locations for admissions
-				$admitLocation = new AdmissionDashboardLocation;
-				$admitLocation->site_user = $siteUser->id;
-				$admitLocation->facility = $user->default_location;
-				$admitLocation->save($admitLocation, db()->dbname2);
+			// 	// Need to save additional locations for admissions
+			// 	$admitLocation = new AdmissionDashboardLocation;
+			// 	$admitLocation->site_user = $siteUser->id;
+			// 	$admitLocation->facility = $user->default_location;
+			// 	$admitLocation->save($admitLocation, db()->dbname2);
 
 
-				if (!empty (input()->additional_locations)) {
-					foreach (input()->additional_locations as $loc) {
-						$admit_locations = new AdmissionDashboardLocation;
-						$admit_locations->site_user = $siteUser->id;
-						$admit_locations->facility = $loc;	
-						$admit_locations->save($admit_locations, db()->dbname2);
-					}
+			// 	if (!empty (input()->additional_locations)) {
+			// 		foreach (input()->additional_locations as $loc) {
+			// 			$admit_locations = new AdmissionDashboardLocation;
+			// 			$admit_locations->site_user = $siteUser->id;
+			// 			$admit_locations->facility = $loc;	
+			// 			$admit_locations->save($admit_locations, db()->dbname2);
+			// 		}
 					
-				} 
-			}
+			// 	} 
+			// }
 
 			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'alert-success');
 

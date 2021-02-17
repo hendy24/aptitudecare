@@ -1,0 +1,9 @@
+
+@import "utilities";
+.nav-link {
+	color: #ffffff;
+
+	@include hover-focus {
+		color: #ffffff;
+	}
+}
