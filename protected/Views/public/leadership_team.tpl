@@ -70,13 +70,37 @@
 			</div>
 			<!-- /shannon abrams -->
 
+			<!-- kendall babler -->
+			<div class="card">
+				<div class="card-header" id="headingKendall">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseKendall" aria-expanded="false" aria-controls="collapseKendall">
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<img src="{$IMAGES}/staff/kendall_babler_200x250.jpg" alt="marketing director for senior care center Anchorage, Alaska" class="float-left rounded">
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Kendall Babler<br><span class="text-20">Marketing Director</span></h2>
+							</div>
+						</div>						
+					</button>
+				</div>
+				<div id="collapse5" class="collapse" aria-labelledby="headingKendall" data-parent="#leadershipAccordion">
+					<div class="card-body">
+						<p></p>
+					</div>
+				</div>
+			</div>
+			<!-- /kendall babler -->
+
+
+
 			<!-- jenny finch -->
 			<div class="card">
 				<div class="card-header" id="heading10">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded"> -->
+								<img src="{$IMAGES}/staff/jenny_finch_200x250.jpg" alt="business office manager for senior care center Anchorage, Alaska" class="float-left rounded">
 							</div>
 							<div class="col-lg-9 col-sm-12">
 								<h2 class="text-left">Jenny Finch<br><span class="text-20">Business Office Manager</span></h2>
@@ -86,7 +110,12 @@
 				</div>
 				<div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#leadershipAccordion">
 					<div class="card-body">
-						<p></p>
+						<p>I was born in Greenfield, Massachusetts. When I was 11, my mom, her husband, and I moved to Orlando, Florida. When I was in high school, I decided I wanted to be a nurse. I took some career prep courses that provided the students the opportunity to do an internship at a local hospital to get some real hands-on experience. I loved this experience so much and enjoyed every aspect of it. Not long after I graduated high school, my dad passed away at the age of 41 from a heart attack. This absolutely shattered me. I ended up not going to college like I had planned after high school. I continued working at the local pharmacy until one day, months after my dad’s passing, I met the man who is now my husband and father of our two beautiful daughters who are now 13, and 15 years old. My husband joined the army while I was pregnant with our first daughter and so started our military life.</p>
+						<p>While we were stationed at Fort Benning, Georgia, after our girls were 2 and 3 years old and after my husband was back from his 15-month deployment to Iraq, we decided it was time for me to focus on my career. I went to the local community college and became a Certified Nursing Assistant. My first job as a CNA was at a hospital where I worked on the surgical rehabilitation floor. I loved everything about this job. About a year after, we received orders to move to Alaska. My husband moved first while the girls and I stayed in North Carolina with my husband’s family because he was set to deploy to Afghanistan not long after his arrival to Alaska.</p>
+						<p>While in North Carolina, I worked as a Hospice CNA. This position was so rewarding, but also heartbreaking for me. I began to think about different career options, which led me to spreadsheets and the world of accounting. I received my bachelor’s degree in accounting from Colorado Technical University in June of 2016. I have worked in various fields as a Bookkeeper and Accountant but have always felt myself wanting more, feeling like something was missing from my life.</p> 
+						<p>My husband served active duty in the army for 10 years, our last duty station was Fort Riley, Kansas. We decided we missed Alaska and wanted to make Alaska home, so we moved back in 2015 and have been here since!</p>
+						<p>My hobbies include outdoor cycling, taking spin classes on my Peloton bike (I love everything bicycling!), spending time with my family, watching my favorite shows and movies, and exploring the best Jeep off-roading trails in Alaska.</p>
+						<p>I had been looking for something new for months when I found Aspen Creek. When I walked through the doors and met the team, I immediately felt connected, like I was where I was supposed to be. I absolutely love that I am here and able to work in both of my passions – accounting and care for our seniors!</p>
 					</div>
 				</div>
 			</div>
@@ -98,7 +127,7 @@
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded"> -->
+								<img src="{$IMAGES}/staff/robin_fuentes_200x250.jpg" alt="executive chef for senior care center Anchorage, Alaska" class="float-left rounded">
 							</div>
 							<div class="col-lg-9 col-sm-12">
 								<h2 class="text-left">Robin Fuentes<br><span class="text-20">Executive Chef</span></h2>
@@ -114,46 +143,13 @@
 			</div>
 			<!-- /robin fuentes -->
 
-
-
-			<!-- veronica pearson -->
-			<div class="card">
-				<div class="card-header" id="heading4">
-					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-						<div class="row">
-							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/" alt="life enrichment director for elderly care center Alaska" class="float-left rounded"> -->
-							</div>
-							<div class="col-lg-9 col-sm-12">
-								<h2 class="text-left">Veronica Pearson<br><span class="text-20">Life Enrichment Director</span></h2>
-							</div>
-						</div>						
-					</button>
-				</div>
-				<div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#leadershipAccordion">
-					<div class="card-body">
-						<p>I attended the University of Wyoming on a Volleyball scholarship where I earned my degree in Child and Family Services. Part of my graduation requirements was a 6 month internship program where I thought I would be placed in an environment to work with children. My ultimate goal was always to work with children and youth.  Instead, I was placed in an assisted living facility helping to run the activities program. I had a great time and fell in love with those sweet residents but still  did not feel it was the direction I should take in my career.</p>
-						<p>As luck would have it I had my oldest daughter the semester before I graduated and  spent the next 20 years raising my family and being a stay at home mom. I coached club volleyball on the side as well as doing some catering, sold Pampered Chef and had several other flexible jobs I could do while raising my 4 kids. I was also highly active within my church and spent a significant amount of time coordinating and implementing week long youth retreats, working as a music chorister for the primary children and as an activities specialist for the women I served. I was even a cub master in the Boy Scout Program. Most recently I was working as a special needs para in an elementary school preschool. I loved working with those sweet little ones. I really felt like I had landed where I was supposed to be. Que a job opportunity for my husband in AK.</p>
-						<p>The whole move here felt surreal and I spent the first year just trying to settle in to my new reality and make sure my two teenage kids who came with us were getting the things they needed after such a big move. It didn’t take long to realize this was a home and state we were going to love. I felt ready to find my own purpose here in AK. I set about trying to find a job that I would not only be good at but that had meaning and purpose. The core of my nature is to serve and love and I wanted to find a job that was in need of my specific talent and abilities.</p>
-						<p>I knew when I walked through the doors at Aspen Creek I had found what I was looking for. My mother had a stroke when she was 62 and needed lots of care for the 16 years she lived with her new reality. 3 years before she passed my dad was diagnosed with ALS and again our world was rocked. So many questions about how he would be cared for how how his remaining time would look. Those experiences with my parents truly sensitized me to the plight of the elderly. The way they were treated by doctors and those they came in contact with all became a source of concern. Many times we had to fight for specific services and get help that no one felt was necessary. When I walked through the doors of Aspen Creek and met the staff and learned about their ideals and goals for the facility I knew it was a place I would have put my own parents and I wanted to be a part of it.</p>
-						<div class="embed-responsive embed-responsive-16by9 mt-5 mb-5">
-							<iframe width="560" height="315" src="https://www.youtube.com/embed/yHTZUUCF9OQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /veronica pearson -->
-
-
-
-
 			<!-- ashley warfield -->
 			<div class="card">
 				<div class="card-header" id="heading7">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/ashley_warfield.jpg" alt="clinical coordinator for senior living Anchorage, Alaska" class="float-left rounded"> -->
+								<img src="{$IMAGES}/staff/ashley_warfield_200x250.jpg" alt="clinical coordinator for senior living Anchorage, Alaska" class="float-left rounded">
 							</div>
 							<div class="col-lg-9 col-sm-12">
 								<h2 class="text-left">Ashley Warfield<br><span class="text-20">Quality Care Coordinator</span></h2>						

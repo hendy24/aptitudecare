@@ -9,7 +9,26 @@ body {
 }
 
 /******** color palette **********/
-$dark-blue: #213c60;
+.bg-blue-dark-ac {
+       background: #053368;
+}
+.text-blue-dark-ac {
+       color: #053368;
+}
+.border-blue-dark-ac {
+       border-color: #053368;
+}
+.bg-blue-light-ac {
+       background: #81b7e3;
+}
+.text-blue-light-ac {
+       color: #81b7e3;
+}
+.border-blue-light-ac {
+       border-color: #81b7e3;
+}
+
+$dark-blue: #053368;
 $light-blue: #81b7e3;
 $dark-grey: #48484a;
 $light-grey: #c7c8ca;
@@ -33,6 +52,7 @@ $black: #121212;
 .btn-primary:hover {
 	background: $dark-blue;
 }
+
 
 
 .text-6 { font-size: 0.6rem; }
@@ -60,6 +80,13 @@ $black: #121212;
 	a {
 		width: 100%;
 		height: 100%;
+	}
+}
+
+#resident-app-banner {
+	a {
+		width: 80%;
+		font-size: 2rem;
 	}
 }
 

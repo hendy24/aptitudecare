@@ -135,9 +135,6 @@
 					the best, always delivering exceptional and compassionate caregiving. We take great pride in the
 					opportunity we have to provide senior assistance in Alaska.</p>
 			</a>
-			<a class="hidden md:block btn btn-lg btn-primary my-4" href="https://aspencreekalaska.com/resident-application">
-				New Resident Application
-			</a>
 		</div>
 
 
@@ -149,18 +146,27 @@
 				intellectual goals.</p>
 		</div>
 
-		<a class="block md:hidden mx-auto btn btn-lg btn-primary my-4" href="https://aspencreekalaska.com/resident-application">
-			New Resident Application
-		</a>
+		
 	</div>
 </div>
 <!-- /services -->
+
+<div id="resident-app-banner" class="container">
+	<div class="row">
+		<div class="col-12 text-center">
+			<a class="btn btn-lg btn-primary mt-4" href="https://aspencreekalaska.com/resident-application">
+			New Resident Application
+			</a>
+		</div>
+	</div>
+
+</div>
 
 <!-- aspen creek experience -->
 <div class="container-fluid py-4">
 	<div class="row">
 		<div class="col-12 text-center">
-			<img src="{$IMAGES}/Aspen Creek Alaska-0267-2.jpg" class="img-fluid w-full md:w-1/2" alt="">
+			<img src="{$IMAGES}/home-team.jpg" class="img-fluid" alt="">
 		</div>
 	</div>
 </div>
@@ -189,9 +195,7 @@
 <!-- tv commercial -->
 <div class="container my-5">
 	<div class="embed-responsive embed-responsive-16by9">
-		<iframe src="https://www.youtube.com/embed/5Rjo1T-DM5M" frameborder="0"
-				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-				allowfullscreen></iframe>
+		<iframe src="https://youtube.com/embed/nyTgUbLWoLg" frameborder="0"></iframe>
 	</div>
 </div>
 <!-- /tv commercial -->

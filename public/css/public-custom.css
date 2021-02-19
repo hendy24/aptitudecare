@@ -6,26 +6,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 @import url("https://fonts.googleapis.com/css?family=Baloo+Da+2|Josefin+Sans:100i,300,400,500,700|Raleway&display=swap");
-
-.bg-blue-dark-ac {
-	background: #053368;
-}
-.text-blue-dark-ac {
-	color: #053368;
-}
-.border-blue-dark-ac {
-	border-color: #053368;
-}
-.bg-blue-light-ac {
-	background: #81b7e3;
-}
-.text-blue-light-ac {
-	color: #81b7e3;
-}
-.border-blue-light-ac {
-	border-color: #81b7e3;
-}
-
 :root {
   --color-blue: #007bff;
   --color-indigo: #6610f2;
@@ -8263,6 +8243,30 @@ body {
 }
 
 /******** color palette **********/
+.bg-blue-dark-ac {
+  background: #053368;
+}
+
+.text-blue-dark-ac {
+  color: #053368;
+}
+
+.border-blue-dark-ac {
+  border-color: #053368;
+}
+
+.bg-blue-light-ac {
+  background: #81b7e3;
+}
+
+.text-blue-light-ac {
+  color: #81b7e3;
+}
+
+.border-blue-light-ac {
+  border-color: #81b7e3;
+}
+
 .text-dark-blue {
   color: #053368;
 }
@@ -8357,6 +8361,11 @@ body {
 #covid-19-message a {
   width: 100%;
   height: 100%;
+}
+
+#resident-app-banner a {
+  width: 80%;
+  font-size: 2rem;
 }
 
 .container {
