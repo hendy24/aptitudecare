@@ -175,7 +175,7 @@
 <div class="container-fluid py-4">
 	<div class="row">
 		<div class="col-12 text-center">
-			<img src="{$IMAGES}/home-team.jpg" class="img-fluid" alt="">
+			<img src="{$IMAGES}/home-team2.jpg" class="img-fluid" alt="">
 		</div>
 	</div>
 </div>
