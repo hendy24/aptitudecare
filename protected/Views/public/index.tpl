@@ -89,7 +89,7 @@
 	<div class="row">
 		<div class="col-2"></div>
 		<div class="col-8 bg-blue-light-ac rounded mb-5">
-			<p class="quote mb-0 pb-0">I want to thank you again for the wonderful job your staff is doing with my mom.  When I’m on the phone with her, I hear them joke with her and they have fun! Your staff checks on her all the time, and she gets mixed up thinking they are her friends coming to see her, and actually, they treat her like a dear friend! You are doing a wonderful job, even with all the covid stress!</p>
+			<p class="quote mb-0 pb-0">I want to <strong>thank you again for the wonderful job your staff is doing with my mom</strong>.  When I’m on the phone with her, I hear them joke with her and they have fun! Your staff checks on her all the time, and she gets mixed up thinking they are her friends coming to see her, and actually, <strong>they treat her like a dear friend!</strong> You are doing a wonderful job, even with all the covid stress!</p>
 			<p class="quote text-right mt-0 pt-0">Thank you!<br>
 			Teresa Zimmerman</p>
 		</div>
@@ -128,7 +128,7 @@
 <!-- services -->
 <div class="container my-5 services">
 	<div class="row">
-		<div class="col-md-4 text-center">
+		<div class="col-md-4 col-sm-12 text-center">
 			<img src="{$IMAGES}/tray.png" class="pb-4" alt="fine dining">
 			<h4>FINE DINING</h4>
 			<p>Our award winning Executive Chef creates beautifully presented, delicious, and nutritious meals every day
@@ -136,7 +136,7 @@
 		</div>
 
 
-		<div class="col-md-4 text-center">
+		<div class="col-md-4 col-sm-12 text-center">
 			<a href="{$SITE_URL}/care-team">
 				<img src="{$IMAGES}/24-7.png" class="pb-4" alt="24-hour elder care anchorage ak">
 				<h4>24-HOUR COMPASSIONATE <br>CARE</h4>
@@ -147,7 +147,7 @@
 		</div>
 
 
-		<div class="col-md-4 text-center">
+		<div class="col-md-4 col-sm-12 text-center">
 			<img src="{$IMAGES}/yoga.png" class="pb-4" alt="wellness in anchorage alaska assisted living">
 			<h4>TOTAL WELLNESS</h4>
 			<p>Our wellness program goes beyond providing engaging and interesting activities for our residents. We
@@ -180,7 +180,7 @@
 	</div>
 </div>
 
-<div class="container my-5">
+<div class="container my-3">
 	<div class="row">
 		<div class="col-12">
 			<h3 class="text-center">The Aspen Creek Experience.</h3>
