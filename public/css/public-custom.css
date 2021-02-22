@@ -8609,6 +8609,16 @@ footer ul.nav a:hover {
   font-weight: 100;
 }
 
+.quote {
+  color: #053368;
+  font-family: Times New Roman;
+  padding: 1em 2em 0.5em 1em;
+  font-style: italic;
+}
+.quote p {
+  margin: 0;
+}
+
 .social {
   text-align: right;
   float: right;

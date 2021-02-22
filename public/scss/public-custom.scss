@@ -354,6 +354,17 @@ footer {
 	}
 }
 
+.quote {
+	color: $dark-blue;
+	font-family: Times New Roman;
+	padding: 1em 2em .5em 1em;
+	font-style: italic;
+
+	p {
+		margin: 0;
+	}
+}
+
 .social {
 	text-align: right;
 	float: right;

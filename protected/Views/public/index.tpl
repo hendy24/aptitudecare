@@ -86,6 +86,15 @@
 			<h2 class="display-4">Your Community</h2>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-2"></div>
+		<div class="col-8 bg-blue-light-ac rounded mb-5">
+			<p class="quote mb-0 pb-0">I want to thank you again for the wonderful job your staff is doing with my mom.  When I’m on the phone with her, I hear them joke with her and they have fun! Your staff checks on her all the time, and she gets mixed up thinking they are her friends coming to see her, and actually, they treat her like a dear friend! You are doing a wonderful job, even with all the covid stress!</p>
+			<p class="quote text-right mt-0 pt-0">Thank you!<br>
+			Teresa Zimmerman</p>
+		</div>
+		<div class="col-2"></div>
+	</div>
 	<div class="row pb-5">
 		<div class="w-full md:w-2/3 mx-auto text-center space-y-4 text-2xl px-4">
 			<p class="">Aspen Creek was designed to provide life-changing experiences for you, your
