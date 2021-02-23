@@ -90,7 +90,7 @@
 		<div class="col-2"></div>
 		<div class="col-8 bg-blue-light-ac rounded mb-5">
 			<p class="quote mb-0 pb-0">I want to <strong>thank you again for the wonderful job your staff is doing with my mom</strong>.  When I’m on the phone with her, I hear them joke with her and they have fun, <strong>they treat her like a dear friend!</strong> You are doing a wonderful job, even with all the COVID stress!</p>
-			<p class="quote text-right mt-0 pt-0">Thank you!<br>
+			<p class="quote text-right mt-2 pt-0">Thank you!<br>
 			Teresa Zimmerman</p>
 		</div>
 		<div class="col-2"></div>
