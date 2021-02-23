@@ -88,6 +88,12 @@ $black: #121212;
 		width: 100%;
 		font-size: 2rem;
 	}
+
+	@media(max-width: 767px) {
+		a {
+			font-size: 1rem;
+		}
+	}
 }
 
 .container {
@@ -364,6 +370,11 @@ footer {
 
 	p {
 		margin: 0;
+	}
+
+	@media(max-width: 767px) {
+		font-size: 1em;
+		line-height: 1.25em;
 	}
 }
 
