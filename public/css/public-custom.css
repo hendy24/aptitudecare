@@ -9204,8 +9204,10 @@ footer ul.nav a:hover {
   width: 100%;
   font-size: 1.4rem;
 }
-#spring-market .sm-cta h1 {
+#spring-market .sm-cta h2 {
   color: #ffffff;
+  margin: 0.5em 0 0.25em 0;
+  font-size: 4rem;
 }
 #spring-market .covid-plan {
   background-color: #053368;

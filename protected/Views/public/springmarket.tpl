@@ -10,24 +10,23 @@
 
 	<div class="sm-cta">
 		<div class="row">
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-12 d-none d-md-block text-center">
+				<p>Sat, May 8th &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11am - 4pm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5915 Petersburg St. Anchorage, AK</p>
+			</div>
+			<div class="col-sm-12 d-md-none d-sm-block">
 				<p>Sat, May 8th</p>
-			</div>
-			<div class="col-md-3 col-sm-12">
 				<p>11am - 4pm</p>
-			</div>
-			<div class="col-md-6 col-sm-12">
-				<p>5915 Petersburg St. Anchorage</p>
+				<p>5915 Petersburg St. Anchorage, AK</p>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12 text-center">
-				<h1>Come Enjoy:</h1>
+				<h2>Come Enjoy:</h2>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-2"></div>
-			<div class="col-8">
+			<div class="col-3"></div>
+			<div class="col-6">
 				<ul>
 					<li>local vendors selling art, gifts, and goods!</li>
 					<li>food trucks with delicious food and drinks</li>
@@ -35,7 +34,7 @@
 					<li>health and safety precautions</li>
 				</ul>
 			</div>
-			<div class="col-2"></div>
+			<div class="col-3"></div>
 		</div>
 	</div>
 	<div class="row">
