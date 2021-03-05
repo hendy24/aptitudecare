@@ -84,6 +84,19 @@ class PublicController extends MainPageController {
 	}
 
 
+	/*
+	 * Spring Market
+	 *
+	 */
+	public function springmarket() {
+
+	}
+
+	public function vendor() {
+		
+	}
+
+
 
 			
 	/* 

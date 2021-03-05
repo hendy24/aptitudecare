@@ -9180,5 +9180,44 @@ footer ul.nav a:hover {
     font-size: 32px;
   }
 }
+/**************** Spring Market **********************/
+#spring-market {
+  margin: 0;
+  width: 100%;
+  color: #053368;
+  font-size: 2rem;
+}
+#spring-market a {
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  margin-top: 0.25em;
+}
+#spring-market h2 {
+  text-transform: uppercase;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+#spring-market .sm-cta {
+  background-color: #81b7e3;
+  padding: 2em;
+  margin: 0 0 -8px 0;
+  width: 100%;
+  font-size: 1.4rem;
+}
+#spring-market .sm-cta h1 {
+  color: #ffffff;
+}
+#spring-market .covid-plan {
+  background-color: #053368;
+  padding: 2em;
+  width: 100%;
+  color: #81b7e3;
+  font-size: 1.4rem;
+}
+#spring-market .covid-plan a:hover {
+  background-color: #81b7e3;
+  color: #053368;
+  border: 1px #ffffff;
+}
 
 /*# sourceMappingURL=public-custom.css.map */

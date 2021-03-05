@@ -948,3 +948,54 @@ footer {
 	}
 }
 
+
+
+/**************** Spring Market **********************/
+
+#spring-market {
+	margin: 0;
+	width: 100%;
+	color: $dark-blue;
+	font-size: 2rem;
+
+	a {
+		text-transform: uppercase;
+		font-size: 1.8rem;
+		margin-top: .25em;
+	}
+
+	h2 {
+		text-transform: uppercase;
+		font-size: 2rem;
+		margin-bottom: 0;
+	}
+
+	.sm-cta {
+	background-color: $light-blue;
+	padding: 2em;
+	margin: 0 0 -8px 0;
+	width: 100%;
+	font-size: 1.4rem;
+
+		h1 {
+			color: $white;
+		}
+	}
+
+	.covid-plan {
+		background-color: $dark-blue;
+		padding: 2em ;
+		width: 100%;
+		color: $light-blue;
+		font-size: 1.4rem;
+
+		a:hover {
+			background-color: $light-blue;
+			color: $dark-blue;
+			border: 1px $white;
+		}
+
+	}
+
+}
+
