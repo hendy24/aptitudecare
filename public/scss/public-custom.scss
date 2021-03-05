@@ -970,6 +970,13 @@ footer {
 		margin-bottom: 0;
 	}
 
+	@media(max-width: 600px) {
+
+		p { font-size: 1.4rem; }
+		h2 { font-size: 1rem; }
+		a { font-size: 1rem; }
+	}
+
 	.sm-cta {
 	background-color: $light-blue;
 	padding: 2em;
@@ -981,6 +988,11 @@ footer {
 			color: $white;
 			margin: 0.5em 0 0.25em 0;
 			font-size: 4rem;
+		}
+
+		@media(max-width: 600px) {
+
+			h2 { font-size: 2rem; }
 		}
 	}
 

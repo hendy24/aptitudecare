@@ -9197,6 +9197,17 @@ footer ul.nav a:hover {
   font-size: 2rem;
   margin-bottom: 0;
 }
+@media (max-width: 600px) {
+  #spring-market p {
+    font-size: 1.4rem;
+  }
+  #spring-market h2 {
+    font-size: 1rem;
+  }
+  #spring-market a {
+    font-size: 1rem;
+  }
+}
 #spring-market .sm-cta {
   background-color: #81b7e3;
   padding: 2em;
@@ -9208,6 +9219,11 @@ footer ul.nav a:hover {
   color: #ffffff;
   margin: 0.5em 0 0.25em 0;
   font-size: 4rem;
+}
+@media (max-width: 600px) {
+  #spring-market .sm-cta h2 {
+    font-size: 2rem;
+  }
 }
 #spring-market .covid-plan {
   background-color: #053368;
