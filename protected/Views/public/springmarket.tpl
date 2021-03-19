@@ -25,8 +25,8 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-3"></div>
-			<div class="col-6">
+			<div class="col-md-3"></div>
+			<div class="col-md-6 col-sm-12">
 				<ul>
 					<li>local vendors selling art, gifts, and goods!</li>
 					<li>food trucks with delicious food and drinks</li>
@@ -34,7 +34,7 @@
 					<li>health and safety precautions</li>
 				</ul>
 			</div>
-			<div class="col-3"></div>
+			<div class="col-md-3"></div>
 		</div>
 	</div>
 	<div class="row">
@@ -61,7 +61,7 @@
 		<div class="row">
 			<div class="col-12 text-center">
 				Read our<br>
-				<a href="{$SITE_URL}/covid-plan" class="btn btn-primary">Covid Mitigation Plan</a>					
+				<a href="{$IMAGES}/covid_plan.pdf" target="_blank" class="btn btn-primary">Covid Mitigation Plan</a>					
 			</div>
 		</div>
 
