@@ -504,20 +504,41 @@ footer {
 /************** Memory Care page **************************/
 #memory-care {
 
+	.headline {
+
+		text-align: center;
+		
+		h1, h2 {
+			text-align: center;
+		}
+
+		h1 { 
+			color: $dark-blue;
+		}
+
+		h2 { color: $dark-grey; }
+
+		a {
+			margin-top: 1rem;
+			font-size: 2rem;
+		}
+
+	}
+
 	.jumbotron {
 		padding: 2em;
-		background-image: url('../img/time-is-valued.jpg');
+		background-image: url('../img/memory_care-header.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		height: 600px;
-		opacity: 0.5;
 
 		h1 {
-			color: $white;
+			color: $light-blue;
+			text-shadow: $dark-grey 1px 1px
 		}
 
 		h2 {
-			color: $dark-blue;
+			color: $white;
 		}
 
 		a {

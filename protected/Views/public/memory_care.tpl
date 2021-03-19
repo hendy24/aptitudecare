@@ -1,12 +1,23 @@
 <div id="memory-care">
 	<div class="jumbotron jumbotron-fluid">
+		<h1>The #1 Assisted Living Community in Alaska is now offering dedicated Memory Care for your loved one!</h1>
 		
-		<h1 class="text-shadow">Do you have an elderly loved one struggling with reduced memory?</h1>
-		<h2>We are specially trained to care for them, just like they are our own family!</h2>
 	</div>	
 
 	<!-- what is memory care -->
 	<div class="container">
+		<div class="row">
+			<div class="col-12 headline">
+				<h1 class="text-shadow">Do you have an elderly loved one struggling with reduced memory?</h1>
+				<h2>We are specially trained to care for them, just like they are our own family!</h2>
+				<a class="btn btn-primary " href="{$SITE_URL}/resident-application">New Resident Application</a> 
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-12">
+				<hr>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12 col-lg-7">
 				<h2 class="text-blue-dark-ac">What is memory care?</h2>
@@ -28,7 +39,7 @@
 			</div>
 			<div class="col-md-12 col-lg-8 text-white">
 				<h2 class="text-blue-light-ac">Does my loved one need memory care?</h2>
-				It can be heartbreaking to see the challenges our loved ones deal with when suffering memory loss. Our natural desire is to provide care for those who have cared so much for us. Being a caregiver to anyone can be challenging; the additional difficulties created with memory loss and the associated behaviors can become daunting for anyone. If you are feeling overwhelmed, uncertain, or concerned we are available to discuss your concerns and possible solutions. You can contact us via <a href="mailto:info@aspencreekalaska.com">email</a> or at (907) 868-2688.
+				It can be heartbreaking to see the challenges our loved ones deal with when suffering memory loss. Our natural desire is to provide care for those who have cared so much for us. Being a caregiver to anyone can be challenging; the additional difficulties created with memory loss and the associated behaviors can become daunting for anyone. If you are feeling overwhelmed, uncertain, or concerned we are available to discuss your concerns and possible solutions. You can <a href="{$SITE_URL}/contact">send us a message</a> or give us a call at (907) 868-2688.
 			</div>
 		</div>
 	</div>

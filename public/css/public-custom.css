@@ -8751,19 +8751,35 @@ footer ul.nav a:hover {
 
 /*********** End Living with Aspen Creek page ****************/
 /************** Memory Care page **************************/
+#memory-care .headline {
+  text-align: center;
+}
+#memory-care .headline h1, #memory-care .headline h2 {
+  text-align: center;
+}
+#memory-care .headline h1 {
+  color: #053368;
+}
+#memory-care .headline h2 {
+  color: #48484a;
+}
+#memory-care .headline a {
+  margin-top: 1rem;
+  font-size: 2rem;
+}
 #memory-care .jumbotron {
   padding: 2em;
-  background-image: url("../img/time-is-valued.jpg");
+  background-image: url("../img/memory_care-header.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   height: 600px;
-  opacity: 0.5;
 }
 #memory-care .jumbotron h1 {
-  color: #ffffff;
+  color: #81b7e3;
+  text-shadow: #48484a 1px 1px;
 }
 #memory-care .jumbotron h2 {
-  color: #053368;
+  color: #ffffff;
 }
 #memory-care .jumbotron a {
   font-size: 1.75rem;
