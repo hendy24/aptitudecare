@@ -501,6 +501,51 @@ footer {
 /*********** End Living with Aspen Creek page ****************/
 
 
+/************** Memory Care page **************************/
+#memory-care {
+
+	.jumbotron {
+		padding: 2em;
+		background-image: url('../img/time-is-valued.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 600px;
+		opacity: 0.5;
+
+		h1 {
+			color: $white;
+		}
+
+		h2 {
+			color: $dark-blue;
+		}
+
+		a {
+			font-size: 1.75rem;
+		}
+	}
+
+	.vc-image {
+		display: flex;
+    	align-items: center;
+    	flex-wrap: wrap;
+	}
+
+	.row {
+		padding: 2rem 0;
+	}
+
+	.bg-blue-dark-ac {
+		padding: 4rem 0;
+	}
+
+}
+
+
+/************** End Memory Care page **********************/
+
+
+
 /******* FAQ Page ***********/
 
 .card {

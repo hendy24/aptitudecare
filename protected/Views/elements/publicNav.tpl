@@ -10,37 +10,23 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="{$SITE_URL}"><i class="fas fa-home"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{$SITE_URL}/living-at-aspen-creek">Living at Aspen Creek</a></li>
             
-                    <!-- assisted living dropdown -->
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assisted Living</a>
-                            
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{$SITE_URL}/living-at-aspen-creek">Living at Aspen Creek</a>
-                            <a class="dropdown-item" href="{$SITE_URL}/faq">FAQ</a>
-                            <a class="dropdown-item" href="{$SITE_URL}/stories">Our Stories</a>
-                        </div>       
-                    </li>                     
-                    <!-- /assisted living dropdown -->
 
-                    <!-- meet the team dropdown -->
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="meetTheTeamDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MEET THE TEAM</a>
-                        
-                        <div class="dropdown-menu" aria-labelledby="meetTheTeamDropdown">
-                            <a class="dropdown-item" href="{$SITE_URL}/leadership-team">Leadership Team</a>
-                            <a class="dropdown-item" href="{$SITE_URL}/care-team">Care Team</a>
-                        </div>
-                    </li>
-                    <!-- /meet the team dropdown -->
+                    <!-- memory care -->
+                    <li class="nav-item"><a class="nav-link" href="{$SITE_URL}/memory-care">Memory Care</a></li>       
+                    <!-- /memory care -->
 
                     <!-- about dropdown -->
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ABOUT</a>
               
                         <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+                            <a class="dropdown-item" href="{$SITE_URL}/leadership-team">Leadership Team</a>
+                            <a class="dropdown-item" href="{$SITE_URL}/care-team">Care Team</a>
                             <a href="{$SITE_URL}/menu" class="dropdown-item">Current Menu</a>
                             <a href="{$SITE_URL}/activities" class="dropdown-item">Current Activities</a>
+                            <a class="dropdown-item" href="{$SITE_URL}/faq">FAQ</a>
                         </div>
                     </li>
                     <!-- /about dropdown -->
@@ -56,11 +42,17 @@
                     </li>
                     <!-- /contact -->
 
-                    <!-- blog -->
+
+                    <!-- our stories -->
                     <li class="nav-item">
+                        <a class="nav-link" href="{$SITE_URL}/stories">Our Stories</a>
+                    </li>
+                    <!-- /our stories -->
+                    <!-- blog -->
+<!--                     <li class="nav-item">
                         <a class="nav-link" href="{$SITE_URL}/news">News</a>
                     </li>   
-                    <!-- /blog -->
+ -->                    <!-- /blog -->
                 </ul>
             </div>
         </nav>

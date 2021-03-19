@@ -8750,6 +8750,37 @@ footer ul.nav a:hover {
 }
 
 /*********** End Living with Aspen Creek page ****************/
+/************** Memory Care page **************************/
+#memory-care .jumbotron {
+  padding: 2em;
+  background-image: url("../img/time-is-valued.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  opacity: 0.5;
+}
+#memory-care .jumbotron h1 {
+  color: #ffffff;
+}
+#memory-care .jumbotron h2 {
+  color: #053368;
+}
+#memory-care .jumbotron a {
+  font-size: 1.75rem;
+}
+#memory-care .vc-image {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#memory-care .row {
+  padding: 2rem 0;
+}
+#memory-care .bg-blue-dark-ac {
+  padding: 4rem 0;
+}
+
+/************** End Memory Care page **********************/
 /******* FAQ Page ***********/
 .card button {
   font-size: 1.5rem;
