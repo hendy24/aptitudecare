@@ -85,6 +85,15 @@ class PublicController extends MainPageController {
 
 
 	/*
+	 * Memory Care
+	 *
+	 */
+	public function memory_care() {
+		
+	}
+
+
+	/*
 	 * Spring Market
 	 *
 	 */
