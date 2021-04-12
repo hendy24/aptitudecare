@@ -8485,7 +8485,7 @@ header .navbar li {
 }
 
 .navbar-brand img {
-  width: 80%;
+  width: 250px;
 }
 
 .dropdown-menu {
@@ -8936,7 +8936,7 @@ footer ul.nav a:hover {
   }
 
   .navbar-brand img {
-    width: 50%;
+    width: 200px;
   }
 
   .team-section h2 {
@@ -9147,7 +9147,7 @@ footer ul.nav a:hover {
   }
 
   .navbar-brand img {
-    width: 65%;
+    width: 225px;
   }
 
   .navbar-collapse {

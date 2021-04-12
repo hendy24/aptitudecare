@@ -77,7 +77,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-lg-7">
-				<h2 class="text-blue-dark-ac">Will my loved have opportunities to be engaged and involved?</h2>
+				<h2 class="text-blue-dark-ac">Will my loved one have opportunities to be engaged and involved?</h2>
 				<p>Absolutely! We have an activity room specifically for our memory care residents and activities will occur on a more individualized basis with smaller group involvement.</p>
 			</div>
 			<div class="col-md-12 col-lg-5 vc-image">
