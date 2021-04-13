@@ -6,7 +6,7 @@ class PublicController extends MainPageController {
 	public $template = 'website';
 	public $allow_access = true;
 	public $title = null;
-
+	public $meta = false;
 
 			
 	/* 
@@ -98,7 +98,9 @@ class PublicController extends MainPageController {
 	 *
 	 */
 	public function springmarket() {
+		$meta = true;
 
+		smarty()->assign('meta', $meta);
 	}
 
 	public function vendor() {

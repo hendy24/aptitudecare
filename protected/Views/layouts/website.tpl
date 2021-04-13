@@ -5,6 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name= "description" content="Aspen Creek provides senior assistance and elderly care in Alaska. Find the right place for your loved ones by visiting our state-of-the-art community! "/>
+    {if isset($meta)}
+    <meta property="og:title" content="Aspen Creek Spring Market">
+    <meta property="og:description" content="Spring Market for the Anchorage Community on May 8, 2021.">
+    <meta property="og:image" content="https://www.aspencreekalaska.com/thumbnail.jpg">
+    <meta property="og:url" content="https://www.aspencreekalaska.com/springmarket">
+    {/if}
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
     <!-- CSS -->
