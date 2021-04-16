@@ -8,7 +8,8 @@
     {if isset($meta)}
     <meta property="og:title" content="Aspen Creek Spring Market">
     <meta property="og:description" content="Spring Market for the Anchorage Community on May 8, 2021.">
-    <meta property="og:image" content="https://www.aspencreekalaska.com/thumbnail.jpg">
+    <meta property="og:image" content="{$IMAGES}/spring_market.jpg">
+    <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.aspencreekalaska.com/springmarket">
     {/if}
     <!-- Global site tag (gtag.js) - Google Analytics -->

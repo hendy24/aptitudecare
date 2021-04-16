@@ -9228,6 +9228,14 @@ footer ul.nav a:hover {
   }
 }
 /**************** Spring Market **********************/
+.sm-home {
+  background-color: #f8ec59;
+  color: #053368;
+  font-size: 1.5em;
+  padding: 0.5em 3em;
+  margin-top: 1em;
+}
+
 #spring-market {
   margin: 0;
   width: 100%;

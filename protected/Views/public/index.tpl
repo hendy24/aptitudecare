@@ -78,6 +78,39 @@
 </div>
 <!-- /VOTED -->
 
+<!-- spring market -->
+
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<img src="{$IMAGES}/spring_market.png" class="img-fluid" alt="Community Spring Market on May 8, 2021">
+	</div>
+	<div class="col-1"></div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 d-none d-md-block text-center">
+		<p>Sat, May 8th &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11am - 4pm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5915 Petersburg St. Anchorage, AK</p>
+	</div>
+	<div class="col-sm-12 d-md-none d-sm-block">
+		<p class="ml-3">Sat, May 8th</p>
+		<p class="ml-3">11am - 4pm</p>
+		<p class="ml-3">5915 Petersburg St. Anchorage, AK</p>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-3"></div>
+	<div class="col-md-6 col-sm-12">
+		<a href="{$SITE_URL}/springmarket" class="sm-home btn btn-primary">LEARN MORE</a>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+<!-- /spring market-->
+
+<br>
+<br>
+<hr style="width: 75%">
+
 <!-- our community -->
 <div class="container my-5">
 
