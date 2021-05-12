@@ -50,21 +50,17 @@
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
-								<img src="{$IMAGES}/staff/shannon_abrams.jpg" alt="clinical director for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded">
+								<!-- <img src="{$IMAGES}/staff/shannon_abrams.jpg" alt="clinical director for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded"> -->
 							</div>
 							<div class="col-lg-9 col-sm-12">
-								<h2 class="text-left">Shannon Abrams<br><span class="text-20">Clinical Director</span></h2>
+								<h2 class="text-left">Masie Fedako<br><span class="text-20">Clinical Director</span></h2>
 							</div>
 						</div>						
 					</button>
 				</div>
 				<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#leadershipAccordion">
 					<div class="card-body">
-						<p>I am originally from Green Bay, Wisconsin and, yes, a “cheesehead at heart”. If anyone is an NFL fan then they will understand that reference. I moved to Utah in 2004 where my husband started his career in law enforcement and we grew our family. I have since lived in five different states to follow my husband while building his resume. We have four beautiful girls that love to challenge us daily and keep us on our toes.</p>
-						<p>I was a certified nursing assistant for seven years and this is where my love grew for geriatrics. My grandmother raised me so I was grew up with the mentality of "always respect your elders". I love to sit and listen to the stories our Seniors have to tell, their kind hearts and kindred spirits are touching and heartwarming.</p>
-						<p>After seven years I decided I wanted to push myself to be more, so I went to school to become a medical assistant. I worked at a local clinic for a few years and then I transitioned out of the medical field for a bit working as a DOT inspector, getting in and under eighteen wheelers. Basically, law enforcement for truck drivers. I always felt something wasn't right in my heart. This is when I approached my husband and we decided it was time for my career path to take precedence. I graduated from Nursing school in Utah in 2018. Following graduation I worked in a hospital where I gained a large amount of experience in all aspects of nursing. I then became a Unit Manager at a skilled nursing facility. It was then I realized working with the Senior population is where I excelled.</p>
-						<p>Little did I know things would come full circle for me. A few months ago my husband retired as a narcotics detective. We sold our home in Utah and hit the road to Alaska, a dream we had been talking about for ten years.</p>
-						<p>I researched similar positions in Alaska to what I had been doing in Utah and it just so happened Aspen Creek was in need of a nurse and Clinical Director! I am so excited to start this journey with you all and your loved ones. I am so grateful for the trust you place in Aspen Creek and in our team to take care of your loved ones!</p>					
+						<p></p>					
 					</div>
 				</div>
 			</div>
@@ -142,6 +138,32 @@
 				</div>
 			</div>
 			<!-- /robin fuentes -->
+
+
+			<!-- karen strash-purtzer -->
+			<div class="card">
+				<div class="card-header" id="heading7">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseKaren" aria-expanded="false" aria-controls="collapseKaren">
+						<div class="row">
+							<div class="col-lg-3 col-sm-12">
+								<!-- <img src="{$IMAGES}/staff/ashley_warfield_200x250.jpg" alt="life enrichment director for senior living Anchorage, Alaska" class="float-left rounded"> -->
+							</div>
+							<div class="col-lg-9 col-sm-12">
+								<h2 class="text-left">Karen Strash-Purtzer<br><span class="text-20">Life Enrichment Director</span></h2>						
+							</div>
+						</div>					
+					</button>
+				</div>
+				<div id="collapseKaren" class="collapse" aria-labelledby="headingKaren" data-parent="#leadershipAccordion">
+					<div class="card-body">
+						<p>
+							
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- /karen strash-purtzer -->
+
 
 			<!-- ashley warfield -->
 			<div class="card">
