@@ -46,11 +46,11 @@
 
 			<!-- shannon abrams -->
 			<div class="card">
-				<div class="card-header" id="heading2">
-					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+				<div class="card-header" id="headingMasie">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMasie" aria-expanded="false" aria-controls="collapseMasie">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/shannon_abrams.jpg" alt="clinical director for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded"> -->
+								<img src="{$IMAGES}/staff/masie_fedako.jpg" alt="clinical director for senior care center Anchorage, Alaska elderly care Alaska " class="float-left rounded">
 							</div>
 							<div class="col-lg-9 col-sm-12">
 								<h2 class="text-left">Masie Fedako<br><span class="text-20">Clinical Director</span></h2>
@@ -146,7 +146,7 @@
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseKaren" aria-expanded="false" aria-controls="collapseKaren">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
-								<!-- <img src="{$IMAGES}/staff/ashley_warfield_200x250.jpg" alt="life enrichment director for senior living Anchorage, Alaska" class="float-left rounded"> -->
+								<img src="{$IMAGES}/staff/karen_strash-purtzer.jpg" alt="life enrichment director for senior living Anchorage, Alaska" class="float-left rounded">
 							</div>
 							<div class="col-lg-9 col-sm-12">
 								<h2 class="text-left">Karen Strash-Purtzer<br><span class="text-20">Life Enrichment Director</span></h2>						
@@ -167,7 +167,7 @@
 
 			<!-- ashley warfield -->
 			<div class="card">
-				<div class="card-header" id="heading7">
+				<div class="card-header" id="headingAshley">
 					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
 						<div class="row">
 							<div class="col-lg-3 col-sm-12">
@@ -179,11 +179,14 @@
 						</div>					
 					</button>
 				</div>
-				<div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#leadershipAccordion">
+				<div id="collapse7" class="collapse" aria-labelledby="headingAshley" data-parent="#leadershipAccordion">
 					<div class="card-body">
-						<p>
-							
-						</p>
+						<p>I’ve known from a young age that I wanted to work in healthcare. Compassion and patience have always been prominent characteristics of mine. Wanting to care and better others’ lives came naturally to me. Throughout my childhood I was asked “What do you want to be when you grow up?”. I would respond with a doctor, a nurse or a mother. All of which I find to symbolize selflessness and compassion for others.</p>
+						<p>When I saw the large “we’re hiring” sign draped across our gorgeous building I knew this was a beacon. I wasted no time and instantly applied awaiting a response. Throughout the interview process I quickly concluded that I needed to be a part of this organization. I could feel the devotion and passion to do more for the seniors in our community. I love the values and goals we fulfill here at Aspen Creek each and every day.</p>
+						<p>Throughout my highschool years I enrolled in the Biomedical Career Academy and completed additional science classes to better my knowledge and prepare for college courses. I am currently attending the University of Alaska Anchorage and will begin my journey in the nursing program this fall. After graduating I intend to further my education in a specialized unit. When I started completing courses at UAA I had envisioned myself specializing in the neonatal intensive care unit. I viewed infants as the most in need of care and someone to advocate for them. Since working at Aspen Creek my vision of my future nursing endeavours has swayed. I have fallen in love with geriatrics and can see myself continuing working closely with seniors.</p>
+						<p>When I initially joined the Aspen Creek team I worked as a Care & Med Coordinator (CMC) for quite some time while training Care Partners moving forward as CMCs into their new roles on the floor. While working as a CMC I learned a variety of new information. I’ve gained knowledge of dementia and other diagnoses. I have a better understanding of the older generation. Working on an intimate level with our residents creates such strong bonds, our residents become our family. These seniors have so much knowledge to share. They are full of wisdom, historical stories and most importantly lots of laughs. Our team provides more than just care. We help our residents connect to our community in and out of the building as well as the younger generations.</p>
+						<p>I felt very fulfilled as a CMC. But when an opportunity arose to be more involved in the training of incoming staff and the quality of care our residents receive; I applied and the rest is now history. I now orient staff with our core values and set them up to give the best care possible to your loved ones. I work hand in hand with the care team on the floor to promote efficiency through our practices and ensuring all needs are being met.</p>
+						<p>In my free time I enjoy roadtripping around Alaska with friends. Pre-covid I loved traveling out of Alaska to warmer sandy climates. I also enjoy taking my dogs on walks during the summer with my longtime boyfriend. We have a blue and gold yorkie named Oliver and a black german shepherd named Bane.</p>
 					</div>
 				</div>
 			</div>
@@ -206,13 +209,13 @@
 				</div>
 				<div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#leadershipAccordion">
 					<div class="card-body">
-						<p>After attending school at Boise State University, my early career was spent working in construction, initially framing homes and then as a custom home builder, until the summer of 2009 when I had an experience that would change the course of my life.</p>
-						<p>Just like everyone working in the construction industry, the great recession starting in 2007 affected my business. In the summer of 2009, I was working on a small remodel project and was self-performing some of the work. On the last day, while putting up the last piece of material I was walking across a metal roof and it started to rain. I slipped, fell two stories and hit my head on a landscaping rock. A week later I awoke in the hospital, tried to get out of bed to go to the bathroom, fell over and didn’t understand why I couldn’t walk; I discovered I had suffered a traumatic brain injury. After a month of physical therapy, learning again to write, walk and accomplish normal everyday tasks, I was sent home with a walker to continue recovery on my own.</p>
+						<p>After attending school at Boise State University studying Construction Management and ultimately Business Management, my early career was spent working in construction, initially framing homes and then as a custom home builder, until the summer of 2009 when I had an experience that would change the course of my life.</p>
+						<p>Just like everyone working in the construction industry, the great recession starting in 2007 affected my home building business. In the summer of 2009, I was working on a small remodel project and was self-performing some of the work. On the last day, while putting up the last piece of material I was walking across a metal roof and it started to rain. I slipped, fell two stories and hit my head on a landscaping rock. A week later I awoke in the hospital, tried to get out of bed to go to the bathroom, fell over and didn’t understand why I couldn’t walk; I discovered I had suffered a traumatic brain injury. After a month of physical therapy, learning again to write, walk and accomplish normal everyday tasks, I was sent home with a walker to continue recovery on my own.</p>
 						<p>I quickly recognized that I would not be able to continue, at least for some time, building homes and I began to search for other ways I could provide for my family. Due to the experiences I had during my recovery and the recognition that without excellent health care providers I would not be alive, I was drawn to the health care field. After searching for employment and additional recovery time, I was given the opportunity to do some part-time work for a health care company operating skilled nursing facilities. I worked hard, did a good job, and the work load progressed into full-time employment and eventually I became the Director of Information Technology for Advanced Health Care.</p>
 						<p>During my time as Director of IT, I managed information technology for fourteen locations across the Western United States, created a proprietary electronic health record application, developed public facing websites, and built business specific, mission-critical applications.</p>
 						<p>Throughout my experiences, I have maintained the position that technology is a tool which should be used to improve processes making individuals more efficient so that, specifically in health care, providers can spend their valuable time with patients in ways that effect positive change; I believe that while technology can be an invaluable tool, it cannot and should not replace the personal relationships created through one-on-one interactions.</p>
 						<p>I am excited to be back in Alaska and to utilize the experiences that I have had throughout my life from construction and real estate to health care and information technology to be a part of something revolutionary. We are creating a community that will provide our seniors, our staff, and the families of both with experiences, opportunities, and relationships that will change their lives; we are redefining senior living in the State of Alaska.</p>
-						<p>I have a Bachelors Degree in Business Management, served a mission for The Church of Jesus Christ of Latter-Day Saints in Tucson, Arizona, speak Spanish, and when not working, love being outdoors mountain biking, kayaking, fly fishing, skiing, or hunting. However, more than anything, I enjoy spending time with my wife of 20 years and our four children.</p>
+						<p>I have a Bachelors Degree in Business Management, served a mission for The Church of Jesus Christ of Latter-Day Saints in Tucson, Arizona, speak Spanish, and when not working, love being on some type of outdoor adventure. However, more than anything, I enjoy spending time with my wife of over 20 years and our four children.</p>
 					</div>
 				</div>
 			</div>
