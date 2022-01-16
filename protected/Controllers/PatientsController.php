@@ -74,8 +74,6 @@ class PatientsController extends MainPageController {
 
 
 
-
-
 		/*
 		 *	PROCESS SUBMITTED INQUIRY FORM
 		 *
@@ -297,7 +295,7 @@ class PatientsController extends MainPageController {
 			//	displayed there.
 
 			if (!empty ($error_messages)) {			
-				session()->setFlash($error_messages, 'error');
+				session()->setFlash($error_messages, 'warning');
 			} 
 			
 			//	Save the form data regardless of error messages
@@ -399,7 +397,7 @@ class PatientsController extends MainPageController {
 		if (input()->patient != "") {
 			$patient = $this->loadModel('Patient', input()->patient);
 		} else {
-			session()->setFlash("Could not find the patient. Please try again.", 'error');
+			session()->setFlash("Could not find the patient. Please try again.", 'warning');
 			$this->redirect();
 		}
 
@@ -416,7 +414,7 @@ class PatientsController extends MainPageController {
 		if (input()->patient != "") {
 			$patient = $this->loadModel('Patient', input()->patient);
 		} else {
-			session()->setFlash("Could not find the patient. Please try again.", 'error');
+			session()->setFlash("Could not find the patient. Please try again.", 'warning');
 			$this->redirect();
 		}
 
@@ -425,7 +423,7 @@ class PatientsController extends MainPageController {
 		if (input()->physician_visit_date != "") {
 			// if the date is not empty but the time is, throw an error
 			if (input()->physician_visit_time == "") {
-				session()->setFlash("Enter the time of the physician visit", 'error');
+				session()->setFlash("Enter the time of the physician visit", 'warning');
 				$this->redirect(input()->current_url);
 			} else {
 				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
@@ -439,7 +437,7 @@ class PatientsController extends MainPageController {
 		// check visit values for nurse practitioner
 		if (input()->nurse_practitioner_visit_date != "") {
 			if (input()->nurse_practitioner_visit_time == "") {
-				session()->setFlash("Enter the time of the nurse practitioner visit", 'error');
+				session()->setFlash("Enter the time of the nurse practitioner visit", 'warning');
 				$this->redirect(input()->current_url);
 			} else {
 				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
@@ -454,7 +452,7 @@ class PatientsController extends MainPageController {
 
 		if (input()->nurse_visit_date != "") {
 			if (input()->nurse_visit_time == "") {
-				session()->setFlash("Enter the time of the nurse visit", 'error');
+				session()->setFlash("Enter the time of the nurse visit", 'warning');
 				$this->redirect(input()->current_url);
 			} else {
 				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
@@ -469,7 +467,7 @@ class PatientsController extends MainPageController {
 
 		if (input()->therapist_visit_date != "") {
 			if (input()->therapist_visit_time == "") {
-				session()->setFlash("Enter the time of the therapis visit", 'error');
+				session()->setFlash("Enter the time of the therapis visit", 'warning');
 				$this->redirect(input()->current_url);
 			} else {
 				$hhVisit = $this->loadModel('HomeHealthPatientVisit');
@@ -493,7 +491,7 @@ class PatientsController extends MainPageController {
 			session()->setFlash("Saved the visit times for {$patient->fullName()}", 'success');
 			$this->redirect(array("module" => "HomeHealth"));
 		} else {
-			session()->setFlash("Could not save the visit times for {$patient->fullName()}", 'error');
+			session()->setFlash("Could not save the visit times for {$patient->fullName()}", 'warning');
 			$this->redirect(array("module" => "HomeHealth"));
 		}
 
@@ -509,7 +507,7 @@ class PatientsController extends MainPageController {
 		if (input()->patient != "") {
 			$patient = $this->loadModel("Patient", input()->patient);
 		} else {
-			session()->setFlash("Could not find the patient you were looking for.", 'error');
+			session()->setFlash("Could not find the patient you were looking for.", 'warning');
 			$this->redirect();
 		}
 

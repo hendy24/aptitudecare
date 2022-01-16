@@ -13,7 +13,7 @@
     $("#traycard").submit(function(e) {
       e.preventDefault();
       var date = $("#selectedDate").val();
-      window.open(SITE_URL + "/?module=Dietary&page=patient_info&action=meal_tray_card&patient={$patient->public_id}&location={$location->public_id}&date=" + date + "&meal_id=" + $("#meal-id option:selected").val() + "&pdf2=true", "_blank");
+      window.open(SITE_URL + "/?module=Dietary&page=patient_info&action=meal_tray_card&patient={$patient->public_id}&location={$location->public_id}&date=" + date + "&meal_id=" + $("#meal-id option:selected").val() + "&pdf=true", "_blank");
     });
   });
 </script>

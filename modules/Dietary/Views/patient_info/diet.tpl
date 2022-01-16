@@ -1,458 +1,453 @@
-<script type="text/javascript" src="{$JS}/diet.js"></script>
-
-<div style="display: flex; justify-content: space-between; flex: 1;">
-<a href="/?module=Dietary&amp;page=patient_info&amp;action=switchPatientLookup&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}&amp;direction=-">-Previous Patient</a>
-<div class="change-message" style="display: none;">You have unsaved Changes</div>
-<a href="/?module=Dietary&amp;page=patient_info&amp;action=switchPatientLookup&amp;patient={$patient->public_id}&amp;location={$selectedLocation->public_id}&amp;direction=+">Next Patient+</a>
-</div>
-
-<h1 style="margin-top:0px">Edit Diet <span class="text-24">for</span> {$patient->fullName()}&nbsp;<span class="text-24">[{$patientInfo->number}]</span></h1>
-
-<style>
-.noPrefWarn {
-	background: #fed8b1;
-	margin: 2px auto;
-	padding: 5px 15px;
-	width: 100%;
-	text-align: center;
-}
-</style>
-
-<form class="form-inline" action="{$SITE_URL}" method="post">
-	<input type="hidden" name="page" value="PatientInfo" />
-	<input type="hidden" name="action" value="saveDiet" />
-	<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}" />
-	<input type="hidden" name="path" value="{$current_url}" />
+<div class="container diet">
+	<h1 class="mb-5">Edit Diet for {$patient->fullName()}</h1>
 
 
-	<!-- Patient Info Section -->
-	<div class="form-header">
-		Patient Info
-	</div>
-	<div class="form-group">
-		<label for="first-name" class="col-form-label col-2">First Name:</label>
-		<input type="text" id="first-name" class="form-control" name="first_name" value="{$patient->first_name}">
-	</div>
-{*
-	<div class="form-group">
-		<label for="middle-name" class="col-form-label col-2">Middle Name:</label>
-		<input type="text" id="middle-name" class="form-control" size="10" name="middle_name" value="{$patient->middle_name}">
-	</div>
-*}
-	<div class="form-group">
-		<label for="last-name" class="col-form-label col-2">Last Name:</label>
-		<input type="text" id="last-name" class="form-control" name="last_name" value="{$patient->last_name}">
-	</div>
-	<div class="form-group">
-		<label for="last-name" class="col-form-label col-2">Birthdate:</label>
-		<input type="text" class="form-control datepicker" size="8" name="date_of_birth" value="{display_date($patient->date_of_birth)}" />
-	</div>
-	{*
-	<div class="form-group">
-		<label for="patient-room-number" class="col-form-label col-2">Room:</label>
-		<input type="text" id="room-number" class="form-control" size="4" name="room_number" value="{$patientInfo->number}" />
-	</div>
-	*}
-	{if ($location->id == 21 or $patientInfo->location_id == 21)}
-	<div class="form-group">
-		<label for="table_number" class="col-form-label col-2">Table:</label>
-		<input type="text" id="table_number" class="form-control" size="6" name="table_number" value="{$patientInfo->table_number}" />
-	</div>
-	{/if}
+	<form class="form" action="{$SITE_URL}" method="post">
+		<input type="hidden" name="module" value="Dietary">
+		<input type="hidden" name="page" value="PatientInfo">
+		<input type="hidden" name="action" value="saveDiet">
+		<input type="hidden" id="patient-id" name="patient" value="{$patient->public_id}">
+		<input type="hidden" name="path" value="{$current_url}">
+
+		<div class="row form-header">
+			<h2>Patient Info</h2>
+		</div>
+		<div class="row mb-4">
+			<div class="form-group col-md-3 col-sm-6">
+				<label for="first-name">First Name:</label>
+				<input type="text" id="first-name" class="form-control" name="first_name" value="{$patient->first_name}">
+			</div>
+			<div class="form-group col-md-2 col-sm-6">
+				<label for="middle-name">Middle Name:</label>
+				<input type="text" id="middle-name" class="form-control" name="middle_name" value="{$patient->middle_name}">
+			</div>
+			<div class="form-group col-md-5 col-sm-9">
+				<label for="last-name">Last Name:</label>
+						<input type=" text" id="last-name" class="form-control" name="last_name" value="{$patient->last_name}">
+			</div>
+			<div class="form-group col-md-2 col-sm-3">
+				<label for="last-name">Birthdate:</label>
+				<input type="text" class="form-control datepicker" name="date_of_birth"
+					value="{display_date($patient->date_of_birth)}" />
+			</div>
+		</div>
 
 
-	<!-- Diet Info Section -->
-	<div class="form-header">
-		Diet Info
-	</div>
-	<div class="form-group">
-		<label for="food-allergies">Food Allergies:</label>
-		<ul maxlength="128" id="allergies">
-			{if $allergies}
-				{foreach from=$allergies item=allergy}
-				<li>{$allergy->name}</li>
-				{/foreach}
-			{/if}
-		</ul>
-	</div>
 
-	<!-- Food Dislikes or Intolerances section -->
-	<div class="form-group">
-		<label for="food-dislikes">Food dislikes or intolerances:</label>
-		<ul maxlength="128" id="dislikes">
-			{if $dislikes}
-				{foreach from=$dislikes item=dislike}
-				<li value="{$dislike->id}">{$dislike->name}</li>
-				{/foreach}
-			{/if}
-		</ul>
-	</div>
+		<!-- diet info section -->
+		<div class="row form-header">
+			<h2>Diet Info</h2>
+		</div>
+		<div class="row">
 
-	<!-- Adaptive Equipment Section -->
-	<div class="form-group">
-		<label for="adaptive-equipment">Adaptive Equipment:</label>
-		<ul maxlength="45" id="adaptEquip">
-			{if $adaptEquip}
-				{foreach from=$adaptEquip item=equip}
-				<li value="{$equip->id}">{$equip->name}</li>
-				{/foreach}
-			{/if}
-		</ul>
-	</div>
-
-	<!-- Supplements Section -->
-	<div class="form-group">
-		<label for="supplements">Supplements:</label>
-		<ul maxlength="45" id="supplements">
-			{if $supplements}
-				{foreach from=$supplements item=supplement}
-				<li value="{$supplement->id}">{$supplement->name}</li>
-				{/foreach}
-			{/if}
-		</ul>
-	</div>
-
-	<!-- Selective Warning -->
-	<div class="noPrefWarn" style="display:none;">
-		⚠️ Less than 2-3 preferences entered for this Guest!
-	</div>
-
-	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-		<!-- Special Requests Section -->
-		<div class="panel panel-default">
-	    	<div class="panel-heading" role="tab" id="headingOne">
-	    		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration:none;color:#000">
-	      			<h4 class="panel-title">Special Requests</h4>
-	      		</a>
-	    	</div>
-	    	<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-	      		<div class="panel-body">
-	        		<div class="col-md-1">Breakfast:</div>
-	        		<div class="col-md-3">
-						<ul maxlength="45" id="breakfast_specialrequest">
-							{if $breakfast_spec_req}
-							{foreach from=$breakfast_spec_req item=req}
-							<li value="{$req->id}">{$req->name}</li>
-							{/foreach}
-							{/if}
-						</ul>
-	        		</div>
-	        		<div class="col-md-1">Lunch:</div>
-	        		<div class="col-md-3">
-						<ul maxlength="45" id="lunch_specialrequest">
-							{if $lunch_spec_req}
-							{foreach from=$lunch_spec_req item=req}
-							<li value="{$req->id}">{$req->name}</li>
-							{/foreach}
-							{/if}
-						</ul>
-	        		</div>
-	        		<div class="col-md-1">Dinner:</div>
-	        		<div class="col-md-3">
-						<ul maxlength="45" id="dinner_specialrequest">
-							{if $dinner_spec_req}
-							{foreach from=$dinner_spec_req item=req}
-							<li value="{$req->id}">{$req->name}</li>
-							{/foreach}
-							{/if}
-						</ul>
-	        		</div>
-	      		</div>
-	    	</div>
-
-
-	    <!-- Beverages Section -->
-
-		<!-- Beverages Section -->
-		<div class="panel panel-default">
-		    <div class="panel-heading" role="tab" id="headingTwo">
-		    	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="text-decoration:none;color:#000">
-		      		<h4 class="panel-title">
-		      			Beverages
-		      		</h4>
-		      	</a>
-		    </div>
-		    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-		      <div class="panel-body">
-		        <div class="col-md-1">
-		        	Breakfast:
-		        </div>
-		        <div class="col-md-3">
-					<ul maxlength="45" id="breakfast_beverages">
-						{if $breakfast_beverages}
-							{foreach from=$breakfast_beverages item=beverage}
-							<li>{$beverage->name}</li>
-							{/foreach}
-						{/if}
-					</ul>
-		        </div>
-		        <div class="col-md-1">
-		        	Lunch:
-		        </div>
-		        <div class="col-md-3">
-					<ul maxlength="45" id="lunch_beverages">
-						{if $lunch_beverages}
-							{foreach from=$lunch_beverages item=beverage}
-							<li>{$beverage->name}</li>
-							{/foreach}
-						{/if}
-					</ul>
-		        </div>
-		        <div class="col-md-1">
-		        	Dinner:
-		        </div>
-		        <div class="col-md-3">
-					<ul maxlength="45" id="dinner_beverages">
-						{if $dinner_beverages}
-							{foreach from=$dinner_beverages item=beverage}
-							<li>{$beverage->name}</li>
-							{/foreach}
-						{/if}
-					</ul>
-		        </div>
-		    </div>
-	  	</div>
-
-		<!-- Snacks drop down section -->
-	  	<div class="panel panel-default">
-		    <div class="panel-heading" role="tab" id="headingThree">
-		    	<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="text-decoration:none;color:#000">
-		    	<h4 class="panel-title">Snacks
-		    	</h4>
-		     	</a>
-		    </div>
-		    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-		      <div class="panel-body">
-		      	<div class="col-md-1">
-		      		AM
-	      		</div>
-	      		<div class="col-md-3">
-					<ul maxlength="128" id="snackAM">
-						{if $am_snacks}
-							{foreach from=$am_snacks item=snack}
-							<li>{$snack->name}</li>
-							{/foreach}
-						{/if}
-					</ul>
-	      		</div>
-	      		<div class="col-md-1">
-	      			PM
-	      		</div>
-	      		<div class="col-md-3">
-					<ul maxlength="128" id="snackPM">
-						{if $pm_snacks}
-							{foreach from=$pm_snacks item=snack}
-							<li>{$snack->name}</li>
-							{/foreach}
-						{/if}
-					</ul>
-	      		</div>
-	      		<div class="col-md-1">
-	      			Bedtime
-	      		</div>
-	      		<div class="col-md-3">
-					<ul maxlength="128" id="snackBedtime">
-						{if $bedtime_snacks}
-							{foreach from=$bedtime_snacks item=snack}
-							<li>{$snack->name}</li>
-							{/foreach}
-						{/if}
-					</ul>
-	      		</div>
-		      </div>
-		    </div>
-	  	</div>
-	</div>
-</div>
-
-	<!-- Diet Order Section-->
-	<div class="form-header2">Diet Order</div>
-	<div class="checkbox">
-		{if true or $selectedLocation->public_id == "ATW500KSj"}
-			<label for="regular" class="checkbox-label">
-				<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
-				Regular
-			</label>
-			<label for="aha-cardiac" class="checkbox-label">
-				<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
-				AHA/Cardiac
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
-				No Added Salt
-			</label>
-			<label class="checkbox-label">
-					<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
-					RCS
-				</label>
-				<label class="checkbox-label">
-						<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
-					2 gram Na
-					</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
-					Renal
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="Gluten Restricted" {if in_array("Gluten Restricted", $dietOrder['standard'])} checked{/if}>
-					Gluten Restricted
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
-					Fortified/High Calorie
-			</label>
-		
-			<input type="text" name="diet_order_other" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$patientInfo->diet_info_other}{$dietOrder['other']}">
+			<div class="col-lg-6 col-md-12">
+				<label for="food-allergies">Food Allergies:</label>		
+				<select id="food-allergies" name="allergies[]" multiple>
+					{foreach from=$allergies item="allergy"}
+					<option value="{$allergy->id}"
+						{foreach from=$patientAllergies item='pa'}
+							{if $allergy->id == $pa->id} selected{/if}
+						{/foreach}>{$allergy->name}
+					</option>
+					{/foreach}
+				</select>
+			</div>
 			
-		{else}
-			<label for="regular" class="checkbox-label">
-				<input id="regular" class="checkbox" type="checkbox" name="diet_order[]" value="Regular" {if in_array("Regular", $dietOrder['standard'])} checked{/if}>
-				Regular
-			</label>
-			<label for="aha-cardiac" class="checkbox-label">
-				<input id="aha-cardiac" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>
-				AHA/Cardiac
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>
-				No Added Salt
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
-				RCS
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
-				2 gram Na
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
-				Renal
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="Gluten Free" {if in_array("Gluten Free", $dietOrder['standard'])} checked{/if}>
-				Gluten Free
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>
-				Fortified/High Calorie
-			</label>
-			<input type="text" name="diet_order_other" class="other-input checkbox-input" maxlength="45" placeholder="Enter other diet orders..." style="width: 350px" value="{$patientInfo->diet_info_other}{$dietOrder['other']}">
-		{/if}
-	</div>
+			<div class="form-group col-lg-6 col-md-12">
+				<label for="food-dislikes">Food dislikes or intolerances:</label>
+				<select id="food-dislikes" name="dislikes[]" multiple>
+					{foreach from=$dislikes item="dislike"}
+					<option value="{$dislike->id}"
+						{foreach from=$patientDislikes item='pd'}
+							{if $dislike->id == $pd->id} selected{/if}
+						{/foreach}>{$dislike->name}</option>
+					{/foreach}
+				</select>
+				<input type="hidden" name="dislike">
+			</div>
+
+		</div>
+		<!-- /diet info section -->
 
 
-	<!-- Texture Section -->
-	<div class="form-header2">Texture</div>
-	<div class="checkbox">
-		<label class="checkbox-label">
-			<input type="checkbox" name="texture[]" value="Regular" {if in_array('Regular', $textures['standard'])} checked{/if}>
-			Regular
-		</label>
-		<label class="checkbox-label">
-				<input type="checkbox" name="texture[]" value="Easy to Chew" {if in_array('Easy to Chew', $textures['standard'])} checked{/if}>
-				Easy to Chew
-		</label>
-		<label class="checkbox-label">
-				<input type="checkbox" name="texture[]" value="Soft & Bite Sized" {if in_array('Soft & Bite Sized', $textures['standard'])} checked{/if}>
-				Soft &amp; Bite Sized
-		</label>
-		<label class="checkbox-label">
-				<input type="checkbox" name="texture[]" value="Minced & Moist" {if in_array('Minced & Moist', $textures['standard'])} checked{/if}>
-				Minced &amp; Moist
-		</label>
-		<label class="checkbox-label">
-				<input type="checkbox" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}>
-				Puree
-		</label>
-		<label class="checkbox-label">
-				<input type="checkbox" name="texture[]" value="Chopped" {if in_array('Chopped', $textures['standard'])} checked{/if}>
-				Chopped
-		</label>
-		<label class="checkbox-label">
-				<input type="checkbox" name="texture[]" value="Chopped Meat" {if in_array('Chopped Meat', $textures['standard'])} checked{/if}>
-				Chopped Meat
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="texture[]" value="Mechanical Soft" {if in_array('Mechanical Soft', $textures['standard'])} checked{/if}>
-			Mechanical Soft
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="texture[]" value="Cut Up" {if in_array('Cut Up', $textures['standard'])} checked{/if}>
-			Cut Up
-		</label>
-	{if in_array('Tube Feeding', $textures['standard'])}
-		<label class="checkbox-label">
-			<input type="checkbox" name="texture[]" value="Tube Feeding" {if in_array('Tube Feeding', $textures['standard'])} checked{/if}>
-			Tube Feeding
-		</label>
-	{/if}
-		<br/>
-		<label for="liquid" class="checkbox-label">Liquid:
-		<select name="texture[]" id="liquid-select">
-			<option value="">Select Liquid Type...</option>
-			{if true or $selectedLocation->public_id == "ATW500KSj"}
-			<option value="Liquidised" {if in_array("Liquidised", $textures['standard'])} selected{/if}>Liquidised</option>
-			<option value="Slightly Thick" {if in_array("Slightly Thick", $textures['standard'])} selected{/if}>Slightly Thick</option>
-			<option value="Mildly Thick" {if in_array("Mildly Thick", $textures['standard'])} selected{/if}>Mildly Thick</option>
-			<option value="Moderately Thick" {if in_array("Moderately Thick", $textures['standard'])} selected{/if}>Moderately Thick</option>
-			<option value="Extremely Thick" {if in_array("Extremely Thick", $textures['standard'])} selected{/if}>Extremely Thick</option>
-			{/if}
-			<option value="Nectar Thick Liquids" {if in_array("Nectar Thick Liquids", $textures['standard'])} selected{/if}>Nectar Liquid</option>
-			<option value="Honey Thick Liquids" {if in_array("Honey Thick Liquids", $textures['standard'])} selected{/if}>Honey Liquid</option>
-			<option value="Pudding Thick Liquids" {if in_array("Pudding Thick Liquids", $textures['standard'])} selected{/if}>Pudding Liquid</option>
-			<option value="Clear Liquid" {if in_array("Clear Liquid", $textures['standard'])} selected{/if}>Clear Liquid</option>
-			<option value="Full Liquid" {if in_array("Full Liquid", $textures['standard'])} selected{/if}>Full Liquid</option>
-			<option value="Fluid Restriction" {if in_array("Fluid Restriction", $textures['standard'])} selected{/if}>Fluid Restriction</option>
-			{* <option value="Other" {if in_array("Other Liquid", $textures['standard'])} selected{/if}>Other</option> *}
-		</select>
-		</label>
-		<input type="text" id="other-texture-input" maxlength="25" name="texture_other" size="45" class="other-input" placeholder="Enter other texture info... (25 character limit)" value="{$patientInfo->texture_other}{$textures['other']}">
-	</div>
 
-	<!-- Other Section -->
-	<div class="form-header2">Other</div>
-	<div class="checkbox">
-		<label class="checkbox-label">
-			<input type="checkbox" name="other[]" value="Tube Feeding" {if in_array('Tube Feeding', $other['standard']) or in_array('Tube Feeding', $textures['standard'])} checked{/if}>
-			Tube Feeding
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" name="other[]" value="Isolation" {if in_array("Isolation", $other['standard'])} checked{/if}>
-			Isolation
-		</label>
-		<label class="checkbox-label">
-			<input type="checkbox" id="other-fluidRestriction-checkbox" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}>
-			Fluid Restriction
-		</label>
-		<label class="checkbox-label">
-			<input type="text" id="other-other-input" name="fluid_other" maxlength="25" placeholder="Enter fluid restriction info... (25 character limit)" value="{$patientInfo->fluid_other}{$other['other']}">
-		</label>
+		<!-- Adaptive Equipment Section -->
+<!-- 		<div class="form-row">
+			<div class="form-group col-lg-6 col-md-12">
+				<label for="adaptive-equipment">Adaptive Equipment:</label>
+				<input type="text" value="" name="adaptive_equipment" id="adaptive-equipment" class="form-control">
+			</div> -->
 
-	<!-- Portion Size Section -->
-		<label class="checkbox-label">
-			<input type="radio" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}>
-			Small
-		</label>
-		<label class="checkbox-label">
-			<input type="radio" name="portion_size" value="Regular" {if $patientInfo->portion_size == "Regular"} checked{elseif $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}>
-			Regular
-		</label>
-		<label class="checkbox-label">
-			<input type="radio" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}>
-			Large
-		</label>
-	</div>
-	
-	<!-- Selective Warning -->
-	<div class="noPrefWarn" style="display:none;">
-		⚠️ Less than 2-3 preferences entered for this Guest!
-	</div>
-	<br>
-	<br>
-	<div class="text-right">
-		<input type="submit" class="btn btn-info" value="Save">
-	</div>
+			<!-- Supplements Section -->
+<!-- 			<div class="form-group col-lg-6 col-md-12">
+				<label for="supplements">Supplements:</label>
+				<input type="text" value="" name="supplements" id="supplements" class="form-control">
+			</div>
+				
+		</div> -->
 
-</form>
+
+		
+		<div class="accordion" id="accordion">
+			<!-- special requests section -->
+			<div class="card">
+				<div class="card-header" id="heading1">
+					<h2 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1"><i class="fa fa-plus mr-3"></i>Special Requests</button>
+					</h2>
+				</div>
+				<div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordion">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<label for="breakfast-special-requests">Breakfast</label>
+								<select name="breakfast_special_requests[]" id="breakfast-special-requests" class="special-request" multiple>
+									{foreach from=$specialRequests item="sr"}
+									<option 
+										value="{$sr->id}"
+										{foreach from=$breakfast_spec_req item="bsr"}
+											{if $sr->id == $bsr->id} selected{/if}
+										{/foreach}
+									>{$sr->name}</option>
+									{/foreach}
+								</select>
+								
+							</div>
+							<div class="col-md-4">
+								<label for="lunch-special-requests">Lunch</label>
+								<select name="lunch_special_requests[]" id="lunch-special-requests" class="special-request" multiple>
+									{foreach from=$specialRequests item="sr"}
+									<option 
+										value="{$sr->id}"
+										{foreach from=$lunch_spec_req item="lsr"}
+											{if $sr->id == $lsr->id} selected{/if}
+										{/foreach}
+									>{$sr->name}</option>
+									{/foreach}
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="dinner-special-requests">Dinner</label>
+								<select name="dinner_special_requests[]" id="dinner-special-requests" class="special-request" multiple>
+									{foreach from=$specialRequests item="sr"}
+									<option 
+										value="{$sr->id}"
+										{foreach from=$dinner_spec_req item="dsr"}
+											{if $sr->id == $dsr->id} selected{/if}
+										{/foreach}
+									>{$sr->name}</option>
+									{/foreach}
+								</select>
+							</div>
+
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- /special requests section -->
+
+			<!-- beverages section -->
+			<div class="card">
+				<div class="card-header" id="heading2">
+					<h2 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2"><i class="fa fa-plus mr-3"></i>Beverages</button>
+					</h2>
+				</div>
+				<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordion">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<label for="breakfast-beverages">Breakfast</label>
+								<select name="breakfast_beverages[]" id="breakfast-beverages" class="beverages" multiple>
+									{foreach from=$beverages item="bev"}
+									<option value="{$bev->id}"
+										{foreach from=$breakfast_beverages item="bb"}
+											{if $bev->id == $bb->beverage_id} selected {/if}
+										{/foreach}
+									>{$bev->name}</option>
+									{/foreach}
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="lunch-beverages">Lunch</label>
+								<select name="lunch_beverages[]" id="lunch-beverages" class="beverages" multiple>
+									{foreach from=$beverages item="bev"}
+									<option value="{$bev->id}"
+										{foreach from=$lunch_beverages item="lb"}
+											{if $bev->id == $lb->beverage_id} selected {/if}
+										{/foreach}
+									>{$bev->name}</option>
+									{/foreach}
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="dinner-beverages">Dinner</label>
+								<select name="dinner_beverages[]" id="dinner-beverages" class="beverages" multiple>
+									{foreach from=$beverages item="bev"}
+									<option value="{$bev->id}"
+										{foreach from=$dinner_beverages item="db"}
+											{if $bev->id == $db->beverage_id} selected {/if}
+										{/foreach}
+									>{$bev->name}</option>
+									{/foreach}
+								</select>
+							</div>
+
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- /beverages section -->
+
+			<!-- snacks section -->
+<!-- 			<div class="card">
+				<div class="card-header" id="heading3">
+					<h2 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3"><i class="fa fa-plus mr-3"></i>Snacks</button>
+					</h2>
+				</div>
+				<div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordion">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<label for="breakfast-snacks">Breakfast</label>
+								<input type="text" name="breakfast_snacks" id="breakfast-snacks" class="form-control">
+							</div>
+							<div class="col-md-4">
+								<label for="lunch-snacks">Lunch</label>
+								<input type="text" name="lunch_snacks" id="lunch-snacks" class="form-control">
+							</div>
+							<div class="col-md-4">
+								<label for="dinner-snacks">Dinner</label>
+								<input type="text" name="dinner_snacks" id="dinner-snacks" class="form-control">
+							</div>
+
+						</div>
+						
+					</div>
+				</div>
+			</div>
+ -->			<!-- /snacks section -->
+		</div>
+
+
+
+		<!-- diet order section-->
+		<div class="row form-header">
+			<h2>Diet Order</h2>
+		</div>
+		
+		<!-- regular -->
+		<div class="form-check form-check-inline">	
+			<input id="regular" class="form-check-input" type="checkbox" name="diet_order[]" value="Regular" {if in_array("=Regular", $dietOrder['standard'])} checked{/if}> 
+			<label class="form-check-label" for="regular"> Regular</label>			
+		</div>
+		<!-- /regular -->
+
+		<!-- aha/cardiac -->
+		<div class="form-check form-check-inline">
+			<input id="aha-cardiac" class="form-check-input" type="checkbox" name="diet_order[]" value="AHA/Cardiac" {if in_array("AHA/Cardiac", $dietOrder['standard'])} checked{/if}>  
+			<label class="form-check-label" for="aha-cardiac"> AHA/Cardiac </label>
+		</div>
+		<!-- /aha/cardiac -->
+
+		<!-- no added salt -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="no-added-salt" class="form-check-input" name="diet_order[]" value="No Added Salt" {if in_array("No Added Salt", $dietOrder['standard'])} checked{/if}>  
+			<label class="form-check-label" for="no-added-salt"> No Added Salt </label>
+		</div>
+		<!-- /no added salt -->
+
+		<!-- rcs -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="rcs" class="form-check-input" name="diet_order[]" value="RCS" {if in_array("RCS", $dietOrder['standard'])} checked{/if}>
+			<label class="form-check-label" for="rcs"> RCS</label> 
+		</div>
+		<!-- /rcs -->
+
+		<!-- 2 gram na -->
+		<div class="form-check form-check-inline">				
+			<input type="checkbox" id="2-gram-na" class="form-check-input" name="diet_order[]" value="2 gram Na" {if in_array("2 gram Na", $dietOrder['standard'])} checked{/if}>
+			<label class="form-check-label" for="2-gram-na"> 2 gram Na </label> 
+		</div>
+		<!-- /2 gram na -->
+
+		<!-- renal -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="renal" class="form-check-input" name="diet_order[]" value="Renal" {if in_array("Renal", $dietOrder['standard'])} checked{/if}>
+			<label class="form-check-label" for="renal"> Renal</label> 
+		</div>	
+		<!-- /renal -->			
+
+		<!-- gluten restricted -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="gluten-restricted" class="form-check-input" name="diet_order[]" value="Gluten Restricted" {if in_array("Gluten Restricted", $dietOrder['standard'])} checked{/if}>  
+			<label class="form-check-label" for="gluten-restricted"> Gluten Restricted </label>
+		</div>
+		<!-- /gluten restricted -->
+
+		<!-- fortified/high calorie -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="fortified-high-calorie" class="form-check-input" name="diet_order[]" value="Fortified/High Calorie" {if in_array("Fortified/High Calorie", $dietOrder['standard'])} checked{/if}>  
+			<label class="form-check-label" for="fortified-high-calorie"> Fortified/High Calorie </label>
+		</div>
+		<!-- /fortified/high calorie -->
+		<div class="form-group mt-4">
+			<label for="other-diet-orders">Other Diet Orders:</label>
+			<input type="text" id="other-diet-orders" class="form-control" name="diet_order[]" class="other-input checkbox-input" placeholder="Enter other diet orders..." value="{$dietOrder['other']}">
+		</div>
+
+
+		<!-- Texture Section -->
+		<div class="row form-header">
+			<h2>Texture</h2>
+		</div>
+
+		<!-- regular -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="texture-regular" class="form-check-input" name="texture[]" value="Regular" {if in_array("Regular", $textures['standard'])} checked{/if}>
+			<label for="texture-regular" class="form-check-label">Regular</label>
+		</div>
+		<!-- /regular -->
+
+		<!-- easy to chew -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="easy-to-chew" class="form-check-label" name="texture[]" value="Easy to Chew" {if in_array('Easy to Chew', $textures['standard'])} checked{/if}>
+			<label for="easy-to-chew" class="form-check-label"> Easy to Chew</label>	
+		</div>
+		<!-- /easy to chew -->
+			
+		<!-- puree -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="puree" class="form-check-input" name="texture[]" value="Puree" {if in_array('Puree', $textures['standard'])} checked{/if}>
+			<label for="puree" class="form-check-label"> Puree</label>
+		</div>
+		<!-- /puree -->
+			
+		<!-- soft & bite sized -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="soft-bite-sized" class="form-check-input" name="texture[]" value="Soft & Bite Sized" {if in_array('Soft & Bite Sized', $textures['standard'])} checked{/if}>
+			<label for="soft-bite-sized" class="form-check-label"> Soft &amp; Bite Sized</label>
+		</div>
+		<!-- /soft & bite sized  -->
+
+		<!-- minced & moist -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="minced-moist" name="texture[]" value="Minced & Moist" {if in_array('Minced & Moist', $textures['standard'])} checked{/if}>
+			<label for="minced-moist" class="form-check-label"> Minced &amp; Moist</label>
+		</div>
+		<!-- /minced & moist  -->
+
+		<!-- chopped -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="chopped" class="form-check-input" name="texture[]" value="Chopped" {if in_array('Chopped', $textures['standard'])} checked{/if}>
+			<label for="chopped" class="form-check-label"> Chopped</label>
+		</div>
+		<!-- /chopped  -->
+
+		<!-- chopped meat -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="chopped-meat" class="form-check-input" name="texture[]" value="Chopped Meat" {if in_array('Chopped Meat', $textures['standard'])} checked{/if}>
+			<label for="chopped-meat" class="form-check-label"> Chopped Meat</label>
+		</div>
+		<!-- /chopped meat  -->
+
+		<!-- tube feeding -->
+		<div class="form-check form-check-inline">
+			<input type="checkbox" id="tube-feeding" class="form-check-input" name="texture[]" value="Tube Feeding" {if in_array('Tube Feeding', $textures['standard'])} checked{/if}>
+			<label for="tube-feeding" class="form-check-label"> Tube Feeding</label>
+		</div>
+		<!-- /tube feeding  -->
+
+
+		<div class="row form-group mt-4">
+			<div class="col-md-4">
+				<select class="form-control" id="liquid" name="texture[]" id="">
+					<option value="">Select Liquid Type...</option>
+					<option value="Nectar Thick Liquids" {if in_array("Nectar Thick Liquids", $textures['standard'])} selected{/if}>Nectar Liquid</option>
+					<option value="Honey Thick Liquids" {if in_array("Honey Thick Liquids", $textures['standard'])} selected{/if}>Honey Liquid</option>
+					<option value="Pudding Thick Liquids" {if in_array("Pudding Thick Liquids", $textures['standard'])} selected{/if}>Pudding Liquid</option>
+					<option value="Clear Liquid" {if in_array("Clear Liquid", $textures['standard'])} selected{/if}>Clear Liquid</option>
+					<option value="Full Liquid" {if in_array("Full Liquid", $textures['standard'])} selected{/if}>Full Liquid</option>
+					<option value="Fluid Restriction" {if in_array("Fluid Restriction", $textures['standard'])} selected{/if}>Fluid Restriction</option>
+					<option value="Liquidised" {if in_array("Liquidised", $textures['standard'])} selected{/if}>Liquidised</option>
+					<option value="Slightly Thick" {if in_array("Slightly Thick", $textures['standard'])} selected{/if}>Slightly Thick</option>
+					<option value="Mildly Thick" {if in_array("Mildly Thick", $textures['standard'])} selected{/if}>Mildly Thick</option>
+					<option value="Moderately Thick" {if in_array("Moderately Thick", $textures['standard'])} selected{/if}>Moderately Thick</option>
+					<option value="Extremely Thick" {if in_array("Extremely Thick", $textures['standard'])} selected{/if}>Extremely Thick</option>
+					<option value="Other" {if in_array("Other", $textures['standard'])} selected{/if}>Other</option>
+				</select>
+			</div>
+			<div class="col-md-8">
+				<input type="text" class="form-control" maxlength="25" name="texture[]" placeholder="Enter other texture info..." value="{$textures['other']}">
+			</div>
+		</div>
+
+		<!-- Other Section -->
+		<div class="form-header">
+			<h2>Other</h2>
+		</div>
+
+		<div class="row">
+			
+			<div class="col-md-5 col-sm-12">
+				<!-- tube feeding -->
+				<div class="form-check form-check-inline">
+					<input type="checkbox" id="tube-feeding" class="form-check-input" name="other[]" value="Tube Feeding" {if in_array("Isolation", $other['standard'])} checked{/if}>
+					<label for="tube-feeding" class="form-check-label"> Tube Feeding</label>
+				</div>
+				<!-- /tube feeding -->
+
+				<!-- isolation -->
+				<div class="form-check form-check-inline">
+					<input type="checkbox" id="isolation" class="form-check-input" name="other[]" value="Isolation" {if in_array("Isolation", $other['standard'])} checked{/if}>
+					<label for="isolation" class="form-check-label"> Isolation</label>
+				</div>
+				<!-- /isolation -->
+
+				<!-- fluid restriction -->
+				<div class="from-check form-check-inline">
+					<input type="checkbox" id="fluid-restriction" class="form-check-input" name="other[]" value="Fluid Restriction" {if in_array("Fluid Restriction", $other['standard'])} checked{/if}>
+					<label for="fluid-restriction" class="form-check-label"> Fluid Restriction</label>
+					<!-- fluid restriction -->
+				</div>
+			</div>
+			<div class="col-md-7 col-sm-12">
+				<input type="text" class="form-control" name="other[]" value="Fluid Restriction Info" placeholder="Enter fluid restriction info">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<!-- portion size -->
+				<div class="font-weight-bold">Portion Size:</div>
+				<div class="form-check form-check-inline">
+					<input type="radio" id="portion-small" class="form-check-input" name="portion_size" value="Small" {if $patientInfo->portion_size == "Small"} checked{/if}>
+					<label for="portion-small" class="form-check-label">Small</label>
+				</div>
+
+				<div class="form-check form-check-inline">
+					<input type="radio" id="portion-regular" class="form-check-input" name="portion_size" value="Regular" {if $patientInfo->portion_size == "Regular"} checked{elseif $patientInfo->portion_size == "Medium"} checked{elseif !isset($patientInfo->portion_size)} checked{/if}>
+					<label for="portion-regular" class="form-check-label"> Regular</label>
+				</div>
+					
+				<div class="form-check form-check-inline">
+					<input type="radio" id="portion-large" class="form-check-input" name="portion_size" value="Large" {if $patientInfo->portion_size == "Large"} checked{/if}>
+					<label for="portion-large" class="form-check-label">Large</label>
+				</div>
+				<!-- /portion size -->
+			</div>
+		</div>
+
+
+		<div class="row text-right my-4">
+			<div class="col-md-12">
+				<button type="button" class="btn btn-secondary" onClick="history.go(-1)">Cancel</button>
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+
+	</form>
+</div>
 

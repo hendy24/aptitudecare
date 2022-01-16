@@ -8,6 +8,10 @@
  **/
 class ActivitiesController extends MainPageController {
 
+	public $module = 'Activities';
+	public $page = 'activities';
+	public $template = 'main';
+	public $allow_access = false;
 
 	/*
 	 * Activity home page
@@ -43,8 +47,6 @@ class ActivitiesController extends MainPageController {
 		$location = $this->getLocation();
 		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date);
 
-		//pr($activities); exit;
-
 		smarty()->assignByRef('activitiesArray', $activities);
 		smarty()->assign('title', "Activities");
 
@@ -76,9 +78,6 @@ class ActivitiesController extends MainPageController {
 			smarty()->assign('headerTitle', "Edit Activity");
 			if (isset (input()->id) && input()->id != "") {
 				$activity = $this->loadModel('Activity', input()->id)->fetchSchedule();
-				//Split datetime to date AND time
-				$activity->date_start = $activity->date_start;
-				$activity->time_start = $activity->date_start;
 			}
 		} else {
 			smarty()->assign('headerTitle', "Add a New Activity");
@@ -97,7 +96,7 @@ class ActivitiesController extends MainPageController {
 			$activity->all_day = null;
 
 		}
-		
+
 		smarty()->assignByRef('activity', $activity);
 	}
 
@@ -105,6 +104,7 @@ class ActivitiesController extends MainPageController {
 
 
 	public function save_activity() {
+
 		if (input()->activity_id != "") {
 			$activity = $this->loadModel('Activity', input()->activity_id);
 			$activity_schedule = $this->loadModel('ActivitySchedule')->fetchSchedule($activity->id);
@@ -141,27 +141,28 @@ class ActivitiesController extends MainPageController {
 
 		if (input()->repeat_type != "") {
 			if (input()->repeat_type == "daily") {
-				$activity_schedule->daily = true;
+				$activity_schedule->daily = 1;
 			}
 			if (input()->repeat_type == "weekly") {
-				$activity_schedule->daily = false;
+				$activity_schedule->daily = 0;
 			}
 			if (input()->repeat_type == "monthly") {
 				//$activity_schedule->repeat_week = ceil(date("j", strtotime(input()->date_start)));
 				$activity_schedule->repeat_week = ceil(date("j", strtotime(input()->date_start))/7);
-				$activity_schedule->daily = false;
+				$activity_schedule->daily = 0;
 			}
 
 			$activity_schedule->repeat_weekday = date("w", strtotime(input()->date_start));
 		}
 		else{
 			//daily field cannot be null
-			$activity_schedule->daily = false;
+			$activity_schedule->daily = 0;
 		}
 		//Probably could refactor this to just have input()->allDay be the value
 		if (isset (input()->all_day)) {
 			if(input()->all_day == "true"){
 				$activity_schedule->all_day = 1;
+				$activity_schedule->time_start = null;
 			}
 			else{
 				$activity_schedule->all_day = 0;
@@ -170,7 +171,7 @@ class ActivitiesController extends MainPageController {
 			$activity_schedule->all_day = 0;
 		}
 
-		
+
 		// BREAKPOINT
 		if (!empty ($feedback)) {
 			session()->setFlash($feedback, 'error');
@@ -179,17 +180,65 @@ class ActivitiesController extends MainPageController {
 
 		$activity->user_id = auth()->getRecord()->id;
 		
+
 		if ($activity->save()) {
 			$activity_schedule->activity_id = $activity->id;
 			if ($activity_schedule->save()) {
-				session()->setFlash("The activity was saved", 'success');
+				session()->setFlash("The activity was saved", 'alert-success');
 				$this->redirect(array("module" => $this->module));				
-			}
+			} 
+			
 			//}
 		} else {
-			session()->setFlash("Could not save the activity. Please try again", 'error');
+			session()->setFlash("Could not save the activity. Please try again", 'alert-danger');
 			$this->redirect(input()->current_url);
 		}
+	}
+
+
+	public function deleteActivity() {
+		if (isset (input()->id)) {
+			$activity = $this->loadModel('Activity', input()->id);
+			$activitySchedule = $this->loadModel('ActivitySchedule')->fetchSchedule($activity->id);
+			if ($activitySchedule->delete()) {
+				if ($activity->delete()) {
+					return true;
+				}
+			} else {
+				return false;
+			}
+			
+		} else {
+			return false;
+		}
+
+	}
+
+
+	public function print_activities() {
+		// make this page a printable pdff
+		$this->template = 'pdf';
+		$location = $this->getLocation();
+
+		// get activities for the week
+		// set the start and end dates for the week view
+		if (isset (input()->date)) {
+			$start_date = date("Y-m-d", strtotime(input()->date));
+			// check if the day is a Sunday, if not find date for the previous Sunday
+			if (date("l", strtotime($start_date)) != "Sunday") {
+				$start_date = date("Y-m-d", strtotime($start_date . " previous Sunday"));
+			}
+		} else {
+			$start_date = date("Y-m-d", strtotime("previous Sunday"));
+		}
+		$end_date = date("Y-m-d", strtotime("{$start_date} + 6 days"));
+
+		$activities = $this->loadModel('Activity')->fetchActivities($location->id, $start_date);
+
+		// pr($activities); exit;
+
+		smarty()->assignByRef('activitiesArray', $activities);
+		smarty()->assign('title', "Activities");
 	}
 
 

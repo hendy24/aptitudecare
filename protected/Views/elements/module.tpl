@@ -1,18 +1,13 @@
-<script>
-	$(document).ready(function() {
-		$("#module").change(function() {
-			var module = $("#module option:selected").val();
-			window.location.href = SITE_URL + "/?module=" + module;
-		});
-	});
-</script>
-
-
 {if count($modules) > 1}
-	<span class="text-grey">Module:</span>
-	<select name="module" id="module" class="btn btn-primary dropdown-toggle dropdown-toggle-split">
-		{foreach $modules as $m}
-			<option value="{$m->name}" {if $module == $m->name} selected{/if}>{$m->name}</option>
-		{/foreach}
-	</select>
-	{/if}
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="moduleDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{$this->module}
+		</button>
+		<div class="dropdown-menu" aria-labelledby="moduleDropdownButton">
+			{foreach $modules as $m}
+			<a class="dropdown-item {if $module == $m->name} selected{/if}" href="{$SITE_URL}/?module={$m->name}" >{$m->name}</a>
+			{/foreach}
+		</div>
+	</div>
+
+{/if}

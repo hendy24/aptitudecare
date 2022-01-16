@@ -13,7 +13,7 @@ class MenuController extends DietaryController {
 		$menuMod = false;
 
 		if (input()->id == "") {
-			session()->setFlash("Could not find the menu item you were looking for.", 'error');
+			session()->setFlash("Could not find the menu item you were looking for.", 'alert-danger');
 			$this->redirect();
 		}
 
@@ -85,7 +85,7 @@ class MenuController extends DietaryController {
 
 		// get the location
 		if (input()->location == "") {
-			session()->setFlash("No facility menu was selected. Please try again.", 'error');
+			session()->setFlash("No facility menu was selected. Please try again.", 'warning');
 			$this->redirect();
 		} else {
 			$location = $this->loadModel('Location', input()->location);
@@ -97,7 +97,7 @@ class MenuController extends DietaryController {
 				session()->setFlash("The menu changes have been deleted and the menu has been reset to the original menu items.", 'success');
 				$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
 			} else {
-				session()->setFlash("Could not reset the menu changes. Please try again", 'error');
+				session()->setFlash("Could not reset the menu changes. Please try again", 'warning');
 				$this->redirect(input()->path);
 			}
 		}
@@ -115,7 +115,7 @@ class MenuController extends DietaryController {
 
 		// if there was no reason for a menu change entered throw an error
 		if (input()->reason == "") {
-			session()->setFlash("You must enter the reason for the menu change.", 'error');
+			session()->setFlash("You must enter the reason for the menu change.", 'warning');
 			$this->redirect(input()->path);
 		} else {
 			$menuItem->reason = input()->reason;
@@ -124,7 +124,7 @@ class MenuController extends DietaryController {
 		// set the menu item id
 		if ($menuChange) {
 			$menuItem->menu_item_id = $origMenuItem->menu_item_id;
-		} else {
+		} elseif (input()->menu_type == "MenuItem") {
 			$menuItem->menu_item_id = $origMenuItem->id;
 		}
 
@@ -140,11 +140,12 @@ class MenuController extends DietaryController {
 		// set the user info who made the change
 		$menuItem->user_id = auth()->getRecord()->id;
 
+
 		if ($menuItem->save()) {
 			session()->setFlash("The menu for " . display_date(input()->date) . " has been saved.", 'success');
 			$this->redirect(array('module' => 'Dietary', 'page' => 'info', 'action' => 'current', 'location' => $location->public_id));
 		} else {
-			session()->setFlash("Could not save the menu information. Please try again.", 'error');
+			session()->setFlash("Could not save the menu information. Please try again.", 'danger');
 			$this->redirect(input()->path);
 		}
 
@@ -167,7 +168,7 @@ class MenuController extends DietaryController {
 		$menuChange = false;
 
 		if (input()->id == "") {
-			session()->setFlash("Could not find the menu item you were looking for.", 'error');
+			session()->setFlash("Could not find the menu item you were looking for.", 'alert-danger');
 			$this->redirect();
 		}
 
@@ -225,10 +226,10 @@ class MenuController extends DietaryController {
 				$menuItem->content = $this->validateMenuContent();
 
 				if ($menuItem->save()) {
-					session()->setFlash("The menu was successfully changed for all locations.", 'success');
+					session()->setFlash("The menu was successfully changed for all locations.", 'alert-success');
 					$this->redirect(array('module' => "Dietary", 'page' => "info", 'action' => "corporate_menus", 'menu' => $menu->public_id, 'page_count' => input()->page_count));
 				} else {
-					session()->setFlash("Could not save the menu. Please try again.", 'error');
+					session()->setFlash("Could not save the menu. Please try again.", 'alert-danger');
 					$this->redirect(input()->path);
 				}
 
@@ -247,7 +248,7 @@ class MenuController extends DietaryController {
 
 				// if selected locations is false then throw and error and redirect.
 				if (empty ($location)) {
-					session()->setFlash("You must select the location(s) for which you want to make the change", 'error');
+					session()->setFlash("You must select the location(s) for which you want to make the change", 'alert-danger');
 					$this->redirect(input()->path);
 				}
 
@@ -271,9 +272,9 @@ class MenuController extends DietaryController {
 				foreach ($flash_message as $message) {
 					foreach ($message as $k => $m) {
 						if ($k == "success") {
-							session()->setFlash($m, 'success');
+							session()->setFlash($m, 'alert-success');
 						} elseif ($k == "error") {
-							session()->setFlash($m, 'error');
+							session()->setFlash($m, 'alert-danger');
 						}
 					}
 				}
@@ -289,6 +290,7 @@ class MenuController extends DietaryController {
 	public function meal_order_form() {
 
 		$this->template = "pdf";
+		$this->allow_access = true;
 
 		smarty()->assign('title', "Meal Order Form");
 
@@ -354,12 +356,8 @@ class MenuController extends DietaryController {
 
 
 	public function print_menu() {
-		if(isset(input()->pdf2) && input()->pdf2 == true) {
-			$this->template = "pdf2";
-		} else if(isset(input()->pdf) && input()->pdf == true) {
-			$this->template = "pdf";
-		}
-		
+		$this->template = "pdf";
+		$this->allow_access = true;
 		smarty()->assign('title', "Current Menu");
 
 		// Get the selected facility. If no facility has been selected return the users' default location
@@ -368,7 +366,7 @@ class MenuController extends DietaryController {
 		} else {
 			$location = $this->getLocation();
 		}
-		$this->pdfName = "weekly_menu_".date("Y-m-d", strtotime('last sunday')).".pdf";
+
 		smarty()->assign('location', $location);
 
 		// get the correct time for the selected location
@@ -488,7 +486,7 @@ class MenuController extends DietaryController {
 	private function validateMenuContent() {
 		// change the menu content to the newly entered info
 		if (input()->menu_content == "") {
-			session()->setFlash("Enter the new menu content", 'error');
+			session()->setFlash("Enter the new menu content", 'alert-danger');
 			$this->redirect(input()->path);
 		} else {
 			return trim(input()->menu_content);

@@ -3,13 +3,13 @@
 <div class="meal-order-form">
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<img src="{$IMAGES}/logos_black_reduced/{$location->logo}" alt="">
+			<img src="{$IMAGES}/aspencreek-logo-black.png" alt="">
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h2>Daily Patient Meal Order</h2>
+			<h2>Daily Resident Meal Order</h2>
 		</div>
 	</div>
 

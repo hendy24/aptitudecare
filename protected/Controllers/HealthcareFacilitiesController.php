@@ -123,7 +123,7 @@ class HealthcareFacilitiesController extends MainPageController {
 	public function submitAdd() {
 		if (!auth()->hasPermission("manage_healthcare_facilities")) {
 			$error_messages[] = "You do not have permission to add new healthcare facilities";
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect();
 		}
 
@@ -184,7 +184,7 @@ class HealthcareFacilitiesController extends MainPageController {
 
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);
 		}
 
@@ -197,7 +197,7 @@ class HealthcareFacilitiesController extends MainPageController {
 				$this->redirect(array('page' => 'data', 'action' => 'close'));
 			}
 		} else {
-			session()->setFlash("Could not save/edit the facility.  Please try again.", 'error');
+			session()->setFlash("Could not save/edit the facility.  Please try again.", 'warning');
 			$this->redirect(input()->path);
 		}
 

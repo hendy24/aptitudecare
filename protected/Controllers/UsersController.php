@@ -28,12 +28,14 @@ class UsersController extends MainPageController {
 
 		input()->type = 'users';
 		// if the user is an NSD we only want to get other users who are NSD's, dietary staff, or activities coordinators
-		if (auth()->hasPermission('edit_users')) {
+		if (auth()->is_admin()) {
+			$users = $this->loadModel('User')->fetchAll();
+		} elseif (auth()->hasPermission('edit_users')) {
 			$users = $this->loadModel('User')->fetchManageData($location);
 		} elseif (auth()->hasPermission('edit_dietary_users')) { // otherwise we will get everyone at the facility (have to have permission to access this page)
 			$users = $this->loadModel('User')->fetchDietaryUsers($location);	
 		} else {
-			session()->setFlash("You do not have permission to access this page", 'error');
+			session()->setFlash("You do not have permission to access this page", 'alert-warning');
 			$this->redirect();
 		}
 		
@@ -46,7 +48,7 @@ class UsersController extends MainPageController {
 	public function my_info() {
 		// prevent unauthorized access to this page...
 		if (!auth()->hasPermission("manage_users") && input()->id !== auth()->getRecord()->public_id) {
-			session()->setFlash("You do not have permission to access this page", 'error');
+			session()->setFlash("You do not have permission to access this page", 'alert-warning');
 			$this->redirect();
 		}
 		smarty()->assign('title', 'Edit User');
@@ -105,16 +107,16 @@ class UsersController extends MainPageController {
 		}
 		
 		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);			
 		}	
 
 		if ($user->save()) {
 			if (session()->default_module !== "Admission") {
-				session()->setFlash("Your account info has been saved", 'success');
+				session()->setFlash("Your account info has been saved", 'alert-success');
 				$this->redirect();
 			} else {
-				session()->setFlash("Could not save your account info", 'error');
+				session()->setFlash("Could not save your account info", 'alert-warning');
 				$this->redirect(input()->current_url);
 			}
 		}
@@ -176,7 +178,7 @@ class UsersController extends MainPageController {
 			smarty()->assign('existing', false);
 
 			if (!auth()->hasPermission("add_user")) {
-				session()->setFlash("You do not have permission to add new users.", 'error');
+				session()->setFlash("You do not have permission to add new users.", 'warning');
 				$this->redirect();
 			}
 			$user = $this->loadModel("User");
@@ -189,7 +191,7 @@ class UsersController extends MainPageController {
 			if (input()->id != '') {
 				$user = $this->loadModel('User', input()->id);
 			} else {
-				session()->setFlash("Could not find the selected user", "error");
+				session()->setFlash("Could not find the selected user", "alert-warning");
 				$this->redirect(input()->currentUrl);
 			}
 		}
@@ -226,18 +228,18 @@ class UsersController extends MainPageController {
 			$location_options = $this->loadModel('Location')->fetchHomeHealthLocations($additional_locations);
 		}
 
-		smarty()->assignByRef('available_locations', $location_options);
+		smarty()->assign('available_locations', $location_options);
 		
 
 		// Get available modules
-		smarty()->assignByRef('available_modules', $this->loadModel('Module')->fetchAll());
+		smarty()->assign('available_modules', $this->loadModel('Module')->fetchAll());
 
 		// fetch the modules to which the user has access
-		smarty()->assignByRef('assigned_modules', $this->loadModel('UserModule')->fetchAssignedModules($user->id));
+		smarty()->assign('assigned_modules', $this->loadModel('UserModule')->fetchAssignedModules($user->id));
 
 
 		//	Get Groups
-		smarty()->assignByRef('groups', $this->loadModel('Group')->fetchAll());
+		smarty()->assign('groups', $this->loadModel('Group')->fetchAll());
 
 		// fetch the user assigned groups
 		smarty()->assign('user_groups', $this->loadModel('UserGroup')->fetchAssignedGroups($user->id));
@@ -245,7 +247,7 @@ class UsersController extends MainPageController {
 		$clinicianTypes = $this->loadModel('Clinician')->fetchAll();
 		smarty()->assign('clinicianTypes', $clinicianTypes);
 
-		smarty()->assignByRef('user', $user);
+		smarty()->assign('user', $user);
 	}
 
 
@@ -259,7 +261,7 @@ class UsersController extends MainPageController {
 	public function save_user() {
 
 		if (!auth()->hasPermission("add_user")) {
-			session()->setFlash("You do not have permission to add new users", 'error');
+			session()->setFlash("You do not have permission to add new users", 'alert-warning');
 			$this->redirect();
 		}
 
@@ -302,9 +304,9 @@ class UsersController extends MainPageController {
 		} 
 
 		if (isset (input()->temp_password)) {
-			$user->temp_password = true;
+			$user->temp_password = 1;
 		} else {
-			$user->temp_password = false;
+			$user->temp_password = 0;
 		}
 
 		if (input()->phone != '') {
@@ -329,7 +331,7 @@ class UsersController extends MainPageController {
 
 		//	BREAKPOINT
 		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);
 		}
 
@@ -356,11 +358,13 @@ class UsersController extends MainPageController {
 
 
 			// Save the users additional locations
-			foreach (input()->additional_locations as $loc) {
-				$add_locations = $this->loadModel('UserLocation');
-				$add_locations->user_id = $user->id;
-				$add_locations->location_id = $loc; 	
-				$add_locations->save();
+			if (!empty (input()->additional_locations)) {
+				foreach (input()->additional_locations as $loc) {
+					$add_locations = $this->loadModel('UserLocation');
+					$add_locations->user_id = $user->id;
+					$add_locations->location_id = $loc; 	
+					$add_locations->save();
+				}
 			}
 
 			// If the user is a clinician, save it
@@ -412,59 +416,63 @@ class UsersController extends MainPageController {
 			
 
 			// Save the user to the admission dashboard
-			if ($user->default_module == 1 || $admission_access) {
-				$obj = new AdmissionDashboardUser;
 
-				// need to check for existing user in admission db
-				$siteUser = $obj->checkForExisting($user->public_id);
-				$siteUser->pubid = $user->public_id;
-				$siteUser->password = $user->password;
-				$siteUser->email = $user->email;
-				$siteUser->first = $user->first_name;
-				$siteUser->last = $user->last_name;
-				if ($user->phone != "") {
-					$siteUser->phone = $user->phone;
-				} else {
-					$siteUser->phone = "";
-				}
+
+			// This is no longer relevant... 2020-08-31 by kwh
+
+			// if ($user->default_module == 1 || $admission_access) {
+			// 	$obj = new AdmissionDashboardUser;
+
+			// 	// need to check for existing user in admission db
+			// 	$siteUser = $obj->checkForExisting($user->public_id);
+			// 	$siteUser->pubid = $user->public_id;
+			// 	$siteUser->password = $user->password;
+			// 	$siteUser->email = $user->email;
+			// 	$siteUser->first = $user->first_name;
+			// 	$siteUser->last = $user->last_name;
+			// 	if ($user->phone != "") {
+			// 		$siteUser->phone = $user->phone;
+			// 	} else {
+			// 		$siteUser->phone = "";
+			// 	}
 				
 
-				if ($user->group_id == 2) {
-					$siteUser->is_coordinator = 1;
-				} else {
-					$siteUser->is_coordinator = 0;
-				}
+			// 	if ($user->group_id == 2) {
+			// 		$siteUser->is_coordinator = 1;
+			// 	} else {
+			// 		$siteUser->is_coordinator = 0;
+			// 	}
 
-				if ($i > 1) {
-					$siteUser->module_access = 1;
-				} else {
-					$siteUser->module_access = 0;
-				}
+			// 	if ($i > 1) {
+			// 		$siteUser->module_access = 1;
+			// 	} else {
+			// 		$siteUser->module_access = 0;
+			// 	}
 
-				$siteUser->default_facility = $user->default_location;
-				$siteUser->timeout = 0;
+			// 	$siteUser->default_facility = $user->default_location;
+			// 	$siteUser->timeout = 0;
 				
-				$siteUser->save($siteUser, db()->dbname2);
+			// 	$siteUser->save($siteUser, db()->dbname2);
 
-				// Need to save additional locations for admissions
-				$admitLocation = new AdmissionDashboardLocation;
-				$admitLocation->site_user = $siteUser->id;
-				$admitLocation->facility = $user->default_location;
-				$admitLocation->save($admitLocation, db()->dbname2);
+			// 	// Need to save additional locations for admissions
+			// 	$admitLocation = new AdmissionDashboardLocation;
+			// 	$admitLocation->site_user = $siteUser->id;
+			// 	$admitLocation->facility = $user->default_location;
+			// 	$admitLocation->save($admitLocation, db()->dbname2);
 
 
-				if (!empty (input()->additional_locations)) {
-					foreach (input()->additional_locations as $loc) {
-						$admit_locations = new AdmissionDashboardLocation;
-						$admit_locations->site_user = $siteUser->id;
-						$admit_locations->facility = $loc;	
-						$admit_locations->save($admit_locations, db()->dbname2);
-					}
+			// 	if (!empty (input()->additional_locations)) {
+			// 		foreach (input()->additional_locations as $loc) {
+			// 			$admit_locations = new AdmissionDashboardLocation;
+			// 			$admit_locations->site_user = $siteUser->id;
+			// 			$admit_locations->facility = $loc;	
+			// 			$admit_locations->save($admit_locations, db()->dbname2);
+			// 		}
 					
-				} 
-			}
+			// 	} 
+			// }
 
-			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'success');
+			session()->setFlash("Successfully added/edited {$user->first_name} {$user->last_name}", 'alert-success');
 
 			if (isset ($userClinician)) {
 				$this->redirect(array('module' => 'HomeHealth', 'page' => 'clinicians', 'action' => 'manage', 'location' => input()->location_public_id));
@@ -474,7 +482,7 @@ class UsersController extends MainPageController {
 			
 
 		} else {
-			session()->setFlash("Could not save the user.  Please try again.", 'error');
+			session()->setFlash("Could not save the user.  Please try again.", 'alert-warning');
 			$this->redirect(input()->path);
 		}
 
@@ -534,7 +542,7 @@ class UsersController extends MainPageController {
 
 
 			if (!empty ($error_messages)) {
-				session()->setFlash($error_messages, 'error');
+				session()->setFlash($error_messages, 'warning');
 				$this->redirect(input()->path);
 			}
 
@@ -545,7 +553,7 @@ class UsersController extends MainPageController {
 			}
 
 			if ($user->save()) {
-				session()->setFlash("The password has been changed for {$user->fullName()}", 'success');
+				session()->setFlash("The password has been changed for {$user->fullName()}", 'alert-success');
 				if (isset (input()->reset)) {
 					if ($user->default_module == 1) {
 						$this->redirect(array('module' => "Admission", 'user' => $user->public_id));

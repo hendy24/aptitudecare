@@ -1,0 +1,12 @@
+.nav-link li, a, a:hover, a:visited {
+	color: #f4f4f4;
+	text-decoration: none;
+}
+
+.nav-link a:hover {
+	cursor: hand;
+}
+
+a.nav-link {
+	color: #ffffff;
+}

@@ -15,7 +15,7 @@ class PatientBeverage extends Dietary {
       return $result;
     }
 
-    return false;
+    return array($this);
 
   }
 

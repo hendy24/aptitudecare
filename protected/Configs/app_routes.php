@@ -5,6 +5,7 @@
 	// Set module variable to false
 	$module = false;
 
+
 	// If the variables are available from a post request, use them...
 	if (isset(input()->module)) {
 		// Set module
@@ -23,7 +24,6 @@
 		} else {
 			$page = ucfirst(camelizeString(input()->page));
 		}
-
 
 		// Set the controller action
 		if (isset(input()->action)) {
@@ -63,10 +63,8 @@
 				// The first item in the query string will be the controller (page).  We will make it camel cased, remove any hyphens,
 				// and capitalize the first letter in the string.
 				$page = ucfirst(camelizeString($queryString[1]));
-
 			} else {
-				$page = 'Login';
-
+				$page = 'Public';
 			}
 			// If there is a second item in the array then this is the controller method (action)
 			if (isset ($queryString[2])) {
@@ -111,6 +109,7 @@
 	}
 
 
+
 	/*
 	 * -------------------------------------------
 	 * CREATE ROUTES FOR SPECIFIC URL'S
@@ -134,14 +133,12 @@
 	 */
 
 	 	// If the module variable is not empty we can look directly into that controller directory
-	 	if ($module == '') {
+	 	if ($module) {
 		 	foreach ($module_dir as $dir) {
 				if (file_exists(MODULES_DIR . DS . $dir . DS . 'Controllers' . DS . $page.'Controller.php')) {
 					include_once(MODULES_DIR . DS . $dir . DS . 'Controllers' . DS . $page.'Controller.php');
 				}
-
 			}
-
 		//	Next, look in the protected directory for the controller.
 	 	} elseif (file_exists (APP_PROTECTED_DIR . DS . 'Controllers' . DS . $page.'Controller.php')) {
 			include_once (APP_PROTECTED_DIR . DS . 'Controllers' . DS . $page.'Controller.php');
@@ -149,10 +146,13 @@
 			// Loop through the modules to look for the controller.
 			include_once(MODULES_DIR . DS . $module . DS . 'Controllers' . DS . $page.'Controller.php');
 		}
+		
 		$className = $page.'Controller';
+
 
 		// If the class exists, instantiate it and load the coorespondig view from the Views folder. Otherwise, load the
 		// error page.
+		
 		if (class_exists($className)) {
 			$controller = new $className;
 			$controller->page = underscoreString($page);

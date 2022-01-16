@@ -2,6 +2,7 @@
 
 class LoginController extends MainPageController {
 
+	public $page = 'login';
 	public $allow_access = true;
 
 	
@@ -27,14 +28,12 @@ class LoginController extends MainPageController {
 		} else {
 			smarty()->assign('site_email', "");
 		}
-		
-		smarty()->assign('title', 'Login');
+		smarty()->assign('title', 'Aspen Creek Login');
 
 		 // LOGIN FORM HAS BEEN SUBMITTED
 		 //		 
 		 		 
 		if (input()->is('post')) {
-			
 			// Verify that the email field is not blank
 			if (input()->email != '') {
 			
@@ -60,7 +59,7 @@ class LoginController extends MainPageController {
 			
 			// If error messages, then set messages and redirect back to login page
 			if (!empty($error_messages)) {
-				session()->setFlash($error_messages, 'error');
+				session()->setFlash($error_messages, 'warning');
 				$this->redirect(input()->path);
 			}			
 			
@@ -80,13 +79,12 @@ class LoginController extends MainPageController {
 				
 				
 			} else { // send them back to the login page with an error
-				session()->setFlash(array('Could not authenticate the user'), 'error');
+				session()->setFlash(array('Could not authenticate the user'), 'warning');
 				$this->redirect(input()->path);
 			}
 					
 		} 
 				
-
 	}	
 
 
@@ -142,7 +140,7 @@ class LoginController extends MainPageController {
 	
 	public function logout() {
 		auth()->logout();
-		$this->redirect(array('page' => 'login', 'action' => 'index'));
+		$this->redirect(SITE_URL);
 	}
 	
 

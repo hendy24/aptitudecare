@@ -4,7 +4,7 @@ class Dietary extends AppModel {
 
 	protected $prefix = "dietary";
 
-	public function fetchByName($name = false, $save_other = false, $is_texture = false, $is_puree = false) {
+	public function fetchByName($name = false, $save_other = false, $is_texture = false) {
 		if ($name) {
 			$sql = "SELECT * FROM {$this->tableName()} WHERE name = :name LIMIT 1";
 			$params[":name"] = $name;
@@ -13,10 +13,9 @@ class Dietary extends AppModel {
 			if (empty ($result)) {
 				$this->name = $name;
 				if ($save_other) {
-					$this->is_other = true;
+					$this->is_other = 1;
 					if ($is_texture) {
-						$this->is_liquid = false;
-						$this->is_puree = false;
+						$this->is_liquid = 0;
 					}
 				}
 				$this->save();
@@ -42,35 +41,35 @@ class Dietary extends AppModel {
 	}
 
 
-	public function fetchAll($sql = null, $params = array()) {
+	// public function fetchAll($sql = null, $params = array()) {
 		
-		$called_class = get_called_class();
-		$class = new $called_class;
+	// 	$called_class = get_called_class();
+	// 	$class = new $called_class;
 
-		$table = $this->tableName();
+	// 	$table = $this->tableName();
 
-		if ($sql == null) {
-			$sql = "SELECT * FROM `{$table}`";
-			if (!empty($params)) {
-				foreach ($params as $k => $p) {
-					$sql .= " WHERE {$k} = {$p} AND";
-				}
+	// 	if ($sql == null) {
+	// 		$sql = "SELECT * FROM `{$table}`";
+	// 		if (!empty($params)) {
+	// 			foreach ($params as $k => $p) {
+	// 				$sql .= " WHERE {$k} = {$p} AND";
+	// 			}
 
-				$sql = trim($sql, "AND");
-			}
+	// 			$sql = trim($sql, "AND");
+	// 		}
 
-			if (isset ($table->name)) {
-				$sql .= "ORDER BY name ASC";
-			}
+	// 		if (isset ($table->name)) {
+	// 			$sql .= "ORDER BY name ASC";
+	// 		}
 
-		}
+	// 	}
 		
-		try {
-			return db()->fetchRows($sql, $params, $class);
-		} catch (PDOException $e) {
-			echo $e;
-		}
-	}
+	// 	try {
+	// 		return db()->fetchRows($sql, $params, $class);
+	// 	} catch (PDOException $e) {
+	// 		echo $e;
+	// 	}
+	// }
 
 
 
@@ -85,7 +84,6 @@ class Dietary extends AppModel {
       $sql = "SELECT t1.id AS t1_id, t2.id AS t2_id FROM {$this->tableName()} t1 INNER JOIN {$other_table->tableName()} t2 ON t2.id = t1.{$other_table->joinName()} WHERE t1.patient_id = :patient_id AND t2.is_other = 1";
 
       $params[":patient_id"] = $patient_id;
-
       $result = $this->fetchOne($sql, $params);
 
       if (!empty ($result)) {

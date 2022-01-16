@@ -17,9 +17,9 @@ class MainPageController extends MainController {
  * 	NOTE: Need to check security on these pages as users who are not logged in could actually access these pages.
  *
  */
-	public function allow_access() {
-		return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu");
-	}
+	// public function allow_access() {
+	// 	return array("meal_order_form", "adaptive_equipment", "allergies", "beverages", "meal_tray_card", "diet_census", "snack_report", "snack_labels", "print_menu", "print_activities", "public");
+	// }
 
 
 /*
@@ -37,12 +37,11 @@ class MainPageController extends MainController {
 
 
 
-
+	/*
+	 * This function is not being used now since we are using a public page.
+	 *
+	 */
 	public function index() {
-		// Check if user is logged in, if not redirect to login page
-		if (!auth()->isLoggedIn()) {
-			$this->redirect(array('page' => 'Login', 'action' => 'index'));
-		}
 
 	}
 
@@ -67,11 +66,13 @@ class MainPageController extends MainController {
 			}
 		}
 
+
 		// Fetch the modules to which the user has access
 		if (auth()->isLoggedIn()) {
 			$modules = $this->loadModel('Module')->fetchUserModules(auth()->getPublicId());
 			smarty()->assign('modules', $modules);
 		}
+
 
 		//	If no module variable is present get the session module
 		if ($this->module == '') {
@@ -82,7 +83,6 @@ class MainPageController extends MainController {
 		}
 		// Set the content from the controller and cooresponding view
 		$this->setContent();
-
 
 		if (auth()->isLoggedIn()) {
 			if ($this->action == "admission_login") {
@@ -106,17 +106,39 @@ class MainPageController extends MainController {
 	private function setContent() {
 		//	If the module is specified in the url we will look in the module directory first for the view file.
 		//	If it is not there we will look next in the default view directory.
-		if ($this->module != "") {
-			if (file_exists(MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
-				smarty()->assign('content', MODULES_DIR . DS . $this->module . DS . 'Views/' . underscoreString($this->page) . '/' . $this->action . '.tpl');
+
+
+		if ($this->module != "") {	
+			if (file_exists(MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl')) {
+				smarty()->assign('content', MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.tpl');
+
+				// if the file exists, load the js file
+				if (file_exists(MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.js')) {
+					smarty()->assign('jsfile', MODULES_DIR . DS . ucfirst($this->module) . DS . 'Views/' . underscoreString($this->page) . DS . $this->action . '.js');
+				}  else {
+					smarty()->assign('jsfile', VIEWS . DS . 'layouts' . DS . 'blank.js');
+				}
 			} else {
 				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
+
+				// look for js file
+				if (file_exists (VIEWS . DS . underscoreString($this->page) . '/' . $this->action . '.js')) {	
+					smarty()->assign('jsfile', VIEWS . DS . underscoreString($this->page) . '/' . $this->action . '.js');
+				} else {
+					smarty()->assign('jsfile', VIEWS . DS . 'layouts' . DS . 'blank.js');
+				}
 			}
 
 		//	If no module is set then we will get the content from the default view directory.
 		} else {
 			if (file_exists (VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.tpl')) {
 				smarty()->assign('content', underscoreString($this->page) . '/' . $this->action . '.tpl');
+
+				if (file_exists (VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.js')) {
+					smarty()->assign('jsfile', VIEWS . DS . underscoreString($this->page) . DS . $this->action . '.js');
+				} else {
+					smarty()->assign('jsfile', VIEWS . DS . 'layouts' . DS . 'blank.js');
+				}
 			} else {
 				smarty()->assign('content', "error/no-template.tpl");
 			}
@@ -183,7 +205,7 @@ class MainPageController extends MainController {
 	private function verifyModuleAccess($user_modules, $module) {
 		if (!empty ($user_modules)) {
 			foreach ($user_modules as $m) {
-				if ($m->name == $module) {
+				if ($m->name == $module || $m->name == ucfirst($module)) {
 					return true;
 				}
 			}
@@ -398,9 +420,7 @@ class MainPageController extends MainController {
 				array_push($error_test, true);
 			} else {
 				array_push($error_test, false);
-				break;
 			}
-
 		}
 
 		if (!empty ($saved_object)) {
@@ -418,6 +438,51 @@ class MainPageController extends MainController {
 		}
 
 		return false;
+	}
+
+
+
+	public function normalizeMenuItems($menuItems) {
+		$menuWeek = false;
+		foreach ($menuItems as $key => $item) {
+
+			if (isset ($item->date) && $item->date != "") {
+				$menuItems[$key]->type = "MenuMod";
+			} elseif (isset ($item->menu_item_id) && $item->menu_item_id != "") {
+				$menuItems[$key]->type = "MenuChange";
+			} else {
+				$menuItems[$key]->type = "MenuItem";
+			}
+
+			// Get the current week
+			$menuWeek = floor($item->day / 7);
+
+			$menuItems[$key]->content = nl2br($item->content);
+
+			// explode the tags
+			if (strstr($item->content, "<p>")) {
+				$menuItems[$key]->content = explode("<p>", $item->content);
+				$menuItems[$key]->content = str_replace("</p>", "", $item->content);
+			} else {
+				$menuItems[$key]->content = explode("<br />", $item->content);
+			}
+
+			if (isset ($item->mod_content)) {
+				// explode the tags
+				if (strstr($item->mod_content, "<p>")) {
+					$menuItems[$key]->mod_content = explode("<p>", $item->mod_content);
+					$menuItems[$key]->mod_content = str_replace("</p>", "", $item->mod_content);
+				} else {
+					$menuItems[$key]->mod_content = explode("<br />", $item->mod_content);
+				}
+			}
+
+
+		}
+
+		smarty()->assign('count', 0);
+		smarty()->assign('menuWeek', $menuWeek);
+		smarty()->assignByRef('menuItems', $menuItems);
 	}
 
 }

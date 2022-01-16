@@ -128,7 +128,7 @@ class CaseManagersController extends MainPageController {
 
 		//	Breakpoint
 		if (!empty ($error_messages)) {
-			session()->setFlash($error_messages, 'error');
+			session()->setFlash($error_messages, 'warning');
 			$this->redirect(input()->path);
 		}
 

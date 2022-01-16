@@ -5,11 +5,10 @@ class Room extends Admission {
 	protected $table = "room";
 
 	public function fetchEmpty($location_id) {
-		$sql = "SELECT * FROM {$this->tableName()} WHERE location_id = :location_id";
+		$sql = "SELECT * FROM {$this->tableName()} WHERE location = :location_id ORDER BY number ASC";
 		$params[":location_id"] = $location_id;
 		return $this->fetchAll($sql, $params);
 	}
-
 
 	public function mergeRooms($rooms, $scheduled, $test = null) {
 		$temp = array();
@@ -30,18 +29,16 @@ class Room extends Admission {
 			$which = $index[$number][0];
 			$idx = $index[$number][1];
 			$retval[] = ${$which}[$idx];
-		//	pr($index[$number][0]);
 		}
-		//pr($retval);
-		//exit;
 		return $retval;
 
 	}
 
 
 	public function getRoom($location_id, $number) {
-		$sql = "SELECT * FROM {$this->tableName()} WHERE location_id = :location_id AND number = :number";
+		$sql = "SELECT * FROM {$this->tableName()} WHERE location = :location_id AND number = :number";
 		$params = array(":location_id" => $location_id, ":number" => $number);
+		
 		return $this->fetchOne($sql, $params);
 	}
 

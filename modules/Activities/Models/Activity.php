@@ -16,8 +16,12 @@ class Activity extends Info {
 	 * Get all the activities for the week at the selected location
 	 *
 	 */
-	public function fetchActivities($location_id, $start_date, $num_days = 7) {
+	public function fetchActivities($location_id, $start_date, $num_days = null) {
 		
+		if ($num_days == null) {
+			$num_days = 7;
+		}
+
 		$act_s = $this->loadTable('ActivitySchedule');
 
 		$sql = "SELECT a.*, act_s.* 

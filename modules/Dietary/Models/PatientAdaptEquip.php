@@ -30,7 +30,7 @@ class PatientAdaptEquip extends Dietary {
     }
   }
 
-  public function fetchByLocation($location) {
+  public function fetchAEByLocation($location) {
     $ae = $this->loadTable("AdaptEquip");
     $pae = $this->loadTable("PatientAdaptEquip");
     $schedule = $this->loadTable("Schedule");
@@ -42,10 +42,9 @@ class PatientAdaptEquip extends Dietary {
               r.number, 
               GROUP_CONCAT(ae.name separator ', ') as ae_name
             FROM ac_patient AS p 
-			INNER JOIN dietary_patient_info as dpi on dpi.patient_id = p.id
             INNER JOIN {$schedule->tableName()} s ON s.patient_id = p.id 
-            INNER JOIN {$room->tableName()} r ON r.id = s.room_id 
-            INNER JOIN {$pae->tableName()} pae ON pae.patient_id = p.id
+            INNER JOIN {$room->tableName()} r ON r.id = s.room 
+            LEFT JOIN {$pae->tableName()} pae ON pae.patient_id = p.id
             LEFT JOIN {$ae->tableName()} ae ON ae.id = pae.adapt_equip_id
             WHERE s.status='Approved' AND (s.datetime_discharge IS NULL OR s.datetime_discharge >= :current_date) AND s.location_id = :location_id
             GROUP BY p.id
@@ -57,24 +56,9 @@ class PatientAdaptEquip extends Dietary {
 
     return $this->fetchAll($sql, $params);
 
-    //     $sql =
-    // <<<EOD
-
-    //     Select p.last_name, p.first_name, p.id patient_id, r.number, f.id adapt_id, f.name
-    //     FROM ac_patient AS p
-    //     INNER JOIN admit_schedule s ON s.patient_id = p.id
-    //     INNER JOIN admit_room r ON r.id = s.room_id
-    //     LEFT JOIN dietary_patient_adapt_equip e ON e.patient_id = p.id
-    //     left join dietary_adapt_equip f on e.adapt_equip_id = f.id
-    //     WHERE s.status='Approved' AND s.location_id = {$location->id}
-    // EOD;
 
     // $compiled_patients  = array();
     // $duped_patients = array();
-
-
-    // //$params[":location_id"] = 3;
-    // $patients = $this->fetchAll($sql);
 
 
     // foreach ($patients as $key => $value) {

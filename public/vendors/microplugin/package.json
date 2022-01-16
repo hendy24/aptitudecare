@@ -1,0 +1,22 @@
+{
+	"name": "microplugin",
+	"keywords": ["extensibility","plugins","architecture","require","dependencies"],
+	"description": "A lightweight plugin / dependency system for javascript libraries.",
+	"version": "0.0.3",
+	"author": "Brian Reavis <brian@thirdroute.com>",
+	"main": "src/microplugin.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/brianreavis/microplugin.js.git"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"mocha": "1.12.x",
+		"mocha-istanbul": "0.2.x",
+		"mocha-lcov-reporter": "0.0.x",
+		"coveralls": "2.3.x",
+		"uglify-js": "2.4.x",
+		"istanbul": "0.1.x"
+	},
+	"engines": {"node": "*"}
+}

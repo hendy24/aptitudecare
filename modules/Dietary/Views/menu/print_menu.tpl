@@ -1,7 +1,7 @@
 <div class="container print-menu">
 	<div class="row">
 		<div class="col-xs-12">
-			<h1 class="print-menu">{$location->name} Dining Services</h1>
+			<h1 class="print-menu">{$location->name}</h1>
 		</div>
 	</div>
 
@@ -16,9 +16,11 @@
 		<div class="row">
 			{foreach from=$menu item="content"}
 			<div class="menu-content">
+				<ul>
 				{foreach $content as $item}
-					<span>{$item}</span><br>
+					<li>{$item|strip_tags:true}</li>
 				{/foreach}
+				</ul>
 			</div>
 			{/foreach}
 		</div>
@@ -26,36 +28,20 @@
 	<div class="row">
 		<hr>
 		<div class="col-xs-12 menu-info">
-			<span>If the daily special doesn't appeal to you today, please choose from the following alternate selections:</span>
+			When a guest will be joining you for a meal, please provide the kitchen with a 2 hour notice. Thank You!
+			If the daily special doesn't appeal to you today, please choose from the following alternate selections
 		</div>
 	</div>
 
-{*	<div class="row">
+	<div class="row">
 		<div class="col-xs-12">
 			<h2>Alternate Menu</h2>
 		</div>
-	</div>*}
+	</div>
 
 	<div class="row">
-		<div class="col-xs-12 menu-alts">
+		<div class="col-xs-12">
 			<p>{$alternates->content}</p>
 		</div>
 	</div>
-{*	<div class="row">
-		<div class="col-xs-12">
-			<h2>Beverage Options</h2>
-		</div>
-	</div>
-	<div class="row">
-		{foreach from=$beverages item=bev}
-		<div class="menu-beverages">
-			{$bev->name}
-		</div>
-		{/foreach}
-	</div>*}
-{*	<div class="row">
-		<div class="col-xs-12 menu-info">
-			<p>Please contact the Nutrition Services Director, <strong>{$nsd->name}</strong> for any questions or comments.</p>
-		</div>
-	</div>*}
 </div>

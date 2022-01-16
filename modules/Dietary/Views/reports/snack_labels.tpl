@@ -4,61 +4,53 @@
     <meta charset="utf-8">
     <style>
       body {
+          width: 8.5in;
+          height: 11.25in;
+          margin: 0.5in 0.25in;
+          font-size: 10px;
       }
       #label-page {
-          font-size: 12px;
+          border: 1px dotted black;
       }
-      .label5160{
+      .label{
           /* Avery 5160 labels -- CSS and HTML by MM at Boulder Information Services */
-          width: 32.3%;
-          height: 95px;
-          padding: 0.125in 0.08in;
+          width: 2.725in; /* plus .6 inches from padding */
+          height: 0.9in; /* plus .125 inches from padding .875 */
+          padding: .125in .1in;
           margin-right: .125in; /* the gutter */
           float: left;
           text-align: center;
           overflow: hidden;
-          outline: white 1px dotted; /* outline doesn't occupy space like border does */
+          outline: 1px dotted; /* outline doesn't occupy space like border does */
           page-break-after: auto;
-		  page-break-inside: avoid;
-		  color: black;
           }
-	  .label5160:nth-of-type(3n) {
-		margin-right: 0px;
-	  }
-	  .label5160:nth-of-type(9n) {
-		margin-bottom: 3px;
-	  }
       .page-break  {
           clear: left;
           display:block;
           page-break-after:always;
           }
       .allergy {
-          color: red !important;
+          color: red;
           font-style: italic;
-		  font-size: 1.1em;
-		  display: inline;
       }
-	  .line1 {
-		white-space: nowrap;
-		overflow: hidden;
-	  }
       .snack { font-weight: bold; }
 
     </style>
+
 </head>
 <body>
 
 <div id="label-page">
   {foreach from=$snacks item=item key=time}
     {foreach from=$item item=snack}
-      <div class="label5160">
-        <strong class="line1">{$snack->number} - {$snack->patient_name} -  {if $printDate != ""}{$printDate|date_format:"%b %d"}{else}{$smarty.now|date_format:"%b %d"}{/if}</strong><br>
-        <strong>Diet:</strong> {$snack->diet}{if $snack->diet_info_other}, {$snack->diet_info_other}{/if}<br>
+      <div class="label">
+        <strong>{$snack->number} - {$snack->patient_name}</strong><br>
+        <strong>Date:</strong> {$smarty.now|date_format:"%D"}<strong> Time:</strong> {$snack->time}<br>
+        <strong>Diet:</strong> {$snack->diet}<br>
         {if !empty($snack->allergy)}
-        <p class="allergy">Allergies:</p> {$snack->allergy}<br>
+        <strong>Allergies:</strong> {$snack->allergy}<br>
         {/if}
-        <strong>Snack:</strong> {$snack->name} <strong>[{$snack->time}]</strong>
+        <strong>Snack:</strong> {$snack->name}
       </div>
     {/foreach}
   {/foreach}

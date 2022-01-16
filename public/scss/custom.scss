@@ -1,0 +1,589 @@
+@import "../bootstrap/scss/bootstrap";
+
+/******** color palette **********/
+$dark-blue: #213c60;
+$light-blue: #81b7e3;
+$dark-gray: #48484a;
+$light-gray: #c7c8ca;
+$white: #ffffff;
+$off-white: #f8f8f8;
+$black: #121212;
+
+.text-dark-blue { color: $dark-blue; }
+.text-light-blue { color: $light-blue; }
+.text-dark-gray { color: $dark-gray; }
+.text-light-gray { color: $light-gray; }
+.text-white { color: $white; }
+
+/******** /color palette **********/
+
+
+.text-6 { font-size: 0.6rem; }
+.text-8 { font-size: 0.8rem; }
+.text-10 { font-size: 1.0rem; }
+.text-12 { font-size: 1.2rem; }
+.text-14 { font-size: 1.4rem; }
+.text-16 { font-size: 1.6rem; }
+.text-18 { font-size: 1.8rem; }
+.text-20 { font-size: 2.0rem; }
+.text-22 { font-size: 2.2rem; }
+.text-24 { font-size: 2.4rem; }
+.text-26 { font-size: 2.6rem; }
+.text-28 { font-size: 2.8rem; }
+.text-30 { font-size: 3.0rem; }
+.text-32 { font-size: 3.2rem; }
+
+.text-strong { font-weight: bold; }
+
+ul li {
+  list-style-type: none;
+}
+
+
+li.active {
+  background: $white;
+
+  a.nav-link, a.nav-link:visited {
+    color: $black;
+  }
+}
+
+.alert-success {
+  padding-top: 1rem;
+}
+
+.alert-danger {
+  padding-top: 1rem;
+}
+
+.alert-warning {
+  padding-top: 1rem;
+}
+
+
+
+.bootstrap-tagsinput {
+    background-color: $white;
+    border: 1px solid $light-gray;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    display: block;
+    padding: 4px 6px;
+    color: $dark-gray;
+    vertical-align: middle;
+    border-radius: 4px;
+    max-width: 100%;
+    line-height: 22px;
+    cursor: text;
+}
+.bootstrap-tagsinput input {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0 6px;
+    margin: 0;
+    width: auto;
+    max-width: inherit;
+}
+
+.datepicker-modal {
+  height: 600px;
+}
+
+.modal-body {
+  max-height: calc(100% - 120px);
+  overflow-y: scroll;
+}
+
+
+/**** Custom bootstrap styles ****/
+
+.btn-primary {
+  background-color: $light-blue;
+  border-color: $light-blue;
+}
+
+.btn-primary:hover {
+  background-color: $dark-blue;
+  border-color: $dark-blue;
+}
+
+table {
+  thead, thead.thead-dark {
+    background: $dark-blue;
+    color: $off-white;
+  }
+}
+
+h1 {
+	margin: 15px 0;
+	text-align: center;
+}
+
+.navbar {
+  background: $dark-blue;
+}
+
+.nav {
+  
+  li {
+    line-height: 0.75em;
+  }
+
+  li.nav-item a {
+    color: #f8f8f8;
+  }
+
+  li.nav-item a:hover {
+    color: #333333;
+    background-color: #ffffff;
+  }
+}
+
+.table {
+  .btn {
+    background: none;
+  }
+
+  a.btn {
+    border: none;
+    color: #000;
+  }
+
+  a.btn:hover {
+    color: #333333;
+  }
+
+  a.btn-table, a.button:visited {
+    background: #444444;
+    padding: 6px 12px;
+    border-radius: 2px;
+    color: #f8f8f8;
+  }
+
+  a.btn-table:hover {
+    text-decoration: none;
+    background: #000000;
+    color: #ffffff;
+  }
+
+}
+
+/*
+ * Site wide styles
+ */
+
+.container {
+  width: 80%;
+}
+
+
+.login {
+  width: 40%;
+}
+
+
+a.button {
+  display: block;
+  background: #light-blue;
+  text-align: center;
+  border-radius: 5px;
+  color: $white;
+	padding: 10px;
+}
+
+a.button:hover {
+  background: $dark-blue;
+  text-decoration: none;
+}
+
+
+.alert > ul li {
+	list-style-type: none;
+}
+
+.manage-header {
+  background: $black;
+  padding: 1rem 0;
+  color: $white;
+  margin-top: 1rem;
+}
+
+.manage-body {
+  line-height: 3rem;
+  border-bottom: 1px solid $light-gray;
+
+  .btn {
+    background: none;
+    border: 0;
+    color: $black;
+  }
+
+  .btn:hover {
+    text-decoration: none;
+    color: $dark-gray;
+  }
+}
+
+.form-header {
+  background: $dark-gray;
+  padding: 0.15rem 0.75rem;
+  color: $white;
+  margin: 2.0rem 0 0.75rem 0;
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+i.fas {
+  width: 1.25rem;
+}
+
+.autocomplete-suggestions {
+  border: 1px solid $light-gray;
+  background: $white;
+  overflow: auto;
+  padding: 4px 6px;
+}
+
+.autocomplete-suggestion {
+  padding: 2px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.autocomplete-selected {
+  background: $light-gray;
+}
+
+.autocomplete-suggestions strong {
+  font-weight: normal;
+  color: $dark-gray;
+}
+
+.autocomplete-group {
+  padding: 2px 5px;
+}
+
+.autocomplete-groups strong {
+  display: block;
+  border-bottom: 1px solid $black;
+}
+
+
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100; /* Behind the navbar */
+	padding: 100px 0 0; /* Height of navbar */
+	line-height: 1em;
+  background: $dark-blue;
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #e4e4e4;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #e4e4e4;
+}
+
+.sidebar .nav-link.active {
+  color: #e4e4e4;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Content
+ */
+
+[role="main"] {
+  padding-top: 48px; /* Space for fixed navbar */
+}
+
+/*
+ * Navbar
+ */
+
+.navbar {
+	z-index: 150;
+}
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: 1.15rem;
+  font-size: 1rem;
+  background-color: color($gray-800);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+.section {
+	margin: 25px 0;
+}
+
+
+a, a:visited {
+  color: #000;
+}
+
+
+/*
+ * Reports pages
+ *
+ */
+
+.thead-dark {
+  a {
+    color: $white;
+  }
+}
+
+
+
+/*
+ * Diet Page
+ *
+ */
+
+
+.diet {
+
+
+     .card-header {
+          background: none;
+          border: none;
+          margin-left: 0;
+          padding-left: 0;
+
+          h2 {
+               margin-left: 0;
+               font-weight: bold;
+          }
+
+          button {
+               background: none;
+               font-weight: bold;
+               width: 100%;
+               text-align: left;
+          }
+
+          .btn-link {
+               text-decoration: none;
+               color: $dark-gray;
+          }
+
+          .btn-link:hover {
+               color: $black;
+          }
+          
+     }
+}
+
+
+/*
+ * Profile page
+ *
+ */
+#profile {
+  
+  .card {
+    border: none;
+
+  }
+
+  .card-header {
+    padding: 0.25rem;
+    background: $white;
+    color: $black;
+    border: none;
+    outline: none;
+    margin: 0.75rem 0 0rem 0;
+
+    button {
+      font-size: 1.5rem;
+    }
+
+    .btn-link {
+      text-decoration: none;
+      color: $black;
+    }
+
+    .btn-link:hover {
+      color: $light-gray;
+    }
+
+  }
+
+}
+
+
+/*
+ * Edit Blog Post Page
+ *
+ */
+
+.edit-post {
+
+  .form-group {
+    margin: 25px 0;
+  }
+}
+
+
+/*
+ * Current Prospects page
+ *
+ */
+
+table.prospects {
+
+  a.btn {
+    background-color: $dark-blue;
+    color: $white;
+  }
+
+  a.btn:hover {
+    background-color: $light-blue;
+  }
+
+  td.main-contact p {
+    margin: 0;
+    padding: 0;
+
+  }  
+}
+
+
+/*
+ * Contact Info Section
+ *
+ */
+
+table.contact-info {
+
+  p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2rem;
+  }
+
+}
+
+
+/*
+ * Tour form
+ *
+ */
+
+.tour-form {
+
+  h2 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: $light-blue;
+  }
+}
+
+
+/*
+ * Assign Room
+ *
+ */
+
+#assign-room {
+  .form-check-input, .form-check-label {
+    line-height: 1.5rem 0;
+  }
+}
+
+
+/*
+ * Prospects Page
+ *
+ */
+#prospects {
+
+  ul.nav {
+    margin-bottom: 1rem;
+
+    a {
+      color: $black;
+      padding: 8px 10px;
+    }
+
+    a:hover {
+      color: $light-blue;
+    }
+
+    a.selected {
+      color: $white;
+      background-color: $dark-blue;
+      border-radius: 4px;
+    }
+  }
+
+
+  table.prospects {
+    a.btn, a.btn:visited, a.btn:active {
+      background: none;
+      color: $black;
+      border: none;
+      outline: none !important;
+      box-shadow: none;
+    }
+
+    thead {
+      a {
+        color: $white;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+
+#prospect-files {
+  margin-bottom: 2rem;
+
+  .prospect-file-row {
+    padding-top: 10px;
+    padding-bottom: 6px;
+    width: 60%;
+  }
+}

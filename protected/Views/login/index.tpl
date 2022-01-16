@@ -1,13 +1,19 @@
-
-<div class="wrapper">
+<div class="container login mt-5">
+	<h1>Login</h2>
 	 <form method="post" class="form-signin" action="{$SITE_URL}/login">
-		 <h2 class="form-signin-heading">Login</h2>
-			 <input type="hidden" name="path" value="{$current_url}" />
-			 <input type="hidden" name="submit" value="1" />
-			 <input type="text" class="form-control" name="email" placeholder="Email Address" required="true" autofocus="" />
-			 <div class="pull-right">@ahcfacilities.com</div>
-			 <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>
-			 <br>
-			 <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
+		<div class="form-group">
+			<input type="hidden" name="path" value="{$current_url}">
+		 	<input type="hidden" name="submit" value="1">
+			<label for="email">Email Address</label>
+			<input type="email" class="form-control" name="email" required="true">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" name="password" required="true">
+		</div>
+
+		<button type="submit" class="btn btn-primary float-right">Submit</button>
 	 </form>
- </div>
+
+</div>
+
